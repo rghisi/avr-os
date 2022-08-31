@@ -1,0 +1,4 @@
+/snap/clion/204/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/204/bin/ninja/linux/ninja -DCMAKE_C_COMPILER=/usr/bin/avr-gcc -DCMAKE_CXX_COMPILER=/usr/bin/avr-g++ -G Ninja -S /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr -B /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmake-build-debug-avr-gcc
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmake-build-debug-avr-gcc

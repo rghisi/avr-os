@@ -1,0 +1,13 @@
+# ninja log v5
+0	16	1661932425739071189	build.ninja	9465f5f89ccdcfcf
+0	26	1661932421047028357	CMakeFiles/avr.dir/src/Packet.cpp.o	9de3f70001efa6f8
+26	29	1661932421051028393	avr	f368a25c31ae8e66
+0	15	1661932421039028283	CMakeFiles/avr.dir/src/Main.cpp.o	9ebe76e40e064df9
+0	11	1661932421031028211	CMakeFiles/avr.dir/src/NetworkService.cpp.o	4a901ea9298b013
+0	16	1661932421039028283	CMakeFiles/avr.dir/src/PacketFactory.cpp.o	2a8374e8b8612d41
+0	15	1661932425739071189	build.ninja	9465f5f89ccdcfcf
+1	12	1661932425751071301	CMakeFiles/avr.dir/src/NetworkService.cpp.o	a1e1d2d4cd8f444e
+0	15	1661932425759071375	CMakeFiles/avr.dir/src/Main.cpp.o	d8b5a1adbf5242dc
+1	16	1661932425759071375	CMakeFiles/avr.dir/src/PacketFactory.cpp.o	99e66bde88940f09
+0	18	1661932425759071375	CMakeFiles/avr.dir/src/Packet.cpp.o	896182306baa724
+18	21	1661932425763071411	avr	b4fc620238fca9fb
