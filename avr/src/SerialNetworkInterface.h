@@ -7,28 +7,27 @@
 #include "NetworkInterface.h"
 #include "BlockingQueue.h"
 #include "PacketBuilder.h"
+#include "USART.h"
 
 class SerialNetworkInterface: public NetworkInterface {
 public:
-    explicit SerialNetworkInterface(uint8_t networkAddress);
+    explicit SerialNetworkInterface(uint8_t networkAddress, USART *usart);
     ~SerialNetworkInterface() override;
-    bool pushToSendQueue(Packet* packet) override;
+    bool pushToSendQueue(Packet *packet) override;
     bool acceptsPacket() override;
     bool receiveQueueHasPackets() override;
-    Packet* popFromReceiveQueue() override;
-    uint8_t nextByteToSend() override;
+    Packet *popFromReceiveQueue() override;
     void handleReadyToSendInterrupt();
     void handleDataReceivedInterrupt();
     void handleTransmissionFinished();
 private:
-    void preparePacketToSend();
-    void toggleTransmitter();
+    bool prepareNextPacket();
     void toggleReceiver();
-    enum class DataState { WAITING_DATA, DATA_READY };
+//    enum class DataState { WAITING_DATA, DATA_READY };
     enum class IOState { IDLE, RUNNING, FINALIZING };
-    DataState txDataState;
-    DataState rxDataState;
-    IOState txState;
+//    DataState txDataState;
+//    DataState rxDataState;
+//    IOState txState;
     IOState rxState;
     uint8_t address;
     Packet* packetBeingSent;
@@ -36,6 +35,7 @@ private:
     static const uint8_t QUEUE_SIZE = 2;
     BlockingQueue<Packet>* receiveQueue;
     BlockingQueue<Packet>* sendQueue;
+    USART *usart;
 };
 
 #endif //AVR_SERIALNETWORKINTERFACE_H

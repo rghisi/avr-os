@@ -27,7 +27,7 @@ add_executable(${PROJECT_NAME}
         src/SerialNetworkInterface.cpp
         src/BlockingQueue.cpp
         src/BlockingQueue.h src/PacketBuilder.cpp src/PacketBuilder.h
-        src/CRC.cpp src/CRC.h)
+        src/CRC.cpp src/CRC.h src/USART.h src/hw/avr/ATMega32U4.cpp src/hw/avr/ATMega32U4.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

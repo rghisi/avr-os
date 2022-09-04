@@ -16,7 +16,6 @@ public:
     virtual Packet* popFromReceiveQueue() = 0;
     virtual bool acceptsPacket() = 0;
     virtual bool receiveQueueHasPackets() = 0;
-    virtual uint8_t nextByteToSend() = 0;
 };
 
 #endif /* NETWORKINTERFACE_H_ */

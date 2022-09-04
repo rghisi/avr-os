@@ -3,6 +3,7 @@
 #include <avr/interrupt.h>
 #include <stdlib.h>
 
+#include "hw/avr/ATMega32U4.h"
 #include "Packet.h"
 #include "SerialNetworkInterface.h"
 
@@ -43,7 +44,8 @@ void __cxa_guard_release (__guard *g) {*(char *)g = 1;};
 void __cxa_guard_abort (__guard *) {};
 void __cxa_pure_virtual(void) {};
 
-auto* networkInterface = new SerialNetworkInterface(0x01);
+auto *usart = new ATMega32U4();
+auto networkInterface = SerialNetworkInterface(0x01, usart);
 
 //void enableReadyToSendInterrupt() {
 //	//Enable interrupt
@@ -52,15 +54,15 @@ auto* networkInterface = new SerialNetworkInterface(0x01);
 
 //TX register is empty - aka: ready to send
 ISR(USART1_UDRE_vect) {
-    networkInterface->handleReadyToSendInterrupt();
+    networkInterface.handleReadyToSendInterrupt();
 }
 
 ISR(USART1_TX_vect) {
-    networkInterface->handleTransmissionFinished();
+    networkInterface.handleTransmissionFinished();
 }
 
 ISR(USART1_RX_vect) {
-    networkInterface->handleDataReceivedInterrupt();
+    networkInterface.handleDataReceivedInterrupt();
 }
 
 int main(void) {
@@ -83,43 +85,43 @@ int main(void) {
 	uint8_t dataSize = sizeof(data);
     uint8_t id = 0;
 
-    auto* packet1 = new Packet(0x02, 0x01, id++, 0x01, 0x00, data, dataSize);
-    networkInterface->pushToSendQueue(packet1);
-//    auto* packet2 = new Packet(0x02, 0x01, id++, 0x01, 0x00, data, dataSize);
-//    networkInterface->pushToSendQueue(packet2);
-//    auto* packet3 = new Packet(0x02, 0x01, id++, 0x01, 0x00, data, dataSize);
-//    networkInterface->pushToSendQueue(packet3);
+    auto* packet1 = new Packet(0x02, 0x01, 0x01, 0x01, 0x00, data, dataSize);
+    networkInterface.pushToSendQueue(packet1);
+    auto* packet2 = new Packet(0x02, 0x01, 0x02, 0x01, 0x00, data, dataSize);
+    networkInterface.pushToSendQueue(packet2);
+    auto* packet3 = new Packet(0x02, 0x01, 0x03, 0x01, 0x00, data, dataSize);
+    networkInterface.pushToSendQueue(packet3);
 
     while (1) {
-//        if (networkInterface->receiveQueueHasPackets()) {
-//            auto* receivedPacket = networkInterface->popFromReceiveQueue();
-//            if (receivedPacket->checkCrc()) {
-//                networkInterface->pushToSendQueue(receivedPacket);
-//                PORTB ^= 0xFF;
-//            } else {
-//                PORTB ^= 0xFF;
-//                _delay_ms(500);
-//                PORTB ^= 0xFF;
-//                _delay_ms(500);
-//                PORTB ^= 0xFF;
-//                _delay_ms(500);
-//                PORTB ^= 0xFF;
-//                _delay_ms(500);
-//                PORTB ^= 0xFF;
-//                _delay_ms(500);
-//                PORTB ^= 0xFF;
-//                _delay_ms(500);
-//                PORTB ^= 0xFF;
-//                return 0;
-//            }
-//
-//        }
+        if (networkInterface.receiveQueueHasPackets()) {
+            auto* receivedPacket = networkInterface.popFromReceiveQueue();
+            if (receivedPacket->checkCrc()) {
+                networkInterface.pushToSendQueue(receivedPacket);
+                PORTB ^= 0xFF;
+            } else {
+                PORTB ^= 0xFF;
+                _delay_ms(500);
+                PORTB ^= 0xFF;
+                _delay_ms(500);
+                PORTB ^= 0xFF;
+                _delay_ms(500);
+                PORTB ^= 0xFF;
+                _delay_ms(500);
+                PORTB ^= 0xFF;
+                _delay_ms(500);
+                PORTB ^= 0xFF;
+                _delay_ms(500);
+                PORTB ^= 0xFF;
+                return 0;
+            }
+
+        }
         if (id == 0xFF) {
             PORTB = 0x00;
             _delay_ms(2000);
         }
         PORTB ^= 0xFF;
-        _delay_ms(500);
+//        _delay_ms(500);
 	}
 
 	return 0;

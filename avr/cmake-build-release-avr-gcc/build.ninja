@@ -98,6 +98,13 @@ build CMakeFiles/avr.dir/src/CRC.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi
   OBJECT_DIR = CMakeFiles/avr.dir
   OBJECT_FILE_DIR = CMakeFiles/avr.dir/src
 
+build CMakeFiles/avr.dir/src/hw/avr/ATMega32U4.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/hw/avr/ATMega32U4.cpp || cmake_object_order_depends_target_avr
+  DEFINES = -DF_CPU=16000000L
+  DEP_FILE = CMakeFiles/avr.dir/src/hw/avr/ATMega32U4.cpp.o.d
+  FLAGS = -Os -mmcu=atmega32u4 -std=gnu++1z
+  OBJECT_DIR = CMakeFiles/avr.dir
+  OBJECT_FILE_DIR = CMakeFiles/avr.dir/src/hw/avr
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target avr
@@ -106,7 +113,7 @@ build CMakeFiles/avr.dir/src/CRC.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi
 #############################################
 # Link the executable avr
 
-build avr: CXX_EXECUTABLE_LINKER__avr_Release CMakeFiles/avr.dir/src/Main.cpp.o CMakeFiles/avr.dir/src/Packet.cpp.o CMakeFiles/avr.dir/src/NetworkService.cpp.o CMakeFiles/avr.dir/src/SerialNetworkInterface.cpp.o CMakeFiles/avr.dir/src/BlockingQueue.cpp.o CMakeFiles/avr.dir/src/PacketBuilder.cpp.o CMakeFiles/avr.dir/src/CRC.cpp.o
+build avr: CXX_EXECUTABLE_LINKER__avr_Release CMakeFiles/avr.dir/src/Main.cpp.o CMakeFiles/avr.dir/src/Packet.cpp.o CMakeFiles/avr.dir/src/NetworkService.cpp.o CMakeFiles/avr.dir/src/SerialNetworkInterface.cpp.o CMakeFiles/avr.dir/src/BlockingQueue.cpp.o CMakeFiles/avr.dir/src/PacketBuilder.cpp.o CMakeFiles/avr.dir/src/CRC.cpp.o CMakeFiles/avr.dir/src/hw/avr/ATMega32U4.cpp.o
   FLAGS = -Os
   LINK_FLAGS = -Wl,--print-memory-usage -mmcu=atmega32u4
   OBJECT_DIR = CMakeFiles/avr.dir

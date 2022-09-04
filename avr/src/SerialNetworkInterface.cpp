@@ -9,16 +9,14 @@
 #include "SerialNetworkInterface.h"
 #include "BlockingQueue.cpp"
 
-SerialNetworkInterface::SerialNetworkInterface(uint8_t networkAddress) {
-    address = networkAddress;
-    receiveQueue = new BlockingQueue<Packet>(QUEUE_SIZE);
-    sendQueue = new BlockingQueue<Packet>(QUEUE_SIZE);
-    txState = IOState::IDLE;
-    txDataState = DataState::WAITING_DATA;
-    rxState = IOState::IDLE;
-    rxDataState = DataState::WAITING_DATA;
-    packetBeingSent = nullptr;
-    packetBuilder = nullptr;
+SerialNetworkInterface::SerialNetworkInterface(uint8_t networkAddress, USART *usart) {
+    this->address = networkAddress;
+    this->usart = usart;
+    this->receiveQueue = new BlockingQueue<Packet>(QUEUE_SIZE);
+    this->sendQueue = new BlockingQueue<Packet>(QUEUE_SIZE);
+    this->rxState = IOState::IDLE;
+    this->packetBeingSent = nullptr;
+    this->packetBuilder = nullptr;
     toggleReceiver();
 }
 
@@ -34,7 +32,7 @@ Packet *SerialNetworkInterface::popFromReceiveQueue() {
 bool SerialNetworkInterface::pushToSendQueue(Packet *packet) {
     if (packetBeingSent == nullptr) {
         packetBeingSent = packet;
-        preparePacketToSend();
+        usart->enableTransmitterAndReadyToSendInterrupt();
         return true;
     } else {
         return sendQueue->offer(packet);
@@ -49,42 +47,24 @@ bool SerialNetworkInterface::receiveQueueHasPackets() {
     return !receiveQueue->isEmpty();
 }
 
-void SerialNetworkInterface::preparePacketToSend() {
-    if (packetBeingSent == nullptr && !sendQueue->isEmpty()) {
-        packetBeingSent = sendQueue->poll();
-    }
-    if (packetBeingSent != nullptr) {
-        if (packetBeingSent->hasNext()) {
-            txDataState = DataState::DATA_READY;
-        } else {
-            delete packetBeingSent;
-            if (!sendQueue->isEmpty()) {
-                packetBeingSent = sendQueue->poll();
-            } else {
-                packetBeingSent = nullptr;
-                txDataState = DataState::WAITING_DATA;
-            }
-        }
-    }
-    toggleTransmitter();
-}
+bool SerialNetworkInterface::prepareNextPacket() {
+    delete packetBeingSent;
+    packetBeingSent = sendQueue->poll();
 
-uint8_t SerialNetworkInterface::nextByteToSend() {
-    preparePacketToSend();
-    return packetBeingSent->next();
+    return packetBeingSent != nullptr;
 }
 
 void SerialNetworkInterface::handleReadyToSendInterrupt() {
-    if (txDataState == DataState::DATA_READY) {
-        UDR1 = nextByteToSend();
+    if (packetBeingSent->hasNext() || prepareNextPacket()) {
+        UDR1 = packetBeingSent->next();
     } else {
-        toggleTransmitter();
+        usart->disableReadyToSendInterrupt();
     }
 }
 
 void SerialNetworkInterface::handleTransmissionFinished() {
-    if (txDataState == DataState::WAITING_DATA) {
-        toggleTransmitter();
+    if (packetBeingSent == nullptr) {
+        usart->disableTransmitter();
     }
 }
 
@@ -96,24 +76,11 @@ void SerialNetworkInterface::handleDataReceivedInterrupt() {
     } else {
         packetBuilder->add(receivedByte);
         if (packetBuilder->isFinished()) {
-            auto* receivedPacket = packetBuilder->build();
+            auto *receivedPacket = packetBuilder->build();
             delete packetBuilder;
             packetBuilder = nullptr;
             receiveQueue->offer(receivedPacket);
         }
-    }
-}
-
-void SerialNetworkInterface::toggleTransmitter() {
-    if (txDataState == DataState::DATA_READY && (txState == IOState::IDLE || txState == IOState::FINALIZING)) {
-        UCSR1B |= (1 << TXEN1) | (1 << UDRIE1);
-        txState = IOState::RUNNING;
-    } else if (txDataState == DataState::WAITING_DATA && txState == IOState::RUNNING) {
-        UCSR1B &= ~(1 << UDRIE1);
-        txState = IOState::FINALIZING;
-    } else if (txDataState == DataState::WAITING_DATA && txState == IOState::FINALIZING) {
-//        UCSR1B &= ~(1 << TXEN1);
-        txState = IOState::IDLE;
     }
 }
 
