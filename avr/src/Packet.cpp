@@ -6,89 +6,67 @@
  */
 
 #include "Packet.h"
+#include "CRC.h"
 
-Packet::Packet() {
-	this->state = RESET;
+Packet::Packet(uint8_t destination, uint8_t source, uint8_t id,
+               uint8_t totalFragments, uint8_t fragment, uint8_t *payload,
+               uint8_t payloadSize) {
+    this->packetSize = payloadSize + HEADER_SIZE + CRC_SIZE;
+    this->packetData = new uint8_t[packetSize];
+    packetData[0] = PACKET_START;
+    packetData[1] = packetSize;
+    packetData[2] = destination;
+    packetData[3] = source;
+    packetData[4] = id;
+    packetData[5] = (totalFragments << 4) | (0b00001111 & fragment);
+    packetData[6] = 0xFF;
+    copyPayload(payload, payloadSize);
+    addCrc();
+    this->index = 0;
 }
 
-void Packet::prepare(uint8_t destination, uint8_t source, uint8_t id,
-		uint8_t totalFragments, uint8_t fragment, uint8_t payload[],
-		uint8_t payloadSize) {
-	this->destination = destination;
-	this->source = source;
-	this->packetSize = payloadSize + HEADER_SIZE;
-	this->payloadSize = payloadSize;
-	this->id = id;
-	this->totalFragments = totalFragments;
-	this->fragment = fragment;
-	this->type = 0xFF;
-	copyPayload(payload, payloadSize);
-	this->reset();
+Packet::Packet(uint8_t *packetData) {
+    this->packetSize = packetData[1];
+    this->packetData = new uint8_t[packetSize];
+    copyPacketData(packetData, this->packetSize);
+    this->index = 0;
 }
 
-void Packet::copyPayload(uint8_t inputData[], uint8_t inputDataSize) {
-	for (uint8_t i = 0; i < inputDataSize; i++) {
-		this->payload[i] = inputData[i];
-	}
+Packet::~Packet() {
+    delete[] packetData;
+}
+
+void Packet::copyPacketData(const uint8_t *inputData, uint8_t size) {
+    for (uint8_t i = 0; i < size; i++) {
+        this->packetData[i] = inputData[i];
+    }
+}
+
+void Packet::copyPayload(const uint8_t *inputData, uint8_t size) {
+    for (uint8_t i = 0; i < size; i++) {
+        this->packetData[i + HEADER_SIZE] = inputData[i];
+    }
+}
+
+void Packet::addCrc() {
+    packetData[packetSize - 1] = CRC::calculate(packetData, packetSize - 1);
 }
 
 void Packet::reset() {
-	state = HEADER;
-	index = 0;
+    index = 0;
 }
 
 bool Packet::hasNext() {
-	return state != RESET && state != FINISHED;
+    return index < packetSize;
 }
 
 uint8_t Packet::next() {
-	switch (state) {
-	case HEADER:
-		return nextHeader();
-	case PAYLOAD:
-		return nextPayload();
-	default:
-		return 0;
-	}
+    return packetData[index++];
 }
 
-uint8_t Packet::nextHeader() {
-	uint8_t output = 0;
-	switch (index) {
-	case 0:
-		output = packetSize;
-		break;
-	case 1:
-		output = (destination << 1) | ((0b01000000 & source) >> 6);
-		break;
-	case 2:
-		output = (source << 2) | ((0b11000000 & id) >> 6);
-		break;
-	case 3:
-		output = (id << 2) | ((0b01100000 & totalFragments) >> 5);
-		break;
-	case 4:
-		output = (totalFragments << 3) | ((0b01110000 & fragment) >> 4);
-		break;
-	case 5:
-		output = (fragment << 4) | ((0b00001111 & type));
-		break;
-	}
-	index++;
-	if (index == HEADER_SIZE) {
-		state = PAYLOAD;
-		index = 0;
-	}
+bool Packet::checkCrc() {
+    uint8_t packetCrc = packetData[packetSize - 1];
+    uint8_t calculatedCrc = CRC::calculate(packetData, packetSize - 1);
 
-	return output;
-}
-
-uint8_t Packet::nextPayload() {
-	uint8_t output = payload[index];
-	index++;
-	if (index == payloadSize) {
-		state = FINISHED;
-	}
-
-	return output;
+    return packetCrc == calculatedCrc;
 }

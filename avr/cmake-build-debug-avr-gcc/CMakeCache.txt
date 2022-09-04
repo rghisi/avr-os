@@ -215,15 +215,6 @@ avr_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 avr_SOURCE_DIR:STATIC=/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr
 
-//Value Computed by CMake
-avr_test_BINARY_DIR:STATIC=/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmake-build-debug-avr-gcc
-
-//Value Computed by CMake
-avr_test_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-avr_test_SOURCE_DIR:STATIC=/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr
-
 
 ########################
 # INTERNAL cache entries

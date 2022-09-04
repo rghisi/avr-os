@@ -50,30 +50,51 @@ cmake_ninja_workdir = /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmak
 build cmake_object_order_depends_target_avr: phony || CMakeFiles/avr.dir
 
 build CMakeFiles/avr.dir/src/Main.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/Main.cpp || cmake_object_order_depends_target_avr
-  DEFINES = -DF_CPU=16000000L -D__AVR_ATmega32U4__
+  DEFINES = -DF_CPU=16000000L
   DEP_FILE = CMakeFiles/avr.dir/src/Main.cpp.o.d
-  FLAGS = -Os -std=gnu++1z
+  FLAGS = -Os -mmcu=atmega32u4 -std=gnu++1z
   OBJECT_DIR = CMakeFiles/avr.dir
   OBJECT_FILE_DIR = CMakeFiles/avr.dir/src
 
 build CMakeFiles/avr.dir/src/Packet.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/Packet.cpp || cmake_object_order_depends_target_avr
-  DEFINES = -DF_CPU=16000000L -D__AVR_ATmega32U4__
+  DEFINES = -DF_CPU=16000000L
   DEP_FILE = CMakeFiles/avr.dir/src/Packet.cpp.o.d
-  FLAGS = -Os -std=gnu++1z
-  OBJECT_DIR = CMakeFiles/avr.dir
-  OBJECT_FILE_DIR = CMakeFiles/avr.dir/src
-
-build CMakeFiles/avr.dir/src/PacketFactory.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/PacketFactory.cpp || cmake_object_order_depends_target_avr
-  DEFINES = -DF_CPU=16000000L -D__AVR_ATmega32U4__
-  DEP_FILE = CMakeFiles/avr.dir/src/PacketFactory.cpp.o.d
-  FLAGS = -Os -std=gnu++1z
+  FLAGS = -Os -mmcu=atmega32u4 -std=gnu++1z
   OBJECT_DIR = CMakeFiles/avr.dir
   OBJECT_FILE_DIR = CMakeFiles/avr.dir/src
 
 build CMakeFiles/avr.dir/src/NetworkService.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/NetworkService.cpp || cmake_object_order_depends_target_avr
-  DEFINES = -DF_CPU=16000000L -D__AVR_ATmega32U4__
+  DEFINES = -DF_CPU=16000000L
   DEP_FILE = CMakeFiles/avr.dir/src/NetworkService.cpp.o.d
-  FLAGS = -Os -std=gnu++1z
+  FLAGS = -Os -mmcu=atmega32u4 -std=gnu++1z
+  OBJECT_DIR = CMakeFiles/avr.dir
+  OBJECT_FILE_DIR = CMakeFiles/avr.dir/src
+
+build CMakeFiles/avr.dir/src/SerialNetworkInterface.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/SerialNetworkInterface.cpp || cmake_object_order_depends_target_avr
+  DEFINES = -DF_CPU=16000000L
+  DEP_FILE = CMakeFiles/avr.dir/src/SerialNetworkInterface.cpp.o.d
+  FLAGS = -Os -mmcu=atmega32u4 -std=gnu++1z
+  OBJECT_DIR = CMakeFiles/avr.dir
+  OBJECT_FILE_DIR = CMakeFiles/avr.dir/src
+
+build CMakeFiles/avr.dir/src/BlockingQueue.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/BlockingQueue.cpp || cmake_object_order_depends_target_avr
+  DEFINES = -DF_CPU=16000000L
+  DEP_FILE = CMakeFiles/avr.dir/src/BlockingQueue.cpp.o.d
+  FLAGS = -Os -mmcu=atmega32u4 -std=gnu++1z
+  OBJECT_DIR = CMakeFiles/avr.dir
+  OBJECT_FILE_DIR = CMakeFiles/avr.dir/src
+
+build CMakeFiles/avr.dir/src/PacketBuilder.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/PacketBuilder.cpp || cmake_object_order_depends_target_avr
+  DEFINES = -DF_CPU=16000000L
+  DEP_FILE = CMakeFiles/avr.dir/src/PacketBuilder.cpp.o.d
+  FLAGS = -Os -mmcu=atmega32u4 -std=gnu++1z
+  OBJECT_DIR = CMakeFiles/avr.dir
+  OBJECT_FILE_DIR = CMakeFiles/avr.dir/src
+
+build CMakeFiles/avr.dir/src/CRC.cpp.o: CXX_COMPILER__avr_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/CRC.cpp || cmake_object_order_depends_target_avr
+  DEFINES = -DF_CPU=16000000L
+  DEP_FILE = CMakeFiles/avr.dir/src/CRC.cpp.o.d
+  FLAGS = -Os -mmcu=atmega32u4 -std=gnu++1z
   OBJECT_DIR = CMakeFiles/avr.dir
   OBJECT_FILE_DIR = CMakeFiles/avr.dir/src
 
@@ -85,14 +106,20 @@ build CMakeFiles/avr.dir/src/NetworkService.cpp.o: CXX_COMPILER__avr_Release /mn
 #############################################
 # Link the executable avr
 
-build avr: CXX_EXECUTABLE_LINKER__avr_Release CMakeFiles/avr.dir/src/Main.cpp.o CMakeFiles/avr.dir/src/Packet.cpp.o CMakeFiles/avr.dir/src/PacketFactory.cpp.o CMakeFiles/avr.dir/src/NetworkService.cpp.o
+build avr: CXX_EXECUTABLE_LINKER__avr_Release CMakeFiles/avr.dir/src/Main.cpp.o CMakeFiles/avr.dir/src/Packet.cpp.o CMakeFiles/avr.dir/src/NetworkService.cpp.o CMakeFiles/avr.dir/src/SerialNetworkInterface.cpp.o CMakeFiles/avr.dir/src/BlockingQueue.cpp.o CMakeFiles/avr.dir/src/PacketBuilder.cpp.o CMakeFiles/avr.dir/src/CRC.cpp.o
   FLAGS = -Os
-  LINK_FLAGS = -Wl,--print-memory-usage
+  LINK_FLAGS = -Wl,--print-memory-usage -mmcu=atmega32u4
   OBJECT_DIR = CMakeFiles/avr.dir
   POST_BUILD = :
   PRE_LINK = :
   TARGET_FILE = avr
   TARGET_PDB = avr.dbg
+
+
+#############################################
+# Utility command for FLASH
+
+build FLASH: phony CMakeFiles/FLASH avr
 
 
 #############################################
@@ -117,6 +144,14 @@ build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
   restat = 1
 
 build rebuild_cache: phony CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Custom command for CMakeFiles/FLASH
+
+build CMakeFiles/FLASH | ${cmake_ninja_workdir}CMakeFiles/FLASH: CUSTOM_COMMAND avr || avr
+  COMMAND = cd /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmake-build-release-avr-gcc && /usr/bin/avrdude -p atmega32u4 -cavr109 -b57600 -P /dev/ttyACM0 -v -F -D -U flash:w:/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmake-build-release-avr-gcc/avr:a
+  DESC = Flash to atmega32u4
 
 # =============================================================================
 # Target aliases.

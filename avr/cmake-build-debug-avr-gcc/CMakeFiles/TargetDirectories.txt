@@ -1,3 +1,4 @@
 /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmake-build-debug-avr-gcc/CMakeFiles/avr.dir
+/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmake-build-debug-avr-gcc/CMakeFiles/FLASH.dir
 /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmake-build-debug-avr-gcc/CMakeFiles/edit_cache.dir
 /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/cmake-build-debug-avr-gcc/CMakeFiles/rebuild_cache.dir

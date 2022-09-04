@@ -11,12 +11,12 @@
 
 class NetworkInterface {
 public:
-	virtual ~NetworkInterface();
-	virtual bool pushToSendQueue(Packet* packet);
-	virtual bool sendQueueIsEmpty();
-	virtual bool receiveQueueIsEmpty();
-	virtual bool popFromReceiveQueue(Packet* packet);
-
+    virtual ~NetworkInterface() = default;
+    virtual bool pushToSendQueue(Packet* packet) = 0;
+    virtual Packet* popFromReceiveQueue() = 0;
+    virtual bool acceptsPacket() = 0;
+    virtual bool receiveQueueHasPackets() = 0;
+    virtual uint8_t nextByteToSend() = 0;
 };
 
 #endif /* NETWORKINTERFACE_H_ */

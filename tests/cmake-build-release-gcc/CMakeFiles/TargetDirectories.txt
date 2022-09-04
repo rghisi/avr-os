@@ -1,0 +1,3 @@
+/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc/CMakeFiles/PlantWateringTests.dir
+/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc/CMakeFiles/edit_cache.dir
+/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc/CMakeFiles/rebuild_cache.dir
