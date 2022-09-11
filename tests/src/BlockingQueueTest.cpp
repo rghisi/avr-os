@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include "../../avr/src/BlockingQueue.h"
-#include "../../avr/src/BlockingQueue.cpp"
+#include "../../avr/src/collections/BlockingQueue.h"
+#include "../../avr/src/collections/BlockingQueue.cpp"
 
 class Dummy {
 private:
@@ -32,7 +32,7 @@ TEST(BlockingQueue, ShouldAcceptElementAndReturnTrue_WhenQueueHasSpaceAvailable)
     uint8_t elementData[] = "abcde";
     auto* element = new Dummy(1, elementData, 6);
 
-    auto* queue = new BlockingQueue<Dummy>(2);
+    auto* queue = new BlockingQueue<Dummy*>(2);
 
     ASSERT_TRUE(queue->offer(element));
     ASSERT_TRUE(queue->offer(element));
@@ -46,7 +46,7 @@ TEST(BlockingQueue, ShouldNotAcceptElementAndReturnFalse_WhenQueueIsFull) {
     uint8_t elementThreeData[] = "xyz";
     auto* elementThree = new Dummy(1, elementThreeData, 4);
 
-    auto* queue = new BlockingQueue<Dummy>(2);
+    auto* queue = new BlockingQueue<Dummy*>(2);
 
     ASSERT_TRUE(queue->offer(elementOne));
     ASSERT_TRUE(queue->offer(elementTwo));
@@ -54,7 +54,7 @@ TEST(BlockingQueue, ShouldNotAcceptElementAndReturnFalse_WhenQueueIsFull) {
 }
 
 TEST(BlockingQueue, ShouldReturnNullptr_WhenEmpty) {
-    auto* queue = new BlockingQueue<Dummy>(2);
+    auto* queue = new BlockingQueue<Dummy*>(2);
 
     uint8_t elementOneData[] = "abcde";
     auto* elementOne = new Dummy(1, elementOneData, 6);
@@ -79,7 +79,7 @@ TEST(BlockingQueue, ShouldReturnTheNextElement_WhenNotEmpty) {
     uint8_t elementTwoData[] = "abcdefghijklmnopqrstuvxyz";
     auto* elementTwo = new Dummy(2, elementTwoData, 26);
 
-    auto* queue = new BlockingQueue<Dummy>(2);
+    auto* queue = new BlockingQueue<Dummy*>(2);
 
     ASSERT_TRUE(queue->offer(elementOne));
     ASSERT_TRUE(queue->offer(elementTwo));
@@ -102,7 +102,7 @@ TEST(BlockingQueue, ShouldReturnAcceptAndReturnElements_WhenUsedExtensivelly) {
     uint8_t elementThreeData[] = "xyz";
     auto* elementThree = new Dummy(2, elementThreeData, 4);
 
-    auto* queue = new BlockingQueue<Dummy>(2);
+    auto* queue = new BlockingQueue<Dummy*>(2);
 
     ASSERT_TRUE(queue->offer(elementOne));
     ASSERT_TRUE(queue->offer(elementTwo));
@@ -121,7 +121,7 @@ TEST(BlockingQueue, ShouldReturnAcceptAndReturnElements_WhenUsedExtensivelly) {
 }
 
 TEST(BlockingQueue, ShouldFreeResources_WhenQueueIsDeleted) {
-    auto* queue = new BlockingQueue<Dummy>(2);
+    auto* queue = new BlockingQueue<Dummy*>(2);
 
     delete queue;
 
@@ -130,7 +130,7 @@ TEST(BlockingQueue, ShouldFreeResources_WhenQueueIsDeleted) {
 
 
 TEST(BlockingQueue, ShouldBeEmpty_WhenQueueHasNoItems) {
-    auto* queue = new BlockingQueue<Dummy>(2);
+    auto* queue = new BlockingQueue<Dummy*>(2);
 
     ASSERT_TRUE(queue->isEmpty());
 }
@@ -138,7 +138,7 @@ TEST(BlockingQueue, ShouldBeEmpty_WhenQueueHasNoItems) {
 TEST(BlockingQueue, ShouldNotBeEmpty_WhenQueueHasAtLeastOneItem) {
     uint8_t elementData[] = "abcde";
     auto* element = new Dummy(1, elementData, 6);
-    auto* queue = new BlockingQueue<Dummy>(2);
+    auto* queue = new BlockingQueue<Dummy*>(2);
 
     queue->offer(element);
 
@@ -148,7 +148,7 @@ TEST(BlockingQueue, ShouldNotBeEmpty_WhenQueueHasAtLeastOneItem) {
 TEST(BlockingQueue, ShouldBeFull_WhenNoMoreElementsAreAccepted) {
     uint8_t elementData[] = "abcde";
     auto* element = new Dummy(1, elementData, 6);
-    auto* queue = new BlockingQueue<Dummy>(2);
+    auto* queue = new BlockingQueue<Dummy*>(2);
 
     ASSERT_FALSE(queue->isFull());
     queue->offer(element);

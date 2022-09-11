@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include "../../avr/src/Packet.h"
-#include "../../avr/src/PacketBuilder.h"
+#include "../../avr/src/networking/Packet.h"
+#include "../../avr/src/networking/PacketBuilder.h"
 
 TEST(PacketBuilder, PrepareParingPacketMakesHasNextToBeTrue) {
     uint8_t destination = 0x0A;
@@ -30,4 +30,5 @@ TEST(PacketBuilder, PrepareParingPacketMakesHasNextToBeTrue) {
     }
 
     ASSERT_FALSE(receivedPacket->hasNext());
+    ASSERT_TRUE(receivedPacket->checkCrc());
 }

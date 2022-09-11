@@ -6,8 +6,8 @@
  */
 
 #include <gtest/gtest.h>
-#include "../../avr/src/Packet.h"
-#include "../../avr/src/CRC.h"
+#include "../../avr/src/networking/Packet.h"
+#include "../../avr/src/std/CRC.h"
 
 TEST(Packet, PrepareParingPacketMakesHasNextToBeTrue) {
 	uint8_t destination = 0x0A;
@@ -94,6 +94,33 @@ TEST(Packet, ShouldCalculateCorrectCRC_WhenCreated) {
     uint8_t rawCrc = CRC::calculate(data, payloadSize + Packet::HEADER_SIZE);
 
     ASSERT_EQ(rawCrc, crc);
+}
+
+TEST(Packet, ShouldReturnTrue_WhenCRCIsCheckPasses) {
+    uint8_t destination = 0x01;
+    uint8_t source = 0x02;
+    uint8_t id = 0x01;
+    uint8_t totalFragments = 0x01;
+    uint8_t fragment = 0x00;
+    uint8_t payload[] = "a";
+    uint8_t payloadSize = 2;
+    auto* packet = new Packet(destination, source, id, totalFragments, fragment, payload, payloadSize);
+
+    uint8_t data[payloadSize + Packet::HEADER_SIZE + Packet::CRC_SIZE];
+
+    uint8_t index = 0;
+
+    uint8_t byte;
+    while (packet->hasNext()) {
+        byte = packet->next();
+        data[index] = byte;
+        index++;
+    }
+    uint8_t crc = byte;
+    uint8_t rawCrc = CRC::calculate(data, payloadSize + Packet::HEADER_SIZE);
+
+    ASSERT_EQ(rawCrc, crc);
+    ASSERT_TRUE(packet->checkCrc());
 }
 
 
