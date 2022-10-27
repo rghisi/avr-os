@@ -1,7 +1,5 @@
 # ninja log v5
 550	589	1662019758896057771	PlantWateringTests	e05128b6c20e6ea7
-1	15	1662310910866019964	build.ninja	72ff82e82d6707f7
-1	8	1662019758316062730	CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/BlockingQueue.cpp.o	699734620a3c9570
+1	15	1666808776410141335	build.ninja	72ff82e82d6707f7
 0	469	1662019758776058797	CMakeFiles/PlantWateringTests.dir/src/Main.cpp.o	e33148f3f9d23c7d
 0	1	0	clean	1f2a816a449f8885
-0	550	1662019758860058079	CMakeFiles/PlantWateringTests.dir/src/BlockingQueueTest.cpp.o	d92736a52198aeb

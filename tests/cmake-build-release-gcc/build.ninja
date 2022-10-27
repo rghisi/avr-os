@@ -51,57 +51,93 @@ build cmake_object_order_depends_target_PlantWateringTests: phony || CMakeFiles/
 
 build CMakeFiles/PlantWateringTests.dir/src/Main.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/Main.cpp || cmake_object_order_depends_target_PlantWateringTests
   DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/Main.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++14
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
   OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src
 
-build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/Packet.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/Packet.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/Packet.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++14
+build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/Packet.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/Packet.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/Packet.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking
 
-build CMakeFiles/PlantWateringTests.dir/src/PacketTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/PacketTest.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/PacketTest.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++14
+build CMakeFiles/PlantWateringTests.dir/src/networking/PacketTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/networking/PacketTest.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/networking/PacketTest.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/networking
 
-build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/BlockingQueue.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/BlockingQueue.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/BlockingQueue.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++14
+build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections
 
-build CMakeFiles/PlantWateringTests.dir/src/BlockingQueueTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/BlockingQueueTest.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/BlockingQueueTest.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++14
+build CMakeFiles/PlantWateringTests.dir/src/collections/BlockingQueueTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/collections/BlockingQueueTest.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/collections/BlockingQueueTest.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/collections
 
-build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/PacketBuilder.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/PacketBuilder.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/PacketBuilder.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++14
+build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/Array.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/Array.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/Array.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections
 
-build CMakeFiles/PlantWateringTests.dir/src/PacketBuilderTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/PacketBuilderTest.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/PacketBuilderTest.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++14
+build CMakeFiles/PlantWateringTests.dir/src/collections/ArrayTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/collections/ArrayTest.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/collections/ArrayTest.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/collections
 
-build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/CRC.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/CRC.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/CRC.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++14
+build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketBuilder.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketBuilder.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketBuilder.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking
 
-build CMakeFiles/PlantWateringTests.dir/src/CRCTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/CRCTest.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/CRCTest.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++14
+build CMakeFiles/PlantWateringTests.dir/src/networking/PacketBuilderTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/networking/PacketBuilderTest.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/networking/PacketBuilderTest.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/networking
+
+build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std/CRC.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std/CRC.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std/CRC.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std
+
+build CMakeFiles/PlantWateringTests.dir/src/std/CRCTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/std/CRCTest.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/std/CRCTest.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/std
+
+build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketReader.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketReader.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketReader.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking
+
+build CMakeFiles/PlantWateringTests.dir/src/networking/PacketReaderTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/networking/PacketReaderTest.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/networking/PacketReaderTest.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/networking
+
+build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/PriorityQueue.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/PriorityQueue.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/PriorityQueue.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections
+
+build CMakeFiles/PlantWateringTests.dir/src/collections/PriorityQueueTest.cpp.o: CXX_COMPILER__PlantWateringTests_Release /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/collections/PriorityQueueTest.cpp || cmake_object_order_depends_target_PlantWateringTests
+  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/collections/PriorityQueueTest.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
+  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/collections
 
 
 # =============================================================================
@@ -111,9 +147,9 @@ build CMakeFiles/PlantWateringTests.dir/src/CRCTest.cpp.o: CXX_COMPILER__PlantWa
 #############################################
 # Link the executable PlantWateringTests
 
-build PlantWateringTests: CXX_EXECUTABLE_LINKER__PlantWateringTests_Release CMakeFiles/PlantWateringTests.dir/src/Main.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/Packet.cpp.o CMakeFiles/PlantWateringTests.dir/src/PacketTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/BlockingQueue.cpp.o CMakeFiles/PlantWateringTests.dir/src/BlockingQueueTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/PacketBuilder.cpp.o CMakeFiles/PlantWateringTests.dir/src/PacketBuilderTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/CRC.cpp.o CMakeFiles/PlantWateringTests.dir/src/CRCTest.cpp.o
+build PlantWateringTests: CXX_EXECUTABLE_LINKER__PlantWateringTests_Release CMakeFiles/PlantWateringTests.dir/src/Main.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/Packet.cpp.o CMakeFiles/PlantWateringTests.dir/src/networking/PacketTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp.o CMakeFiles/PlantWateringTests.dir/src/collections/BlockingQueueTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/Array.cpp.o CMakeFiles/PlantWateringTests.dir/src/collections/ArrayTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketBuilder.cpp.o CMakeFiles/PlantWateringTests.dir/src/networking/PacketBuilderTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std/CRC.cpp.o CMakeFiles/PlantWateringTests.dir/src/std/CRCTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketReader.cpp.o CMakeFiles/PlantWateringTests.dir/src/networking/PacketReaderTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/PriorityQueue.cpp.o CMakeFiles/PlantWateringTests.dir/src/collections/PriorityQueueTest.cpp.o
   FLAGS = -O3 -DNDEBUG
-  LINK_LIBRARIES = -lgtest
+  LINK_LIBRARIES = -lgtest  -lgmock
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -125,7 +161,7 @@ build PlantWateringTests: CXX_EXECUTABLE_LINKER__PlantWateringTests_Release CMak
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc && /snap/clion/204/bin/cmake/linux/bin/ccmake -S/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests -B/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc
+  COMMAND = cd /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc && /snap/clion/209/bin/cmake/linux/bin/ccmake -S/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests -B/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc
   DESC = Running CMake cache editor...
   pool = console
   restat = 1
@@ -137,7 +173,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc && /snap/clion/204/bin/cmake/linux/bin/cmake --regenerate-during-build -S/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests -B/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc
+  COMMAND = cd /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc && /snap/clion/209/bin/cmake/linux/bin/cmake --regenerate-during-build -S/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests -B/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-release-gcc
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -164,14 +200,14 @@ build all: phony PlantWateringTests
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../CMakeLists.txt /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCInformation.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCXXInformation.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeGenericSystem.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU-C.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU-CXX.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU-C.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU-CXX.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.23.2/CMakeCCompiler.cmake CMakeFiles/3.23.2/CMakeCXXCompiler.cmake CMakeFiles/3.23.2/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCInformation.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCXXInformation.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeGenericSystem.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU-C.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU-CXX.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU-C.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU-CXX.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.23.2/CMakeCCompiler.cmake CMakeFiles/3.23.2/CMakeCXXCompiler.cmake CMakeFiles/3.23.2/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../CMakeLists.txt /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCInformation.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCXXInformation.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeGenericSystem.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU-C.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU-CXX.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU-C.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU-CXX.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux.cmake /snap/clion/204/bin/cmake/linux/share/cmake-3.23/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.23.2/CMakeCCompiler.cmake CMakeFiles/3.23.2/CMakeCXXCompiler.cmake CMakeFiles/3.23.2/CMakeSystem.cmake: phony
+build ../CMakeLists.txt /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCInformation.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCXXInformation.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeGenericSystem.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU-C.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU-CXX.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Compiler/GNU.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU-C.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU-CXX.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux-GNU.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/Linux.cmake /snap/clion/209/bin/cmake/linux/share/cmake-3.23/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.23.2/CMakeCCompiler.cmake CMakeFiles/3.23.2/CMakeCXXCompiler.cmake CMakeFiles/3.23.2/CMakeSystem.cmake: phony
 
 
 #############################################

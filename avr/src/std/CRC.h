@@ -5,12 +5,17 @@
 #ifndef AVR_CRC_H
 #define AVR_CRC_H
 
-#include <stdint.h>
+#include <cstdint>
 
 class CRC {
 public:
     static uint8_t calculate(const uint8_t* message, uint8_t nBytes);
-    static uint8_t table[256];
+    CRC();
+    void add(uint8_t byte);
+    uint8_t value();
+private:
+    uint8_t crc;
+    static const uint8_t START_CRC = 0xFD;
 };
 
 

@@ -7,25 +7,25 @@
 
 #include "../networking/NetworkInterface.h"
 #include "../collections/BlockingQueue.h"
-#include "Message.h"
-#include "Receiver.h"
-#include "Sender.h"
+#include "PacketReceiver.h"
+#include "PacketSender.h"
+#include "../networking/PacketBuilder.h"
+#include "../system/EventLoop.h"
+#include "../system/EventDispatcher.h"
 
-class NetworkServices: public Sender {
+class NetworkServices: public EventHandler {
 public:
-    NetworkServices(NetworkInterface *networkInterface);
-    void processReceiveQueue();
-    void processSendQueue();
-    void addReceiver(Receiver *receiver);
-    bool push(Message *message) override;
-    uint8_t getAddress() override;
+    explicit NetworkServices(EventDispatcher *eventDispatcher);
+    EventType type() override;
+    bool handle(Event *event) override;
 
 private:
     NetworkInterface *networkInterface;
-    BlockingQueue<Message*> *sendQueue;
+    BlockingQueue<Packet*, 4> receiveBuffer;
+    BlockingQueue<Packet*, 4> sendBuffer;
     uint8_t address;
-
-    Receiver **receivers;
+    PacketReceiver *receivers[16]{};
+    EventDispatcher *eventDispatcher;
 };
 
 

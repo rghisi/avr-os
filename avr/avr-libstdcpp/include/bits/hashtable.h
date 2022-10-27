@@ -99,7 +99,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  std::integral_constant members:  __cache_hash_code, __constant_iterators,
    *   __unique_keys.
    *
-   *  Each _Hashtable data structure has:
+   *  Each _Hashtable datagramCopy structure has:
    *
    *  - _Bucket[]       _M_buckets
    *  - _Hash_node_base _M_before_begin
@@ -924,7 +924,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      node_type>, "Node types are compatible");
 	  __glibcxx_assert(get_allocator() == __src.get_allocator());
 
-	  auto __n_elt = __src.size();
+	  auto __n_elt = __src.payloadLength();
 	  for (auto __i = __src.begin(), __end = __src.end(); __i != __end;)
 	    {
 	      auto __pos = __i++;
@@ -953,7 +953,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      node_type>, "Node types are compatible");
 	  __glibcxx_assert(get_allocator() == __src.get_allocator());
 
-	  this->reserve(size() + __src.size());
+	  this->reserve(size() + __src.payloadLength());
 	  for (auto __i = __src.begin(), __end = __src.end(); __i != __end;)
 	    _M_reinsert_node_multi(cend(), __src.extract(__i++));
 	}

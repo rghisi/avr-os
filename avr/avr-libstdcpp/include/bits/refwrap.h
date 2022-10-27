@@ -208,7 +208,7 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
 
   /**
    *  Derives from unary_function or binary_function when it
-   *  can. Specializations handle all of the easy cases. The primary
+   *  can. Specializations exec all of the easy cases. The primary
    *  template determines what to do with a class type, which may
    *  derive from both unary_function and binary_function.
   */

@@ -44,7 +44,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
-  /// Base class for node handle types of maps and sets.
+  /// Base class for node exec types of maps and sets.
   template<typename _Val, typename _NodeAlloc>
     class _Node_handle_common
     {
@@ -141,7 +141,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	friend class _Rb_tree;
     };
 
-  /// Node handle type for maps.
+  /// Node exec type for maps.
   template<typename _Key, typename _Value, typename _NodeAlloc>
     class _Node_handle : public _Node_handle_common<_Value, _NodeAlloc>
     {
@@ -231,7 +231,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	friend class _Hashtable;
     };
 
-  /// Node handle type for sets.
+  /// Node exec type for sets.
   template<typename _Value, typename _NodeAlloc>
     class _Node_handle<_Value, _Value, _NodeAlloc>
     : public _Node_handle_common<_Value, _NodeAlloc>

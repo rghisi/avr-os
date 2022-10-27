@@ -3,24 +3,21 @@
 //
 
 #include "PacketBuilder.h"
+#include "../collections/Array.h"
 
 PacketBuilder::PacketBuilder() {
-    state = State::START;
-    nextIndex = 0;
-}
-
-PacketBuilder::~PacketBuilder() {
-    delete[] packetData;
+    state = State::WAITING_PACKET_START;
+    payloadIndex = 0;
+    payloadLength = 0;
+    crc = 0;
 }
 
 void PacketBuilder::add(uint8_t receivedByte) {
     switch (state) {
-        case State::START:
-            state = State::SIZE;
-            break;
-        case State::SIZE:
-            size = receivedByte;
-            state = State::DESTINATION;
+        case State::WAITING_PACKET_START:
+            if (receivedByte == Packet::PACKET_START_SYMBOL) {
+                state = State::DESTINATION;
+            }
             break;
         case State::DESTINATION:
             destination = receivedByte;
@@ -28,35 +25,55 @@ void PacketBuilder::add(uint8_t receivedByte) {
             break;
         case State::SOURCE:
             source = receivedByte;
-            preparePacketData();
-            state = State::REMAINING;
+            state = State::LENGTH;
             break;
-        case State::REMAINING:
-            packetData[nextIndex] = receivedByte;
+        case State::LENGTH:
+            payloadLength = receivedByte - Packet::HEADER_SIZE;
+            packetPayload = new uint8_t[payloadLength];
+            state = State::ID_MSB;
+            break;
+        case State::ID_MSB:
+            id = ((uint16_t)receivedByte) << 8;
+            state = State::ID_LSB;
+            break;
+        case State::ID_LSB:
+            id |= receivedByte;
+            state = State::SERVICE;
+            break;
+        case State::SERVICE:
+            service = receivedByte;
+            state = State::CRC;
+            break;
+        case State::CRC:
+            crc = receivedByte;
+            state = State::PAYLOAD;
+            break;
+        case State::PAYLOAD:
+            packetPayload[payloadIndex++] = receivedByte;
+            if (payloadIndex == payloadLength) {
+                state = State::FINISHED;
+            }
             break;
         case State::FINISHED:
             return;
-    }
-    nextIndex++;
-    if (nextIndex == size) {
-        state = State::FINISHED;
     }
 }
 
 Packet *PacketBuilder::build() {
     if (state == State::FINISHED) {
-        auto* packet = new Packet(packetData);
+        auto* packet = new Packet(destination, source, id, service, crc, packetPayload, payloadLength);
+        reset();
         return packet;
     }
+
     return nullptr;
 }
 
-void PacketBuilder::preparePacketData() {
-    packetData = new uint8_t[size];
-    packetData[0] = Packet::PACKET_START;
-    packetData[1] = size;
-    packetData[2] = destination;
-    packetData[3] = source;
+void PacketBuilder::reset() {
+    state = State::WAITING_PACKET_START;
+    payloadIndex = 0;
+    payloadLength = 0;
+    this->packetPayload = nullptr;
 }
 
 bool PacketBuilder::isFinished() {

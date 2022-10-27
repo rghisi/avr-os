@@ -307,7 +307,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       ///  Returns the size of the %unordered_map.
       size_type
       size() const noexcept
-      { return _M_h.size(); }
+      { return _M_h.payloadLength(); }
 
       ///  Returns the maximum size of the %unordered_map.
       size_type
@@ -839,10 +839,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        */
       void
       clear() noexcept
-      { _M_h.clear(); }
+      { _M_h.reset(); }
 
       /**
-       *  @brief  Swaps data with another %unordered_map.
+       *  @brief  Swaps datagramCopy with another %unordered_map.
        *  @param  __x  An %unordered_map of the same element and allocator
        *  types.
        *
@@ -968,12 +968,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  @brief  Subscript ( @c [] ) access to %unordered_map data.
-       *  @param  __k  The key for which data should be retrieved.
-       *  @return  A reference to the data of the (key,data) %pair.
+       *  @brief  Subscript ( @c [] ) access to %unordered_map datagramCopy.
+       *  @param  __k  The key for which datagramCopy should be retrieved.
+       *  @return  A reference to the payloadCopy of the (key,datagramCopy) %pair.
        *
        *  Allows for easy lookup with the subscript ( @c [] )operator.  Returns
-       *  data associated with the key specified in subscript.  If the key does
+       *  datagramCopy associated with the key specified in subscript.  If the key does
        *  not exist, a pair with that key is created using default values, which
        *  is then returned.
        *
@@ -990,11 +990,11 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  @brief  Access to %unordered_map data.
-       *  @param  __k  The key for which data should be retrieved.
-       *  @return  A reference to the data whose key is equal to @a __k, if
-       *           such a data is present in the %unordered_map.
-       *  @throw  std::out_of_range  If no such data is present.
+       *  @brief  Access to %unordered_map datagramCopy.
+       *  @param  __k  The key for which datagramCopy should be retrieved.
+       *  @return  A reference to the datagramCopy whose key is equal to @a __k, if
+       *           such a datagramCopy is present in the %unordered_map.
+       *  @throw  std::out_of_range  If no such datagramCopy is present.
        */
       mapped_type&
       at(const key_type& __k)
@@ -1453,7 +1453,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       ///  Returns the size of the %unordered_multimap.
       size_type
       size() const noexcept
-      { return _M_h.size(); }
+      { return _M_h.payloadLength(); }
 
       ///  Returns the maximum size of the %unordered_multimap.
       size_type
@@ -1732,10 +1732,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        */
       void
       clear() noexcept
-      { _M_h.clear(); }
+      { _M_h.reset(); }
 
       /**
-       *  @brief  Swaps data with another %unordered_multimap.
+       *  @brief  Swaps datagramCopy with another %unordered_multimap.
        *  @param  __x  An %unordered_multimap of the same element and allocator
        *  types.
        *

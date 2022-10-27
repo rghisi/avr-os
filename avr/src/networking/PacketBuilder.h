@@ -5,27 +5,30 @@
 #ifndef AVR_PACKETBUILDER_H
 #define AVR_PACKETBUILDER_H
 
-#include <stdint.h>
+#include <cstdint>
 #include "Packet.h"
 
 class PacketBuilder {
 public:
     PacketBuilder();
-    ~PacketBuilder();
     void add(uint8_t receivedByte);
     Packet *build();
     bool isFinished();
+
 private:
-    void preparePacketData();
+    void reset();
     enum class State {
-        START, SIZE, DESTINATION, SOURCE, REMAINING, FINISHED
+        WAITING_PACKET_START, DESTINATION, SOURCE, LENGTH, ID_MSB, ID_LSB, SERVICE, CRC, PAYLOAD, FINISHED
     };
     State state;
-    uint8_t size;
     uint8_t destination;
     uint8_t source;
-    uint8_t nextIndex;
-    uint8_t* packetData;
+    uint8_t payloadLength;
+    uint16_t id;
+    uint8_t service;
+    uint8_t crc;
+    uint8_t payloadIndex;
+    uint8_t *packetPayload;
 };
 
 

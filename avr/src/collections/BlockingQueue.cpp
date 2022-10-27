@@ -3,36 +3,30 @@
 //
 #include "BlockingQueue.h"
 
-template <typename T>
-BlockingQueue<T>::BlockingQueue(uint8_t size) {
-    this->queue = new T[size];
-    this->offerIndex = 0;
-    this->pollIndex = 0;
-    this->used = 0;
-    this->capacity = size;
+template <typename T, std::size_t S>
+BlockingQueue<T, S>::BlockingQueue() {
+    offerIndex = 0;
+    pollIndex = 0;
+    used = 0;
+    capacity = S;
 }
 
-template <typename T>
-BlockingQueue<T>::~BlockingQueue() {
-    delete[] this->queue;
-}
-
-template <typename T>
-bool BlockingQueue<T>::isEmpty() {
+template <typename T, std::size_t S>
+bool BlockingQueue<T, S>::isEmpty() {
     return used == 0;
 }
 
-template <typename T>
-bool BlockingQueue<T>::isFull() {
+template <typename T, std::size_t S>
+bool BlockingQueue<T, S>::isFull() {
     return used == capacity;
 }
 
-template<typename T>
-bool BlockingQueue<T>::offer(T item) {
+template<typename T, std::size_t S>
+bool BlockingQueue<T, S>::offer(T item) {
     if (used < capacity) {
+        used++;
         queue[offerIndex] = item;
         offerIndex++;
-        used++;
         if (offerIndex == capacity) {
             offerIndex = 0;
         }
@@ -43,17 +37,16 @@ bool BlockingQueue<T>::offer(T item) {
     return false;
 }
 
-template<typename T>
-T BlockingQueue<T>::poll() {
+template<typename T, std::size_t S>
+T BlockingQueue<T, S>::poll() {
     if (used > 0) {
+        used--;
         T item = this->queue[pollIndex];
         if constexpr (std::is_integral<T>::value) {
             this->queue[pollIndex] = 0;
         } else {
             this->queue[pollIndex] = nullptr;
-
         }
-        used--;
         pollIndex++;
         if (pollIndex == capacity) {
             pollIndex = 0;
@@ -68,14 +61,14 @@ T BlockingQueue<T>::poll() {
     }
 }
 
-template<typename T>
-void BlockingQueue<T>::clear() {
+template<typename T, std::size_t S>
+void BlockingQueue<T, S>::clear() {
     this->offerIndex = 0;
     this->pollIndex = 0;
     this->used = 0;
 }
 
-
-//0  1   2   3
-//o  p         full
-//op           start=>empty
+template<typename T, std::size_t S>
+uint8_t BlockingQueue<T, S>::itemCount() {
+    return used;
+}

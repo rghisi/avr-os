@@ -190,7 +190,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  @brief Copies the value x into the range [first,last).
    *  @param  __first  An input iterator.
    *  @param  __last   An input iterator.
-   *  @param  __x      The source value.
+   *  @param  __x      The sourcePort value.
    *  @return   Nothing.
    *
    *  Like fill(), but does not require an initialized output range.
@@ -262,7 +262,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  @brief Copies the value x into the range [first,first+n).
    *  @param  __first  An input iterator.
    *  @param  __n      The number of copies to make.
-   *  @param  __x      The source value.
+   *  @param  __x      The sourcePort value.
    *  @return   Nothing.
    *
    *  Like fill_n(), but does not require an initialized output range.

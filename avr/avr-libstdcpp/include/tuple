@@ -1664,7 +1664,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    * @param __second Arguments for the second member of the pair.
    *
    * The elements of each tuple will be used as the constructor arguments
-   * for the data members of the pair.
+   * for the datagramCopy members of the pair.
   */
   template<class _T1, class _T2>
     template<typename... _Args1, typename... _Args2>

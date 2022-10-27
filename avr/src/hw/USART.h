@@ -9,7 +9,7 @@ class USARTInterruptHandler {
 public:
     virtual void readyToSend() = 0;
     virtual void transmissionFinished() = 0;
-    virtual void dataReceived(uint8_t byte) = 0;
+    virtual void frameReceived(uint8_t byte) = 0;
 };
 
 class USART {

@@ -679,7 +679,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       vector(const vector& __x)
       : _Base(_Bit_alloc_traits::_S_select_on_copy(__x._M_get_Bit_allocator()))
       {
-	_M_initialize(__x.size());
+	_M_initialize(__x.payloadLength());
 	_M_copy_aligned(__x.begin(), __x.end(), this->_M_impl._M_start);
       }
 
@@ -694,16 +694,16 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	  this->_M_move_data(std::move(__x));
 	else
 	  {
-	    _M_initialize(__x.size());
+	    _M_initialize(__x.payloadLength());
 	    _M_copy_aligned(__x.begin(), __x.end(), begin());
-	    __x.clear();
+          __x.reset();
 	  }
       }
 
       vector(const vector& __x, const allocator_type& __a)
       : _Base(__a)
       {
-	_M_initialize(__x.size());
+	_M_initialize(__x.payloadLength());
 	_M_copy_aligned(__x.begin(), __x.end(), this->_M_impl._M_start);
       }
 
@@ -749,17 +749,17 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 		this->_M_deallocate();
 		std::__alloc_on_copy(_M_get_Bit_allocator(),
 				     __x._M_get_Bit_allocator());
-		_M_initialize(__x.size());
+		_M_initialize(__x.payloadLength());
 	      }
 	    else
 	      std::__alloc_on_copy(_M_get_Bit_allocator(),
 				   __x._M_get_Bit_allocator());
 	  }
 #endif
-	if (__x.size() > capacity())
+	if (__x.payloadLength() > capacity())
 	  {
 	    this->_M_deallocate();
-	    _M_initialize(__x.size());
+	    _M_initialize(__x.payloadLength());
 	  }
 	this->_M_impl._M_finish = _M_copy_aligned(__x.begin(), __x.end(),
 						  begin());
@@ -780,14 +780,14 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	  }
 	else
 	  {
-	    if (__x.size() > capacity())
+	    if (__x.payloadLength() > capacity())
 	      {
 		this->_M_deallocate();
-		_M_initialize(__x.size());
+		_M_initialize(__x.payloadLength());
 	      }
 	    this->_M_impl._M_finish = _M_copy_aligned(__x.begin(), __x.end(),
 						      begin());
-	    __x.clear();
+          __x.reset();
 	  }
 	return *this;
       }

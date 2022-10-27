@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.23)
 project(avr CXX C)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS_RELEASE "-Os")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 include(CMakeVerifyCompiler.txt)
 
@@ -20,23 +20,44 @@ add_link_options("-mmcu=${TARGET_CPU}")
 
 add_executable(${PROJECT_NAME}
         src/Main.cpp
+        src/hw/Timer0.h
+        src/hw/USART.h
+        src/hw/avr/ATMega32U4.cpp src/hw/avr/ATMega32U4.h
         src/networking/Packet.h
         src/networking/Packet.cpp
         src/networking/NetworkInterface.h
-        src/networking/SerialNetworkInterface.h
-        src/networking/SerialNetworkInterface.cpp
+        src/network-interfaces/SerialNetworkInterface.h
+        src/network-interfaces/SerialNetworkInterface.cpp
         src/networking/PacketBuilder.cpp src/networking/PacketBuilder.h
         src/collections/BlockingQueue.cpp src/collections/BlockingQueue.h
         src/collections/Array.cpp src/collections/Array.h
         src/std/CRC.cpp src/std/CRC.h
-        src/hw/USART.h
-        src/hw/avr/ATMega32U4.cpp src/hw/avr/ATMega32U4.h
         src/std/Random.cpp src/std/Random.h
-        src/network-services/Sender.h
-        src/network-services/Message.cpp src/network-services/Message.h
-        src/network-services/Receiver.h
+        src/network-services/PacketSender.h
+        src/network-services/PacketReceiver.h
         src/network-services/NetworkServices.cpp src/network-services/NetworkServices.h
-        src/network-services/Ping.cpp src/network-services/Ping.h)
+        src/network-services/Ping.cpp src/network-services/Ping.h
+        src/system/WallClock.cpp src/system/WallClock.h
+        src/networking/PacketReader.cpp src/networking/PacketReader.h
+        src/system/Event.cpp src/system/Event.h
+        src/system/EventType.h
+        src/system/EventPriority.h
+        src/system/EventLoop.cpp src/system/EventLoop.h
+        src/system/EventHandler.h src/system/EventDispatcher.h
+        src/system/EventDispatcher.cpp src/system/EventDispatcher.h
+        src/network-services/Services.h
+        src/system/TaskScheduler.cpp src/system/TaskScheduler.h
+        src/system/Task.h
+        src/tasks/PeriodicPing.cpp src/tasks/PeriodicPing.h
+        src/tasks/PeriodicCpuUsageReport.cpp src/tasks/PeriodicCpuUsageReport.h
+        src/system/CpuStats.cpp src/system/CpuStats.h
+        src/lcd/Display.cpp src/lcd/Display.h
+        src/lcd/one/HD44780.h src/lcd/one/HD44780.c src/lcd/one/HD44780_Settings.h src/lcd/one/IO_Macros.h
+        src/system/Async.h src/system/AsyncFunction.cpp src/system/AsyncFunction.h src/system/AsyncWait.cpp src/system/AsyncWait.h
+        src/tasks/AsyncTaskTest.cpp src/tasks/AsyncTaskTest.h
+        src/system/AsyncExecutor.cpp src/system/AsyncExecutor.h
+        src/system/AsyncChain.cpp src/system/AsyncChain.h
+        src/collections/PriorityQueue.cpp src/collections/PriorityQueue.h src/system/AsyncWaitTask.cpp src/system/AsyncWaitTask.h src/tasks/PeriodicMemoryReport.cpp src/tasks/PeriodicMemoryReport.h src/system/MemoryStats.cpp src/system/MemoryStats.h src/std/CRCTable.c)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

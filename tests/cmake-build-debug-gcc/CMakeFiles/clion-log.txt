@@ -1,4 +1,4 @@
-/snap/clion/204/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/204/bin/ninja/linux/ninja -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -G Ninja -S /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests -B /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-debug-gcc
+/snap/clion/209/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/209/bin/ninja/linux/ninja -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -G Ninja -S /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests -B /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-debug-gcc
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-debug-gcc

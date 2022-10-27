@@ -106,7 +106,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   // 24.4.1 Reverse iterators
   /**
    *  Bidirectional and random access iterators have corresponding reverse
-   *  %iterator adaptors that iterate through the data structure in the
+   *  %iterator adaptors that iterate through the datagramCopy structure in the
    *  opposite direction.  They have the same signatures as the corresponding
    *  iterators.  The fundamental relation between a reverse %iterator and its
    *  corresponding %iterator @c i is established by the identity:

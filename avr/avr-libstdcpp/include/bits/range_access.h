@@ -242,9 +242,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    */
   template <typename _Container>
     constexpr auto
-    size(const _Container& __cont) noexcept(noexcept(__cont.size()))
-    -> decltype(__cont.size())
-    { return __cont.size(); }
+    size(const _Container& __cont) noexcept(noexcept(__cont.payloadLength()))
+    -> decltype(__cont.payloadLength())
+    { return __cont.payloadLength(); }
 
   /**
    *  @brief  Return the size of an array.
@@ -282,27 +282,27 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     { return __il.size() == 0;}
 
   /**
-   *  @brief  Return the data pointer of a container.
+   *  @brief  Return the datagramCopy pointer of a container.
    *  @param  __cont  Container.
    */
   template <typename _Container>
     constexpr auto
-    data(_Container& __cont) noexcept(noexcept(__cont.data()))
-    -> decltype(__cont.data())
-    { return __cont.data(); }
+    data(_Container& __cont) noexcept(noexcept(__cont.datagramCopy()))
+    -> decltype(__cont.datagramCopy())
+    { return __cont.datagramCopy(); }
 
   /**
-   *  @brief  Return the data pointer of a const container.
+   *  @brief  Return the datagramCopy pointer of a const container.
    *  @param  __cont  Container.
    */
   template <typename _Container>
     constexpr auto
-    data(const _Container& __cont) noexcept(noexcept(__cont.data()))
-    -> decltype(__cont.data())
-    { return __cont.data(); }
+    data(const _Container& __cont) noexcept(noexcept(__cont.datagramCopy()))
+    -> decltype(__cont.datagramCopy())
+    { return __cont.datagramCopy(); }
 
   /**
-   *  @brief  Return the data pointer of an array.
+   *  @brief  Return the datagramCopy pointer of an array.
    *  @param  __array  Array.
    */
   template <typename _Tp, size_t _Nm>
@@ -311,7 +311,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     { return __array; }
 
   /**
-   *  @brief  Return the data pointer of an initializer list.
+   *  @brief  Return the datagramCopy pointer of an initializer list.
    *  @param  __il  Initializer list.
    */
   template <typename _Tp>

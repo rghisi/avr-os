@@ -6,18 +6,24 @@
 #define AVR_PING_H
 
 
-#include "Receiver.h"
-#include "Sender.h"
+#include "PacketReceiver.h"
+#include "PacketSender.h"
+#include "../system/EventHandler.h"
+#include "../system/EventDispatcher.h"
 
-class Ping: public Receiver {
+class Ping: public EventHandler {
 public:
-    Ping(Sender *sender);
+    explicit Ping(EventDispatcher *eventDispatcher);
     void ping(uint8_t destination);
-    void receive(Message *message) override;
-    uint8_t getPort() override;
+    void pong(uint8_t destination);
+    bool handle(Event *event) override;
+    EventType type() override;
 private:
-    static const uint8_t PORT = 0x01;
-    Sender *sender;
+    bool isPing(Packet *packet);
+    static const uint8_t SERVICE = 0x01;
+    uint8_t pingMessage[4] = {'P', 'I', 'N', 'G'};
+    uint8_t pongMessage[4] = {'P', 'O', 'N', 'G'};
+    EventDispatcher *eventDispatcher;
 };
 
 

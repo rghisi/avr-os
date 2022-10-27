@@ -951,7 +951,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  number of elements.  If the number is smaller than the
        *  %vector's current size the %vector is truncated, otherwise
        *  the %vector is extended and new elements are populated with
-       *  given data.
+       *  given datagramCopy.
        */
       void
       resize(size_type __new_size, const value_type& __x)
@@ -1022,20 +1022,20 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  necessity and the user can determine the number of elements
        *  that will be required, the user can reserve the memory in
        *  %advance, and thus prevent a possible reallocation of memory
-       *  and copying of %vector data.
+       *  and copying of %vector datagramCopy.
        */
       void
       reserve(size_type __n);
 
       // element access
       /**
-       *  @brief  Subscript access to the data contained in the %vector.
-       *  @param __n The index of the element for which data should be
+       *  @brief  Subscript access to the datagramCopy contained in the %vector.
+       *  @param __n The index of the element for which datagramCopy should be
        *  accessed.
-       *  @return  Read/write reference to data.
+       *  @return  Read/write reference to datagramCopy.
        *
-       *  This operator allows for easy, array-style, data access.
-       *  Note that data access with this operator is unchecked and
+       *  This operator allows for easy, array-style, datagramCopy access.
+       *  Note that datagramCopy access with this operator is unchecked and
        *  out_of_range lookups are not defined. (For checked lookups
        *  see at().)
        */
@@ -1047,13 +1047,13 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  @brief  Subscript access to the data contained in the %vector.
-       *  @param __n The index of the element for which data should be
+       *  @brief  Subscript access to the datagramCopy contained in the %vector.
+       *  @param __n The index of the element for which datagramCopy should be
        *  accessed.
-       *  @return  Read-only (constant) reference to data.
+       *  @return  Read-only (constant) reference to datagramCopy.
        *
-       *  This operator allows for easy, array-style, data access.
-       *  Note that data access with this operator is unchecked and
+       *  This operator allows for easy, array-style, datagramCopy access.
+       *  Note that datagramCopy access with this operator is unchecked and
        *  out_of_range lookups are not defined. (For checked lookups
        *  see at().)
        */
@@ -1078,13 +1078,13 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
     public:
       /**
-       *  @brief  Provides access to the data contained in the %vector.
-       *  @param __n The index of the element for which data should be
+       *  @brief  Provides access to the datagramCopy contained in the %vector.
+       *  @param __n The index of the element for which datagramCopy should be
        *  accessed.
-       *  @return  Read/write reference to data.
+       *  @return  Read/write reference to datagramCopy.
        *  @throw  std::out_of_range  If @a __n is an invalid index.
        *
-       *  This function provides for safer data access.  The parameter
+       *  This function provides for safer datagramCopy access.  The parameter
        *  is first checked that it is in the range of the vector.  The
        *  function throws out_of_range if the check fails.
        */
@@ -1096,13 +1096,13 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  @brief  Provides access to the data contained in the %vector.
-       *  @param __n The index of the element for which data should be
+       *  @brief  Provides access to the datagramCopy contained in the %vector.
+       *  @param __n The index of the element for which datagramCopy should be
        *  accessed.
-       *  @return  Read-only (constant) reference to data.
+       *  @return  Read-only (constant) reference to datagramCopy.
        *  @throw  std::out_of_range  If @a __n is an invalid index.
        *
-       *  This function provides for safer data access.  The parameter
+       *  This function provides for safer datagramCopy access.  The parameter
        *  is first checked that it is in the range of the vector.  The
        *  function throws out_of_range if the check fails.
        */
@@ -1114,7 +1114,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  Returns a read/write reference to the data at the first
+       *  Returns a read/write reference to the datagramCopy at the first
        *  element of the %vector.
        */
       reference
@@ -1125,7 +1125,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  Returns a read-only (constant) reference to the data at the first
+       *  Returns a read-only (constant) reference to the datagramCopy at the first
        *  element of the %vector.
        */
       const_reference
@@ -1136,7 +1136,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  Returns a read/write reference to the data at the last
+       *  Returns a read/write reference to the datagramCopy at the last
        *  element of the %vector.
        */
       reference
@@ -1147,7 +1147,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  Returns a read-only (constant) reference to the data at the
+       *  Returns a read-only (constant) reference to the datagramCopy at the
        *  last element of the %vector.
        */
       const_reference
@@ -1161,8 +1161,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       // DR 464. Suggestion for new member functions in standard containers.
       // data access
       /**
-       *   Returns a pointer such that [data(), data() + size()) is a valid
-       *   range.  For a non-empty %vector, data() == &front().
+       *   Returns a pointer such that [datagramCopy(), payloadCopy() + size()) is a valid
+       *   range.  For a non-empty %vector, datagramCopy() == &front().
        */
       _Tp*
       data() _GLIBCXX_NOEXCEPT
@@ -1174,11 +1174,11 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       // [23.2.4.3] modifiers
       /**
-       *  @brief  Add data to the end of the %vector.
+       *  @brief  Add datagramCopy to the end of the %vector.
        *  @param  __x  Data to be added.
        *
        *  This is a typical stack operation.  The function creates an
-       *  element at the end of the %vector and assigns the given data
+       *  element at the end of the %vector and assigns the given datagramCopy
        *  to it.  Due to the nature of a %vector this operation can be
        *  done in constant time if the %vector has preallocated space
        *  available.
@@ -1217,8 +1217,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *
        *  This is a typical stack operation. It shrinks the %vector by one.
        *
-       *  Note that no data is returned, and if the last element's
-       *  data is needed, it should be retrieved before pop_back() is
+       *  Note that no datagramCopy is returned, and if the last element's
+       *  datagramCopy is needed, it should be retrieved before pop_back() is
        *  called.
        */
       void
@@ -1235,7 +1235,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  @brief  Inserts an object in %vector before specified iterator.
        *  @param  __position  A const_iterator into the %vector.
        *  @param  __args  Arguments.
-       *  @return  An iterator that points to the inserted data.
+       *  @return  An iterator that points to the inserted datagramCopy.
        *
        *  This function will insert an object of type T constructed
        *  with T(std::forward<Args>(args)...) before the specified location.
@@ -1252,7 +1252,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  @brief  Inserts given value into %vector before specified iterator.
        *  @param  __position  A const_iterator into the %vector.
        *  @param  __x  Data to be inserted.
-       *  @return  An iterator that points to the inserted data.
+       *  @return  An iterator that points to the inserted datagramCopy.
        *
        *  This function will insert a copy of the given value before
        *  the specified location.  Note that this kind of operation
@@ -1282,7 +1282,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  @brief  Inserts given rvalue into %vector before specified iterator.
        *  @param  __position  A const_iterator into the %vector.
        *  @param  __x  Data to be inserted.
-       *  @return  An iterator that points to the inserted data.
+       *  @return  An iterator that points to the inserted datagramCopy.
        *
        *  This function will insert a copy of the given rvalue before
        *  the specified location.  Note that this kind of operation
@@ -1298,7 +1298,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  @param  __position  An iterator into the %vector.
        *  @param  __l  An initializer_list.
        *
-       *  This function will insert copies of the data in the
+       *  This function will insert copies of the datagramCopy in the
        *  initializer_list @a l into the %vector before the location
        *  specified by @a position.
        *
@@ -1318,14 +1318,14 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
 #if __cplusplus >= 201103L
       /**
-       *  @brief  Inserts a number of copies of given data into the %vector.
+       *  @brief  Inserts a number of copies of given datagramCopy into the %vector.
        *  @param  __position  A const_iterator into the %vector.
        *  @param  __n  Number of elements to be inserted.
        *  @param  __x  Data to be inserted.
-       *  @return  An iterator that points to the inserted data.
+       *  @return  An iterator that points to the inserted datagramCopy.
        *
        *  This function will insert a specified number of copies of
-       *  the given data before the location specified by @a position.
+       *  the given datagramCopy before the location specified by @a position.
        *
        *  Note that this kind of operation could be expensive for a
        *  %vector and if it is frequently used the user should
@@ -1363,9 +1363,9 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  @param  __position  A const_iterator into the %vector.
        *  @param  __first  An input iterator.
        *  @param  __last   An input iterator.
-       *  @return  An iterator that points to the inserted data.
+       *  @return  An iterator that points to the inserted datagramCopy.
        *
-       *  This function will insert copies of the data in the range
+       *  This function will insert copies of the datagramCopy in the range
        *  [__first,__last) into the %vector before the location specified
        *  by @a pos.
        *
@@ -1466,7 +1466,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #endif
 
       /**
-       *  @brief  Swaps data with another %vector.
+       *  @brief  Swaps datagramCopy with another %vector.
        *  @param  __x  A %vector of the same element and allocator types.
        *
        *  This exchanges the elements between two vectors in constant time.

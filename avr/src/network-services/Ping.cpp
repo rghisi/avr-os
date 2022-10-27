@@ -3,26 +3,44 @@
 //
 
 #include "Ping.h"
+#include "../collections/Array.cpp"
 
-Ping::Ping(Sender *sender) {
-    this->sender = sender;
+Ping::Ping(EventDispatcher *eventDispatcher) {
+    this->eventDispatcher = eventDispatcher;
 }
 
 void Ping::ping(uint8_t destination) {
-    uint8_t data[] = {'P', 'I', 'N', 'G'};
-    uint8_t size = sizeof(data);
-    auto *ping = new Message(destination, sender->getAddress(), Ping::PORT, data, size);
-    bool success = sender->push(ping);
+    auto *pingBytes = Array<uint8_t>::copy(pingMessage, 0x04);
+    auto *ping = new Packet(destination, 0xAA, 0x00, Ping::SERVICE, pingBytes, 0x04);
+    auto *event = new Event(EventType::PACKET_DISPATCHED, ping);
+    eventDispatcher->dispatch(event);
 }
 
-void Ping::receive(Message *message) {
-    uint8_t data[] = {'P', 'O', 'N', 'G'};
-    uint8_t size = sizeof(data);
-    auto *pong = new Message(message->source, sender->getAddress(), Ping::PORT, data, size);
-    bool success = sender->push(pong);
-    delete message;
+void Ping::pong(uint8_t destination) {
+    auto *pongBytes = Array<uint8_t>::copy(pongMessage, 0x04);
+    auto *pong = new Packet(destination, 0xAA, 0x00, Ping::SERVICE, pongBytes, 0x04);
+    auto *event = new Event(EventType::PACKET_DISPATCHED, pong);
+    eventDispatcher->dispatch(event);
 }
 
-uint8_t Ping::getPort() {
-    return Ping::PORT;
+bool Ping::isPing(Packet *packet) {
+    return packet->service() == SERVICE &&
+           packet->payloadLength() == 0x04 &&
+           packet->payload()[0] == pingMessage[0] &&
+           packet->payload()[1] == pingMessage[1] &&
+           packet->payload()[2] == pingMessage[2] &&
+           packet->payload()[3] == pingMessage[3];
+}
+
+bool Ping::handle(Event *event) {
+    auto *packet = static_cast<Packet *>(event->data());
+    if (isPing(packet)) {
+        pong(packet->source());
+    }
+    delete packet;
+    return true;
+}
+
+EventType Ping::type() {
+    return PING_RECEIVED;
 }

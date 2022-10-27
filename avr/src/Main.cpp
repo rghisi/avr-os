@@ -1,13 +1,24 @@
 #include <avr/io.h>
 #include <util/delay.h>
-#include <stdlib.h>
+#include <cstdlib>
+#include "../avr-libstdcpp/src/functexcept.cc"
+#include "../avr-libstdcpp/src/list.cc"
 
 #include "hw/avr/ATMega32U4.h"
-#include "networking/Packet.h"
-#include "networking/SerialNetworkInterface.h"
-#include "std/Random.h"
+#include "network-interfaces/SerialNetworkInterface.h"
 #include "network-services/NetworkServices.h"
 #include "network-services/Ping.h"
+#include "system/TaskScheduler.h"
+#include "tasks/PeriodicPing.h"
+#include "system/EventLoop.h"
+#include "system/EventDispatcher.h"
+#include "system/WallClock.h"
+#include "tasks/PeriodicCpuUsageReport.h"
+#include "system/CpuStats.h"
+#include "lcd/Display.h"
+#include "tasks/AsyncTaskTest.h"
+#include "system/AsyncExecutor.h"
+#include "tasks/PeriodicMemoryReport.h"
 
 void * operator new(size_t size)
 {
@@ -46,86 +57,81 @@ void __cxa_guard_release (__guard *g) {*(char *)g = 1;};
 void __cxa_guard_abort (__guard *) {};
 void __cxa_pure_virtual(void) {};
 
-//ISR(USART1_UDRE_vect) {
-//    networkInterface.handleReadyToSendInterrupt();
-//}
-//
-//ISR(USART1_TX_vect) {
-//    networkInterface.handleTransmissionFinished();
-//}
-//
-//ISR(USART1_RX_vect) {
-//    networkInterface.handleDataReceivedInterrupt();
+//void setupRandom() {
+//    DIDR0 |= (1 << ADC7D);
+//    DIDR0 = 0xFF;
+//    DIDR1 = 0xFF;
+//    DIDR2 = 0xFF;
+//    ADMUX = (1 << REFS1) | (1 << REFS0);
+//    ADMUX |= (0 << MUX4) | (0 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0);
+//    ADCSRA |= ((1 << ADPS2) | (1 << ADPS1) | (0 << ADPS0));
+//    ADCSRB &= ~((1 << ADTS3) | (1 << ADTS2) | (1 << ADTS1) | (1 << ADTS0));
+//    ADCSRA |= (1 << ADATE) | (1 << ADEN);
+//    ADCSRA |= (1 << ADSC);
+//    _delay_ms(500);
+//    Random::seed(ADCL);
 //}
 
-void setupRandom() {
-    DIDR0 |= (1 << ADC7D);
-    DIDR0 = 0xFF;
-    DIDR1 = 0xFF;
-    DIDR2 = 0xFF;
-    ADMUX = (1 << REFS1) | (1 << REFS0);
-    ADMUX |= (0 << MUX4) | (0 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0);
-    ADCSRA |= ((1 << ADPS2) | (1 << ADPS1) | (0 << ADPS0));
-    ADCSRB &= ~((1 << ADTS3) | (1 << ADTS2) | (1 << ADTS1) | (1 << ADTS0));
-    ADCSRA |= (1 << ADATE) | (1 << ADEN);
-    ADCSRA |= (1 << ADSC);
-    _delay_ms(500);
-    Random::seed(ADCL);
-}
+auto display = Display();
+auto cpuStats = CpuStats();
+auto atmega32U4 = ATMega32U4(ATMega32U4::BitRate::B9600);
+auto wallClock = WallClock();
+auto taskScheduler = TaskScheduler(&wallClock);
+auto eventLoop = EventLoop();
+auto eventDispatcher = EventDispatcher(&eventLoop);
+auto asyncExecutor = AsyncExecutor(&taskScheduler, &eventDispatcher);
+auto networkInterface = SerialNetworkInterface(0xAB, &atmega32U4, &eventDispatcher);
+auto networkServices = NetworkServices(&eventDispatcher);
+auto ping = Ping(&eventDispatcher);
+auto periodicCpuUsageReport = PeriodicCpuUsageReport(&cpuStats, &eventDispatcher);
+//auto periodicMemoryReport = PeriodicMemoryReport(&eventDispatcher);
+auto periodicPing = PeriodicPing(&ping);
+auto asyncTest = AsyncTaskTest(&eventDispatcher);
 
 int main(void) {
-    DDRB |= (1 << DDB0);
-    PORTB = 0x00;
-    _delay_ms(100);
-    PORTB = 0xFF;
-    _delay_ms(1000);
+    uint8_t rxLed = _BV(PORTB0);
+    uint8_t txLed = _BV(PORTD5);
+    DDRB |= rxLed;
+    DDRD |= txLed;
 
-    setupRandom();
+    //on
+    PORTB &= ~rxLed;
+    _delay_ms(250);
+    PORTD &= ~txLed;
+    _delay_ms(250);
 
-    auto *usart = new ATMega32U4(ATMega32U4::BitRate::B9600);
-    auto *networkInterface = new SerialNetworkInterface(0xAB, usart);
-    usart->setInterruptHandler(networkInterface);
-
-    auto *networkServices = new NetworkServices(networkInterface);
-    auto *ping = new Ping(networkServices);
-
-    networkServices->addReceiver(ping);
-
+    atmega32U4.disableReadyToSendInterrupt();
+    atmega32U4.disableTransmitter();
+    atmega32U4.disableReceiver();
     sei();
 
-//	uint8_t data1[] = {'A', Random::next(), ADCL};
-//    uint8_t dataSize = sizeof(data1);
-//    uint8_t data2[] = {'B', Random::next(), ADCL};
-//    uint8_t data3[] = {'C',Random::next(), ADCL};
-//    uint8_t id = 0;
+    atmega32U4.setTimer0InterruptHandler(&wallClock);
+    atmega32U4.setInterruptHandler(&networkInterface);
+    eventLoop.addHandler(&networkInterface);
+    eventLoop.addHandler(&networkInterface, EventType::FRAME_RECEIVED);
+    eventLoop.addHandler(&networkServices);
+    eventLoop.addHandler(&ping);
+    eventLoop.addHandler(&asyncExecutor);
+    eventLoop.addHandler(&asyncExecutor, ASYNC_CHAIN_SCHEDULED);
+    eventLoop.addHandler(&display);
+    eventLoop.addHandler(&display, SHOW_TEXT_REQUESTED);
+    eventLoop.addHandler(&display, MEMORY_STATS_DISPATCHED);
 
-//    auto* packet1 = new Packet(0x02, 0x01, 0x01, 0x01, 0x00, data1, dataSize);
-//    networkInterface->pushToSendQueue(packet1);
-//    auto* packet2 = new Packet(0x02, 0x01, 0x02, 0x01, 0x00, data2, dataSize);
-//    networkInterface->pushToSendQueue(packet2);
-//    auto* packet3 = new Packet(0x02, 0x01, 0x03, 0x01, 0x00, data3, dataSize);
-//    networkInterface->pushToSendQueue(packet3);
-//    usart->disableReceiver();
-    usart->enableTransmitterAndReadyToSendInterrupt();
+    taskScheduler.schedule(&periodicPing);
+    taskScheduler.schedule(&periodicCpuUsageReport);
+//    taskScheduler.schedule(&periodicMemoryReport);
+    taskScheduler.schedule(&asyncTest);
 
-//    UDR1 = 'E';
-    while (1) {
-//        UDR1 = 'F';
-//        PORTB ^= 0xFF;
-        _delay_ms(1000);
-//        UDR1 = '1';
-//        networkServices->processReceiveQueue();
-//        PORTB ^= 0xFF;
-//        _delay_ms(200);
-//        ping->ping(0xAB);
-//        networkServices->processSendQueue();
-//        PORTB ^= 0xFF;
+    atmega32U4.enableReceiver();
 
-//        _delay_ms(100);
-//        UDR1 = '.';
-        _delay_ms(1000);
+    while (true) {
+        cpuStats.start(wallClock.now());
+        auto used = taskScheduler.process();
+        cpuStats.end(wallClock.now(), used);
+        cpuStats.start(wallClock.now());
+        used = eventLoop.process();
+        cpuStats.end(wallClock.now(), used);
 	}
 
 	return 0;
 }
-

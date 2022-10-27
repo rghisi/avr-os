@@ -8,14 +8,11 @@
 #ifndef NETWORKINTERFACE_H_
 #define NETWORKINTERFACE_H_
 #include "Packet.h"
+#include "../system/EventHandler.h"
 
-class NetworkInterface {
+class NetworkInterface: public EventHandler {
 public:
     virtual ~NetworkInterface() = default;
-    virtual bool pushToSendQueue(Packet* packet) = 0;
-    virtual Packet* popFromReceiveQueue() = 0;
-    virtual bool acceptsPacket() = 0;
-    virtual bool receiveQueueHasPackets() = 0;
     virtual uint8_t getAddress() = 0;
 };
 

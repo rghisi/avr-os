@@ -1,0 +1,61 @@
+//
+// Created by ghisi on 17.10.22.
+//
+
+#include "Display.h"
+#include "../system/CpuStats.h"
+#include "../system/MemoryStats.h"
+
+extern "C" {
+    #include "one/HD44780.h"
+}
+
+Display::Display() {
+    LCD_Setup();
+    LCD_Clear();
+    char hello[] = "Starting";
+    LCD_PrintString(hello);
+    _delay_ms(500);
+    LCD_Clear();
+}
+
+EventType Display::type() {
+    return CPU_STATS_DISPATCHED;
+}
+
+bool Display::handle(Event *event) {
+    switch (event->type()) {
+        case CPU_STATS_DISPATCHED:
+            stats(event);
+            break;
+        case SHOW_TEXT_REQUESTED:
+            text(event);
+            break;
+        case MEMORY_STATS_DISPATCHED:
+            memory(event);
+            break;
+        default:
+            break;
+    }
+    return true;
+}
+
+void Display::stats(Event *event) {
+    auto *cpuStats = static_cast<CpuStats*>(event->data());
+    LCD_GotoXY(6, 0);
+    LCD_PrintInteger(cpuStats->idlePercent());
+}
+
+void Display::text(Event *event) {
+    auto text = static_cast<char*>(event->data());
+    LCD_GotoXY(0, 0);
+    LCD_PrintString(text);
+}
+
+void Display::memory(Event *event) {
+    auto *memoryStats = static_cast<MemoryStats*>(event->data());
+    LCD_GotoXY(0, 2);
+    LCD_PrintInteger(memoryStats->value);
+}
+
+
