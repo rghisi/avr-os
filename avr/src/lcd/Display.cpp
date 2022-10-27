@@ -5,6 +5,7 @@
 #include "Display.h"
 #include "../system/CpuStats.h"
 #include "../system/MemoryStats.h"
+#include "cstdio"
 
 extern "C" {
     #include "one/HD44780.h"
@@ -48,14 +49,16 @@ void Display::stats(Event *event) {
 
 void Display::text(Event *event) {
     auto text = static_cast<char*>(event->data());
-    LCD_GotoXY(0, 0);
+    LCD_GotoXY(0, 1);
     LCD_PrintString(text);
 }
 
 void Display::memory(Event *event) {
     auto *memoryStats = static_cast<MemoryStats*>(event->data());
-    LCD_GotoXY(0, 2);
-    LCD_PrintInteger(memoryStats->value);
+    char s[10];
+    sprintf(s, "%" SCNu32, memoryStats->value);
+    LCD_GotoXY(0, 0);
+    LCD_PrintString(s);
 }
 
 

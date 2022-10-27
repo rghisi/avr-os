@@ -80,12 +80,12 @@ auto taskScheduler = TaskScheduler(&wallClock);
 auto eventLoop = EventLoop();
 auto eventDispatcher = EventDispatcher(&eventLoop);
 auto asyncExecutor = AsyncExecutor(&taskScheduler, &eventDispatcher);
-auto networkInterface = SerialNetworkInterface(0xAB, &atmega32U4, &eventDispatcher);
-auto networkServices = NetworkServices(&eventDispatcher);
-auto ping = Ping(&eventDispatcher);
-auto periodicCpuUsageReport = PeriodicCpuUsageReport(&cpuStats, &eventDispatcher);
-//auto periodicMemoryReport = PeriodicMemoryReport(&eventDispatcher);
-auto periodicPing = PeriodicPing(&ping);
+//auto networkInterface = SerialNetworkInterface(0xAB, &atmega32U4, &eventDispatcher);
+//auto networkServices = NetworkServices(&eventDispatcher);
+//auto ping = Ping(&eventDispatcher);
+//auto periodicCpuUsageReport = PeriodicCpuUsageReport(&cpuStats, &eventDispatcher);
+auto periodicMemoryReport = PeriodicMemoryReport(&wallClock, &eventDispatcher);
+//auto periodicPing = PeriodicPing(&ping);
 auto asyncTest = AsyncTaskTest(&eventDispatcher);
 
 int main(void) {
@@ -106,23 +106,21 @@ int main(void) {
     sei();
 
     atmega32U4.setTimer0InterruptHandler(&wallClock);
-    atmega32U4.setInterruptHandler(&networkInterface);
-    eventLoop.addHandler(&networkInterface);
-    eventLoop.addHandler(&networkInterface, EventType::FRAME_RECEIVED);
-    eventLoop.addHandler(&networkServices);
-    eventLoop.addHandler(&ping);
+//    atmega32U4.setInterruptHandler(&networkInterface);
+//    eventLoop.addHandler(&networkInterface);
+//    eventLoop.addHandler(&networkInterface, EventType::FRAME_RECEIVED);
+//    eventLoop.addHandler(&networkServices);
+//    eventLoop.addHandler(&ping);
     eventLoop.addHandler(&asyncExecutor);
     eventLoop.addHandler(&asyncExecutor, ASYNC_CHAIN_SCHEDULED);
     eventLoop.addHandler(&display);
     eventLoop.addHandler(&display, SHOW_TEXT_REQUESTED);
     eventLoop.addHandler(&display, MEMORY_STATS_DISPATCHED);
 
-    taskScheduler.schedule(&periodicPing);
-    taskScheduler.schedule(&periodicCpuUsageReport);
-//    taskScheduler.schedule(&periodicMemoryReport);
+//    taskScheduler.schedule(&periodicPing);
+//    taskScheduler.schedule(&periodicCpuUsageReport);
+    taskScheduler.schedule(&periodicMemoryReport);
     taskScheduler.schedule(&asyncTest);
-
-    atmega32U4.enableReceiver();
 
     while (true) {
         cpuStats.start(wallClock.now());

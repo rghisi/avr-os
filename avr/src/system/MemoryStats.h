@@ -6,9 +6,11 @@
 #define AVR_MEMORYSTATS_H
 
 
+#include "cstdint"
+
 class MemoryStats {
 public:
-    int value;
+    uint32_t value;
 };
 
 

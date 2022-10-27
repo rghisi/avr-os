@@ -15,13 +15,8 @@ EventLoop::EventLoop() {
 }
 
 bool EventLoop::push(Event *event) {
-    switch (event->priority()) {
-        case EventPriority::NORMAL:
-            normalPriority.offer(event);
-            return true;
-    }
-
-    return false;
+    normalPriority.offer(event);
+    return true;
 }
 
 void EventLoop::addHandler(EventHandler *handler) {

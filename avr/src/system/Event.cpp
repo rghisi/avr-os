@@ -4,12 +4,9 @@
 
 #include "Event.h"
 
-Event::Event(EventType type, void *data): Event(type, EventPriority::NORMAL, data) {}
-
-Event::Event(EventType type, EventPriority priority, void *data) {
+Event::Event(EventType type, void *data) {
     this->eventType = type;
     this->dataPointer = data;
-    this->eventPriority = priority;
 }
 
 Event::~Event() {
@@ -18,10 +15,6 @@ Event::~Event() {
 
 EventType Event::type() {
     return eventType;
-}
-
-EventPriority Event::priority() {
-    return eventPriority;
 }
 
 void *Event::data() {

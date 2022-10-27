@@ -34,4 +34,8 @@ bool AsyncChain::hasNext() {
     return !chain.empty();
 }
 
-AsyncChain::~AsyncChain() = default;
+AsyncChain::~AsyncChain() {
+    while (!chain.empty()) {
+        chain.pop_front();
+    }
+};
