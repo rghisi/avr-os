@@ -43,8 +43,10 @@ bool Display::handle(Event *event) {
 
 void Display::stats(Event *event) {
     auto *cpuStats = static_cast<CpuStats*>(event->data());
-    LCD_GotoXY(6, 0);
-    LCD_PrintInteger(cpuStats->idlePercent());
+    char s[4];
+    sprintf(s, "%" SCNu8, cpuStats->idlePercent());
+    LCD_GotoXY(5, 0);
+    LCD_PrintString(s);
 }
 
 void Display::text(Event *event) {
@@ -55,7 +57,7 @@ void Display::text(Event *event) {
 
 void Display::memory(Event *event) {
     auto *memoryStats = static_cast<MemoryStats*>(event->data());
-    char s[10];
+    char s[5];
     sprintf(s, "%" SCNu32, memoryStats->value);
     LCD_GotoXY(0, 0);
     LCD_PrintString(s);

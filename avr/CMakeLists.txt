@@ -41,7 +41,6 @@ add_executable(${PROJECT_NAME}
         src/networking/PacketReader.cpp src/networking/PacketReader.h
         src/system/Event.cpp src/system/Event.h
         src/system/EventType.h
-        src/system/EventPriority.h
         src/system/EventLoop.cpp src/system/EventLoop.h
         src/system/EventHandler.h src/system/EventDispatcher.h
         src/system/EventDispatcher.cpp src/system/EventDispatcher.h
@@ -53,11 +52,18 @@ add_executable(${PROJECT_NAME}
         src/system/CpuStats.cpp src/system/CpuStats.h
         src/lcd/Display.cpp src/lcd/Display.h
         src/lcd/one/HD44780.h src/lcd/one/HD44780.c src/lcd/one/HD44780_Settings.h src/lcd/one/IO_Macros.h
-        src/system/Async.h src/system/AsyncFunction.cpp src/system/AsyncFunction.h src/system/AsyncWait.cpp src/system/AsyncWait.h
+        src/system/AsyncFunction.cpp src/system/AsyncFunction.h
         src/tasks/AsyncTaskTest.cpp src/tasks/AsyncTaskTest.h
         src/system/AsyncExecutor.cpp src/system/AsyncExecutor.h
         src/system/AsyncChain.cpp src/system/AsyncChain.h
-        src/collections/PriorityQueue.cpp src/collections/PriorityQueue.h src/system/AsyncWaitTask.cpp src/system/AsyncWaitTask.h src/tasks/PeriodicMemoryReport.cpp src/tasks/PeriodicMemoryReport.h src/system/MemoryStats.cpp src/system/MemoryStats.h src/std/CRCTable.c)
+        src/collections/PriorityQueue.cpp src/collections/PriorityQueue.h
+        src/system/AsyncWaitTask.cpp src/system/AsyncWaitTask.h
+        src/tasks/PeriodicMemoryReport.cpp src/tasks/PeriodicMemoryReport.h
+        src/system/MemoryStats.h
+        src/std/CRCTable.c
+        src/lcd/two/HD44780.h src/lcd/two/HD44780.cpp
+#        src/lcd/two/HD44780_Settings.h src/lcd/two/IO_Macros.h
+        src/pid/PID.cpp src/pid/PID.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

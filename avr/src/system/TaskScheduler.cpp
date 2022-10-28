@@ -37,6 +37,9 @@ void TaskScheduler::reschedule(ScheduledTask *scheduledTask, uint32_t now) {
         case Task::Type::SINGLE:
             delete scheduledTask;
             break;
+        case Task::Type::WAIT:
+            delete scheduledTask;
+            break;
         case Task::Type::PERIODIC:
             uint32_t nextExecution = now + scheduledTask->task->delay();
             scheduledTask->timeOfExecution = nextExecution;

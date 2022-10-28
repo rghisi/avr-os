@@ -83,7 +83,7 @@ auto asyncExecutor = AsyncExecutor(&taskScheduler, &eventDispatcher);
 //auto networkInterface = SerialNetworkInterface(0xAB, &atmega32U4, &eventDispatcher);
 //auto networkServices = NetworkServices(&eventDispatcher);
 //auto ping = Ping(&eventDispatcher);
-//auto periodicCpuUsageReport = PeriodicCpuUsageReport(&cpuStats, &eventDispatcher);
+auto periodicCpuUsageReport = PeriodicCpuUsageReport(&cpuStats, &eventDispatcher);
 auto periodicMemoryReport = PeriodicMemoryReport(&wallClock, &eventDispatcher);
 //auto periodicPing = PeriodicPing(&ping);
 auto asyncTest = AsyncTaskTest(&eventDispatcher);
@@ -118,9 +118,11 @@ int main(void) {
     eventLoop.addHandler(&display, MEMORY_STATS_DISPATCHED);
 
 //    taskScheduler.schedule(&periodicPing);
-//    taskScheduler.schedule(&periodicCpuUsageReport);
+    taskScheduler.schedule(&periodicCpuUsageReport);
     taskScheduler.schedule(&periodicMemoryReport);
     taskScheduler.schedule(&asyncTest);
+
+//    atmega32U4.enableReceiver();
 
     while (true) {
         cpuStats.start(wallClock.now());

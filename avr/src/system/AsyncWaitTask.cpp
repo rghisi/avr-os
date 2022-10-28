@@ -4,14 +4,14 @@
 
 #include "AsyncWaitTask.h"
 
-AsyncWaitTask::AsyncWaitTask(uint32_t delay, EventDispatcher *eventDispatcher, AsyncChain *asyncChain) {
+AsyncWaitTask::AsyncWaitTask(uint32_t delay, EventDispatcher *eventDispatcher, Event *callbackEvent) {
     this->milliseconds = delay;
     this->eventDispatcher = eventDispatcher;
-    this->asyncChain = asyncChain;
+    this->callbackEvent = callbackEvent;
 }
 
 void AsyncWaitTask::run() {
-    eventDispatcher->dispatch(new Event(ASYNC_CHAIN_SCHEDULED, asyncChain));
+    eventDispatcher->dispatch(callbackEvent);
 }
 
 uint32_t AsyncWaitTask::delay() {
@@ -19,10 +19,10 @@ uint32_t AsyncWaitTask::delay() {
 }
 
 Task::Type AsyncWaitTask::type() {
-    return Type::SINGLE;
+    return Type::WAIT;
 }
 
 AsyncWaitTask::~AsyncWaitTask() {
     eventDispatcher = nullptr;
-    asyncChain = nullptr;
+    callbackEvent = nullptr;
 }

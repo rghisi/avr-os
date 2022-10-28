@@ -3,8 +3,15 @@
 //
 
 #include "AsyncChain.h"
-#include "AsyncWait.h"
 #include "AsyncFunction.h"
+#include "Event.h"
+#include "AsyncWaitTask.h"
+
+AsyncChain::AsyncChain(EventDispatcher *eventDispatcher) {
+    this->eventDispatcher = eventDispatcher;
+};
+
+AsyncChain::~AsyncChain() = default;
 
 AsyncChain *AsyncChain::then(std::function<void(void)> thenLambda) {
     auto async = std::make_unique<AsyncFunction>(std::move(thenLambda));
@@ -14,13 +21,14 @@ AsyncChain *AsyncChain::then(std::function<void(void)> thenLambda) {
 }
 
 AsyncChain *AsyncChain::wait(uint16_t milliseconds) {
-    auto asyncWait = std::make_unique<AsyncWait>(milliseconds);
+    auto callbackEvent = new Event(ASYNC_CHAIN_SCHEDULED, this);
+    auto asyncWait = std::make_unique<AsyncWaitTask>(milliseconds, eventDispatcher, callbackEvent);
     chain.push_back(std::move(asyncWait));
 
     return this;
 }
 
-std::unique_ptr<Async> AsyncChain::next() {
+std::unique_ptr<Task> AsyncChain::next() {
     if (!chain.empty()) {
         auto next = std::move(chain.front());
         chain.pop_front();
@@ -34,8 +42,6 @@ bool AsyncChain::hasNext() {
     return !chain.empty();
 }
 
-AsyncChain::~AsyncChain() {
-    while (!chain.empty()) {
-        chain.pop_front();
-    }
-};
+void AsyncChain::schedule() {
+    eventDispatcher->dispatch(new Event(ASYNC_CHAIN_SCHEDULED, this));
+}

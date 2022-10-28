@@ -3,9 +3,7 @@
 //
 
 #include "AsyncExecutor.h"
-#include "Async.h"
 #include "AsyncChain.h"
-#include "AsyncWaitTask.h"
 
 AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, EventDispatcher *eventDispatcher) {
     this->taskScheduler = taskScheduler;
@@ -31,8 +29,8 @@ bool AsyncExecutor::handle(Event *event) {
 }
 
 void AsyncExecutor::executeAsync(Event *event) {
-    auto *async = static_cast<Async*>(event->data());
-    async->execute();
+    auto *async = static_cast<Task*>(event->data());
+    async->run();
     delete async;
 }
 
@@ -41,17 +39,18 @@ void AsyncExecutor::executeChain(Event *event) {
     if (asyncChain->hasNext()) {
         auto nextAsync = asyncChain->next();
         switch (nextAsync->type()) {
-            case Async::Type::IMMEDIATE:
-                nextAsync->execute();
+            case Task::Type::SINGLE:
+                nextAsync->run();
                 if (asyncChain->hasNext()) {
                     eventDispatcher->dispatch(new Event(ASYNC_CHAIN_SCHEDULED, asyncChain));
                 } else {
                     delete asyncChain;
                 }
                 break;
-            case Async::Type::WAIT:
-                auto *asyncWaitTask = new AsyncWaitTask(nextAsync->delay(), eventDispatcher, asyncChain);
-                taskScheduler->schedule(asyncWaitTask);
+            case Task::Type::PERIODIC:
+                break;
+            case Task::Type::WAIT:
+                taskScheduler->schedule(nextAsync.release());
                 break;
         }
     } else {

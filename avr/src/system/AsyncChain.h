@@ -6,18 +6,24 @@
 #define AVR_ASYNCCHAIN_H
 
 
-#include "Async.h"
 #include "list"
+#include "Task.h"
+#include "memory"
+#include "functional"
+#include "EventDispatcher.h"
 
 class AsyncChain {
 public:
+    AsyncChain(EventDispatcher *eventDispatcher);
     ~AsyncChain();
     AsyncChain* then(std::function<void(void)> thenLambda);
     AsyncChain* wait(uint16_t milliseconds);
-    std::unique_ptr<Async> next();
+    void schedule();
+    std::unique_ptr<Task> next();
     bool hasNext();
 private:
-    std::list<std::unique_ptr<Async>> chain;
+    EventDispatcher *eventDispatcher;
+    std::list<std::unique_ptr<Task>> chain;
 };
 
 

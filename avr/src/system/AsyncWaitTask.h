@@ -13,14 +13,14 @@
 
 class AsyncWaitTask: public Task {
 public:
-    AsyncWaitTask(uint32_t delay, EventDispatcher *pDispatcher, AsyncChain *pChain);
+    AsyncWaitTask(uint32_t delay, EventDispatcher *pDispatcher, Event *callbackEvent);
     ~AsyncWaitTask() override;
     void run() override;
     uint32_t delay() override;
     Type type() override;
 private:
     EventDispatcher *eventDispatcher;
-    AsyncChain *asyncChain;
+    Event *callbackEvent;
     uint32_t milliseconds;
 };
 

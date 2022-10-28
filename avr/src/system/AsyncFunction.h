@@ -6,13 +6,16 @@
 #define AVR_ASYNCFUNCTION_H
 
 
-#include "Async.h"
+#include <cstdint>
+#include "functional"
+#include "memory"
+#include "Task.h"
 
-class AsyncFunction: public Async {
+class AsyncFunction: public Task {
 public:
     explicit AsyncFunction(std::function<void(void)> lambda);
     ~AsyncFunction() override;
-    void execute() override;
+    void run() override;
     Type type() override;
     uint32_t delay() override;
 

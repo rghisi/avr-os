@@ -8,11 +8,11 @@ AsyncFunction::AsyncFunction(std::function<void(void)> lambda) {
     this->lambda = std::move(lambda);
 }
 
-Async::Type AsyncFunction::type() {
-    return Async::Type::IMMEDIATE;
+Task::Type AsyncFunction::type() {
+    return Task::Type::SINGLE;
 }
 
-void AsyncFunction::execute() {
+void AsyncFunction::run() {
     lambda();
 }
 

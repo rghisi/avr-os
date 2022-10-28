@@ -10,8 +10,9 @@
 class Task {
 public:
     enum class Type {
+        PERIODIC,
         SINGLE,
-        PERIODIC
+        WAIT
     };
     virtual ~Task() = default;
     virtual void run() = 0;

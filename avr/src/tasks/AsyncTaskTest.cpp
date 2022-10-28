@@ -5,7 +5,6 @@
 #include "functional"
 #include "memory"
 #include "AsyncTaskTest.h"
-#include "../system/Async.h"
 #include "../system/CpuStats.h"
 #include "../system/AsyncChain.h"
 
@@ -39,9 +38,8 @@ void AsyncTaskTest::run() {
         eventDispatcher->dispatch(new Event(EventType::SHOW_TEXT_REQUESTED, m4));
     };
 
-    auto *asyncChain = new AsyncChain();
-    asyncChain->then(f1)->wait(100)->then(f2)->wait(100)->then(f3)->wait(100)->then(f4);
-    eventDispatcher->dispatch(new Event(ASYNC_CHAIN_SCHEDULED, asyncChain));
+    auto *asyncChain = new AsyncChain(eventDispatcher);
+    asyncChain->then(f1)->wait(250)->then(f2)->wait(250)->then(f3)->wait(250)->then(f4)->schedule();
 }
 
 Task::Type AsyncTaskTest::type() {

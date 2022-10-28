@@ -13,7 +13,7 @@
 class WallClock: public Timer0InterruptHandler {
 public:
     void processTick() override;
-    uint32_t now() const;
+    [[nodiscard]] uint32_t now() const;
 
 private:
     uint32_t millis = 0;
