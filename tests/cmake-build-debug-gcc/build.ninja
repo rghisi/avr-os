@@ -55,18 +55,6 @@ build CMakeFiles/PlantWateringTests.dir/src/Main.cpp.o: CXX_COMPILER__PlantWater
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
   OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src
 
-build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/Packet.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/Packet.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/Packet.cpp.o.d
-  FLAGS = -g -std=gnu++17
-  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking
-
-build CMakeFiles/PlantWateringTests.dir/src/networking/PacketTest.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/networking/PacketTest.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/networking/PacketTest.cpp.o.d
-  FLAGS = -g -std=gnu++17
-  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/networking
-
 build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp || cmake_object_order_depends_target_PlantWateringTests
   DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp.o.d
   FLAGS = -g -std=gnu++17
@@ -91,42 +79,6 @@ build CMakeFiles/PlantWateringTests.dir/src/collections/ArrayTest.cpp.o: CXX_COM
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
   OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/collections
 
-build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketBuilder.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketBuilder.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketBuilder.cpp.o.d
-  FLAGS = -g -std=gnu++17
-  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking
-
-build CMakeFiles/PlantWateringTests.dir/src/networking/PacketBuilderTest.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/networking/PacketBuilderTest.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/networking/PacketBuilderTest.cpp.o.d
-  FLAGS = -g -std=gnu++17
-  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/networking
-
-build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std/CRC.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std/CRC.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std/CRC.cpp.o.d
-  FLAGS = -g -std=gnu++17
-  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std
-
-build CMakeFiles/PlantWateringTests.dir/src/std/CRCTest.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/std/CRCTest.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/std/CRCTest.cpp.o.d
-  FLAGS = -g -std=gnu++17
-  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/std
-
-build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketReader.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketReader.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketReader.cpp.o.d
-  FLAGS = -g -std=gnu++17
-  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking
-
-build CMakeFiles/PlantWateringTests.dir/src/networking/PacketReaderTest.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/src/networking/PacketReaderTest.cpp || cmake_object_order_depends_target_PlantWateringTests
-  DEP_FILE = CMakeFiles/PlantWateringTests.dir/src/networking/PacketReaderTest.cpp.o.d
-  FLAGS = -g -std=gnu++17
-  OBJECT_DIR = CMakeFiles/PlantWateringTests.dir
-  OBJECT_FILE_DIR = CMakeFiles/PlantWateringTests.dir/src/networking
-
 build CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/PriorityQueue.cpp.o: CXX_COMPILER__PlantWateringTests_Debug /mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/PriorityQueue.cpp || cmake_object_order_depends_target_PlantWateringTests
   DEP_FILE = CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/PriorityQueue.cpp.o.d
   FLAGS = -g -std=gnu++17
@@ -147,7 +99,7 @@ build CMakeFiles/PlantWateringTests.dir/src/collections/PriorityQueueTest.cpp.o:
 #############################################
 # Link the executable PlantWateringTests
 
-build PlantWateringTests: CXX_EXECUTABLE_LINKER__PlantWateringTests_Debug CMakeFiles/PlantWateringTests.dir/src/Main.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/Packet.cpp.o CMakeFiles/PlantWateringTests.dir/src/networking/PacketTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp.o CMakeFiles/PlantWateringTests.dir/src/collections/BlockingQueueTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/Array.cpp.o CMakeFiles/PlantWateringTests.dir/src/collections/ArrayTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketBuilder.cpp.o CMakeFiles/PlantWateringTests.dir/src/networking/PacketBuilderTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std/CRC.cpp.o CMakeFiles/PlantWateringTests.dir/src/std/CRCTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketReader.cpp.o CMakeFiles/PlantWateringTests.dir/src/networking/PacketReaderTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/PriorityQueue.cpp.o CMakeFiles/PlantWateringTests.dir/src/collections/PriorityQueueTest.cpp.o
+build PlantWateringTests: CXX_EXECUTABLE_LINKER__PlantWateringTests_Debug CMakeFiles/PlantWateringTests.dir/src/Main.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp.o CMakeFiles/PlantWateringTests.dir/src/collections/BlockingQueueTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/Array.cpp.o CMakeFiles/PlantWateringTests.dir/src/collections/ArrayTest.cpp.o CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/PriorityQueue.cpp.o CMakeFiles/PlantWateringTests.dir/src/collections/PriorityQueueTest.cpp.o
   FLAGS = -g
   LINK_LIBRARIES = -lgtest  -lgmock
   OBJECT_DIR = CMakeFiles/PlantWateringTests.dir

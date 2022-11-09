@@ -8,28 +8,24 @@
 #include "Packet.h"
 #include "../std/CRC.h"
 
-Packet::Packet(uint8_t destination, uint8_t source, uint16_t id, uint8_t service, uint8_t *payload, uint8_t payloadLength) {
+Packet::Packet(uint8_t destination, uint8_t source, uint16_t id, uint8_t service, std::unique_ptr<uint8_t[]> payload, uint8_t payloadLength) {
     this->destinationAddress = destination;
     this->sourceAddress = source;
     this->packetLength = payloadLength + HEADER_SIZE;
     this->packetId = id;
     this->serviceId = service;
-    this->payloadBytes = payload;
+    this->payloadBytes = std::move(payload);
     this->packetCrc = calculateCrc();
 }
 
-Packet::Packet(uint8_t destination, uint8_t source, uint16_t id, uint8_t service, uint8_t crc, uint8_t *payload, uint8_t payloadLength) {
+Packet::Packet(uint8_t destination, uint8_t source, uint16_t id, uint8_t service, uint8_t crc, std::unique_ptr<uint8_t[]> payload, uint8_t payloadLength) {
     this->destinationAddress = destination;
     this->sourceAddress = source;
     this->packetLength = payloadLength + HEADER_SIZE;
     this->packetId = id;
     this->serviceId = service;
     this->packetCrc = crc;
-    this->payloadBytes = payload;
-}
-
-Packet::~Packet() {
-    delete payloadBytes;
+    this->payloadBytes = std::move(payload);
 }
 
 uint8_t Packet::source() const {
@@ -61,7 +57,7 @@ uint8_t Packet::payloadLength() const {
 }
 
 uint8_t *Packet::payload() {
-    return payloadBytes;
+    return payloadBytes.get();
 }
 
 bool Packet::isValid() {

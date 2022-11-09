@@ -23,19 +23,23 @@ uint32_t AsyncTaskTest::delay() {
 
 void AsyncTaskTest::run() {
     auto f1 = [*this]() {
-        eventDispatcher->dispatch(new Event(EventType::SHOW_TEXT_REQUESTED, m1));
+        auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, m1));
+        eventDispatcher->dispatch(std::move(event));
     };
 
     auto f2 = [*this]() {
-        eventDispatcher->dispatch(new Event(EventType::SHOW_TEXT_REQUESTED, m2));
+        auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, m2));
+        eventDispatcher->dispatch(std::move(event));
     };
 
     auto f3 = [*this]() {
-        eventDispatcher->dispatch(new Event(EventType::SHOW_TEXT_REQUESTED, m3));
+        auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, m3));
+        eventDispatcher->dispatch(std::move(event));
     };
 
     auto f4 = [*this]() {
-        eventDispatcher->dispatch(new Event(EventType::SHOW_TEXT_REQUESTED, m4));
+        auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, m4));
+        eventDispatcher->dispatch(std::move(event));
     };
 
     auto *asyncChain = new AsyncChain(eventDispatcher);

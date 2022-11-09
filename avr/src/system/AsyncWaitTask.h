@@ -13,14 +13,14 @@
 
 class AsyncWaitTask: public Task {
 public:
-    AsyncWaitTask(uint32_t delay, EventDispatcher *pDispatcher, Event *callbackEvent);
+    AsyncWaitTask(uint32_t delay, EventDispatcher *pDispatcher, std::unique_ptr<Event> callbackEvent);
     ~AsyncWaitTask() override;
     void run() override;
     uint32_t delay() override;
     Type type() override;
 private:
     EventDispatcher *eventDispatcher;
-    Event *callbackEvent;
+    std::unique_ptr<Event> callbackEvent;
     uint32_t milliseconds;
 };
 

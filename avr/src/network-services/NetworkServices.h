@@ -17,7 +17,7 @@ class NetworkServices: public EventHandler {
 public:
     explicit NetworkServices(EventDispatcher *eventDispatcher);
     EventType type() override;
-    bool handle(Event *event) override;
+    bool handle(std::unique_ptr<Event> event) override;
 
 private:
     NetworkInterface *networkInterface;

@@ -15,11 +15,11 @@ EventType NetworkServices::type() {
     return PACKET_RECEIVED;
 }
 
-bool NetworkServices::handle(Event *event) {
+bool NetworkServices::handle(std::unique_ptr<Event> event) {
     auto *packet = static_cast<Packet*>(event->data());
     if (packet->service() == Services::PING) {
-            auto *newEvent = new Event(EventType::PING_RECEIVED, packet);
-            eventDispatcher->dispatch(newEvent);
+            auto newEvent = std::make_unique<Event>(Event(EventType::PING_RECEIVED, packet));
+            eventDispatcher->dispatch(std::move(newEvent));
     } else {
         delete packet;
     }

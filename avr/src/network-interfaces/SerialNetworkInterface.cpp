@@ -35,15 +35,15 @@ inline void SerialNetworkInterface::readyToSend() {
 
 inline void SerialNetworkInterface::frameReceived(uint8_t byte) {
     receiveBuffer.offer(byte);
-    auto *event = new Event(EventType::FRAME_RECEIVED, nullptr);
-    eventDispatcher->dispatch(event);
+    auto event = std::make_unique<Event>(Event(EventType::FRAME_RECEIVED, nullptr));
+    eventDispatcher->dispatch(std::move(event));
 }
 
 EventType SerialNetworkInterface::type() {
     return EventType::PACKET_DISPATCHED;
 }
 
-bool SerialNetworkInterface::handle(Event *event) {
+bool SerialNetworkInterface::handle(std::unique_ptr<Event> event) {
     switch (event->type()) {
         case PACKET_DISPATCHED:
             if (!packetReader.hasNextFrame()) {
@@ -70,12 +70,10 @@ void SerialNetworkInterface::processReceivedFrame() {
     while (!receiveBuffer.isEmpty()) {
         packetBuilder.add(receiveBuffer.poll());
         if (packetBuilder.isFinished()) {
-            auto *packet = packetBuilder.build();
+            auto packet = packetBuilder.build();
             if (packet->isValid()) {
-                auto *event = new Event(EventType::PACKET_RECEIVED, packet);
-                eventDispatcher->dispatch(event);
-            } else {
-                delete packet;
+                auto event = std::make_unique<Event>(Event(EventType::PACKET_RECEIVED, packet.release()));
+                eventDispatcher->dispatch(std::move(event));
             }
         }
     }

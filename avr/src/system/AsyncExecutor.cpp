@@ -14,27 +14,26 @@ EventType AsyncExecutor::type() {
     return ASYNC_SCHEDULED;
 }
 
-bool AsyncExecutor::handle(Event *event) {
+bool AsyncExecutor::handle(std::unique_ptr<Event> event) {
     switch (event->type()) {
         case ASYNC_SCHEDULED:
-            executeAsync(event);
+            executeAsync(std::move(event));
             break;
         case ASYNC_CHAIN_SCHEDULED:
         default:
-            executeChain(event);
+            executeChain(std::move(event));
             break;
     }
-
-    return true;
+    return false;
 }
 
-void AsyncExecutor::executeAsync(Event *event) {
+void AsyncExecutor::executeAsync(std::unique_ptr<Event> event) {
     auto *async = static_cast<Task*>(event->data());
     async->run();
     delete async;
 }
 
-void AsyncExecutor::executeChain(Event *event) {
+void AsyncExecutor::executeChain(std::unique_ptr<Event> event) {
     auto *asyncChain = static_cast<AsyncChain*>(event->data());
     if (asyncChain->hasNext()) {
         auto nextAsync = asyncChain->next();
@@ -42,7 +41,8 @@ void AsyncExecutor::executeChain(Event *event) {
             case Task::Type::SINGLE:
                 nextAsync->run();
                 if (asyncChain->hasNext()) {
-                    eventDispatcher->dispatch(new Event(ASYNC_CHAIN_SCHEDULED, asyncChain));
+                    auto newEvent = std::make_unique<Event>(Event(ASYNC_CHAIN_SCHEDULED, asyncChain));
+                    eventDispatcher->dispatch(std::move(newEvent));
                 } else {
                     delete asyncChain;
                 }

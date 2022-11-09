@@ -5,6 +5,8 @@
 #ifndef AVR_USART_H
 #define AVR_USART_H
 
+#include "cstdint"
+
 class USARTInterruptHandler {
 public:
     virtual void readyToSend() = 0;

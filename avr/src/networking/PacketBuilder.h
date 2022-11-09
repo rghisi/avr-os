@@ -7,12 +7,13 @@
 
 #include <cstdint>
 #include "Packet.h"
+#include "memory"
 
 class PacketBuilder {
 public:
     PacketBuilder();
     void add(uint8_t receivedByte);
-    Packet *build();
+    std::unique_ptr<Packet> build();
     bool isFinished();
 
 private:
@@ -28,7 +29,7 @@ private:
     uint8_t service;
     uint8_t crc;
     uint8_t payloadIndex;
-    uint8_t *packetPayload;
+    std::unique_ptr<uint8_t[]> packetPayload;
 };
 
 

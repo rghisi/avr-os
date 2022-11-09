@@ -16,6 +16,7 @@ enum EventType {
     SHOW_TEXT_REQUESTED,
     ASYNC_SCHEDULED,
     ASYNC_CHAIN_SCHEDULED,
+    KEYPAD_KEY_DOWN,
     MAX,
 };
 

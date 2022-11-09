@@ -42,7 +42,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   };
 
 /**
-  * @brief A mixin helper to conditionally enable or disable the default
+  * @brief A mixin helper to conditionally enableInterrupts or disableInterrupts the default
   * constructor.
   * @sa _Enable_special_members
   */
@@ -66,7 +66,7 @@ template<bool _Switch, typename _Tag = void>
 
 
 /**
-  * @brief A mixin helper to conditionally enable or disable the default
+  * @brief A mixin helper to conditionally enableInterrupts or disableInterrupts the default
   * destructor.
   * @sa _Enable_special_members
   */
@@ -74,7 +74,7 @@ template<bool _Switch, typename _Tag = void>
   struct _Enable_destructor { };
 
 /**
-  * @brief A mixin helper to conditionally enable or disable the copy/move
+  * @brief A mixin helper to conditionally enableInterrupts or disableInterrupts the copy/move
   * special members.
   * @sa _Enable_special_members
   */
@@ -84,7 +84,7 @@ template<bool _Copy, bool _CopyAssignment,
   struct _Enable_copy_move { };
 
 /**
-  * @brief A mixin helper to conditionally enable or disable the special
+  * @brief A mixin helper to conditionally enableInterrupts or disableInterrupts the special
   * members.
   *
   * The @c _Tag type parameter is to make mixin bases unique and thus avoid

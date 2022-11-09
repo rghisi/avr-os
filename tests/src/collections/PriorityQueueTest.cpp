@@ -64,17 +64,23 @@ TEST(PriorityQueue, ShouldPopSmallerElementsFirst) {
     ASSERT_TRUE(queue.offer(&element3));
     ASSERT_TRUE(queue.offer(&element1));
     ASSERT_TRUE(queue.offer(&element2));
-    ASSERT_EQ(&element1, queue.pool());
-    ASSERT_EQ(&element2, queue.pool());
-    ASSERT_EQ(&element3, queue.pool());
-    ASSERT_EQ(&element3, queue.pool());
+    ASSERT_EQ(&element1, queue.peek());
+    queue.pop();
+    ASSERT_EQ(&element2, queue.peek());
+    queue.pop();
+    ASSERT_EQ(&element3, queue.peek());
+    queue.pop();
+    ASSERT_EQ(&element3, queue.peek());
+    queue.pop();
 
     ASSERT_TRUE(queue.offer(&element3));
     ASSERT_TRUE(queue.offer(&element1));
     ASSERT_TRUE(queue.offer(&element2));
-    ASSERT_EQ(&element1, queue.pool());
-    ASSERT_EQ(&element2, queue.pool());
-    ASSERT_EQ(&element3, queue.pool());
+    ASSERT_EQ(&element1, queue.peek());
+    queue.pop();
+    ASSERT_EQ(&element2, queue.peek());
+    queue.pop();
+    ASSERT_EQ(&element3, queue.peek());
 }
 
 TEST(PriorityQueue, ShouldPeekSmallerElementsFirst) {
@@ -125,13 +131,13 @@ TEST(PriorityQueue, ShouldBecomeEmptyWhenAllElementsAreRemoved) {
     ASSERT_FALSE(queue.isEmpty());
     ASSERT_TRUE(queue.offer(&element2));
     ASSERT_FALSE(queue.isEmpty());
-    queue.pool();
+    queue.pop();
     ASSERT_FALSE(queue.isEmpty());
-    queue.pool();
+    queue.pop();
     ASSERT_FALSE(queue.isEmpty());
-    queue.pool();
+    queue.pop();
     ASSERT_TRUE(queue.isEmpty());
-    queue.pool();
+    queue.pop();
     ASSERT_TRUE(queue.isEmpty());
 }
 
@@ -149,11 +155,15 @@ TEST(PriorityQueue, ShouldAcceptElementAndReturnTrue2) {
     ASSERT_TRUE(queue.offer(&element3));
     ASSERT_TRUE(queue.offer(&element1));
     ASSERT_TRUE(queue.offer(&element2));
-    ASSERT_EQ(&element1, queue.pool());
+    ASSERT_EQ(&element1, queue.peek());
+    queue.pop();
     element1.someNumber = 4;
     ASSERT_TRUE(queue.offer(&element1));
-    ASSERT_EQ(&element2, queue.pool());
-    ASSERT_EQ(&element3, queue.pool());
-    ASSERT_EQ(&element3, queue.pool());
-    ASSERT_EQ(&element1, queue.pool());
+    ASSERT_EQ(&element2, queue.peek());
+    queue.pop();
+    ASSERT_EQ(&element3, queue.peek());
+    queue.pop();
+    ASSERT_EQ(&element3, queue.peek());
+    queue.pop();
+    ASSERT_EQ(&element1, queue.peek());
 }

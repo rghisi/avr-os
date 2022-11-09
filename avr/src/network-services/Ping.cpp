@@ -10,17 +10,19 @@ Ping::Ping(EventDispatcher *eventDispatcher) {
 }
 
 void Ping::ping(uint8_t destination) {
-    auto *pingBytes = Array<uint8_t>::copy(pingMessage, 0x04);
-    auto *ping = new Packet(destination, 0xAA, 0x00, Ping::SERVICE, pingBytes, 0x04);
-    auto *event = new Event(EventType::PACKET_DISPATCHED, ping);
-    eventDispatcher->dispatch(event);
+    auto pingBytes = std::make_unique<uint8_t[]>(4);
+    Array<uint8_t>::copy(pingMessage, 0x04, pingBytes.get());
+    auto *ping = new Packet(destination, 0xAA, 0x00, Ping::SERVICE, std::move(pingBytes), 0x04);
+    auto event = std::make_unique<Event>(Event(EventType::PACKET_DISPATCHED, ping));
+    eventDispatcher->dispatch(std::move(event));
 }
 
 void Ping::pong(uint8_t destination) {
-    auto *pongBytes = Array<uint8_t>::copy(pongMessage, 0x04);
-    auto *pong = new Packet(destination, 0xAA, 0x00, Ping::SERVICE, pongBytes, 0x04);
-    auto *event = new Event(EventType::PACKET_DISPATCHED, pong);
-    eventDispatcher->dispatch(event);
+    auto pongBytes = std::make_unique<uint8_t[]>(4);
+    Array<uint8_t>::copy(pongMessage, 0x04, pongBytes.get());
+    auto *pong = new Packet(destination, 0xAA, 0x00, Ping::SERVICE, std::move(pongBytes), 0x04);
+    auto event = std::make_unique<Event>(Event(EventType::PACKET_DISPATCHED, pong));
+    eventDispatcher->dispatch(std::move(event));
 }
 
 bool Ping::isPing(Packet *packet) {
@@ -32,7 +34,7 @@ bool Ping::isPing(Packet *packet) {
            packet->payload()[3] == pingMessage[3];
 }
 
-bool Ping::handle(Event *event) {
+bool Ping::handle(std::unique_ptr<Event> event) {
     auto *packet = static_cast<Packet *>(event->data());
     if (isPing(packet)) {
         pong(packet->source());

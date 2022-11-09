@@ -8,7 +8,6 @@
 
 TaskScheduler::TaskScheduler(WallClock *wallClock) {
     this->wallClock = wallClock;
-    this->scheduledTasks = PriorityQueue<ScheduledTask *>();
 }
 
 bool TaskScheduler::process() {
@@ -52,16 +51,8 @@ bool TaskScheduler::ScheduledTask::operator<(const ScheduledTask &rhs) const {
     return timeOfExecution < rhs.timeOfExecution;
 }
 
-bool TaskScheduler::ScheduledTask::operator>(const ScheduledTask &rhs) const {
-    return rhs < *this;
-}
-
 bool TaskScheduler::ScheduledTask::operator<=(const ScheduledTask &rhs) const {
     return !(rhs < *this);
-}
-
-bool TaskScheduler::ScheduledTask::operator>=(const ScheduledTask &rhs) const {
-    return !(*this < rhs);
 }
 
 TaskScheduler::ScheduledTask::~ScheduledTask() {

@@ -2,14 +2,8 @@
 1	86	1663351725602379489	CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/BlockingQueue.cpp.o	3a0eee5a7596f482
 2	34	1665222895050596130	CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/collections/Array.cpp.o	6148f7a27653f08a
 913	984	1665237348875970443	PlantWateringTests	12a01053843840cc
-1	28	1666808776406141303	build.ninja	84a23fec75448695
-2	729	1665237348619970981	CMakeFiles/PlantWateringTests.dir/src/networking/PacketTest.cpp.o	b2ddfe67a1557aec
-2	17	1665232623832752906	CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/std/CRC.cpp.o	355dbc9d0f526821
-2	678	1665232624496762957	CMakeFiles/PlantWateringTests.dir/src/std/CRCTest.cpp.o	35574fb1e4f156a1
-2	18	1665237347911972472	CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/Packet.cpp.o	16705ffa046c84fc
+1	28	1667157643208332833	build.ninja	84a23fec75448695
 1	655	1663426657750052765	CMakeFiles/PlantWateringTests.dir/src/collections/BlockingQueueTest.cpp.o	d80f30faf6c4e8d
 1	668	1663351726182460784	CMakeFiles/PlantWateringTests.dir/src/Main.cpp.o	96e4f5c72837af25
 1	631	1665222895646601689	CMakeFiles/PlantWateringTests.dir/src/collections/ArrayTest.cpp.o	5080f8e2f993589f
-2	18	1665237347911972472	CMakeFiles/PlantWateringTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/avr/src/networking/PacketBuilder.cpp.o	3ec02fde08c44efe
 0	2	0	clean	1f2a816a449f8885
-2	737	1665237348627970965	CMakeFiles/PlantWateringTests.dir/src/networking/PacketBuilderTest.cpp.o	bbeb912d19b5636a

@@ -24,51 +24,17 @@
 //--------------------------//
 
 //----- Auxiliary data ---------------------------//
-#define __LCD_Pulse_us					1
-#define __LCD_Delay_1					20
-#define __LCD_Delay_2					10
-#define __LCD_Delay_3					1
-#define __LCD_Delay_4					1
+#define __LCD_Pulse_us                    1
+#define __LCD_Delay_1                    20
+#define __LCD_Delay_2                    10
+#define __LCD_Delay_3                    1
+#define __LCD_Delay_4                    1
 
-#define __LCD_CMD_ClearDisplay			0x01
-#define __LCD_CMD_ReturnHome			0x02
-#define __LCD_CMD_EntryModeSet			0x04
-#define __LCD_CMD_DisplayControl		0x08
-#define __LCD_CMD_CursorShift			0x10
-#define __LCD_CMD_FunctionSet			0x20
-#define __LCD_CMD_SetCGRAMAddress		0x40
-#define __LCD_CMD_SetDDRAMAddress		0x80
+#define __LCD_BusyFlag                    7
 
-#define __LCD_CMD_EntryIncrement		0x02
-#define __LCD_CMD_EntryDecrement		0x00
-#define __LCD_CMD_EntryShift			0x01
-#define __LCD_CMD_EntryNoShift			0x00
-
-#define __LCD_CMD_DisplayOn				0x04
-#define __LCD_CMD_DisplayOff			0x00
-#define __LCD_CMD_CursonOn				0x02
-#define __LCD_CMD_CursorOff				0x00
-#define __LCD_CMD_BlinkOn				0x01
-#define __LCD_CMD_BlinkOff				0x00
-
-#define __LCD_CMD_DisplayMove			0x08
-#define __LCD_CMD_CursorMove			0x00
-#define __LCD_CMD_MoveRight				0x04
-#define __LCD_CMD_MoveLeft				0x00
-
-#define __LCD_CMD_8BitMode				0x10
-#define __LCD_CMD_4BitMode				0x00
-#define __LCD_CMD_2Line					0x08
-#define __LCD_CMD_1Line					0x00
-#define __LCD_CMD_5x10Dots				0x04
-#define __LCD_CMD_5x8Dots				0x00
-
-#define __LCD_BusyFlag					7
-
-typedef struct
-{
-    uint8_t X,Y;
-}Point_t;
+typedef struct {
+    uint8_t X, Y;
+} Point_t;
 
 class HD44780 {
 public:
@@ -77,32 +43,72 @@ public:
         uint8_t columns;
         uint8_t lineStarts[4];
     };
+    enum class Command : uint8_t {
+        ClearDisplay = 0x01,
+        ReturnHome = 0x02,
+        EntryModeSet = 0x04,
+        DisplayControl = 0x08,
+        CursorShift = 0x10,
+        FunctionSet = 0x20,
+        SetCGRAMAddress = 0x40,
+        SetDDRAMAddress = 0x80,
+        EntryIncrement = 0x02,
+        EntryDecrement = 0x00,
+        EntryShift = 0x01,
+        EntryNoShift = 0x00,
+        DisplayOn = 0x04,
+        DisplayOff = 0x00,
+        CursonOn = 0x02,
+        CursorOff = 0x00,
+        BlinkOn = 0x01,
+        BlinkOff = 0x00,
+        DisplayMove = 0x08,
+        CursorMove = 0x00,
+        MoveRight = 0x04,
+        MoveLeft = 0x00,
+        Mode8Bit = 0x10,
+        Mode4Bit = 0x00,
+        TwoLines = 0x08,
+        OneLine = 0x00,
+        FiveByTenDots = 0x04,
+        FiveBy8Dots = 0x00
+    };
+
     explicit HD44780(Config config);
-    void LCD_Setup();
-    void LCD_SendCommand(uint8_t Command);
-    void LCD_SendData(char Character);
-    void LCD_WaitBusy();
-    void LCD_BuildChar(char *Data, uint8_t Position);
-    void LCD_BuildChar_P(const char *Data, uint8_t Position);
-    void LCD_Clear();
-    void LCD_ClearLine(uint8_t Line);
-    void LCD_GotoXY(uint8_t X, uint8_t Y);
-    Point_t LCD_GetP();
-    void LCD_PrintChar(char Character);
-    void LCD_PrintString(char *Text);
-    void LCD_PrintString_P(const char *Text);
-    void LCD_PrintInteger(int32_t Value);
-    void LCD_PrintDouble(double Value, uint32_t Tens);
-    void LCD_SendCommandHigh(uint8_t Data);
-    void LCD_Send(uint8_t Data);
-    uint8_t LCD_Read();
-    void Pulse_En();
+    void setup();
+    template<typename C, typename... T>
+    void sendCommand(C command, T... commands);
+    void sendData(char Character);
+    void waitBusy();
+    void buildChar(char *Data, uint8_t Position);
+    void buildChar_P(const char *Data, uint8_t Position);
+    void clear();
+    void clearLine(uint8_t Line);
+    void gotoXY(uint8_t X, uint8_t Y);
+    Point_t getP();
+    void printChar(char Character);
+    void printString(char *Text);
+    void printString_P(const char *Text);
+    void printInteger(int32_t Value);
+    void printDouble(double Value, uint32_t Tens);
+    template<typename C, typename... T>
+    void sendCommandHigh(C command, T... commands);
+    void send(uint8_t Data);
+    uint8_t read();
+    void pulseEn();
     void Int2bcd(int32_t Value, char *BCD);
+
     constexpr static const Config EIGHT_BY_ONE = Config{.rows = 1, .columns = 8, .lineStarts = {0x00}};
     constexpr static const Config EIGHT_BY_TWO = Config{.rows = 2, .columns = 8, .lineStarts = {0x00, 0x40}};
     constexpr static const Config SIXTEEN_BY_ONE = Config{.rows = 1, .columns = 16, .lineStarts = {0x00}};
     constexpr static const Config SIXTEEN_BY_TWO = Config{.rows = 2, .columns = 16, .lineStarts = {0x00, 0x40}};
 private:
     Config config;
+
+    template<typename C, typename... T>
+    uint8_t composeCommands(C command, T... commands);
+    template<typename C>
+    uint8_t composeCommands(C command);
 };
+
 #endif

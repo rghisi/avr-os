@@ -21,8 +21,8 @@ AsyncChain *AsyncChain::then(std::function<void(void)> thenLambda) {
 }
 
 AsyncChain *AsyncChain::wait(uint16_t milliseconds) {
-    auto callbackEvent = new Event(ASYNC_CHAIN_SCHEDULED, this);
-    auto asyncWait = std::make_unique<AsyncWaitTask>(milliseconds, eventDispatcher, callbackEvent);
+    auto callbackEvent = std::make_unique<Event>(Event(ASYNC_CHAIN_SCHEDULED, this));
+    auto asyncWait = std::make_unique<AsyncWaitTask>(milliseconds, eventDispatcher, std::move(callbackEvent));
     chain.push_back(std::move(asyncWait));
 
     return this;
@@ -43,5 +43,6 @@ bool AsyncChain::hasNext() {
 }
 
 void AsyncChain::schedule() {
-    eventDispatcher->dispatch(new Event(ASYNC_CHAIN_SCHEDULED, this));
+    auto event = std::make_unique<Event>(Event(ASYNC_CHAIN_SCHEDULED, this));
+    eventDispatcher->dispatch(std::move(event));
 }

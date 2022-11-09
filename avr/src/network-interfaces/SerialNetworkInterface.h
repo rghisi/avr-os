@@ -18,7 +18,8 @@ public:
     void transmissionFinished() override;
     void readyToSend() override;
     EventType type() override;
-    bool handle(Event *event) override;
+    bool handle(std::unique_ptr<Event> event) override;
+
     void frameReceived(uint8_t byte) override;
     uint8_t getAddress() override;
 

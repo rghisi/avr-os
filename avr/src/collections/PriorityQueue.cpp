@@ -3,43 +3,29 @@
 //
 
 #include "PriorityQueue.h"
-
-template<typename T>
-PriorityQueue<T>::PriorityQueue() {
-    first = new Element<T>{ .element = nullptr, .next = nullptr};
-}
+#include "algorithm"
 
 template<typename T>
 bool PriorityQueue<T>::offer(T element) {
-    auto *current = first;
-    while (current->element != nullptr && (*element) > (*current->element)) {
-        current = current->next;
-    }
-
-    auto *next = new Element<T>{ .element = current->element, .next = current->next};
-    current->element = element;
-    current->next = next;
+    auto found = std::find_if(list.begin(), list.end(), [&element](T e){ return *element <= *e;});
+    list.insert(found, element);
 
     return true;
 }
 
 template<typename T>
 void PriorityQueue<T>::pop() {
-    if (first->element != nullptr) {
-        auto *firstElement = first;
-        first = first->next;
-        firstElement->element = nullptr;
-        firstElement->next = nullptr;
-        delete firstElement;
+    if (!list.empty()) {
+        list.pop_front();
     }
 }
 
 template<typename T>
 bool PriorityQueue<T>::isEmpty() {
-    return first->element == nullptr;
+    return list.empty();
 }
 
 template<typename T>
 T PriorityQueue<T>::peek() {
-    return first->element;
+    return list.front();
 }

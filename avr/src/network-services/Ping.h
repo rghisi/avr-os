@@ -16,7 +16,7 @@ public:
     explicit Ping(EventDispatcher *eventDispatcher);
     void ping(uint8_t destination);
     void pong(uint8_t destination);
-    bool handle(Event *event) override;
+    bool handle(std::unique_ptr<Event> event) override;
     EventType type() override;
 private:
     bool isPing(Packet *packet);

@@ -8,15 +8,9 @@
 #include "../collections/BlockingQueue.cpp"
 
 EventLoop::EventLoop() {
-    this->normalPriority = BlockingQueue<Event*, BUFFER_SIZE>();
     for (int i = 0; i < EventType::MAX; ++i) {
         handlers[i] = nullptr;
     }
-}
-
-bool EventLoop::push(Event *event) {
-    normalPriority.offer(event);
-    return true;
 }
 
 void EventLoop::addHandler(EventHandler *handler) {
@@ -28,14 +22,24 @@ void EventLoop::addHandler(EventHandler *handler, EventType eventType) {
 }
 
 bool EventLoop::process() {
-    if (!normalPriority.isEmpty()) {
-        auto *event = normalPriority.poll();
+    if (!events.empty()) {
+        auto event = std::move(events.front());
+        events.pop_front();
         auto *handler = handlers[event->type()];
         if (handler != nullptr) {
-            handler->handle(event);
+            handler->handle(std::move(event));
         }
-        delete event;
         return true;
     }
+
+    return false;
+}
+
+bool EventLoop::push(std::unique_ptr<Event> event) {
+    if (events.size() <= BUFFER_SIZE) {
+        events.push_back(std::move(event));
+        return true;
+    }
+
     return false;
 }

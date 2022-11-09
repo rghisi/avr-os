@@ -25,12 +25,12 @@
 */
 
 //LCD pins			PORT, PIN
-#define LCD_D4		B, 1
-#define LCD_D5		B, 2
-#define LCD_D6		B, 3
-#define LCD_D7		B, 4
-#define LCD_RS		F, 7
-#define LCD_RW      F, 6
-#define LCD_EN		F, 5
+#define LCD_D4		D, 4
+#define LCD_D5		D, 5
+#define LCD_D6		D, 6
+#define LCD_D7		D, 7
+#define LCD_RS		B, 5
+#define LCD_RW      B, 4
+#define LCD_EN		B, 0
 //----------------------------------------------//
 #endif

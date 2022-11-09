@@ -9,12 +9,12 @@
 #define SRC_PACKET_H_
 
 #include "cstdint"
+#include "memory"
 
 class Packet {
 public:
-    Packet(uint8_t destination, uint8_t source, uint16_t id, uint8_t service, uint8_t payload[], uint8_t payloadLength);
-    Packet(uint8_t destination, uint8_t source, uint16_t id, uint8_t service, uint8_t crc, uint8_t payload[], uint8_t payloadLength);
-    ~Packet();
+    Packet(uint8_t destination, uint8_t source, uint16_t id, uint8_t service, std::unique_ptr<uint8_t[]> payload, uint8_t payloadLength);
+    Packet(uint8_t destination, uint8_t source, uint16_t id, uint8_t service, uint8_t crc, std::unique_ptr<uint8_t[]> payload, uint8_t payloadLength);
     bool isValid();
     [[nodiscard]] uint8_t source() const;
     [[nodiscard]] uint8_t destination() const;
@@ -40,7 +40,7 @@ private:
     uint8_t packetLength;
     uint16_t packetId;
     uint8_t serviceId;
-    uint8_t *payloadBytes;
+    std::unique_ptr<uint8_t[]> payloadBytes;
     uint8_t packetCrc;
     uint8_t calculateCrc();
 };

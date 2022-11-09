@@ -12,12 +12,13 @@ class Display: public EventHandler {
 public:
     Display();
     EventType type() override;
-    bool handle(Event *event) override;
-private:
-    void stats(Event *event);
-    void text(Event *event);
+    bool handle(std::unique_ptr<Event> event) override;
 
-    void memory(Event *pEvent);
+private:
+    void stats(std::unique_ptr<Event> event);
+    void text(std::unique_ptr<Event> event);
+    void memory(std::unique_ptr<Event> event);
+    void keypad(std::unique_ptr<Event> event);
 };
 
 

@@ -6,6 +6,7 @@
 #define AVR_EVENT_H
 
 #include "EventType.h"
+#include "memory"
 
 class Event {
 public:

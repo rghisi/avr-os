@@ -9,6 +9,6 @@ EventDispatcher::EventDispatcher(EventLoop *eventLoop) {
     this->eventLoop = eventLoop;
 }
 
-void EventDispatcher::dispatch(Event *event) {
-    this->eventLoop->push(event);
+void EventDispatcher::dispatch(std::unique_ptr<Event> event) {
+    this->eventLoop->push(std::move(event));
 }

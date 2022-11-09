@@ -29,7 +29,7 @@ void PacketBuilder::add(uint8_t receivedByte) {
             break;
         case State::LENGTH:
             payloadLength = receivedByte - Packet::HEADER_SIZE;
-            packetPayload = new uint8_t[payloadLength];
+            packetPayload = std::make_unique<uint8_t[]>(payloadLength);
             state = State::ID_MSB;
             break;
         case State::ID_MSB:
@@ -59,11 +59,11 @@ void PacketBuilder::add(uint8_t receivedByte) {
     }
 }
 
-Packet *PacketBuilder::build() {
+std::unique_ptr<Packet> PacketBuilder::build() {
     if (state == State::FINISHED) {
-        auto* packet = new Packet(destination, source, id, service, crc, packetPayload, payloadLength);
+        auto packet = std::make_unique<Packet>(Packet(destination, source, id, service, crc, std::move(packetPayload), payloadLength));
         reset();
-        return packet;
+        return std::move(packet);
     }
 
     return nullptr;

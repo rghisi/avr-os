@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include "memory"
+#include "list"
 
 template <typename E>
 struct Element {
@@ -21,13 +22,12 @@ Element<E>::~Element() = default;
 template <typename T>
 class PriorityQueue {
 public:
-    PriorityQueue();
     bool offer(T element);
     void pop();
     T peek();
     bool isEmpty();
 private:
-    Element<T> *first;
+    std::list<T> list;
 };
 
 

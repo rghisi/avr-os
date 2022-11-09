@@ -23,9 +23,7 @@ private:
         Task *task;
         ~ScheduledTask();
         bool operator<(const ScheduledTask &rhs) const;
-        bool operator>(const ScheduledTask &rhs) const;
         bool operator<=(const ScheduledTask &rhs) const;
-        bool operator>=(const ScheduledTask &rhs) const;
     };
     WallClock *wallClock;
     PriorityQueue<ScheduledTask*> scheduledTasks;

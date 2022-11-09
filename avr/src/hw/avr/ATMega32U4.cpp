@@ -112,4 +112,17 @@ inline void ATMega32U4::rxLedOn() {
 }
 
 
+/*
+ * DIDR0 |= (1 << ADC8D);
+//    DIDR0 = 0xFF;
+//    DIDR1 = 0xFF;
+//    DIDR2 = 0xFF;
+    ADMUX |=  (1 << REFS0);
+    ADCSRB |= (1 << MUX5);
+    ADCSRA |= ((1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0));
+    ADCSRB &= ~((1 << ADTS3) | (1 << ADTS2) | (1 << ADTS1) | (1 << ADTS0));
+    ADCSRA |= (1 << ADATE) | (1 << ADEN);
+    ADCSRA |= (1 << ADSC);
+ */
+
 

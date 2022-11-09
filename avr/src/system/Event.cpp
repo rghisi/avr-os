@@ -20,3 +20,4 @@ EventType Event::type() {
 void *Event::data() {
     return dataPointer;
 }
+

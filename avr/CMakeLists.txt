@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.23)
 project(avr CXX C)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 include(CMakeVerifyCompiler.txt)
 
-set(TARGET_CPU atmega32u4)
+set(TARGET_CPU atmega328p)
 set(F_CPU 16000000L)
 
 set(AVR_DUDE_EXECUTABLE /usr/bin/avrdude)
@@ -14,15 +14,18 @@ set(AVR_DUDE_PORT /dev/ttyACM0)
 add_compile_definitions("F_CPU=${F_CPU}")
 add_compile_options("-mmcu=${TARGET_CPU}")
 add_compile_options("-I${CMAKE_SOURCE_DIR}/avr-libstdcpp/include")
+add_compile_options("-fdata-sections")
+add_compile_options("-ffunction-sections")
 
-add_link_options(-Wl,--print-memory-usage)
+add_link_options(-Wl,--print-memory-usage,--gc-sections)
 add_link_options("-mmcu=${TARGET_CPU}")
 
 add_executable(${PROJECT_NAME}
         src/Main.cpp
         src/hw/Timer0.h
         src/hw/USART.h
-        src/hw/avr/ATMega32U4.cpp src/hw/avr/ATMega32U4.h
+#        src/hw/avr/ATMega32U4.cpp src/hw/avr/ATMega32U4.h
+        src/hw/avr/ATMega328P.cpp src/hw/avr/ATMega328P.h
         src/networking/Packet.h
         src/networking/Packet.cpp
         src/networking/NetworkInterface.h
@@ -63,7 +66,7 @@ add_executable(${PROJECT_NAME}
         src/std/CRCTable.c
         src/lcd/two/HD44780.h src/lcd/two/HD44780.cpp
 #        src/lcd/two/HD44780_Settings.h src/lcd/two/IO_Macros.h
-        src/pid/PID.cpp src/pid/PID.h)
+        src/pid/PID.cpp src/pid/PID.h src/input/KeyPad.cpp src/input/KeyPad.h src/hw/Interrupts.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH
