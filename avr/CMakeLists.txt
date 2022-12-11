@@ -67,7 +67,7 @@ add_executable(${PROJECT_NAME}
         src/lcd/two/HD44780.h src/lcd/two/HD44780.cpp
 #        src/lcd/two/HD44780_Settings.h src/lcd/two/IO_Macros.h
         src/pid/PID.cpp src/pid/PID.h src/input/KeyPad.cpp src/input/KeyPad.h src/hw/Interrupts.h
-        src/sensors/i2cmaster.h src/sensors/i2cmaster.c src/sensors/bme280_i2c.h src/sensors/bme280_i2c.c src/tasks/PeriodicSensorReport.cpp src/tasks/PeriodicSensorReport.h src/sensors/BME280Report.cpp src/sensors/BME280Report.h src/app/TempHumControl.cpp src/app/TempHumControl.h src/hw/Timer1.h src/hw/ExternalInterrupts.h src/dimmer/Dimmer.cpp src/dimmer/Dimmer.h src/tasks/TemperatureControl.cpp src/tasks/TemperatureControl.h)
+        src/sensors/i2cmaster.h src/sensors/i2cmaster.c src/sensors/bme280_i2c.h src/sensors/bme280_i2c.c src/tasks/PeriodicSensorReport.cpp src/tasks/PeriodicSensorReport.h src/sensors/BME280Report.cpp src/sensors/BME280Report.h src/app/TempHumControl.cpp src/app/TempHumControl.h src/hw/Timer1.h src/hw/ExternalInterrupts.h src/dimmer/Dimmer.cpp src/dimmer/Dimmer.h src/tasks/TemperatureControl.cpp src/tasks/TemperatureControl.h src/input/Dial.h src/input/Dial.cpp)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

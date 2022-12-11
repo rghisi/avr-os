@@ -8,6 +8,18 @@
 
 #include "../system/EventHandler.h"
 
+/*
+ * #define LCD_D4	D, 4
+ * #define LCD_D5	D, 5
+ * #define LCD_D6	D, 6
+ * #define LCD_D7	D, 7
+ * #define LCD_RS	B, 4
+ * #define LCD_RW   B, 3
+ * #define LCD_EN	B, 0
+ *
+ *
+ */
+
 class Display: public EventHandler {
 public:
     Display();
