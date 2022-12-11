@@ -66,7 +66,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       /** @brief Converting constructor.
        *
-       * Allows conversion from a deleter for objects of another type, `_Up`,
+       * Allows conversion from a deleter for objects of another eventType, `_Up`,
        * only if `_Up*` is convertible to `_Tp*`.
        */
       template<typename _Up,
@@ -78,9 +78,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       operator()(_Tp* __ptr) const
       {
 	static_assert(!is_void<_Tp>::value,
-		      "can't delete pointer to incomplete type");
+		      "can't delete pointer to incomplete eventType");
 	static_assert(sizeof(_Tp)>0,
-		      "can't delete pointer to incomplete type");
+		      "can't delete pointer to incomplete eventType");
 	delete __ptr;
       }
     };
@@ -98,12 +98,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       /** @brief Converting constructor.
        *
-       * Allows conversion from a deleter for arrays of another type, such as
+       * Allows conversion from a deleter for arrays of another eventType, such as
        * a const-qualified version of `_Tp`.
        *
        * Conversions from types derived from `_Tp` are not allowed because
        * it is undefined to `delete[]` an array of derived types through a
-       * pointer to the base type.
+       * pointer to the base eventType.
        */
       template<typename _Up,
 	       typename = _Require<is_convertible<_Up(*)[], _Tp(*)[]>>>
@@ -115,7 +115,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	operator()(_Up* __ptr) const
 	{
 	  static_assert(sizeof(_Tp)>0,
-			"can't delete pointer to incomplete type");
+			"can't delete pointer to incomplete eventType");
 	  delete [] __ptr;
 	}
     };
@@ -147,8 +147,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       using pointer = typename _Ptr<_Tp, _Dp>::type;
 
       static_assert( !is_rvalue_reference<_Dp>::value,
-		     "unique_ptr's deleter type must be a function object type"
-		     " or an lvalue reference type" );
+		     "unique_ptr's deleter type must be a function object eventType"
+		     " or an lvalue reference eventType" );
 
       __uniq_ptr_impl() = default;
       __uniq_ptr_impl(pointer __p) : _M_t() { _M_ptr() = __p; }
@@ -325,11 +325,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       /// Move constructor.
       unique_ptr(unique_ptr&&) = default;
 
-      /** @brief Converting constructor from another type
+      /** @brief Converting constructor from another eventType
        *
        * Requires that the pointer owned by @p __u is convertible to the
-       * type of pointer owned by this object, @p __u does not own an array,
-       * and @p __u has a compatible deleter type.
+       * eventType of pointer owned by this object, @p __u does not own an array,
+       * and @p __u has a compatible deleter eventType.
        */
       template<typename _Up, typename _Ep, typename = _Require<
                __safe_conversion_up<_Up, _Ep>,
@@ -369,7 +369,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        */
       unique_ptr& operator=(unique_ptr&&) = default;
 
-      /** @brief Assignment from another type.
+      /** @brief Assignment from another eventType.
        *
        * @param __u  The object to transfer ownership from, which owns a
        *             convertible pointer to a non-array object.
@@ -532,7 +532,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       /** Takes ownership of a pointer.
        *
-       * @param __p  A pointer to an array of a type safely convertible
+       * @param __p  A pointer to an array of a eventType safely convertible
        * to an array of @c element_type
        *
        * The deleter will be value-initialized.
@@ -549,7 +549,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       /** Takes ownership of a pointer.
        *
-       * @param __p  A pointer to an array of a type safely convertible
+       * @param __p  A pointer to an array of a eventType safely convertible
        * to an array of @c element_type
        * @param __d  A reference to a deleter.
        *
@@ -563,7 +563,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       /** Takes ownership of a pointer.
        *
-       * @param __p  A pointer to an array of a type safely convertible
+       * @param __p  A pointer to an array of a eventType safely convertible
        * to an array of @c element_type
        * @param __d  A reference to a deleter.
        *
@@ -621,7 +621,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       unique_ptr&
       operator=(unique_ptr&&) = default;
 
-      /** @brief Assignment from another type.
+      /** @brief Assignment from another eventType.
        *
        * @param __u  The object to transfer ownership from, which owns a
        *             convertible pointer to an array object.

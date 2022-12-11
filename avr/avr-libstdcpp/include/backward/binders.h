@@ -70,7 +70,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *
    *  Binders turn functions/functors with two arguments into functors
    *  with a single argument, storing an argument to be applied later.
-   *  For example, a variable @c B of type @c binder1st is constructed
+   *  For example, a variable @c B of eventType @c binder1st is constructed
    *  from a functor @c f and an argument @c x. Later, B's @c
    *  operator() is called with a single argument @c y. The return
    *  value is the value of @c f(x,y). @c B can be @a called with
@@ -81,7 +81,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  function and an argument as parameters, and returns an instance of
    *  @c binder1st.
    *
-   *  The type @c binder2nd and its creator function @c bind2nd do the same
+   *  The eventType @c binder2nd and its creator function @c bind2nd do the same
    *  thing, but the stored argument is passed as the second parameter instead
    *  of the first, e.g., @c bind2nd(std::minus<float>(),1.3) will create a
    *  functor whose @c operator() accepts a floating-point number, subtracts
@@ -90,7 +90,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *
    *  Creator-wrapper functions like @c bind1st are intended to be used in
    *  calling algorithms. Their return values will be temporary objects.
-   *  (The goal is to not require you to type names like
+   *  (The goal is to not require you to eventType names like
    *  @c std::binder1st<std::plus<int>> for declaring a variable to hold the
    *  return value from @c bind1st(std::plus<int>(),5).
    *

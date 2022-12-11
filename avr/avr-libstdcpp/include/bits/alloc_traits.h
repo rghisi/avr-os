@@ -85,15 +85,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Alloc>
     struct allocator_traits : __allocator_traits_base
     {
-      /// The allocator type
+      /// The allocator eventType
       typedef _Alloc allocator_type;
-      /// The allocated type
+      /// The allocated eventType
       typedef typename _Alloc::value_type value_type;
 
       /**
-       * @brief   The allocator's pointer type.
+       * @brief   The allocator's pointer eventType.
        *
-       * @c Alloc::pointer if that type exists, otherwise @c value_type*
+       * @c Alloc::pointer if that eventType exists, otherwise @c value_type*
       */
       using pointer = __detected_or_t<value_type*, __pointer, _Alloc>;
 
@@ -130,49 +130,49 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
     public:
       /**
-       * @brief   The allocator's const pointer type.
+       * @brief   The allocator's const pointer eventType.
        *
-       * @c Alloc::const_pointer if that type exists, otherwise
+       * @c Alloc::const_pointer if that eventType exists, otherwise
        * <tt> pointer_traits<pointer>::rebind<const value_type> </tt>
       */
       using const_pointer = typename _Ptr<__c_pointer, const value_type>::type;
 
       /**
-       * @brief   The allocator's void pointer type.
+       * @brief   The allocator's void pointer eventType.
        *
-       * @c Alloc::void_pointer if that type exists, otherwise
+       * @c Alloc::void_pointer if that eventType exists, otherwise
        * <tt> pointer_traits<pointer>::rebind<void> </tt>
       */
       using void_pointer = typename _Ptr<__v_pointer, void>::type;
 
       /**
-       * @brief   The allocator's const void pointer type.
+       * @brief   The allocator's const void pointer eventType.
        *
-       * @c Alloc::const_void_pointer if that type exists, otherwise
+       * @c Alloc::const_void_pointer if that eventType exists, otherwise
        * <tt> pointer_traits<pointer>::rebind<const void> </tt>
       */
       using const_void_pointer = typename _Ptr<__cv_pointer, const void>::type;
 
       /**
-       * @brief   The allocator's difference type
+       * @brief   The allocator's difference eventType
        *
-       * @c Alloc::difference_type if that type exists, otherwise
+       * @c Alloc::difference_type if that eventType exists, otherwise
        * <tt> pointer_traits<pointer>::difference_type </tt>
       */
       using difference_type = typename _Diff<_Alloc, pointer>::type;
 
       /**
-       * @brief   The allocator's size type
+       * @brief   The allocator's size eventType
        *
-       * @c Alloc::size_type if that type exists, otherwise
-       * <tt> make_unsigned<difference_type>::type </tt>
+       * @c Alloc::size_type if that eventType exists, otherwise
+       * <tt> make_unsigned<difference_type>::eventType </tt>
       */
       using size_type = typename _Size<_Alloc, difference_type>::type;
 
       /**
        * @brief   How the allocator is propagated on copy assignment
        *
-       * @c Alloc::propagate_on_container_copy_assignment if that type exists,
+       * @c Alloc::propagate_on_container_copy_assignment if that eventType exists,
        * otherwise @c false_type
       */
       using propagate_on_container_copy_assignment
@@ -181,7 +181,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       /**
        * @brief   How the allocator is propagated on move assignment
        *
-       * @c Alloc::propagate_on_container_move_assignment if that type exists,
+       * @c Alloc::propagate_on_container_move_assignment if that eventType exists,
        * otherwise @c false_type
       */
       using propagate_on_container_move_assignment
@@ -190,17 +190,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       /**
        * @brief   How the allocator is propagated on swap
        *
-       * @c Alloc::propagate_on_container_swap if that type exists,
+       * @c Alloc::propagate_on_container_swap if that eventType exists,
        * otherwise @c false_type
       */
       using propagate_on_container_swap
 	= __detected_or_t<false_type, __pocs, _Alloc>;
 
       /**
-       * @brief   Whether all instances of the allocator type compare equal.
+       * @brief   Whether all instances of the allocator eventType compare equal.
        *
-       * @c Alloc::is_always_equal if that type exists,
-       * otherwise @c is_empty<Alloc>::type
+       * @c Alloc::is_always_equal if that eventType exists,
+       * otherwise @c is_empty<Alloc>::eventType
       */
       using is_always_equal
 	= __detected_or_t<typename is_empty<_Alloc>::type, __equal, _Alloc>;
@@ -319,7 +319,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  @param  __n  The number of objects to allocate space for.
        *  @param  __hint Aid to locality.
        *  @return Memory of suitable size and alignment for @a n objects
-       *          of type @c value_type
+       *          of eventType @c value_type
        *
        *  Returns <tt> a.allocate(n, hint) </tt> if that expression is
        *  well-formed, otherwise returns @c a.allocate(n)
@@ -341,14 +341,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       { __a.deallocate(__p, __n); }
 
       /**
-       *  @brief  Construct an object of type @a _Tp
+       *  @brief  Construct an object of eventType @a _Tp
        *  @param  __a  An allocator.
        *  @param  __p  Pointer to memory of suitable size and alignment for Tp
        *  @param  __args Constructor arguments.
        *
        *  Calls <tt> __a.construct(__p, std::forward<Args>(__args)...) </tt>
        *  if that expression is well-formed, otherwise uses placement-new
-       *  to construct an object of type @a _Tp at location @a __p from the
+       *  to construct an object of eventType @a _Tp at location @a __p from the
        *  arguments @a __args...
       */
       template<typename _Tp, typename... _Args>
@@ -360,7 +360,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{ _S_construct(__a, __p, std::forward<_Args>(__args)...); }
 
       /**
-       *  @brief  Destroy an object of type @a _Tp
+       *  @brief  Destroy an object of eventType @a _Tp
        *  @param  __a  An allocator.
        *  @param  __p  Pointer to the object to destroy
        *
@@ -406,28 +406,28 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     struct allocator_traits<allocator<_Tp>>
     {
-      /// The allocator type
+      /// The allocator eventType
       using allocator_type = allocator<_Tp>;
 
-      /// The allocated type
+      /// The allocated eventType
       using value_type = _Tp;
 
-      /// The allocator's pointer type.
+      /// The allocator's pointer eventType.
       using pointer = _Tp*;
 
-      /// The allocator's const pointer type.
+      /// The allocator's const pointer eventType.
       using const_pointer = const _Tp*;
 
-      /// The allocator's void pointer type.
+      /// The allocator's void pointer eventType.
       using void_pointer = void*;
 
-      /// The allocator's const void pointer type.
+      /// The allocator's const void pointer eventType.
       using const_void_pointer = const void*;
 
-      /// The allocator's difference type
+      /// The allocator's difference eventType
       using difference_type = std::ptrdiff_t;
 
-      /// The allocator's size type
+      /// The allocator's size eventType
       using size_type = std::size_t;
 
       /// How the allocator is propagated on copy assignment
@@ -439,7 +439,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       /// How the allocator is propagated on swap
       using propagate_on_container_swap = false_type;
 
-      /// Whether all instances of the allocator type compare equal.
+      /// Whether all instances of the allocator eventType compare equal.
       using is_always_equal = true_type;
 
       template<typename _Up>
@@ -465,7 +465,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  @param  __n  The number of objects to allocate space for.
        *  @param  __hint Aid to locality.
        *  @return Memory of suitable size and alignment for @a n objects
-       *          of type @c value_type
+       *          of eventType @c value_type
        *
        *  Returns <tt> a.allocate(n, hint) </tt>
       */
@@ -492,10 +492,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       { __a.deallocate(__p, __n); }
 
       /**
-       *  @brief  Construct an object of type `_Up`
+       *  @brief  Construct an object of eventType `_Up`
        *  @param  __a  An allocator.
        *  @param  __p  Pointer to memory of suitable size and alignment for
-       *	       an object of type `_Up`.
+       *	       an object of eventType `_Up`.
        *  @param  __args Constructor arguments.
        *
        *  Calls `__a.construct(__p, std::forward<_Args>(__args)...)`
@@ -516,7 +516,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	}
 
       /**
-       *  @brief  Destroy an object of type @a _Up
+       *  @brief  Destroy an object of eventType @a _Up
        *  @param  __a  An allocator.
        *  @param  __p  Pointer to the object to destroy
        *

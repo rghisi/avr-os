@@ -16,10 +16,7 @@ uint32_t PeriodicCpuUsageReport::delay() {
 }
 
 void PeriodicCpuUsageReport::run() {
-    auto *stats = new CpuStats();
-    stats->idleTime = cpuStats->idleTime;
-    stats->usedTime = cpuStats->usedTime;
-    auto event = std::make_unique<Event>(Event(EventType::CPU_STATS_DISPATCHED, stats));
+    auto event = std::make_unique<Event>(Event(EventType::CPU_STATS_READ, cpuStats));
     eventDispatcher->dispatch(std::move(event));
 }
 

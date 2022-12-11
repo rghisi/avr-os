@@ -74,23 +74,23 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
   /**
    *  @brief A standard container composed of unique keys (containing
-   *  at most one of each key value) that associates values of another type
+   *  at most one of each key value) that associates values of another eventType
    *  with the keys.
    *
    *  @ingroup unordered_associative_containers
    *
    *  @tparam  _Key    Type of key objects.
    *  @tparam  _Tp     Type of mapped objects.
-   *  @tparam  _Hash   Hashing function object type, defaults to hash<_Value>.
-   *  @tparam  _Pred   Predicate function object type, defaults
+   *  @tparam  _Hash   Hashing function object eventType, defaults to hash<_Value>.
+   *  @tparam  _Pred   Predicate function object eventType, defaults
    *                   to equal_to<_Value>.
-   *  @tparam  _Alloc  Allocator type, defaults to 
+   *  @tparam  _Alloc  Allocator eventType, defaults to
    *                   std::allocator<std::pair<const _Key, _Tp>>.
    *
    *  Meets the requirements of a <a href="tables.html#65">container</a>, and
    *  <a href="tables.html#xx">unordered associative container</a>
    *
-   * The resulting value type of the container is std::pair<const _Key, _Tp>.
+   * The resulting value eventType of the container is std::pair<const _Key, _Tp>.
    *
    *  Base is _Hashtable, dispatched at compile time via template
    *  alias __umap_hashtable.
@@ -317,7 +317,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       // iterators.
 
       /**
-       *  Returns a read/write iterator that points to the first element in the
+       *  Returns a receiveI2C/write iterator that points to the first element in the
        *  %unordered_map.
        */
       iterator
@@ -326,7 +326,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  Returns a read-only (constant) iterator that points to the first
+       *  Returns a receiveI2C-only (constant) iterator that points to the first
        *  element in the %unordered_map.
        */
       const_iterator
@@ -339,7 +339,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       //@}
 
       /**
-       *  Returns a read/write iterator that points one past the last element in
+       *  Returns a receiveI2C/write iterator that points one past the last element in
        *  the %unordered_map.
        */
       iterator
@@ -348,7 +348,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  Returns a read-only (constant) iterator that points one past the last
+       *  Returns a receiveI2C-only (constant) iterator that points one past the last
        *  element in the %unordered_map.
        */
       const_iterator
@@ -1036,10 +1036,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return _M_h.bucket(__key); }
       
       /**
-       *  @brief  Returns a read/write iterator pointing to the first bucket
+       *  @brief  Returns a receiveI2C/write iterator pointing to the first bucket
        *         element.
        *  @param  __n The bucket index.
-       *  @return  A read/write local iterator.
+       *  @return  A receiveI2C/write local iterator.
        */
       local_iterator
       begin(size_type __n)
@@ -1047,10 +1047,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  @brief  Returns a read-only (constant) iterator pointing to the first
+       *  @brief  Returns a receiveI2C-only (constant) iterator pointing to the first
        *         bucket element.
        *  @param  __n The bucket index.
-       *  @return  A read-only local iterator.
+       *  @return  A receiveI2C-only local iterator.
        */
       const_local_iterator
       begin(size_type __n) const
@@ -1062,10 +1062,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       //@}
 
       /**
-       *  @brief  Returns a read/write iterator pointing to one past the last
+       *  @brief  Returns a receiveI2C/write iterator pointing to one past the last
        *         bucket elements.
        *  @param  __n The bucket index.
-       *  @return  A read/write local iterator.
+       *  @return  A receiveI2C/write local iterator.
        */
       local_iterator
       end(size_type __n)
@@ -1073,10 +1073,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  @brief  Returns a read-only (constant) iterator pointing to one past
+       *  @brief  Returns a receiveI2C-only (constant) iterator pointing to one past
        *         the last bucket elements.
        *  @param  __n The bucket index.
-       *  @return  A read-only local iterator.
+       *  @return  A receiveI2C-only local iterator.
        */
       const_local_iterator
       end(size_type __n) const
@@ -1222,22 +1222,22 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
   /**
    *  @brief A standard container composed of equivalent keys
    *  (possibly containing multiple of each key value) that associates
-   *  values of another type with the keys.
+   *  values of another eventType with the keys.
    *
    *  @ingroup unordered_associative_containers
    *
    *  @tparam  _Key    Type of key objects.
    *  @tparam  _Tp     Type of mapped objects.
-   *  @tparam  _Hash   Hashing function object type, defaults to hash<_Value>.
-   *  @tparam  _Pred   Predicate function object type, defaults
+   *  @tparam  _Hash   Hashing function object eventType, defaults to hash<_Value>.
+   *  @tparam  _Pred   Predicate function object eventType, defaults
    *                   to equal_to<_Value>.
-   *  @tparam  _Alloc  Allocator type, defaults to
+   *  @tparam  _Alloc  Allocator eventType, defaults to
    *                   std::allocator<std::pair<const _Key, _Tp>>.
    *
    *  Meets the requirements of a <a href="tables.html#65">container</a>, and
    *  <a href="tables.html#xx">unordered associative container</a>
    *
-   * The resulting value type of the container is std::pair<const _Key, _Tp>.
+   * The resulting value eventType of the container is std::pair<const _Key, _Tp>.
    *
    *  Base is _Hashtable, dispatched at compile time via template
    *  alias __ummap_hashtable.
@@ -1463,7 +1463,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       // iterators.
 
       /**
-       *  Returns a read/write iterator that points to the first element in the
+       *  Returns a receiveI2C/write iterator that points to the first element in the
        *  %unordered_multimap.
        */
       iterator
@@ -1472,7 +1472,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  Returns a read-only (constant) iterator that points to the first
+       *  Returns a receiveI2C-only (constant) iterator that points to the first
        *  element in the %unordered_multimap.
        */
       const_iterator
@@ -1485,7 +1485,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       //@}
 
       /**
-       *  Returns a read/write iterator that points one past the last element in
+       *  Returns a receiveI2C/write iterator that points one past the last element in
        *  the %unordered_multimap.
        */
       iterator
@@ -1494,7 +1494,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  Returns a read-only (constant) iterator that points one past the last
+       *  Returns a receiveI2C-only (constant) iterator that points one past the last
        *  element in the %unordered_multimap.
        */
       const_iterator
@@ -1886,10 +1886,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return _M_h.bucket(__key); }
       
       /**
-       *  @brief  Returns a read/write iterator pointing to the first bucket
+       *  @brief  Returns a receiveI2C/write iterator pointing to the first bucket
        *         element.
        *  @param  __n The bucket index.
-       *  @return  A read/write local iterator.
+       *  @return  A receiveI2C/write local iterator.
        */
       local_iterator
       begin(size_type __n)
@@ -1897,10 +1897,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  @brief  Returns a read-only (constant) iterator pointing to the first
+       *  @brief  Returns a receiveI2C-only (constant) iterator pointing to the first
        *         bucket element.
        *  @param  __n The bucket index.
-       *  @return  A read-only local iterator.
+       *  @return  A receiveI2C-only local iterator.
        */
       const_local_iterator
       begin(size_type __n) const
@@ -1912,10 +1912,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       //@}
 
       /**
-       *  @brief  Returns a read/write iterator pointing to one past the last
+       *  @brief  Returns a receiveI2C/write iterator pointing to one past the last
        *         bucket elements.
        *  @param  __n The bucket index.
-       *  @return  A read/write local iterator.
+       *  @return  A receiveI2C/write local iterator.
        */
       local_iterator
       end(size_type __n)
@@ -1923,10 +1923,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       //@{
       /**
-       *  @brief  Returns a read-only (constant) iterator pointing to one past
+       *  @brief  Returns a receiveI2C-only (constant) iterator pointing to one past
        *         the last bucket elements.
        *  @param  __n The bucket index.
-       *  @return  A read-only local iterator.
+       *  @return  A receiveI2C-only local iterator.
        */
       const_local_iterator
       end(size_type __n) const

@@ -62,7 +62,7 @@
  *
  * Components deemed generally useful. Includes pair, tuple,
  * forward/move helpers, ratio, function object, metaprogramming and
- * type traits, time, date, and memory functions.
+ * eventType traits, time, date, and memory functions.
  */
 
 #include <bits/c++config.h>
@@ -83,7 +83,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
-  /// Finds the size of a given tuple type.
+  /// Finds the size of a given tuple eventType.
   template<typename _Tp>
     struct tuple_size;
 
@@ -109,7 +109,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     struct tuple_size<const volatile __enable_if_has_tuple_size<_Tp>>
     : public tuple_size<_Tp> { };
 
-  /// Gives the type of the ith element of a given tuple type.
+  /// Gives the type of the ith element of a given tuple eventType.
   template<std::size_t __i, typename _Tp>
     struct tuple_element;
 

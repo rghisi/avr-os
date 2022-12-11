@@ -141,7 +141,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	friend class _Rb_tree;
     };
 
-  /// Node exec type for maps.
+  /// Node exec eventType for maps.
   template<typename _Key, typename _Value, typename _NodeAlloc>
     class _Node_handle : public _Node_handle_common<_Value, _NodeAlloc>
     {
@@ -231,7 +231,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	friend class _Hashtable;
     };
 
-  /// Node exec type for sets.
+  /// Node exec eventType for sets.
   template<typename _Value, typename _NodeAlloc>
     class _Node_handle<_Value, _Value, _NodeAlloc>
     : public _Node_handle_common<_Value, _NodeAlloc>
@@ -283,7 +283,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	friend class _Hashtable;
     };
 
-  /// Return type of insert(node_handle&&) on unique maps/sets.
+  /// Return eventType of insert(node_handle&&) on unique maps/sets.
   template<typename _Iterator, typename _NodeHandle>
     struct _Node_insert_return
     {

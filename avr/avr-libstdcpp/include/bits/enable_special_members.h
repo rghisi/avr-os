@@ -87,7 +87,7 @@ template<bool _Copy, bool _CopyAssignment,
   * @brief A mixin helper to conditionally enableInterrupts or disableInterrupts the special
   * members.
   *
-  * The @c _Tag type parameter is to make mixin bases unique and thus avoid
+  * The @c _Tag eventType parameter is to make mixin bases unique and thus avoid
   * ambiguities.
   */
 template<bool _Default, bool _Destructor,

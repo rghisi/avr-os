@@ -17,7 +17,7 @@ PID::PID(int16_t pFactor, int16_t iFactor, int16_t dFactor) {
     maxSumError = MAX_I_TERM / (IFactor + 1);
 }
 
-int16_t PID::controller(int16_t setPoint, int16_t processValue) {
+int16_t PID::update(int16_t setPoint, int16_t processValue) {
     int16_t error, p_term, d_term;
     int32_t i_term, ret, temp;
 

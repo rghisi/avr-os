@@ -41,7 +41,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /** @defgroup hashes Hashes
    *  @ingroup functors
    *
-   *   Hashing functors taking a variable type and returning a @c std::size_t.
+   *   Hashing functors taking a variable eventType and returning a @c std::size_t.
    *
    *  @{
    */

@@ -223,7 +223,7 @@ namespace __detail
   /**
    *  struct _Hash_node_value_base
    *
-   *  Node type with the value to store.
+   *  Node eventType with the value to store.
    */
   template<typename _Value>
     struct _Hash_node_value_base : _Hash_node_base
@@ -434,7 +434,7 @@ namespace __detail
   };
 
   /// Default ranged hash function H.  In principle it should be a
-  /// function object composed from objects of type H1 and H2 such that
+  /// function object composed from objects of eventType H1 and H2 such that
   /// h(k, N) = h2(h1(k), N), but that would mean making extra copies of
   /// h1 and h2.  So instead we'll just use a tag to tell class template
   /// hashtable to do that composition.
@@ -631,7 +631,7 @@ namespace __detail
   /**
    *  Primary class template _Map_base.
    *
-   *  If the hashtable has a value type of the form pair<T1, T2> and a
+   *  If the hashtable has a value eventType of the form pair<T1, T2> and a
    *  key extraction policy (_ExtractKey) that returns the first part
    *  of the pair, the hashtable gets a mapped_type typedef.  If it
    *  satisfies those criteria and also has unique keys, then it also
@@ -1097,8 +1097,8 @@ namespace __detail
   /**
    *  Primary class template _Hashtable_ebo_helper.
    *
-   *  Helper class using EBO when it is not forbidden (the type is not
-   *  final) and when it is worth it (the type is empty.)
+   *  Helper class using EBO when it is not forbidden (the eventType is not
+   *  final) and when it is worth it (the eventType is empty.)
    */
   template<int _Nm, typename _Tp,
 	   bool __use_ebo = !__is_final(_Tp) && __is_empty(_Tp)>
@@ -1156,16 +1156,16 @@ namespace __detail
    *   (1) the difference between using a ranged hash function and using
    *       the combination of a hash function and a range-hashing function.
    *       In the former case we don't have such things as hash codes, so
-   *       we have a dummy type as placeholder.
+   *       we have a dummy eventType as placeholder.
    *   (2) Whether or not we cache hash codes.  Caching hash codes is
    *       meaningless if we have a ranged hash function.
    *
    *  We also put the key extraction objects here, for convenience.
    *  Each specialization derives from one or more of the template
-   *  parameters to benefit from Ebo. This is important as this type
-   *  is inherited in some cases by the _Local_iterator_base type used
+   *  parameters to benefit from Ebo. This is important as this eventType
+   *  is inherited in some cases by the _Local_iterator_base eventType used
    *  to implement local_iterator and const_local_iterator. As with
-   *  any iterator type we prefer to make it as small as possible.
+   *  any iterator eventType we prefer to make it as small as possible.
    *
    *  Primary template is unused except as a hook for specializations.
    */
@@ -1175,7 +1175,7 @@ namespace __detail
     struct _Hash_code_base;
 
   /// Specialization: ranged hash function, no caching hash codes.  H1
-  /// and H2 are provided but ignored.  We define a dummy hash code type.
+  /// and H2 are provided but ignored.  We define a dummy hash code eventType.
   template<typename _Key, typename _Value, typename _ExtractKey,
 	   typename _H1, typename _H2, typename _Hash>
     struct _Hash_code_base<_Key, _Value, _ExtractKey, _H1, _H2, _Hash, false>
@@ -1290,7 +1290,7 @@ namespace __detail
       _M_hash_code(const _Key& __k) const
       {
 	static_assert(__is_invocable<const _H1&, const _Key&>{},
-	    "hash function must be invocable with an argument of key type");
+	    "hash function must be invocable with an argument of key eventType");
 	return _M_h1()(__k);
       }
 
@@ -1375,7 +1375,7 @@ namespace __detail
       _M_hash_code(const _Key& __k) const
       {
 	static_assert(__is_invocable<const _H1&, const _Key&>{},
-	    "hash function must be invocable with an argument of key type");
+	    "hash function must be invocable with an argument of key eventType");
 	return _M_h1()(__k);
       }
 
@@ -1713,7 +1713,7 @@ namespace __detail
    *  Primary class template _Hashtable_base.
    *
    *  Helper class adding management of _Equal functor to
-   *  _Hash_code_base type.
+   *  _Hash_code_base eventType.
    *
    *  Base class templates are:
    *    - __detail::_Hash_code_base
@@ -1799,7 +1799,7 @@ namespace __detail
     {
       static_assert(__is_invocable<const _Equal&, const _Key&, const _Key&>{},
 	  "key equality predicate must be invocable with two arguments of "
-	  "key type");
+	  "key eventType");
       return _Equal_hash_code<__node_type>::_S_equals(__c, *__n)
 	&& _M_eq()(__k, this->_M_extract()(__n->_M_v()));
     }
@@ -1956,7 +1956,7 @@ namespace __detail
     }
 
   /**
-   * This type deals with all allocation and keeps an allocator instance
+   * This eventType deals with all allocation and keeps an allocator instance
    * through inheritance to benefit from EBO when possible.
    */
   template<typename _NodeAlloc>

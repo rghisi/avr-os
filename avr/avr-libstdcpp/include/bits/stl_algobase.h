@@ -216,8 +216,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    *  @brief This does what you think it does.
    *  @ingroup sorting_algorithms
-   *  @param  __a  A thing of arbitrary type.
-   *  @param  __b  Another thing of arbitrary type.
+   *  @param  __a  A thing of arbitrary eventType.
+   *  @param  __b  Another thing of arbitrary eventType.
    *  @return   The lesser of the parameters.
    *
    *  This is the simple classic generic implementation.  It will work on
@@ -240,8 +240,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    *  @brief This does what you think it does.
    *  @ingroup sorting_algorithms
-   *  @param  __a  A thing of arbitrary type.
-   *  @param  __b  Another thing of arbitrary type.
+   *  @param  __a  A thing of arbitrary eventType.
+   *  @param  __b  Another thing of arbitrary eventType.
    *  @return   The greater of the parameters.
    *
    *  This is the simple classic generic implementation.  It will work on
@@ -264,8 +264,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    *  @brief This does what you think it does.
    *  @ingroup sorting_algorithms
-   *  @param  __a  A thing of arbitrary type.
-   *  @param  __b  Another thing of arbitrary type.
+   *  @param  __a  A thing of arbitrary eventType.
+   *  @param  __b  Another thing of arbitrary eventType.
    *  @param  __comp  A @link comparison_functors comparison functor@endlink.
    *  @return   The lesser of the parameters.
    *
@@ -286,8 +286,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    *  @brief This does what you think it does.
    *  @ingroup sorting_algorithms
-   *  @param  __a  A thing of arbitrary type.
-   *  @param  __b  Another thing of arbitrary type.
+   *  @param  __a  A thing of arbitrary eventType.
+   *  @param  __b  Another thing of arbitrary eventType.
    *  @param  __comp  A @link comparison_functors comparison functor@endlink.
    *  @return   The greater of the parameters.
    *
@@ -419,7 +419,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 					   is_move_assignable<_Tp>,
 					   is_copy_assignable<_Tp>>;
 	  // trivial types can have deleted assignment
-	  static_assert( __assignable::type::value, "type is not assignable" );
+	  static_assert( __assignable::type::value, "eventType is not assignable" );
 #endif
 	  const ptrdiff_t _Num = __last - __first;
 	  if (_Num)
@@ -634,7 +634,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
 					   is_move_assignable<_Tp>,
 					   is_copy_assignable<_Tp>>;
 	  // trivial types can have deleted assignment
-	  static_assert( __assignable::type::value, "type is not assignable" );
+	  static_assert( __assignable::type::value, "eventType is not assignable" );
 #endif
 	  const ptrdiff_t _Num = __last - __first;
 	  if (_Num)
@@ -845,7 +845,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
    *  @ingroup mutating_algorithms
    *  @param  __first  A forward iterator.
    *  @param  __last   A forward iterator.
-   *  @param  __value  A reference-to-const of arbitrary type.
+   *  @param  __value  A reference-to-const of arbitrary eventType.
    *  @return   Nothing.
    *
    *  This function fills a range with copies of the same value.  For char
@@ -985,7 +985,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
    *  @ingroup mutating_algorithms
    *  @param  __first  An output iterator.
    *  @param  __n      The count of copies to perform.
-   *  @param  __value  A reference-to-const of arbitrary type.
+   *  @param  __value  A reference-to-const of arbitrary eventType.
    *  @return   The iterator at first+n.
    *
    *  This function fills a range with copies of the same value.  For char

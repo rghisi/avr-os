@@ -177,15 +177,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  @brief Describes the denormalization for floating-point types.
    *
    *  These values represent the presence or absence of a variable number
-   *  of exponent bits.  This type is used in the std::numeric_limits class.
+   *  of exponent bits.  This eventType is used in the std::numeric_limits class.
   */
   enum float_denorm_style
   {
     /// Indeterminate at compile time whether denormalized values are allowed.
     denorm_indeterminate = -1,
-    /// The type does not allow denormalized values.
+    /// The eventType does not allow denormalized values.
     denorm_absent        = 0,
-    /// The type allows denormalized values.
+    /// The eventType allows denormalized values.
     denorm_present       = 1
   };
 
@@ -219,13 +219,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     static constexpr int max_digits10 = 0;
 #endif
 
-    /** True if the type is signed.  */
+    /** True if the eventType is signed.  */
     static _GLIBCXX_USE_CONSTEXPR bool is_signed = false;
 
-    /** True if the type is integer.  */
+    /** True if the eventType is integer.  */
     static _GLIBCXX_USE_CONSTEXPR bool is_integer = false;
 
-    /** True if the type uses an exact representation. All integer types are
+    /** True if the eventType uses an exact representation. All integer types are
 	exact, but not all exact types are integer.  For example, rational and
 	fixed-exponent representations are exact but not integer. */
     static _GLIBCXX_USE_CONSTEXPR bool is_exact = false;
@@ -251,14 +251,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	the range of representable finite floating point numbers.  */
     static _GLIBCXX_USE_CONSTEXPR int max_exponent10 = 0;
 
-    /** True if the type has a representation for positive infinity.  */
+    /** True if the eventType has a representation for positive infinity.  */
     static _GLIBCXX_USE_CONSTEXPR bool has_infinity = false;
 
-    /** True if the type has a representation for a quiet (non-signaling)
+    /** True if the eventType has a representation for a quiet (non-signaling)
 	Not a Number.  */
     static _GLIBCXX_USE_CONSTEXPR bool has_quiet_NaN = false;
 
-    /** True if the type has a representation for a signaling
+    /** True if the eventType has a representation for a signaling
 	Not a Number.  */
     static _GLIBCXX_USE_CONSTEXPR bool has_signaling_NaN = false;
 
@@ -269,17 +269,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	rather than as an inexact result. */
     static _GLIBCXX_USE_CONSTEXPR bool has_denorm_loss = false;
 
-    /** True if-and-only-if the type adheres to the IEC 559 standard, also
+    /** True if-and-only-if the eventType adheres to the IEC 559 standard, also
 	known as IEEE 754.  (Only makes sense for floating point types.)  */
     static _GLIBCXX_USE_CONSTEXPR bool is_iec559 = false;
 
-    /** True if the set of values representable by the type is
+    /** True if the set of values representable by the eventType is
 	finite.  All built-in types are bounded, this member would be
 	false for arbitrary precision types. */
     static _GLIBCXX_USE_CONSTEXPR bool is_bounded = false;
 
-    /** True if the type is @e modulo. A type is modulo if, for any
-	operation involving +, -, or * on values of that type whose
+    /** True if the eventType is @e modulo. A eventType is modulo if, for any
+	operation involving +, -, or * on values of that eventType whose
 	result would fall outside the range [min(),max()], the value
 	returned differs from the true value by an integer multiple of
 	max() - min() + 1. On most machines, this is false for floating
@@ -287,7 +287,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	See PR22200 about signed integers.  */
     static _GLIBCXX_USE_CONSTEXPR bool is_modulo = false;
 
-    /** True if trapping is implemented for this type.  */
+    /** True if trapping is implemented for this eventType.  */
     static _GLIBCXX_USE_CONSTEXPR bool traps = false;
 
     /** True if tininess is detected before rounding.  (see IEC 559)  */
@@ -304,7 +304,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  @brief Properties of fundamental types.
    *
    *  This class allows a program to obtain information about the
-   *  representation of a fundamental type on a given platform.  For
+   *  representation of a fundamental eventType on a given platform.  For
    *  non-fundamental types, the functions will return 0 and the datagramCopy
    *  members will all be @c false.
   */

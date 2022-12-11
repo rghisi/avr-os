@@ -67,7 +67,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /**
    *  @brief  Forward an lvalue.
-   *  @return The parameter cast to the specified type.
+   *  @return The parameter cast to the specified eventType.
    *
    *  This function is used to implement "perfect forwarding".
    */
@@ -78,7 +78,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /**
    *  @brief  Forward an rvalue.
-   *  @return The parameter cast to the specified type.
+   *  @return The parameter cast to the specified eventType.
    *
    *  This function is used to implement "perfect forwarding".
    */
@@ -87,13 +87,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     forward(typename std::remove_reference<_Tp>::type&& __t) noexcept
     {
       static_assert(!std::is_lvalue_reference<_Tp>::value, "template argument"
-		    " substituting _Tp is an lvalue reference type");
+		    " substituting _Tp is an lvalue reference eventType");
       return static_cast<_Tp&&>(__t);
     }
 
   /**
    *  @brief  Convert a value to an rvalue.
-   *  @param  __t  A thing of arbitrary type.
+   *  @param  __t  A thing of arbitrary eventType.
    *  @return The parameter cast to an rvalue-reference to allow moving it.
   */
   template<typename _Tp>
@@ -109,11 +109,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /**
    *  @brief  Conditionally convert a value to an rvalue.
-   *  @param  __x  A thing of arbitrary type.
+   *  @param  __x  A thing of arbitrary eventType.
    *  @return The parameter, possibly cast to an rvalue-reference.
    *
-   *  Same as std::move unless the type's move constructor could throw and the
-   *  type is copyable, in which case an lvalue-reference is returned instead.
+   *  Same as std::move unless the eventType's move constructor could throw and the
+   *  eventType is copyable, in which case an lvalue-reference is returned instead.
    */
   template<typename _Tp>
     constexpr typename
@@ -172,8 +172,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /**
    *  @brief Swaps two values.
-   *  @param  __a  A thing of arbitrary type.
-   *  @param  __b  Another thing of arbitrary type.
+   *  @param  __a  A thing of arbitrary eventType.
+   *  @param  __b  Another thing of arbitrary eventType.
    *  @return   Nothing.
   */
   template<typename _Tp>

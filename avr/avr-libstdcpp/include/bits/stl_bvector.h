@@ -598,7 +598,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
    *
    *  @ingroup sequences
    *
-   *  @tparam _Alloc  Allocator type.
+   *  @tparam _Alloc  Allocator eventType.
    *
    *  Note that vector<bool> does not actually meet the requirements for being
    *  a container.  This is because the reference and pointer types are not

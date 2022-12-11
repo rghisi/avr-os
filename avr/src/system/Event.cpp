@@ -5,7 +5,7 @@
 #include "Event.h"
 
 Event::Event(EventType type, void *data) {
-    this->eventType = type;
+    this->eType = type;
     this->dataPointer = data;
 }
 
@@ -14,7 +14,7 @@ Event::~Event() {
 }
 
 EventType Event::type() {
-    return eventType;
+    return eType;
 }
 
 void *Event::data() {

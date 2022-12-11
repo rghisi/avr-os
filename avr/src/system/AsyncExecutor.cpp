@@ -10,7 +10,7 @@ AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, EventDispatcher *even
     this->eventDispatcher = eventDispatcher;
 }
 
-EventType AsyncExecutor::type() {
+EventType AsyncExecutor::eventType() {
     return ASYNC_SCHEDULED;
 }
 

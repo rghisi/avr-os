@@ -96,18 +96,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{ using type = typename _Tp::template rebind<_Up>; };
 
     public:
-      /// The pointer type.
+      /// The pointer eventType.
       using pointer = _Ptr;
 
-      /// The type pointed to.
+      /// The eventType pointed to.
       using element_type
 	= __detected_or_t<__get_first_arg_t<_Ptr>, __element_type, _Ptr>;
 
-      /// The type used to represent the difference between two pointers.
+      /// The eventType used to represent the difference between two pointers.
       using difference_type
 	= __detected_or_t<ptrdiff_t, __difference_type, _Ptr>;
 
-      /// A pointer to a different type.
+      /// A pointer to a different eventType.
       template<typename _Up>
         using rebind = typename __rebind<_Ptr, _Up>::type;
 
@@ -116,7 +116,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       { return _Ptr::pointer_to(__e); }
 
       static_assert(!is_same<element_type, __undefined>::value,
-	  "pointer type defines element_type or is like SomePointer<T, Args>");
+	  "pointer eventType defines element_type or is like SomePointer<T, Args>");
     };
 
   /**
@@ -126,9 +126,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     struct pointer_traits<_Tp*>
     {
-      /// The pointer type
+      /// The pointer eventType
       typedef _Tp* pointer;
-      /// The type pointed to
+      /// The eventType pointed to
       typedef _Tp  element_type;
       /// Type used to represent the difference between two pointers
       typedef ptrdiff_t difference_type;
@@ -138,7 +138,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       /**
        *  @brief  Obtain a pointer to an object
-       *  @param  __r  A reference to an object of type @c element_type
+       *  @param  __r  A reference to an object of eventType @c element_type
        *  @return @c addressof(__r)
       */
       static _GLIBCXX20_CONSTEXPR pointer

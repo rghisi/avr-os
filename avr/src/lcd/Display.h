@@ -11,7 +11,7 @@
 class Display: public EventHandler {
 public:
     Display();
-    EventType type() override;
+    EventType eventType() override;
     bool handle(std::unique_ptr<Event> event) override;
 
 private:
@@ -19,6 +19,7 @@ private:
     void text(std::unique_ptr<Event> event);
     void memory(std::unique_ptr<Event> event);
     void keypad(std::unique_ptr<Event> event);
+    void sensor(std::unique_ptr<Event> event);
 };
 
 

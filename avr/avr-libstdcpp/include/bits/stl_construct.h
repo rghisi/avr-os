@@ -128,7 +128,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _Destroy(_ForwardIterator __first, _ForwardIterator __last);
 
   /**
-   * Destroy the object pointed to by a pointer type.
+   * Destroy the object pointed to by a pointer eventType.
    */
   template<typename _Tp>
     _GLIBCXX14_CONSTEXPR inline void
@@ -175,7 +175,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #if __cplusplus >= 201103L
       // A deleted destructor is trivial, this ensures we reject such types:
       static_assert(is_destructible<_Value_type>::value,
-		    "value type is destructible");
+		    "value eventType is destructible");
 #endif
 #if __cplusplus > 201703L && defined __cpp_lib_is_constant_evaluated
       if (std::is_constant_evaluated())
@@ -224,7 +224,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #if __cplusplus >= 201103L
       // A deleted destructor is trivial, this ensures we reject such types:
       static_assert(is_destructible<_Value_type>::value,
-		    "value type is destructible");
+		    "value eventType is destructible");
 #endif
 #if __cplusplus > 201703L && defined __cpp_lib_is_constant_evaluated
       if (std::is_constant_evaluated())

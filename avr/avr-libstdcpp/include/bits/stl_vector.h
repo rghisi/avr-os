@@ -371,7 +371,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
    *  @ingroup sequences
    *
    *  @tparam _Tp  Type of element.
-   *  @tparam _Alloc  Allocator type, defaults to allocator<_Tp>.
+   *  @tparam _Alloc  Allocator eventType, defaults to allocator<_Tp>.
    *
    *  Meets the requirements of a <a href="tables.html#65">container</a>, a
    *  <a href="tables.html#66">reversible container</a>, and a
@@ -619,7 +619,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  Create a %vector consisting of copies of the elements in the
        *  initializer_list @a __l.
        *
-       *  This will call the element type's copy constructor N times
+       *  This will call the element eventType's copy constructor N times
        *  (where N is @a __l.size()) and do no memory reallocation.
        */
       vector(initializer_list<value_type> __l,
@@ -803,7 +803,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       // iterators
       /**
-       *  Returns a read/write iterator that points to the first
+       *  Returns a receiveI2C/write iterator that points to the first
        *  element in the %vector.  Iteration is done in ordinary
        *  element order.
        */
@@ -812,7 +812,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return iterator(this->_M_impl._M_start); }
 
       /**
-       *  Returns a read-only (constant) iterator that points to the
+       *  Returns a receiveI2C-only (constant) iterator that points to the
        *  first element in the %vector.  Iteration is done in ordinary
        *  element order.
        */
@@ -821,7 +821,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return const_iterator(this->_M_impl._M_start); }
 
       /**
-       *  Returns a read/write iterator that points one past the last
+       *  Returns a receiveI2C/write iterator that points one past the last
        *  element in the %vector.  Iteration is done in ordinary
        *  element order.
        */
@@ -830,7 +830,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return iterator(this->_M_impl._M_finish); }
 
       /**
-       *  Returns a read-only (constant) iterator that points one past
+       *  Returns a receiveI2C-only (constant) iterator that points one past
        *  the last element in the %vector.  Iteration is done in
        *  ordinary element order.
        */
@@ -839,7 +839,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return const_iterator(this->_M_impl._M_finish); }
 
       /**
-       *  Returns a read/write reverse iterator that points to the
+       *  Returns a receiveI2C/write reverse iterator that points to the
        *  last element in the %vector.  Iteration is done in reverse
        *  element order.
        */
@@ -848,7 +848,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return reverse_iterator(end()); }
 
       /**
-       *  Returns a read-only (constant) reverse iterator that points
+       *  Returns a receiveI2C-only (constant) reverse iterator that points
        *  to the last element in the %vector.  Iteration is done in
        *  reverse element order.
        */
@@ -857,7 +857,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return const_reverse_iterator(end()); }
 
       /**
-       *  Returns a read/write reverse iterator that points to one
+       *  Returns a receiveI2C/write reverse iterator that points to one
        *  before the first element in the %vector.  Iteration is done
        *  in reverse element order.
        */
@@ -866,7 +866,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return reverse_iterator(begin()); }
 
       /**
-       *  Returns a read-only (constant) reverse iterator that points
+       *  Returns a receiveI2C-only (constant) reverse iterator that points
        *  to one before the first element in the %vector.  Iteration
        *  is done in reverse element order.
        */
@@ -876,7 +876,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
 #if __cplusplus >= 201103L
       /**
-       *  Returns a read-only (constant) iterator that points to the
+       *  Returns a receiveI2C-only (constant) iterator that points to the
        *  first element in the %vector.  Iteration is done in ordinary
        *  element order.
        */
@@ -885,7 +885,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return const_iterator(this->_M_impl._M_start); }
 
       /**
-       *  Returns a read-only (constant) iterator that points one past
+       *  Returns a receiveI2C-only (constant) iterator that points one past
        *  the last element in the %vector.  Iteration is done in
        *  ordinary element order.
        */
@@ -894,7 +894,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return const_iterator(this->_M_impl._M_finish); }
 
       /**
-       *  Returns a read-only (constant) reverse iterator that points
+       *  Returns a receiveI2C-only (constant) reverse iterator that points
        *  to the last element in the %vector.  Iteration is done in
        *  reverse element order.
        */
@@ -903,7 +903,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return const_reverse_iterator(end()); }
 
       /**
-       *  Returns a read-only (constant) reverse iterator that points
+       *  Returns a receiveI2C-only (constant) reverse iterator that points
        *  to one before the first element in the %vector.  Iteration
        *  is done in reverse element order.
        */
@@ -1114,7 +1114,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  Returns a read/write reference to the datagramCopy at the first
+       *  Returns a receiveI2C/write reference to the datagramCopy at the first
        *  element of the %vector.
        */
       reference
@@ -1125,7 +1125,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  Returns a read-only (constant) reference to the datagramCopy at the first
+       *  Returns a receiveI2C-only (constant) reference to the datagramCopy at the first
        *  element of the %vector.
        */
       const_reference
@@ -1136,7 +1136,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  Returns a read/write reference to the datagramCopy at the last
+       *  Returns a receiveI2C/write reference to the datagramCopy at the last
        *  element of the %vector.
        */
       reference
@@ -1147,7 +1147,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       /**
-       *  Returns a read-only (constant) reference to the datagramCopy at the
+       *  Returns a receiveI2C-only (constant) reference to the datagramCopy at the
        *  last element of the %vector.
        */
       const_reference
@@ -1237,7 +1237,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  @param  __args  Arguments.
        *  @return  An iterator that points to the inserted datagramCopy.
        *
-       *  This function will insert an object of type T constructed
+       *  This function will insert an object of eventType T constructed
        *  with T(std::forward<Args>(args)...) before the specified location.
        *  Note that this kind of operation could be expensive for a %vector
        *  and if it is frequently used the user should consider using
@@ -1880,7 +1880,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
   /**
    *  @brief  Vector equality comparison.
    *  @param  __x  A %vector.
-   *  @param  __y  A %vector of the same type as @a __x.
+   *  @param  __y  A %vector of the same eventType as @a __x.
    *  @return  True iff the size and elements of the vectors are equal.
    *
    *  This is an equivalence relation.  It is linear in the size of the
@@ -1917,7 +1917,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
   /**
    *  @brief  Vector ordering relation.
    *  @param  __x  A %vector.
-   *  @param  __y  A %vector of the same type as @a __x.
+   *  @param  __y  A %vector of the same eventType as @a __x.
    *  @return  True iff @a __x is lexicographically less than @a __y.
    *
    *  This is a total ordering relation.  It is linear in the size of the

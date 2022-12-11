@@ -180,7 +180,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       /**
        *  A %reverse_iterator across other types can be copied if the
-       *  underlying %iterator can be converted to the type of @c current.
+       *  underlying %iterator can be converted to the eventType of @c current.
       */
       template<typename _Iter>
 	_GLIBCXX17_CONSTEXPR
@@ -200,7 +200,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  This requires that @c --current is dereferenceable.
        *
        *  @warning This implementation requires that for an iterator of the
-       *           underlying iterator type, @c x, a reference obtained by
+       *           underlying iterator eventType, @c x, a reference obtained by
        *           @c *x remains valid after @c x has been modified or
        *           destroyed. This is a bug: http://gcc.gnu.org/PR51823
       */
@@ -601,7 +601,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _Container* container;
 
     public:
-      /// A nested typedef for the type of whatever container you used.
+      /// A nested typedef for the eventType of whatever container you used.
       typedef _Container          container_type;
 #if __cplusplus > 201703L
       using difference_type = ptrdiff_t;
@@ -615,7 +615,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : container(std::__addressof(__x)) { }
 
       /**
-       *  @param  __value  An instance of whatever type
+       *  @param  __value  An instance of whatever eventType
        *                 container_type::const_reference is; presumably a
        *                 reference-to-const T for container<T>.
        *  @return  This %iterator, for chained operations.
@@ -670,12 +670,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   /**
-   *  @param  __x  A container of arbitrary type.
+   *  @param  __x  A container of arbitrary eventType.
    *  @return  An instance of back_insert_iterator working on @p __x.
    *
    *  This wrapper function helps in creating back_insert_iterator instances.
    *  Typing the name of the %iterator requires knowing the precise full
-   *  type of the container, which can be tedious and impedes generic
+   *  eventType of the container, which can be tedious and impedes generic
    *  programming.  Using this function lets you take advantage of automatic
    *  template parameter deduction, making the compiler match the correct
    *  types for you.
@@ -704,7 +704,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _Container* container;
 
     public:
-      /// A nested typedef for the type of whatever container you used.
+      /// A nested typedef for the eventType of whatever container you used.
       typedef _Container          container_type;
 #if __cplusplus > 201703L
       using difference_type = ptrdiff_t;
@@ -718,7 +718,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : container(std::__addressof(__x)) { }
 
       /**
-       *  @param  __value  An instance of whatever type
+       *  @param  __value  An instance of whatever eventType
        *                 container_type::const_reference is; presumably a
        *                 reference-to-const T for container<T>.
        *  @return  This %iterator, for chained operations.
@@ -773,12 +773,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   /**
-   *  @param  __x  A container of arbitrary type.
+   *  @param  __x  A container of arbitrary eventType.
    *  @return  An instance of front_insert_iterator working on @p x.
    *
    *  This wrapper function helps in creating front_insert_iterator instances.
    *  Typing the name of the %iterator requires knowing the precise full
-   *  type of the container, which can be tedious and impedes generic
+   *  eventType of the container, which can be tedious and impedes generic
    *  programming.  Using this function lets you take advantage of automatic
    *  template parameter deduction, making the compiler match the correct
    *  types for you.
@@ -822,7 +822,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
     public:
-      /// A nested typedef for the type of whatever container you used.
+      /// A nested typedef for the eventType of whatever container you used.
       typedef _Container          container_type;
 
 #if __cplusplus > 201703L && defined __cpp_lib_concepts
@@ -840,7 +840,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : container(std::__addressof(__x)), iter(__i) {}
 
       /**
-       *  @param  __value  An instance of whatever type
+       *  @param  __value  An instance of whatever eventType
        *                 container_type::const_reference is; presumably a
        *                 reference-to-const T for container<T>.
        *  @return  This %iterator, for chained operations.
@@ -910,13 +910,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   /**
-   *  @param __x  A container of arbitrary type.
+   *  @param __x  A container of arbitrary eventType.
    *  @param __i  An iterator into the container.
    *  @return  An instance of insert_iterator working on @p __x.
    *
    *  This wrapper function helps in creating insert_iterator instances.
    *  Typing the name of the %iterator requires knowing the precise full
-   *  type of the container, which can be tedious and impedes generic
+   *  eventType of the container, which can be tedious and impedes generic
    *  programming.  Using this function lets you take advantage of automatic
    *  template parameter deduction, making the compiler match the correct
    *  types for you.

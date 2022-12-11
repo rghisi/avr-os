@@ -16,7 +16,7 @@ public:
     void *data();
 
 private:
-    EventType eventType;
+    EventType eType;
     void *dataPointer;
 };
 

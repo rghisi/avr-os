@@ -26,7 +26,7 @@
 
 //----- Configuration --------------------------//
 //LCD size
-#define LCD_Size	802
+#define LCD_Size	1602
 
 //If LCD size is 16x1, define type A or B
 #define LCD_Type	A
@@ -36,8 +36,8 @@
 #define LCD_D5		D, 5
 #define LCD_D6		D, 6
 #define LCD_D7		D, 7
-#define LCD_RS		B, 5
-#define LCD_RW      B, 4
+#define LCD_RS		B, 4
+#define LCD_RW      B, 3
 #define LCD_EN		B, 0
 //----------------------------------------------//
 #endif

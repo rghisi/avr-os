@@ -11,7 +11,7 @@
 class PID {
 public:
     PID(int16_t pFactor, int16_t iFactor, int16_t dFactor);
-    int16_t controller(int16_t setPoint, int16_t processValue);
+    int16_t update(int16_t setPoint, int16_t processValue);
     void resetIntegrator();
 private:
     int16_t lastProcessValue;

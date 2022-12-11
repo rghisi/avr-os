@@ -3304,8 +3304,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    *  @brief  Determines min and max at once as an ordered pair.
    *  @ingroup sorting_algorithms
-   *  @param  __a  A thing of arbitrary type.
-   *  @param  __b  Another thing of arbitrary type.
+   *  @param  __a  A thing of arbitrary eventType.
+   *  @param  __b  Another thing of arbitrary eventType.
    *  @return A pair(__b, __a) if __b is smaller than __a, pair(__a,
    *  __b) otherwise.
   */
@@ -3324,8 +3324,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    *  @brief  Determines min and max at once as an ordered pair.
    *  @ingroup sorting_algorithms
-   *  @param  __a  A thing of arbitrary type.
-   *  @param  __b  Another thing of arbitrary type.
+   *  @param  __a  A thing of arbitrary eventType.
+   *  @param  __b  Another thing of arbitrary eventType.
    *  @param  __comp  A @link comparison_functors comparison functor @endlink.
    *  @return A pair(__b, __a) if __b is smaller than __a, pair(__a,
    *  __b) otherwise.
@@ -3660,9 +3660,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    *  @brief  Returns the value clamped between lo and hi.
    *  @ingroup sorting_algorithms
-   *  @param  __val  A value of arbitrary type.
-   *  @param  __lo   A lower limit of arbitrary type.
-   *  @param  __hi   An upper limit of arbitrary type.
+   *  @param  __val  A value of arbitrary eventType.
+   *  @param  __lo   A lower limit of arbitrary eventType.
+   *  @param  __hi   An upper limit of arbitrary eventType.
    *  @return max(__val, __lo) if __val < __hi or min(__val, __hi) otherwise.
    */
   template<typename _Tp>
@@ -3676,9 +3676,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    *  @brief  Returns the value clamped between lo and hi.
    *  @ingroup sorting_algorithms
-   *  @param  __val   A value of arbitrary type.
-   *  @param  __lo    A lower limit of arbitrary type.
-   *  @param  __hi    An upper limit of arbitrary type.
+   *  @param  __val   A value of arbitrary eventType.
+   *  @param  __lo    A lower limit of arbitrary eventType.
+   *  @param  __hi    An upper limit of arbitrary eventType.
    *  @param  __comp  A comparison functor.
    *  @return max(__val, __lo, __comp) if __comp(__val, __hi)
    *	      or min(__val, __hi, __comp) otherwise.
@@ -5867,7 +5867,7 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
 	  " does not meet the ForwardIterator requirements");
 
       static_assert(is_integral<_Distance>::value,
-		    "sample size must be an integer type");
+		    "sample size must be an integer eventType");
 
       typename iterator_traits<_PopulationIterator>::difference_type __d = __n;
       return _GLIBCXX_STD_A::

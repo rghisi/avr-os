@@ -59,10 +59,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #define __cpp_lib_any 201606L
 
   /**
-   *  @brief A type-safe container of any type.
+   *  @brief A type-safe container of any eventType.
    *
    *  An @c any object's state is either empty or it stores a contained object
-   *  of CopyConstructible type.
+   *  of CopyConstructible eventType.
    */
   class any
   {
@@ -418,11 +418,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    * @brief Access the contained object.
    *
-   * @tparam  _ValueType  A const-reference or CopyConstructible type.
+   * @tparam  _ValueType  A const-reference or CopyConstructible eventType.
    * @param   __any       The object to access.
    * @return  The contained object.
    * @throw   bad_any_cast If <code>
-   *          __any.type() != typeid(remove_reference_t<_ValueType>)
+   *          __any.eventType() != typeid(remove_reference_t<_ValueType>)
    *          </code>
    */
   template<typename _ValueType>
@@ -430,7 +430,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       using _Up = __remove_cvref_t<_ValueType>;
       static_assert(any::__is_valid_cast<_ValueType>(),
-	  "Template argument must be a reference or CopyConstructible type");
+	  "Template argument must be a reference or CopyConstructible eventType");
       static_assert(is_constructible_v<_ValueType, const _Up&>,
 	  "Template argument must be constructible from a const value.");
       auto __p = any_cast<_Up>(&__any);
@@ -442,11 +442,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    * @brief Access the contained object.
    *
-   * @tparam  _ValueType  A reference or CopyConstructible type.
+   * @tparam  _ValueType  A reference or CopyConstructible eventType.
    * @param   __any       The object to access.
    * @return  The contained object.
    * @throw   bad_any_cast If <code>
-   *          __any.type() != typeid(remove_reference_t<_ValueType>)
+   *          __any.eventType() != typeid(remove_reference_t<_ValueType>)
    *          </code>
    *
    * @{
@@ -456,7 +456,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       using _Up = __remove_cvref_t<_ValueType>;
       static_assert(any::__is_valid_cast<_ValueType>(),
-	  "Template argument must be a reference or CopyConstructible type");
+	  "Template argument must be a reference or CopyConstructible eventType");
       static_assert(is_constructible_v<_ValueType, _Up&>,
 	  "Template argument must be constructible from an lvalue.");
       auto __p = any_cast<_Up>(&__any);
@@ -470,7 +470,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       using _Up = __remove_cvref_t<_ValueType>;
       static_assert(any::__is_valid_cast<_ValueType>(),
-	  "Template argument must be a reference or CopyConstructible type");
+	  "Template argument must be a reference or CopyConstructible eventType");
       static_assert(is_constructible_v<_ValueType, _Up>,
 	  "Template argument must be constructible from an rvalue.");
       auto __p = any_cast<_Up>(&__any);
@@ -512,10 +512,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /**
    * @brief Access the contained object.
    *
-   * @tparam  _ValueType  The type of the contained object.
+   * @tparam  _ValueType  The eventType of the contained object.
    * @param   __any       A pointer to the object to access.
    * @return  The address of the contained object if <code>
-   *          __any != nullptr && __any.type() == typeid(_ValueType)
+   *          __any != nullptr && __any.eventType() == typeid(_ValueType)
    *          </code>, otherwise a null pointer.
    *
    * @{

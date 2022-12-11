@@ -46,8 +46,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    * @ingroup utilities
    *
    * Template utilities for compile-time introspection and modification,
-   * including type classification traits, type property inspection traits
-   * and type transformation traits.
+   * including type classification traits, eventType property inspection traits
+   * and eventType transformation traits.
    *
    * @{
    */
@@ -71,10 +71,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp, _Tp __v>
     constexpr _Tp integral_constant<_Tp, __v>::value;
 
-  /// The type used as a compile-time boolean with true value.
+  /// The eventType used as a compile-time boolean with true value.
   typedef integral_constant<bool, true>     true_type;
 
-  /// The type used as a compile-time boolean with false value.
+  /// The eventType used as a compile-time boolean with false value.
   typedef integral_constant<bool, false>    false_type;
 
   template<bool __v>
@@ -2055,12 +2055,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   /**
-   *  @brief Alignment type.
+   *  @brief Alignment eventType.
    *
    *  The value of _Align is a default-alignment which shall be the
-   *  most stringent alignment requirement for any C++ object type
+   *  most stringent alignment requirement for any C++ object eventType
    *  whose size is no greater than _Len (3.9). The member typedef
-   *  type shall be a POD type suitable for use as uninitialized
+   *  type shall be a POD eventType suitable for use as uninitialized
    *  storage for any object whose size is at most _Len and whose
    *  alignment is a divisor of _Align.
   */
@@ -2107,7 +2107,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     struct aligned_union
     {
     private:
-      static_assert(sizeof...(_Types) != 0, "At least one type is required");
+      static_assert(sizeof...(_Types) != 0, "At least one eventType is required");
 
       using __strictest = __strictest_alignment<_Types...>;
       static const size_t _S_len = _Len > __strictest::_S_size
@@ -2177,7 +2177,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 
   // Primary template.
-  /// Define a member typedef @c type only if a boolean constant is true.
+  /// Define a member typedef @c eventType only if a boolean constant is true.
   template<bool, typename _Tp = void>
     struct enable_if
     { };
@@ -2195,7 +2195,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     using _Require = __enable_if_t<__and_<_Cond...>::value>;
 
   // Primary template.
-  /// Define a member typedef @c type to one of two argument types.
+  /// Define a member typedef @c eventType to one of two argument types.
   template<bool _Cond, typename _Iftrue, typename _Iffalse>
     struct conditional
     { typedef _Iftrue type; };
@@ -2319,7 +2319,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     struct __underlying_type_impl<_Tp, false>
     { };
 
-  /// The underlying type of an enum.
+  /// The underlying eventType of an enum.
   template<typename _Tp>
     struct underlying_type
     : public __underlying_type_impl<_Tp>
@@ -2608,8 +2608,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /// @} group metaprogramming
 
   /**
-   *  Use SFINAE to determine if the type _Tp has a publicly-accessible
-   *  member type _NTYPE.
+   *  Use SFINAE to determine if the eventType _Tp has a publicly-accessible
+   *  member eventType _NTYPE.
    */
 #define _GLIBCXX_HAS_NESTED_TYPE(_NTYPE)				\
   template<typename _Tp, typename = __void_t<>>				\

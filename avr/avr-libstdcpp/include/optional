@@ -59,7 +59,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     class optional;
 
-  /// Tag type to disengage optional objects.
+  /// Tag eventType to disengage optional objects.
   struct nullopt_t
   {
     // Do not user-declare default constructor at all for

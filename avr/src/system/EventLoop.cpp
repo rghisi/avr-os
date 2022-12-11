@@ -14,7 +14,7 @@ EventLoop::EventLoop() {
 }
 
 void EventLoop::addHandler(EventHandler *handler) {
-    handlers[handler->type()] = handler;
+    handlers[handler->eventType()] = handler;
 }
 
 void EventLoop::addHandler(EventHandler *handler, EventType eventType) {
@@ -23,12 +23,14 @@ void EventLoop::addHandler(EventHandler *handler, EventType eventType) {
 
 bool EventLoop::process() {
     if (!events.empty()) {
+        PORTC |= _BV(PORTC1);
         auto event = std::move(events.front());
         events.pop_front();
         auto *handler = handlers[event->type()];
         if (handler != nullptr) {
             handler->handle(std::move(event));
         }
+        PORTC &= ~ _BV(PORTC1);
         return true;
     }
 

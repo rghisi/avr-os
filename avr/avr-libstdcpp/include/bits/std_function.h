@@ -350,7 +350,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  @brief Builds a %function that targets a copy of the incoming
        *  function object.
        *  @param __f A %function object that is callable with parameters of
-       *  type @c T1, @c T2, ..., @c TN and returns a value convertible
+       *  eventType @c T1, @c T2, ..., @c TN and returns a value convertible
        *  to @c Res.
        *
        *  The newly-created %function object will target a copy of
@@ -359,7 +359,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  __f.get(). If @a __f is a NULL function pointer or NULL
        *  pointer-to-member, the newly-created object will be empty.
        *
-       *  If @a __f is a non-NULL function pointer or an object of type @c
+       *  If @a __f is a non-NULL function pointer or an object of eventType @c
        *  reference_wrapper<F>, this function will not throw.
        */
       template<typename _Functor,
@@ -426,7 +426,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       /**
        *  @brief %Function assignment to a new target.
        *  @param __f A %function object that is callable with parameters of
-       *  type @c T1, @c T2, ..., @c TN and returns a value convertible
+       *  eventType @c T1, @c T2, ..., @c TN and returns a value convertible
        *  to @c Res.
        *  @return @c *this
        *
@@ -436,7 +436,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  __f.get(). If @a __f is a NULL function pointer or NULL
        *  pointer-to-member, @c this object will be empty.
        *
-       *  If @a __f is a non-NULL function pointer or an object of type @c
+       *  If @a __f is a non-NULL function pointer or an object of eventType @c
        *  reference_wrapper<F>, this function will not throw.
        */
       template<typename _Functor>

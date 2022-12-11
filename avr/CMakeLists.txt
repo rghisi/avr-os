@@ -9,7 +9,7 @@ set(TARGET_CPU atmega328p)
 set(F_CPU 16000000L)
 
 set(AVR_DUDE_EXECUTABLE /usr/bin/avrdude)
-set(AVR_DUDE_PORT /dev/ttyACM0)
+set(AVR_DUDE_PORT /dev/ttyUSB0)
 
 add_compile_definitions("F_CPU=${F_CPU}")
 add_compile_options("-mmcu=${TARGET_CPU}")
@@ -26,31 +26,31 @@ add_executable(${PROJECT_NAME}
         src/hw/USART.h
 #        src/hw/avr/ATMega32U4.cpp src/hw/avr/ATMega32U4.h
         src/hw/avr/ATMega328P.cpp src/hw/avr/ATMega328P.h
-        src/networking/Packet.h
-        src/networking/Packet.cpp
-        src/networking/NetworkInterface.h
-        src/network-interfaces/SerialNetworkInterface.h
-        src/network-interfaces/SerialNetworkInterface.cpp
-        src/networking/PacketBuilder.cpp src/networking/PacketBuilder.h
+#        src/networking/Packet.h
+#        src/networking/Packet.cpp
+#        src/networking/NetworkInterface.h
+#        src/network-interfaces/SerialNetworkInterface.h
+#        src/network-interfaces/SerialNetworkInterface.cpp
+#        src/networking/PacketBuilder.cpp src/networking/PacketBuilder.h
         src/collections/BlockingQueue.cpp src/collections/BlockingQueue.h
         src/collections/Array.cpp src/collections/Array.h
-        src/std/CRC.cpp src/std/CRC.h
-        src/std/Random.cpp src/std/Random.h
-        src/network-services/PacketSender.h
-        src/network-services/PacketReceiver.h
-        src/network-services/NetworkServices.cpp src/network-services/NetworkServices.h
-        src/network-services/Ping.cpp src/network-services/Ping.h
+#        src/std/CRC.cpp src/std/CRC.h
+#        src/std/Random.cpp src/std/Random.h
+#        src/network-services/PacketSender.h
+#        src/network-services/PacketReceiver.h
+#        src/network-services/NetworkServices.cpp src/network-services/NetworkServices.h
+#        src/network-services/Ping.cpp src/network-services/Ping.h
         src/system/WallClock.cpp src/system/WallClock.h
-        src/networking/PacketReader.cpp src/networking/PacketReader.h
+#        src/networking/PacketReader.cpp src/networking/PacketReader.h
         src/system/Event.cpp src/system/Event.h
         src/system/EventType.h
         src/system/EventLoop.cpp src/system/EventLoop.h
         src/system/EventHandler.h src/system/EventDispatcher.h
         src/system/EventDispatcher.cpp src/system/EventDispatcher.h
-        src/network-services/Services.h
+#        src/network-services/Services.h
         src/system/TaskScheduler.cpp src/system/TaskScheduler.h
         src/system/Task.h
-        src/tasks/PeriodicPing.cpp src/tasks/PeriodicPing.h
+#        src/tasks/PeriodicPing.cpp src/tasks/PeriodicPing.h
         src/tasks/PeriodicCpuUsageReport.cpp src/tasks/PeriodicCpuUsageReport.h
         src/system/CpuStats.cpp src/system/CpuStats.h
         src/lcd/Display.cpp src/lcd/Display.h
@@ -66,10 +66,17 @@ add_executable(${PROJECT_NAME}
         src/std/CRCTable.c
         src/lcd/two/HD44780.h src/lcd/two/HD44780.cpp
 #        src/lcd/two/HD44780_Settings.h src/lcd/two/IO_Macros.h
-        src/pid/PID.cpp src/pid/PID.h src/input/KeyPad.cpp src/input/KeyPad.h src/hw/Interrupts.h)
+        src/pid/PID.cpp src/pid/PID.h src/input/KeyPad.cpp src/input/KeyPad.h src/hw/Interrupts.h
+        src/sensors/i2cmaster.h src/sensors/i2cmaster.c src/sensors/bme280_i2c.h src/sensors/bme280_i2c.c src/tasks/PeriodicSensorReport.cpp src/tasks/PeriodicSensorReport.h src/sensors/BME280Report.cpp src/sensors/BME280Report.h src/app/TempHumControl.cpp src/app/TempHumControl.h src/hw/Timer1.h src/hw/ExternalInterrupts.h src/dimmer/Dimmer.cpp src/dimmer/Dimmer.h src/tasks/TemperatureControl.cpp src/tasks/TemperatureControl.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH
-        ${AVR_DUDE_EXECUTABLE} -p ${TARGET_CPU} -cavr109 -b57600 -P ${AVR_DUDE_PORT} ${FLASH_VERBOSE_FLAG} -F -D -U flash:w:${PROJECT_BINARY_DIR}/${PROJECT_NAME}:a
+        ${AVR_DUDE_EXECUTABLE} -p ${TARGET_CPU} -carduino -b57600 -P ${AVR_DUDE_PORT} ${FLASH_VERBOSE_FLAG} -F -D -U flash:w:${PROJECT_BINARY_DIR}/${PROJECT_NAME}:a
         DEPENDS ${PROJECT_NAME}
         COMMENT "Flash to ${TARGET_CPU}")
+
+#32u4
+#add_custom_target(FLASH
+#        ${AVR_DUDE_EXECUTABLE} -p ${TARGET_CPU} -cavr109 -b57600 -P ${AVR_DUDE_PORT} ${FLASH_VERBOSE_FLAG} -F -D -U flash:w:${PROJECT_BINARY_DIR}/${PROJECT_NAME}:a
+#        DEPENDS ${PROJECT_NAME}
+#        COMMENT "Flash to ${TARGET_CPU}")

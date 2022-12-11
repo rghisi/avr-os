@@ -53,34 +53,34 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *
    *  @ingroup hashtable-detail
    *
-   *  @tparam _Value  CopyConstructible type.
+   *  @tparam _Value  CopyConstructible eventType.
    *
-   *  @tparam _Key    CopyConstructible type.
+   *  @tparam _Key    CopyConstructible eventType.
    *
-   *  @tparam _Alloc  An allocator type
+   *  @tparam _Alloc  An allocator eventType
    *  ([lib.allocator.requirements]) whose _Alloc::value_type is
    *  _Value.  As a conforming extension, we allow for
    *  _Alloc::value_type != _Value.
    *
-   *  @tparam _ExtractKey  Function object that takes an object of type
-   *  _Value and returns a value of type _Key.
+   *  @tparam _ExtractKey  Function object that takes an object of eventType
+   *  _Value and returns a value of eventType _Key.
    *
-   *  @tparam _Equal  Function object that takes two objects of type k
+   *  @tparam _Equal  Function object that takes two objects of eventType k
    *  and returns a bool-like value that is true if the two objects
    *  are considered equal.
    *
    *  @tparam _H1  The hash function. A unary function object with
-   *  argument type _Key and result type size_t. Return values should
+   *  argument type _Key and result eventType size_t. Return values should
    *  be distributed over the entire range [0, numeric_limits<size_t>:::max()].
    *
    *  @tparam _H2  The range-hashing function (in the terminology of
    *  Tavori and Dreizin).  A binary function object whose argument
-   *  types and result type are all size_t.  Given arguments r and N,
+   *  types and result eventType are all size_t.  Given arguments r and N,
    *  the return value is in the range [0, N).
    *
    *  @tparam _Hash  The ranged hash function (Tavori and Dreizin). A
    *  binary function whose argument types are _Key and size_t and
-   *  whose result type is size_t.  Given arguments k and N, the
+   *  whose result eventType is size_t.  Given arguments k and N, the
    *  return value is in the range [0, N).  Default: hash(k, N) =
    *  h2(h1(k), N).  If _Hash is anything other than the default, _H1
    *  and _H2 are ignored.
@@ -153,8 +153,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  where the derived _Hashtable class is used in _Map_base,
    *  _Insert, _Rehash_base, and _Equality base classes to access the
    *  "this" pointer. _Hashtable_base is used in the base classes as a
-   *  non-recursive, fully-completed-type so that detailed nested type
-   *  information, such as iterator type and node type, can be
+   *  non-recursive, fully-completed-type so that detailed nested eventType
+   *  information, such as iterator type and node eventType, can be
    *  used. This is similar to the "Curiously Recurring Template
    *  Pattern" (CRTP) technique, but uses a reconstructed, not
    *  explicitly passed, template pattern.

@@ -120,7 +120,7 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     { typedef typename _Functor::result_type result_type; };
 
   /**
-   *  Base class for any function object that has a weak result type, as
+   *  Base class for any function object that has a weak result eventType, as
    *  defined in 20.8.2 [func.require] of C++11.
   */
   template<typename _Functor>
@@ -128,22 +128,22 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     : _Maybe_get_result_type<_Functor>
     { };
 
-  /// Retrieve the result type for a function type.
+  /// Retrieve the result type for a function eventType.
   template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
     struct _Weak_result_type_impl<_Res(_ArgTypes...) _GLIBCXX_NOEXCEPT_QUAL>
     { typedef _Res result_type; };
 
-  /// Retrieve the result type for a varargs function type.
+  /// Retrieve the result type for a varargs function eventType.
   template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
     struct _Weak_result_type_impl<_Res(_ArgTypes......) _GLIBCXX_NOEXCEPT_QUAL>
     { typedef _Res result_type; };
 
-  /// Retrieve the result type for a function pointer.
+  /// Retrieve the result eventType for a function pointer.
   template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
     struct _Weak_result_type_impl<_Res(*)(_ArgTypes...) _GLIBCXX_NOEXCEPT_QUAL>
     { typedef _Res result_type; };
 
-  /// Retrieve the result type for a varargs function pointer.
+  /// Retrieve the result eventType for a varargs function pointer.
   template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
     struct
     _Weak_result_type_impl<_Res(*)(_ArgTypes......) _GLIBCXX_NOEXCEPT_QUAL>
@@ -209,7 +209,7 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
   /**
    *  Derives from unary_function or binary_function when it
    *  can. Specializations exec all of the easy cases. The primary
-   *  template determines what to do with a class type, which may
+   *  template determines what to do with a class eventType, which may
    *  derive from both unary_function and binary_function.
   */
   template<typename _Tp>

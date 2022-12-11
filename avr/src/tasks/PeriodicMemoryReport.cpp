@@ -18,7 +18,7 @@ void PeriodicMemoryReport::run() {
     extern int __heap_start, *__brkval;
     int v;
     memoryStats.value = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
-    auto event = std::make_unique<Event>(Event(EventType::MEMORY_STATS_DISPATCHED, &memoryStats));
+    auto event = std::make_unique<Event>(Event(EventType::MEMORY_STATS_READ, &memoryStats));
     eventDispatcher->dispatch(std::move(event));
 }
 

@@ -76,7 +76,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    */
 
 #if __cplusplus >= 201103L
-  /// Tag type for piecewise construction of std::pair objects.
+  /// Tag eventType for piecewise construction of std::pair objects.
   struct piecewise_construct_t { explicit piecewise_construct_t() = default; };
 
   /// Tag for piecewise construction of std::pair objects.
@@ -200,7 +200,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   /// @endcond
 
  /**
-   *  @brief Struct holding two objects of arbitrary type.
+   *  @brief Struct holding two objects of arbitrary eventType.
    *
    *  @tparam _T1  Type of first object.
    *  @tparam _T2  Type of second object.
@@ -211,8 +211,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     struct pair
     : private __pair_base<_T1, _T2>
     {
-      typedef _T1 first_type;    ///< The type of the `first` member
-      typedef _T2 second_type;   ///< The type of the `second` member
+      typedef _T1 first_type;    ///< The eventType of the `first` member
+      typedef _T2 second_type;   ///< The eventType of the `second` member
 
       _T1 first;                 ///< The first member
       _T2 second;                ///< The second member
@@ -460,7 +460,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _T1, typename _T2> pair(_T1, _T2) -> pair<_T1, _T2>;
 #endif
 
-  /// Two pairs of the same type are equal iff their members are equal.
+  /// Two pairs of the same eventType are equal iff their members are equal.
   template<typename _T1, typename _T2>
     inline _GLIBCXX_CONSTEXPR bool
     operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
@@ -479,7 +479,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #else
   /** Defines a lexicographical order for pairs.
    *
-   * For two pairs of the same type, `P` is ordered before `Q` if
+   * For two pairs of the same eventType, `P` is ordered before `Q` if
    * `P.first` is less than `Q.first`, or if `P.first` and `Q.first`
    * are equivalent (neither is less than the other) and `P.second` is less
    * than `Q.second`.
@@ -548,14 +548,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  @brief A convenience wrapper for creating a pair from two objects.
    *  @param  __x  The first object.
    *  @param  __y  The second object.
-   *  @return   A newly-constructed pair<> object of the appropriate type.
+   *  @return   A newly-constructed pair<> object of the appropriate eventType.
    *
    *  The C++98 standard says the objects are passed by reference-to-const,
    *  but C++03 says they are passed by value (this was LWG issue #181).
    *
    *  Since C++11 they have been passed by forwarding reference and then
    *  forwarded to the new members of the pair. To create a pair with a
-   *  member of reference type, pass a `reference_wrapper` to this function.
+   *  member of reference eventType, pass a `reference_wrapper` to this function.
    */
   // _GLIBCXX_RESOLVE_LIB_DEFECTS
   // 181.  make_pair() unintended behavior

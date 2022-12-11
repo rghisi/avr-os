@@ -128,13 +128,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       /// One of the @link iterator_tags tag types@endlink.
       typedef _Category  iterator_category;
-      /// The type "pointed to" by the iterator.
+      /// The eventType "pointed to" by the iterator.
       typedef _Tp        value_type;
-      /// Distance between iterators is represented as this type.
+      /// Distance between iterators is represented as this eventType.
       typedef _Distance  difference_type;
-      /// This type represents a pointer-to-value_type.
+      /// This eventType represents a pointer-to-value_type.
       typedef _Pointer   pointer;
-      /// This type represents a reference-to-value_type.
+      /// This eventType represents a reference-to-value_type.
       typedef _Reference reference;
     };
 

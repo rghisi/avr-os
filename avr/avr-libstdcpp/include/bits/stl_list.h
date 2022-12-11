@@ -513,7 +513,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
    *  @ingroup sequences
    *
    *  @tparam _Tp  Type of element.
-   *  @tparam _Alloc  Allocator type, defaults to allocator<_Tp>.
+   *  @tparam _Alloc  Allocator eventType, defaults to allocator<_Tp>.
    *
    *  Meets the requirements of a <a href="tables.html#65">container</a>, a
    *  <a href="tables.html#66">reversible container</a>, and a
@@ -938,7 +938,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
       // iterators
       /**
-       *  Returns a read/write iterator that points to the first element in the
+       *  Returns a receiveI2C/write iterator that points to the first element in the
        *  %list.  Iteration is done in ordinary element order.
        */
       iterator
@@ -946,7 +946,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return iterator(this->_M_impl._M_node._M_next); }
 
       /**
-       *  Returns a read-only (constant) iterator that points to the
+       *  Returns a receiveI2C-only (constant) iterator that points to the
        *  first element in the %list.  Iteration is done in ordinary
        *  element order.
        */
@@ -955,7 +955,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return const_iterator(this->_M_impl._M_node._M_next); }
 
       /**
-       *  Returns a read/write iterator that points one past the last
+       *  Returns a receiveI2C/write iterator that points one past the last
        *  element in the %list.  Iteration is done in ordinary element
        *  order.
        */
@@ -964,7 +964,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return iterator(&this->_M_impl._M_node); }
 
       /**
-       *  Returns a read-only (constant) iterator that points one past
+       *  Returns a receiveI2C-only (constant) iterator that points one past
        *  the last element in the %list.  Iteration is done in ordinary
        *  element order.
        */
@@ -973,7 +973,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return const_iterator(&this->_M_impl._M_node); }
 
       /**
-       *  Returns a read/write reverse iterator that points to the last
+       *  Returns a receiveI2C/write reverse iterator that points to the last
        *  element in the %list.  Iteration is done in reverse element
        *  order.
        */
@@ -982,7 +982,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return reverse_iterator(end()); }
 
       /**
-       *  Returns a read-only (constant) reverse iterator that points to
+       *  Returns a receiveI2C-only (constant) reverse iterator that points to
        *  the last element in the %list.  Iteration is done in reverse
        *  element order.
        */
@@ -991,7 +991,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return const_reverse_iterator(end()); }
 
       /**
-       *  Returns a read/write reverse iterator that points to one
+       *  Returns a receiveI2C/write reverse iterator that points to one
        *  before the first element in the %list.  Iteration is done in
        *  reverse element order.
        */
@@ -1000,7 +1000,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return reverse_iterator(begin()); }
 
       /**
-       *  Returns a read-only (constant) reverse iterator that points to one
+       *  Returns a receiveI2C-only (constant) reverse iterator that points to one
        *  before the first element in the %list.  Iteration is done in reverse
        *  element order.
        */
@@ -1010,7 +1010,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
 #if __cplusplus >= 201103L
       /**
-       *  Returns a read-only (constant) iterator that points to the
+       *  Returns a receiveI2C-only (constant) iterator that points to the
        *  first element in the %list.  Iteration is done in ordinary
        *  element order.
        */
@@ -1019,7 +1019,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return const_iterator(this->_M_impl._M_node._M_next); }
 
       /**
-       *  Returns a read-only (constant) iterator that points one past
+       *  Returns a receiveI2C-only (constant) iterator that points one past
        *  the last element in the %list.  Iteration is done in ordinary
        *  element order.
        */
@@ -1028,7 +1028,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return const_iterator(&this->_M_impl._M_node); }
 
       /**
-       *  Returns a read-only (constant) reverse iterator that points to
+       *  Returns a receiveI2C-only (constant) reverse iterator that points to
        *  the last element in the %list.  Iteration is done in reverse
        *  element order.
        */
@@ -1037,7 +1037,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return const_reverse_iterator(end()); }
 
       /**
-       *  Returns a read-only (constant) reverse iterator that points to one
+       *  Returns a receiveI2C-only (constant) reverse iterator that points to one
        *  before the first element in the %list.  Iteration is done in reverse
        *  element order.
        */
@@ -1107,7 +1107,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
       // element access
       /**
-       *  Returns a read/write reference to the data at the first
+       *  Returns a receiveI2C/write reference to the data at the first
        *  element of the %list.
        */
       reference
@@ -1115,7 +1115,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return *begin(); }
 
       /**
-       *  Returns a read-only (constant) reference to the data at the first
+       *  Returns a receiveI2C-only (constant) reference to the data at the first
        *  element of the %list.
        */
       const_reference
@@ -1123,7 +1123,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       { return *begin(); }
 
       /**
-       *  Returns a read/write reference to the data at the last element
+       *  Returns a receiveI2C/write reference to the data at the last element
        *  of the %list.
        */
       reference
@@ -1135,7 +1135,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       }
 
       /**
-       *  Returns a read-only (constant) reference to the data at the last
+       *  Returns a receiveI2C-only (constant) reference to the data at the last
        *  element of the %list.
        */
       const_reference
@@ -1253,7 +1253,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  @param  __args  Arguments.
        *  @return  An iterator that points to the inserted data.
        *
-       *  This function will insert an object of type T constructed
+       *  This function will insert an object of eventType T constructed
        *  with T(std::forward<Args>(args)...) before the specified
        *  location.  Due to the nature of a %list this operation can
        *  be done in constant time, and does not invalidate iterators
@@ -1983,7 +1983,7 @@ _GLIBCXX_END_NAMESPACE_CXX11
   /**
    *  @brief  List equality comparison.
    *  @param  __x  A %list.
-   *  @param  __y  A %list of the same type as @a __x.
+   *  @param  __y  A %list of the same eventType as @a __x.
    *  @return  True iff the size and elements of the lists are equal.
    *
    *  This is an equivalence relation.  It is linear in the size of
@@ -2037,7 +2037,7 @@ _GLIBCXX_END_NAMESPACE_CXX11
   /**
    *  @brief  List ordering relation.
    *  @param  __x  A %list.
-   *  @param  __y  A %list of the same type as @a __x.
+   *  @param  __y  A %list of the same eventType as @a __x.
    *  @return  True iff @a __x is lexicographically less than @a __y.
    *
    *  This is a total ordering relation.  It is linear in the size of the

@@ -205,7 +205,7 @@ class vector;
 
 Using containers requires memory allocation with a so-called allocator.
 If none is specified, as in our code snippet, the default allocator
-from namespace `std` for the templated type `T` of the vector is
+from namespace `std` for the templated eventType `T` of the vector is
 automatically selected.
 
 Good embeddable self-written custom allocators are essential for
@@ -225,7 +225,7 @@ and/or hardware-intensive library artifacts.
 
 `avr-libstdcpp` has the following known adaptions and limitations.
 
-- **I/O streaming and RTTI:** I/O streaming and run-time type information (RTTI) are known
+- **I/O streaming and RTTI:** I/O streaming and run-time eventType information (RTTI) are known
 to be resource-intensive and could be disruptive on tiny
 embedded platforms. An effort has been made to essentially
 remove both these library dependencies and their
@@ -267,7 +267,7 @@ on tiny `avr-gcc` platforms. Although this is a compiler attribute,
 it has strong influence on the library (particularly the STL)
 implementation because these with types are used copiously therein.
 This compiler attribute limits ranges, indexes, etc. to 16-bits.
-With the compiler switch `-mint8`, the built-in type `int`
+With the compiler switch `-mint8`, the built-in eventType `int`
 is only 8 bits wide and extreme range limitations
 are expected to make STL use tricky.
 

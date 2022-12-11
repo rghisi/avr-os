@@ -80,7 +80,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /**
    *  @brief Allocates a temporary buffer.
-   *  @param  __len  The number of objects of type Tp.
+   *  @param  __len  The number of objects of eventType Tp.
    *  @return See full description.
    *
    *  Reinventing the wheel, but this time with prettier spokes!

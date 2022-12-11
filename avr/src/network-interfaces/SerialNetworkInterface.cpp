@@ -40,12 +40,12 @@ inline void SerialNetworkInterface::frameReceived(uint8_t byte) {
 }
 
 EventType SerialNetworkInterface::type() {
-    return EventType::PACKET_DISPATCHED;
+    return EventType::PACKET_PRODUCED;
 }
 
 bool SerialNetworkInterface::handle(std::unique_ptr<Event> event) {
     switch (event->type()) {
-        case PACKET_DISPATCHED:
+        case PACKET_PRODUCED:
             if (!packetReader.hasNextFrame()) {
                 delete packetReader.packet();
                 auto *packet = static_cast<Packet*>(event->data());

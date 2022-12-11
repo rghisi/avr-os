@@ -74,12 +74,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     class uniform_int_distribution
     {
       static_assert(std::is_integral<_IntType>::value,
-		    "template argument must be an integral type");
+		    "template argument must be an integral eventType");
 
     public:
-      /** The type of the range of the distribution. */
+      /** The eventType of the range of the distribution. */
       typedef _IntType result_type;
-      /** Parameter type. */
+      /** Parameter eventType. */
       struct param_type
       {
 	typedef uniform_int_distribution<_IntType> distribution_type;

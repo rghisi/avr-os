@@ -12,6 +12,7 @@ public:
 
 class Timer0 {
 public:
+    virtual void setupTimer0() = 0;
     virtual void setTimer0InterruptHandler(Timer0InterruptHandler *handler) = 0;
 };
 

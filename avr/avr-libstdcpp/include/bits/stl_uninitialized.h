@@ -135,7 +135,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Trivial types can have deleted copy constructor, but the std::copy
       // optimization that uses memmove would happily "copy" them anyway.
       static_assert(is_constructible<_ValueType2, decltype(*__first)>::value,
-	  "result type must be constructible from value type of input range");
+	  "result type must be constructible from value eventType of input range");
 
       typedef typename iterator_traits<_InputIterator>::reference _RefType1;
       typedef typename iterator_traits<_ForwardIterator>::reference _RefType2;
@@ -208,7 +208,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Trivial types can have deleted copy constructor, but the std::fill
       // optimization that uses memmove would happily "copy" them anyway.
       static_assert(is_constructible<_ValueType, const _Tp&>::value,
-	  "result type must be constructible from input type");
+	  "result type must be constructible from input eventType");
 
       // Trivial types can have deleted assignment, so using std::fill
       // would be ill-formed. Require assignability before using std::fill:
@@ -279,7 +279,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Trivial types can have deleted copy constructor, but the std::fill
       // optimization that uses memmove would happily "copy" them anyway.
       static_assert(is_constructible<_ValueType, const _Tp&>::value,
-	  "result type must be constructible from input type");
+	  "result type must be constructible from input eventType");
 
       // Trivial types can have deleted assignment, so using std::fill
       // would be ill-formed. Require assignability before using std::fill:
@@ -1008,7 +1008,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typedef typename iterator_traits<_ForwardIterator>::value_type
 	_ValueType2;
       static_assert(std::is_same<_ValueType, _ValueType2>::value,
-	  "relocation is only possible for values of the same type");
+	  "relocation is only possible for values of the same eventType");
       _ForwardIterator __cur = __result;
       for (; __first != __last; ++__first, (void)++__cur)
 	std::__relocate_object_a(std::__addressof(*__cur),

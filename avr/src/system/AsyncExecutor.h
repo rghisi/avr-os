@@ -1,4 +1,4 @@
-//
+//;
 // Created by ghisi on 20.10.22.
 //
 
@@ -14,7 +14,7 @@
 class AsyncExecutor: public EventHandler {
 public:
     explicit AsyncExecutor(TaskScheduler *taskScheduler, EventDispatcher *eventDispatcher);
-    EventType type() override;
+    EventType eventType() override;
     bool handle(std::unique_ptr<Event> event) override;
 
 private:

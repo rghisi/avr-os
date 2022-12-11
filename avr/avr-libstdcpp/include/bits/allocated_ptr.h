@@ -41,7 +41,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
-  /// Non-standard RAII type for managing pointers obtained from allocators.
+  /// Non-standard RAII eventType for managing pointers obtained from allocators.
   template<typename _Alloc>
     struct __allocated_ptr
     {
@@ -53,7 +53,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : _M_alloc(std::__addressof(__a)), _M_ptr(__ptr)
       { }
 
-      /// Convert __ptr to allocator's pointer type and take ownership of it
+      /// Convert __ptr to allocator's pointer eventType and take ownership of it
       template<typename _Ptr,
 	       typename _Req = _Require<is_same<_Ptr, value_type*>>>
       __allocated_ptr(_Alloc& __a, _Ptr __ptr)

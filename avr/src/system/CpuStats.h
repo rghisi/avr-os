@@ -17,6 +17,7 @@ public:
     uint32_t idleTime = 0;
 private:
     uint32_t startTimestamp;
+    uint16_t s = 0;
 };
 
 
