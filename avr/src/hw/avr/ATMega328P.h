@@ -24,6 +24,7 @@ public:
     void setupTimer0() override;
     void setTimer0InterruptHandler(Timer0InterruptHandler *handler) override;
     void setupTimer1() override;
+    void resetTimer1() override;
     void startTimer1() override;
     void stopTimer1() override;
     uint16_t timer1Value() override;
@@ -34,6 +35,7 @@ public:
     void timer1DoNothingOnCompareMatchA() override;
     void timer1ClearOnCompareMatchA() override;
     void timer1SetOnCompareMatchA() override;
+    void timer1ForceCompareMatchA() override;
     void enableInterrupts() override;
     void disableInterrupts() override;
     void setupExternalInterrupt() override;

@@ -20,6 +20,8 @@
 #include "tasks/PeriodicSensorReport.h"
 #include "dimmer/Dimmer.h"
 #include "tasks/TemperatureControl.h"
+#include "input/Dial.h"
+#include "app/Test.h"
 
 void * operator new(size_t size)
 {
@@ -66,12 +68,13 @@ auto taskScheduler = TaskScheduler(&wallClock);
 auto eventLoop = EventLoop();
 auto eventDispatcher = EventDispatcher(&eventLoop);
 auto asyncExecutor = AsyncExecutor(&taskScheduler, &eventDispatcher);
-auto periodicCpuUsageReport = PeriodicCpuUsageReport(&cpuStats, &eventDispatcher);
 auto periodicMemoryReport = PeriodicMemoryReport(&wallClock, &eventDispatcher);
 auto keyPad = KeyPad(&eventDispatcher);
+auto dial = Dial(&eventDispatcher);
 auto periodicSensorReport = PeriodicSensorReport(&eventDispatcher);
 auto dimmer = Dimmer(&atmega, &atmega);
 auto temperatureControl = TemperatureControl(&dimmer);
+auto test = Test(&eventDispatcher, &dimmer);
 
 int main(void) {
     uint8_t statusLed = _BV(PORTB5);
@@ -82,7 +85,7 @@ int main(void) {
     _delay_ms(1000);
     PORTB &= ~statusLed;
 
-    DDRC |= _BV(PORTC0) | _BV(PORTC1);
+    DDRC |= _BV(PORTC0);
 
 
     atmega.setupTimer0();
@@ -93,31 +96,39 @@ int main(void) {
     atmega.setExternalInterruptHandler(&dimmer);
     atmega.enableInterrupts();
 
+    dial.setup();
+
     eventLoop.addHandler(&asyncExecutor);
     eventLoop.addHandler(&asyncExecutor, ASYNC_CHAIN_SCHEDULED);
     eventLoop.addHandler(&display);
     eventLoop.addHandler(&display, SHOW_TEXT_REQUESTED);
     eventLoop.addHandler(&display, MEMORY_STATS_READ);
-    eventLoop.addHandler(&display, KEYPAD_KEY_DOWN);
     eventLoop.addHandler(&display, SENSOR_READ);
+    eventLoop.addHandler(&display, USER_INPUT);
     eventLoop.addHandler(&temperatureControl);
+    eventLoop.addHandler(&test);
 
-    taskScheduler.schedule(&periodicCpuUsageReport);
+//    taskScheduler.schedule(&periodicCpuUsageReport);
     taskScheduler.schedule(&periodicMemoryReport);
     taskScheduler.schedule(&keyPad);
+    taskScheduler.schedule(&dial);
     taskScheduler.schedule(&periodicSensorReport);
+    taskScheduler.schedule(&temperatureControl);
 
     auto *dimmerCalibrationTask = new AsyncChain(&eventDispatcher);
     dimmerCalibrationTask
-            ->then([]() {dimmer.calibrate();})
-            ->wait(50)
+            ->wait(1000)
             ->then([]() {dimmer.enable();})
-            ->wait(1000)
-            ->then([]() {dimmer.setPosition(64);})
-            ->wait(1000)
-            ->then([]() {dimmer.setPosition(128);})
-            ->wait(1000)
-            ->then([]() {dimmer.setPosition(0); taskScheduler.schedule(&temperatureControl);})
+//            ->wait(500)
+//            ->then([]() {dimmer.setPosition(64);})
+//            ->wait(2000)
+//            ->then([]() {dimmer.setPosition(128);})
+//            ->wait(2000)
+//            ->then([]() {dimmer.setPosition(255);})
+//            ->wait(2000)
+//            ->then([]() {dimmer.setPosition(16);})
+//            ->wait(2000)
+//            ->then([]() {dimmer.setPosition(0);})
             ->schedule();
 
     while (true) {
@@ -131,5 +142,5 @@ int main(void) {
         PORTC &= ~ _BV(PORTC0);
     }
 
-	return 0;
+    return 0;
 }

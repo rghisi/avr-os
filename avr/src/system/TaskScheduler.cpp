@@ -15,11 +15,9 @@ bool TaskScheduler::process() {
         uint32_t now = wallClock->now();
         auto *scheduledTask = scheduledTasks.peek();
         if (scheduledTask->timeOfExecution <= now) {
-            PORTC |= _BV(PORTC1);
             scheduledTasks.pop();
             scheduledTask->task->run();
             reschedule(scheduledTask, now);
-            PORTC &= ~ _BV(PORTC1);
             return true;
         }
     }

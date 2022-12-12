@@ -28,7 +28,7 @@ private:
     int16_t currentTemperature = 0;
     int16_t dimmerPosition = 0;
     Dimmer *dimmer;
-    PID pid = PID(1, 0, 0);
+    PID pid = PID(100, 10, 10);
 };
 
 

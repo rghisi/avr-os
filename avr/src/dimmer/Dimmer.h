@@ -14,32 +14,24 @@ public:
     explicit Dimmer(Timer1 *timer1, ExternalInterrupt *externalInterrupt);
     void handleExternalInterrupt() override;
     void setPosition(uint8_t position);
-    void calibrate();
     void enable();
     void disable();
 
 private:
-    static constexpr int PULSE_LENGTH = 50;
+    static constexpr uint16_t PULSE_LENGTH = 1200;
     void handleTimerCompareMatchInterrupt() override;
     enum class State {
-        UNINITIALIZED,
-        CALIBRATING_WAITING_ZERO_CROSS_START,
-        CALIBRATING_WAITING_ZERO_CROSS_END,
-        CALIBRATING_WAITING_HALF_WAVE_END,
         DISABLED,
         WAITING_ZERO_CROSS_START,
         WAITING_PULSE_START,
         WAITING_PULSE_END,
-        PULSE_ENDED
     };
-    State state = State::UNINITIALIZED;
+    State state = State::DISABLED;
     Timer1 *timer;
     ExternalInterrupt *externalInterrupt;
-    uint16_t timeToZeroCross = 0;
-    uint16_t halfWaveLength = 0;
-    uint16_t positionStep = 0;
-    uint16_t position = 0;
-    void processState();
+    uint16_t timeToZeroCross = 1200;
+    uint16_t position = 20000 - timeToZeroCross;
+    uint16_t positionStep = position >> 8;
 };
 
 

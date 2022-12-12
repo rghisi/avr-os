@@ -8,6 +8,7 @@
 #include "cstdio"
 #include "../input/KeyPad.h"
 #include "../sensors/BME280Report.h"
+#include "../input/UserInput.h"
 
 extern "C" {
     #include "one/HD44780.h"
@@ -37,8 +38,8 @@ bool Display::handle(std::unique_ptr<Event> event) {
         case MEMORY_STATS_READ:
             memory(std::move(event));
             break;
-        case KEYPAD_KEY_DOWN:
-            keypad(std::move(event));
+        case USER_INPUT:
+            input(std::move(event));
             break;
         case SENSOR_READ:
             sensor(std::move(event));
@@ -65,6 +66,7 @@ void Display::text(std::unique_ptr<Event> event) {
     auto text = static_cast<char*>(event->data());
     LCD_GotoXY(0, 1);
     LCD_PrintString(text);
+    delete text;
 }
 
 void Display::memory(std::unique_ptr<Event> event) {
@@ -75,31 +77,29 @@ void Display::memory(std::unique_ptr<Event> event) {
     LCD_PrintString(s);
 }
 
-void Display::keypad(std::unique_ptr<Event> event) {
-    auto key = static_cast<KeyPad::Key*>(event->data());
-    char s[2];
-    s[1] = 0x00;
-    switch (*(key)) {
-        case KeyPad::Key::IDLE:
-            s[0] = ' ';
+void Display::input(std::unique_ptr<Event> event) {
+    auto userInput = static_cast<UserInput*>(event->data());
+    char s[4];
+    switch (userInput->event) {
+        case UserInput::Event::DIAL_PLUS:
+            dial++;
+            sprintf(s, "%" PRIu8, dial);
             break;
-        case KeyPad::Key::UP:
-            s[0] = 'U';
+        case UserInput::Event::DIAL_MINUS:
+            dial--;
+            sprintf(s, "%" PRIu8, dial);
             break;
-        case KeyPad::Key::DOWN:
-            s[0] = 'D';
+        case UserInput::Event::DIAL_BUTTON_PRESSED:
+            s[0] = 'P';
             break;
-        case KeyPad::Key::LEFT:
-            s[0] = 'L';
-            break;
-        case KeyPad::Key::RIGHT:
+        case UserInput::Event::DIAL_BUTTON_RELEASED:
             s[0] = 'R';
             break;
-        case KeyPad::Key::CENTER:
-            s[0] = 'C';
+        default:
             break;
     }
-    LCD_GotoXY(5, 1);
+    delete userInput;
+    LCD_GotoXY(11, 0);
     LCD_PrintString(s);
 }
 

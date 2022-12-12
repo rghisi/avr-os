@@ -13,6 +13,7 @@ public:
 class Timer1 {
 public:
     virtual void setupTimer1() = 0;
+    virtual void resetTimer1() = 0;
     virtual void startTimer1() = 0;
     virtual void stopTimer1() = 0;
     virtual uint16_t timer1Value() = 0;
@@ -23,6 +24,7 @@ public:
     virtual void timer1DoNothingOnCompareMatchA() = 0;
     virtual void timer1ClearOnCompareMatchA() = 0;
     virtual void timer1SetOnCompareMatchA() = 0;
+    virtual void timer1ForceCompareMatchA() = 0;
 };
 
 #endif //AVR_TIMER1_H

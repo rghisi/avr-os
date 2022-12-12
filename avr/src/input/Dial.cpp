@@ -6,6 +6,7 @@
  */
 
 #include "Dial.h"
+#include "UserInput.h"
 //Full - 4 ticks per click
 //static const int8_t Dial::QUADRATURE_TABLE[] = { 0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1 };
 //Partial - 1 tick per click
@@ -18,50 +19,48 @@
  */
 Dial::Dial(EventDispatcher *eventDispatcher) {
 	this->eventDispatcher = eventDispatcher;
-	inputPinValues = 0;
-	pushButtonValue = 0;
-	newPushButtonValue = 0;
-	dialValue = 0;
-	newDialValue = 0;
-	dialIncrement = 0;
+    lastDialReadout = 0x00;
+    lastPushButtonState = false;
 }
 
 void Dial::setup() {
-	DDRC &= !DIAL_PORT_MASK;
+	DDRC &= ~DIAL_PORT_MASK;
 	PORTC |= DIAL_PORT_MASK;
-	inputPinValues = PINC & DIAL_PORT_MASK;
-	pushButtonValue = (inputPinValues >> PUSH_BUTTON_PORT) & 0x00000001b;
-	dialValue = (inputPinValues >> DIAL_B_PORT) & 0x00000011b;
 }
 
 void Dial::run() {
-	inputPinValues = PINC & DIAL_PORT_MASK;
-	newPushButtonValue = (inputPinValues >> PUSH_BUTTON_PORT) & 0x01;
-	newDialValue = (inputPinValues >> DIAL_A_PORT) & 0x03;
+	auto inputPinValues = ~(PINC & DIAL_PORT_MASK);
+	auto newPushButtonState = (bool)((inputPinValues >> PUSH_BUTTON_PORT) & 0x01);
+	auto newDialReadout = (inputPinValues >> DIAL_A_PORT) & 0b00000011;
 
-	if (newDialValue != dialValue) {
-		calculateDialIncrement();
-		if (dialIncrement == 1) {
-//			inputHandler->Enqueue(InputEvent::dialPlus);
-		} else if (dialIncrement == -1) {
-//			inputHandler->Enqueue(InputEvent::dialMinus);
-		}
+    if (newPushButtonState != lastPushButtonState) {
+        std::unique_ptr<Event> event;
+        if (newPushButtonState) {
+            event = std::make_unique<Event>(Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_BUTTON_PRESSED)));
+        } else {
+            event = std::make_unique<Event>(Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_BUTTON_RELEASED)));
+        }
+        eventDispatcher->dispatch(std::move(event));
+        lastPushButtonState = newPushButtonState;
+    }
+	if (newDialReadout != lastDialReadout) {
+        if (lastDialReadout == DIAL_IDLE) {
+            std::unique_ptr<Event> event;
+            switch (newDialReadout) {
+                case DIAL_PLUS:
+                    event = std::make_unique<Event>(Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_PLUS)));
+                    eventDispatcher->dispatch(std::move(event));
+                    break;
+                case DIAL_MINUS:
+                    event = std::make_unique<Event>(Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_MINUS)));
+                    eventDispatcher->dispatch(std::move(event));
+                    break;
+                default:
+                    break;
+            }
+        }
+        lastDialReadout = newDialReadout;
 	}
-
-
-	if (pushButtonValue != newPushButtonValue) {
-		pushButtonValue = newPushButtonValue;
-		if (pushButtonValue == 1) {
-//			inputHandler->Enqueue(InputEvent::dialPushButtonReleased);
-		} else {
-//			inputHandler->Enqueue(InputEvent::dialPushButtonPressed);
-		}
-	}
-}
-
-void Dial::calculateDialIncrement() {
-	dialIncrement = QUADRATURE_TABLE[(newDialValue << 2) + dialValue];
-	dialValue = newDialValue;
 }
 
 uint32_t Dial::delay() {

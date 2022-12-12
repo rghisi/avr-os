@@ -15,31 +15,25 @@
 class Dial: public Task {
 public:
 	Dial(EventDispatcher *eventDispatcher);
-	void setup();
-
     ~Dial() override = default;
-
+    void setup();
     void run() override;
-
     uint32_t delay() override;
-
     Type type() override;
 
 private:
-	void calculateDialIncrement();
-    EventDispatcher *eventDispatcher;
-	uint8_t inputPinValues;
-	uint8_t pushButtonValue;
-	uint8_t newPushButtonValue;
-	uint8_t newDialValue;
-	uint8_t dialValue;
-	int8_t dialIncrement;
+    static constexpr uint8_t DIAL_PLUS = 0b00000010;
+    static constexpr uint8_t DIAL_MINUS = 0b00000001;
+    static constexpr uint8_t DIAL_IDLE = 0;
+    static const uint8_t DIAL_A_PORT = PORTC1;
+    static const uint8_t DIAL_B_PORT = PORTC2;
+    static const uint8_t PUSH_BUTTON_PORT = PORTC3;
+    static const uint8_t DIAL_PORT_MASK = _BV(DIAL_A_PORT) | _BV(DIAL_B_PORT) | _BV(PUSH_BUTTON_PORT);
 
-	static const uint8_t DIAL_PORT_MASK = _BV(PORTC5) | _BV(PORTC4) | _BV(PORTC3);
-	static const uint8_t DIAL_A_PORT = PORTC3;
-	static const uint8_t DIAL_B_PORT = PORTC4;
-	static const uint8_t PUSH_BUTTON_PORT = PORTC5;
-	static const int8_t QUADRATURE_TABLE[];
+    EventDispatcher *eventDispatcher;
+    uint8_t lastDialReadout;
+    bool lastPushButtonState;
+//    static const int8_t QUADRATURE_TABLE[];
 
 };
 

@@ -55,7 +55,7 @@ void ATMega328P::setTimer1CompareMatchBInterruptHandler(TimerCompareMatchInterru
 
 void ATMega328P::startTimer1() {
     TCNT1 = 0;
-    TCCR1B |= _BV(CS11) | _BV(CS10); //Clock with CLK/64 prescaler
+    TCCR1B |= _BV(CS11); //CLK/8 //| _BV(CS10); //Clock with CLK/64 prescaler
 }
 
 void ATMega328P::stopTimer1() {
@@ -132,4 +132,12 @@ void ATMega328P::externalInterruptDisable() {
 
 uint16_t ATMega328P::timer1Value() {
     return TCNT1;
+}
+
+void ATMega328P::resetTimer1() {
+    TCNT1 = 0;
+}
+
+void ATMega328P::timer1ForceCompareMatchA() {
+    TCCR1C |= _BV(FOC1A);
 }
