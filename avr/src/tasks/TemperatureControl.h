@@ -24,11 +24,11 @@ public:
     bool handle(std::unique_ptr<Event> event) override;
 
 private:
-    int16_t temperatureSetPoint = 300;
-    int16_t currentTemperature = 0;
-    int16_t dimmerPosition = 0;
+    int32_t temperatureSetPoint = 3000;
+    int32_t currentTemperature = 0;
+    int32_t dimmerPosition = 0;
     Dimmer *dimmer;
-    PID pid = PID(100, 10, 10);
+    PID pid = PID(300, 25, 10);
 };
 
 

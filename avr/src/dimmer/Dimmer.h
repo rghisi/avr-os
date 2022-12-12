@@ -30,7 +30,7 @@ private:
     Timer1 *timer;
     ExternalInterrupt *externalInterrupt;
     uint16_t timeToZeroCross = 1200;
-    uint16_t position = 20000 - timeToZeroCross;
+    uint16_t position = 20000 - timeToZeroCross - 500;
     uint16_t positionStep = position >> 8;
 };
 

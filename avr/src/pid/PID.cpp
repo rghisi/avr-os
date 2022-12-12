@@ -4,7 +4,7 @@
 
 #include "PID.h"
 
-PID::PID(int16_t pFactor, int16_t iFactor, int16_t dFactor) {
+PID::PID(int32_t pFactor, int32_t iFactor, int32_t dFactor) {
     // Start values for PID controller
     sumError = 0;
     lastProcessValue = 0;
@@ -17,8 +17,8 @@ PID::PID(int16_t pFactor, int16_t iFactor, int16_t dFactor) {
     maxSumError = MAX_I_TERM / (IFactor + 1);
 }
 
-int16_t PID::update(int16_t setPoint, int16_t processValue) {
-    int16_t error, p_term, d_term;
+int32_t PID::update(int32_t setPoint, int32_t processValue) {
+    int32_t error, p_term, d_term;
     int32_t i_term, ret, temp;
 
     error = setPoint - processValue;

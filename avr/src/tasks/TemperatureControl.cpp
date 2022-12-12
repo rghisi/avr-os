@@ -34,7 +34,7 @@ EventType TemperatureControl::eventType() {
 
 bool TemperatureControl::handle(std::unique_ptr<Event> event) {
     auto bmeReport = static_cast<BME280Report*>(event->data());
-    currentTemperature = (bmeReport->temperatureCelsius / 10);
+    currentTemperature = (bmeReport->temperatureCelsius);
     delete bmeReport;
     return true;
 }
