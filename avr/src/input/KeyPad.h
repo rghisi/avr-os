@@ -11,14 +11,15 @@
 
 class KeyPad: public Task {
 public:
-    enum class Key { IDLE, UP, DOWN, LEFT, RIGHT, CENTER };
+    enum class Key { RELEASED, UP, DOWN, LEFT, RIGHT, ENTER };
     KeyPad(EventDispatcher *eventDispatcher);
     ~KeyPad() override = default;
     void run() override;
     uint32_t delay() override;
     Type type() override;
+    void setup();
 private:
-    Key button;
+    Key previous;
     EventDispatcher *eventDispatcher;
 };
 

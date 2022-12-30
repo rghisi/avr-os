@@ -3,6 +3,7 @@
 //
 #include "UserInput.h"
 
-UserInput::UserInput(UserInput::Event event) {
+UserInput::UserInput(UserInput::Event event, uint16_t value) {
     this->event = event;
+    this->value = value;
 }

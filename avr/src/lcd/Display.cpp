@@ -57,7 +57,7 @@ void Display::stats(std::unique_ptr<Event> event) {
     s[2] = ' ';
     s[3] = 0x00;
     LCD_PrintString(s);
-    sprintf(s, "%" SCNu8, cpuStats->idlePercent());
+    sprintf(s, "%" PRIu8, cpuStats->idlePercent());
     LCD_GotoXY(13, 0);
     LCD_PrintString(s);
 }
@@ -72,14 +72,17 @@ void Display::text(std::unique_ptr<Event> event) {
 void Display::memory(std::unique_ptr<Event> event) {
     auto *memoryStats = static_cast<MemoryStats*>(event->data());
     char s[5];
-    sprintf(s, "%" SCNu32, memoryStats->value);
+    sprintf(s, "%" PRIu32, memoryStats->value);
     LCD_GotoXY(0, 0);
     LCD_PrintString(s);
 }
 
 void Display::input(std::unique_ptr<Event> event) {
     auto userInput = static_cast<UserInput*>(event->data());
-    char s[4];
+    char s[8];
+    sprintf(s, "       ");
+    LCD_GotoXY(5, 0);
+    LCD_PrintString(s);
     switch (userInput->event) {
         case UserInput::Event::DIAL_PLUS:
             dial++;
@@ -95,18 +98,49 @@ void Display::input(std::unique_ptr<Event> event) {
         case UserInput::Event::DIAL_BUTTON_RELEASED:
             s[0] = 'R';
             break;
+        case UserInput::Event::BUTTON_LEFT_PRESSED:
+            sprintf(s, "LP");
+            break;
+        case UserInput::Event::BUTTON_LEFT_RELEASED:
+            sprintf(s, "LR");
+            break;
+        case UserInput::Event::BUTTON_UP_PRESSED:
+            sprintf(s, "UP");
+            break;
+        case UserInput::Event::BUTTON_UP_RELEASED:
+            sprintf(s, "UR");
+            break;
+        case UserInput::Event::BUTTON_RIGHT_PRESSED:
+            sprintf(s, "RP");
+            break;
+        case UserInput::Event::BUTTON_RIGHT_RELEASED:
+            sprintf(s, "RR");
+            break;
+        case UserInput::Event::BUTTON_DOWN_PRESSED:
+            sprintf(s, "DP");
+            break;
+        case UserInput::Event::BUTTON_DOWN_RELEASED:
+            sprintf(s, "DR");
+            break;
+        case UserInput::Event::BUTTON_ENTER_PRESSED:
+            sprintf(s, "EP");
+            break;
+        case UserInput::Event::BUTTON_ENTER_RELEASED:
+            sprintf(s, "ER");
+            break;
         default:
+            sprintf(s, "%" PRIu16, userInput->value);
             break;
     }
-    delete userInput;
-    LCD_GotoXY(11, 0);
+    LCD_GotoXY(5, 0);
     LCD_PrintString(s);
+    delete userInput;
 }
 
 void Display::sensor(std::unique_ptr<Event> event) {
     auto *bme280Report = static_cast<BME280Report*>(event->data());
     char s[12];
-    sprintf(s, "%" SCNi32 " %" SCNu32, bme280Report->temperatureCelsius, bme280Report->relativeHumidity);
+    sprintf(s, "%" PRId32 " %" PRIu32, bme280Report->temperatureCelsius, bme280Report->relativeHumidity);
     LCD_GotoXY(6, 1);
     LCD_PrintString(s);
     delete bme280Report;

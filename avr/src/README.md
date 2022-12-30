@@ -7,12 +7,12 @@
 
 ### LCD
 
-* LCD_D4	D, 4
-* LCD_D5	D, 5
-* LCD_D6	D, 6
-* LCD_D7	D, 7
-* LCD_RS	B, 4
-* LCD_RW   B, 3
+* LCD_D4	D, 7
+* LCD_D5	D, 6
+* LCD_D6	D, 5
+* LCD_D7	D, 4
+* LCD_RS	B, 5
+* LCD_RW   B, 4
 * LCD_EN	B, 0
 
 ### BME / I2C

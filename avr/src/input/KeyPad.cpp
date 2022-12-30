@@ -3,30 +3,78 @@
 //
 
 #include <avr/io.h>
-#include <util/delay.h>
 #include "KeyPad.h"
+#include "UserInput.h"
 
 KeyPad::KeyPad(EventDispatcher *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
+    previous = Key::RELEASED;
 }
 
 void KeyPad::run() {
-    PORTB ^= _BV(PORTB5);
-//    uint16_t value = ADC;
-//    button = Key::IDLE;
-//    if (value < 965 && value > 945) {
-//        button = Key::UP;
-//    } else if (value < 915 && value > 900) {
-//        button = Key::DOWN;
-//    } else if (value < 1010 && value > 980) {
-//        button = Key::LEFT;
-//    } else if (value < 850 && value > 820) {
-//        button = Key::RIGHT;
-//    } else if (value < 670 && value > 640) {
-//        button = Key::CENTER;
-//    }
-//    auto event = std::make_unique<Event>(KEYPAD_KEY_DOWN, &button);
-//    eventDispatcher->dispatch(std::move(event));
+    uint16_t value = ADC;
+    Key current = Key::RELEASED;
+    if (value > 1000) {
+        current = Key::RELEASED;
+    } else if (value < 34 && value >= 28) {
+        current = Key::UP;
+    } else if (value < 95 && value >= 80) {
+        current = Key::DOWN;
+    } else if (value < 20 && value >= 0) {
+        current = Key::LEFT;
+    } else if (value < 170 && value >= 160) {
+        current = Key::RIGHT;
+    } else if (value < 360 && value >= 340) {
+        current = Key::ENTER;
+    }
+    if (current != previous) {
+        UserInput::Event button = UserInput::Event::NONE;
+        switch (current) {
+            case Key::RELEASED:
+                switch (previous) {
+                    case Key::UP:
+                        button = UserInput::Event::BUTTON_UP_RELEASED;
+                        break;
+                    case Key::DOWN:
+                        button = UserInput::Event::BUTTON_DOWN_RELEASED;
+                        break;
+                    case Key::LEFT:
+                        button = UserInput::Event::BUTTON_LEFT_RELEASED;
+                        break;
+                    case Key::RIGHT:
+                        button = UserInput::Event::BUTTON_RIGHT_RELEASED;
+                        break;
+                    case Key::ENTER:
+                        button = UserInput::Event::BUTTON_ENTER_RELEASED;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case Key::UP:
+                button = UserInput::Event::BUTTON_UP_PRESSED;
+                break;
+            case Key::DOWN:
+                button = UserInput::Event::BUTTON_DOWN_PRESSED;
+                break;
+            case Key::LEFT:
+                button = UserInput::Event::BUTTON_LEFT_PRESSED;
+                break;
+            case Key::RIGHT:
+                button = UserInput::Event::BUTTON_RIGHT_PRESSED;
+                break;
+            case Key::ENTER:
+                button = UserInput::Event::BUTTON_ENTER_PRESSED;
+                break;
+        }
+        if (button != UserInput::Event::NONE) {
+            auto event = std::make_unique<Event>(
+                    Event(USER_INPUT, new UserInput(button, value))
+            );
+            eventDispatcher->dispatch(std::move(event));
+        }
+        previous = current;
+    }
 }
 
 uint32_t KeyPad::delay() {
@@ -35,4 +83,13 @@ uint32_t KeyPad::delay() {
 
 Task::Type KeyPad::type() {
     return Type::PERIODIC;
+}
+
+void KeyPad::setup() {
+    DDRC &= ~_BV(PORTC0);
+    DIDR0 = _BV(ADC0D);
+    ADMUX = _BV(REFS0); //AVcc reference
+    ADCSRA = _BV(ADEN) | _BV(ADATE) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
+    ADCSRB = 0x00;
+    ADCSRA |= _BV(ADSC);
 }

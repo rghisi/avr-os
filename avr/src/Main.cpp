@@ -10,8 +10,6 @@
 #include "system/EventLoop.h"
 #include "system/EventDispatcher.h"
 #include "system/WallClock.h"
-#include "tasks/PeriodicCpuUsageReport.h"
-#include "system/CpuStats.h"
 #include "lcd/Display.h"
 #include "tasks/AsyncTaskTest.h"
 #include "system/AsyncExecutor.h"
@@ -62,7 +60,6 @@ void __cxa_pure_virtual(void) {};
 
 auto atmega = ATMega328P();
 auto display = Display();
-auto cpuStats = CpuStats();
 auto wallClock = WallClock();
 auto taskScheduler = TaskScheduler(&wallClock);
 auto eventLoop = EventLoop();
@@ -73,19 +70,19 @@ auto keyPad = KeyPad(&eventDispatcher);
 auto dial = Dial(&eventDispatcher);
 auto periodicSensorReport = PeriodicSensorReport(&eventDispatcher);
 auto dimmer = Dimmer(&atmega, &atmega);
-auto temperatureControl = TemperatureControl(&dimmer);
+//auto temperatureControl = TemperatureControl(&dimmer);
 auto test = Test(&eventDispatcher, &dimmer);
 
 int main(void) {
-    uint8_t statusLed = _BV(PORTB5);
-    DDRB |= statusLed;
-    PORTB &= ~statusLed;
-    _delay_ms(1000);
-    PORTB |= statusLed;
-    _delay_ms(1000);
-    PORTB &= ~statusLed;
+//    uint8_t statusLed = _BV(PORTB5);
+//    DDRB |= statusLed;
+//    PORTB &= ~statusLed;
+//    _delay_ms(1000);
+//    PORTB |= statusLed;
+//    _delay_ms(1000);
+//    PORTB &= ~statusLed;
 
-    DDRC |= _BV(PORTC0);
+//    DDRC |= _BV(PORTC0);
 
 
     atmega.setupTimer0();
@@ -96,6 +93,7 @@ int main(void) {
     atmega.setExternalInterruptHandler(&dimmer);
     atmega.enableInterrupts();
 
+    keyPad.setup();
     dial.setup();
 
     eventLoop.addHandler(&asyncExecutor);
@@ -105,20 +103,19 @@ int main(void) {
     eventLoop.addHandler(&display, MEMORY_STATS_READ);
     eventLoop.addHandler(&display, SENSOR_READ);
     eventLoop.addHandler(&display, USER_INPUT);
-    eventLoop.addHandler(&temperatureControl);
-    eventLoop.addHandler(&test);
+//    eventLoop.addHandler(&temperatureControl);
+    //eventLoop.addHandler(&test);
 
-//    taskScheduler.schedule(&periodicCpuUsageReport);
     taskScheduler.schedule(&periodicMemoryReport);
     taskScheduler.schedule(&keyPad);
     taskScheduler.schedule(&dial);
     taskScheduler.schedule(&periodicSensorReport);
-    taskScheduler.schedule(&temperatureControl);
+//    taskScheduler.schedule(&temperatureControl);
 
-    auto *dimmerCalibrationTask = new AsyncChain(&eventDispatcher);
-    dimmerCalibrationTask
-            ->wait(1000)
-            ->then([]() {dimmer.enable();})
+//    auto *dimmerCalibrationTask = new AsyncChain(&eventDispatcher);
+//    dimmerCalibrationTask
+//            ->wait(1000)
+//            ->then([]() {dimmer.enable();})
 //            ->wait(500)
 //            ->then([]() {dimmer.setPosition(64);})
 //            ->wait(2000)
@@ -129,17 +126,17 @@ int main(void) {
 //            ->then([]() {dimmer.setPosition(16);})
 //            ->wait(2000)
 //            ->then([]() {dimmer.setPosition(0);})
-            ->schedule();
+//            ->schedule();
 
     while (true) {
-        PORTC |= _BV(PORTC0);
+//        PORTC |= _BV(PORTC0);
 //        cpuStats.start(wallClock.now());
         auto used = taskScheduler.process();
 //        cpuStats.end(wallClock.now(), used);
 //        cpuStats.start(wallClock.now());
         used = eventLoop.process();
 //        cpuStats.end(wallClock.now(), used);
-        PORTC &= ~ _BV(PORTC0);
+//        PORTC &= ~ _BV(PORTC0);
     }
 
     return 0;
