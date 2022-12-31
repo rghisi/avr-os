@@ -20,6 +20,8 @@
 #include "tasks/TemperatureControl.h"
 #include "input/Dial.h"
 #include "app/Test.h"
+#include "time/TimeTick.h"
+#include "app/TimedDrying.h"
 
 void * operator new(size_t size)
 {
@@ -70,6 +72,8 @@ auto keyPad = KeyPad(&eventDispatcher);
 auto dial = Dial(&eventDispatcher);
 auto periodicSensorReport = PeriodicSensorReport(&eventDispatcher);
 auto dimmer = Dimmer(&atmega, &atmega);
+auto timeTickTask = TimeTick(&eventDispatcher, &wallClock);
+auto timedDrying = TimedDrying();
 //auto temperatureControl = TemperatureControl(&dimmer);
 auto test = Test(&eventDispatcher, &dimmer);
 
@@ -103,6 +107,8 @@ int main(void) {
     eventLoop.addHandler(&display, MEMORY_STATS_READ);
     eventLoop.addHandler(&display, SENSOR_READ);
     eventLoop.addHandler(&display, USER_INPUT);
+    eventLoop.addHandler(&timedDrying);
+    eventLoop.addHandler(&timedDrying, USER_INPUT);
 //    eventLoop.addHandler(&temperatureControl);
     //eventLoop.addHandler(&test);
 
@@ -110,6 +116,7 @@ int main(void) {
     taskScheduler.schedule(&keyPad);
     taskScheduler.schedule(&dial);
     taskScheduler.schedule(&periodicSensorReport);
+    taskScheduler.schedule(&timeTickTask);
 //    taskScheduler.schedule(&temperatureControl);
 
 //    auto *dimmerCalibrationTask = new AsyncChain(&eventDispatcher);
