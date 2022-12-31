@@ -7,6 +7,7 @@
 
 
 enum EventType {
+    TIME_TICK,
     CPU_STATS_READ,
     MEMORY_STATS_READ,
     SHOW_TEXT_REQUESTED,

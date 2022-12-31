@@ -35,7 +35,7 @@
 * PB2 (Timer1 B)
 
 ### Buzzer
-* PD3 (Timer 2 B)
+* PD3 (TimedDrying 2 B)
 
 ### UART
 * PD0 (RX)
