@@ -17,7 +17,7 @@ public:
     uint32_t delay() override;
     Type type() override;
 
-    bool handle(std::unique_ptr<Event> event) override;
+    bool handle(Event* event) override;
 
     EventType eventType() override;
 

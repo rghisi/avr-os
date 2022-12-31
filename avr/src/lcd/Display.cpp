@@ -27,29 +27,29 @@ EventType Display::eventType() {
     return CPU_STATS_READ;
 }
 
-bool Display::handle(std::unique_ptr<Event> event) {
+bool Display::handle(Event* event) {
     switch (event->type()) {
         case CPU_STATS_READ:
-            stats(std::move(event));
+            stats(event);
             break;
         case SHOW_TEXT_REQUESTED:
-            text(std::move(event));
+            text(event);
             break;
         case MEMORY_STATS_READ:
-            memory(std::move(event));
+            memory(event);
             break;
         case USER_INPUT:
-            input(std::move(event));
+            input(event);
             break;
         case SENSOR_READ:
-            sensor(std::move(event));
+            sensor(event);
         default:
             break;
     }
     return true;
 }
 
-void Display::stats(std::unique_ptr<Event> event) {
+void Display::stats(Event* event) {
     auto cpuStats = static_cast<CpuStats*>(event->data());
     char s[4];
     s[0] = ' ';
@@ -62,14 +62,13 @@ void Display::stats(std::unique_ptr<Event> event) {
     LCD_PrintString(s);
 }
 
-void Display::text(std::unique_ptr<Event> event) {
+void Display::text(Event* event) {
     auto text = static_cast<char*>(event->data());
     LCD_GotoXY(0, 1);
     LCD_PrintString(text);
-    delete text;
 }
 
-void Display::memory(std::unique_ptr<Event> event) {
+void Display::memory(Event* event) {
     auto *memoryStats = static_cast<MemoryStats*>(event->data());
     char s[5];
     sprintf(s, "%" PRIu32, memoryStats->value);
@@ -77,7 +76,7 @@ void Display::memory(std::unique_ptr<Event> event) {
     LCD_PrintString(s);
 }
 
-void Display::input(std::unique_ptr<Event> event) {
+void Display::input(Event* event) {
     auto userInput = static_cast<UserInput*>(event->data());
     char s[8];
     sprintf(s, "       ");
@@ -134,14 +133,12 @@ void Display::input(std::unique_ptr<Event> event) {
     }
     LCD_GotoXY(5, 0);
     LCD_PrintString(s);
-    delete userInput;
 }
 
-void Display::sensor(std::unique_ptr<Event> event) {
+void Display::sensor(Event* event) {
     auto *bme280Report = static_cast<BME280Report*>(event->data());
     char s[12];
     sprintf(s, "%" PRId32 " %" PRIu32, bme280Report->temperatureCelsius, bme280Report->relativeHumidity);
     LCD_GotoXY(6, 1);
     LCD_PrintString(s);
-    delete bme280Report;
 }

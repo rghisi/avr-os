@@ -12,10 +12,8 @@ TimeTick::TimeTick(EventDispatcher *eventDispatcher, WallClock *wallClock) {
 
 void TimeTick::run() {
     auto now = wallClock->now();
-    auto event = std::make_unique<Event>(
-            Event(EventType::TIME_TICK, new TimeTickData(now))
-            );
-    eventDispatcher->dispatch(std::move(event));
+    auto event = new Event(EventType::TIME_TICK, new TimeTickData(now));
+    eventDispatcher->dispatch(event);
 }
 
 uint32_t TimeTick::delay() {

@@ -23,21 +23,22 @@ void EventLoop::addHandler(EventHandler *handler, EventType eventType) {
 
 bool EventLoop::process() {
     if (!events.empty()) {
-        auto event = std::move(events.front());
+        auto event = events.front();
         events.pop_front();
         auto *handler = handlers[event->type()];
         if (handler != nullptr) {
-            handler->handle(std::move(event));
+            handler->handle(event);
         }
+        delete event;
         return true;
     }
 
     return false;
 }
 
-bool EventLoop::push(std::unique_ptr<Event> event) {
+bool EventLoop::push(Event* event) {
     if (events.size() <= BUFFER_SIZE) {
-        events.push_back(std::move(event));
+        events.push_back(event);
         return true;
     }
 

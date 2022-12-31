@@ -15,13 +15,13 @@ class AsyncExecutor: public EventHandler {
 public:
     explicit AsyncExecutor(TaskScheduler *taskScheduler, EventDispatcher *eventDispatcher);
     EventType eventType() override;
-    bool handle(std::unique_ptr<Event> event) override;
+    bool handle(Event* event) override;
 
 private:
     TaskScheduler *taskScheduler;
     EventDispatcher *eventDispatcher;
-    void executeAsync(std::unique_ptr<Event> event);
-    void executeChain(std::unique_ptr<Event> event);
+    void executeAsync(Event* event);
+    void executeChain(Event* event);
 };
 
 

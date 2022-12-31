@@ -17,12 +17,12 @@ class EventLoop {
 public:
     EventLoop();
     bool process();
-    bool push(std::unique_ptr<Event> event);
+    bool push(Event* event);
     void addHandler(EventHandler *handler);
     void addHandler(EventHandler *handler, EventType eventType);
 private:
     static const uint8_t BUFFER_SIZE = 10;
-    std::list<std::unique_ptr<Event>> events;
+    std::list<Event*> events;
     EventHandler* handlers[EventType::MAX]{};
 };
 

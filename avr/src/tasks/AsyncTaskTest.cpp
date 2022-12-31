@@ -2,8 +2,6 @@
 // Created by ghisi on 19.10.22.
 //
 
-#include "functional"
-#include "memory"
 #include "AsyncTaskTest.h"
 #include "../system/CpuStats.h"
 #include "../system/AsyncChain.h"
@@ -23,23 +21,23 @@ uint32_t AsyncTaskTest::delay() {
 
 void AsyncTaskTest::run() {
     auto f1 = [*this]() {
-        auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, m1));
-        eventDispatcher->dispatch(std::move(event));
+        auto event = new Event(EventType::SHOW_TEXT_REQUESTED, m1);
+        eventDispatcher->dispatch(event);
     };
 
     auto f2 = [*this]() {
-        auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, m2));
-        eventDispatcher->dispatch(std::move(event));
+        auto event = new Event(EventType::SHOW_TEXT_REQUESTED, m2);
+        eventDispatcher->dispatch(event);
     };
 
     auto f3 = [*this]() {
-        auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, m3));
-        eventDispatcher->dispatch(std::move(event));
+        auto event = new Event(EventType::SHOW_TEXT_REQUESTED, m3);
+        eventDispatcher->dispatch(event);
     };
 
     auto f4 = [*this]() {
-        auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, m4));
-        eventDispatcher->dispatch(std::move(event));
+        auto event = new Event(EventType::SHOW_TEXT_REQUESTED, m4);
+        eventDispatcher->dispatch(event);
     };
 
     auto *asyncChain = new AsyncChain(eventDispatcher);

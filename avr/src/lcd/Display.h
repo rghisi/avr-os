@@ -12,14 +12,14 @@ class Display: public EventHandler {
 public:
     Display();
     EventType eventType() override;
-    bool handle(std::unique_ptr<Event> event) override;
+    bool handle(Event* event) override;
 
 private:
-    void stats(std::unique_ptr<Event> event);
-    void text(std::unique_ptr<Event> event);
-    void memory(std::unique_ptr<Event> event);
-    void input(std::unique_ptr<Event> event);
-    void sensor(std::unique_ptr<Event> event);
+    void stats(Event* event);
+    void text(Event* event);
+    void memory(Event* event);
+    void input(Event* event);
+    void sensor(Event* event);
     uint8_t dial = 0;
 };
 

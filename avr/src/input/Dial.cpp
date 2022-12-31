@@ -34,26 +34,26 @@ void Dial::run() {
 	auto newDialReadout = (inputPinValues >> DIAL_A_PORT) & 0b00000011;
 
     if (newPushButtonState != lastPushButtonState) {
-        std::unique_ptr<Event> event;
+        Event* event;
         if (newPushButtonState) {
-            event = std::make_unique<Event>(Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_BUTTON_PRESSED, 0x00)));
+            event = new Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_BUTTON_PRESSED, 0x00));
         } else {
-            event = std::make_unique<Event>(Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_BUTTON_RELEASED, 0x00)));
+            event = new Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_BUTTON_RELEASED, 0x00));
         }
-        eventDispatcher->dispatch(std::move(event));
+        eventDispatcher->dispatch(event);
         lastPushButtonState = newPushButtonState;
     }
 	if (newDialReadout != lastDialReadout) {
         if (lastDialReadout == DIAL_IDLE) {
-            std::unique_ptr<Event> event;
+            Event* event;
             switch (newDialReadout) {
                 case DIAL_PLUS:
-                    event = std::make_unique<Event>(Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_PLUS, 0x00)));
-                    eventDispatcher->dispatch(std::move(event));
+                    event = new Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_PLUS, 0x00));
+                    eventDispatcher->dispatch(event);
                     break;
                 case DIAL_MINUS:
-                    event = std::make_unique<Event>(Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_MINUS, 0x00)));
-                    eventDispatcher->dispatch(std::move(event));
+                    event = new Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_MINUS, 0x00));
+                    eventDispatcher->dispatch(event);
                     break;
                 default:
                     break;

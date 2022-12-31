@@ -18,7 +18,7 @@ Task::Type TempHumControl::type() {
     return Type::PERIODIC;
 }
 
-bool TempHumControl::handle(std::unique_ptr<Event> event) {
+bool TempHumControl::handle(Event* event) {
     switch (event->type()) {
         case SENSOR_READ:
             break;

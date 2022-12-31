@@ -4,14 +4,14 @@
 
 #include "AsyncWaitTask.h"
 
-AsyncWaitTask::AsyncWaitTask(uint32_t delay, EventDispatcher *eventDispatcher, std::unique_ptr<Event> callbackEvent) {
+AsyncWaitTask::AsyncWaitTask(uint32_t delay, EventDispatcher *eventDispatcher, Event* callbackEvent) {
     this->milliseconds = delay;
     this->eventDispatcher = eventDispatcher;
-    this->callbackEvent = std::move(callbackEvent);
+    this->callbackEvent = callbackEvent;
 }
 
 void AsyncWaitTask::run() {
-    eventDispatcher->dispatch(std::move(callbackEvent));
+    eventDispatcher->dispatch(callbackEvent);
 }
 
 uint32_t AsyncWaitTask::delay() {

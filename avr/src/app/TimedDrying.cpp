@@ -17,13 +17,13 @@ EventType TimedDrying::eventType() {
     return TIME_TICK;
 }
 
-bool TimedDrying::handle(std::unique_ptr<Event> event) {
+bool TimedDrying::handle(Event* event) {
     switch (event->type()) {
         case TIME_TICK:
-            handleTimeTick(std::move(event));
+            handleTimeTick(event);
             break;
         case USER_INPUT:
-            handleUserInput(std::move(event));
+            handleUserInput(event);
             break;
         default:
             break;
@@ -32,7 +32,7 @@ bool TimedDrying::handle(std::unique_ptr<Event> event) {
     return true;
 }
 
-void TimedDrying::handleTimeTick(std::unique_ptr<Event> event) {
+void TimedDrying::handleTimeTick(Event* event) {
     auto timeTickData = static_cast<TimeTickData*>(event->data());
     auto timestamp = timeTickData->millis();
     if (active) {
@@ -45,10 +45,9 @@ void TimedDrying::handleTimeTick(std::unique_ptr<Event> event) {
         }
     }
     previousTimestamp = timestamp;
-    delete timeTickData;
 }
 
-void TimedDrying::handleUserInput(std::unique_ptr<Event> event) {
+void TimedDrying::handleUserInput(Event* event) {
     auto userInput = static_cast<UserInput*>(event->data());
     if (active) {
         switch (userInput->event) {
@@ -74,7 +73,6 @@ void TimedDrying::handleUserInput(std::unique_ptr<Event> event) {
                 break;
         }
     }
-    delete userInput;
 }
 
 void TimedDrying::activate() {

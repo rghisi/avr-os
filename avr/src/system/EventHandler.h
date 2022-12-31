@@ -12,7 +12,7 @@
 class EventHandler {
 public:
     virtual EventType eventType() = 0;
-    virtual bool handle(std::unique_ptr<Event> event) = 0;
+    virtual bool handle(Event* event) = 0;
 };
 
 

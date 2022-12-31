@@ -7,12 +7,11 @@
 
 
 #include "EventLoop.h"
-#include "memory"
 
 class EventDispatcher {
 public:
     explicit EventDispatcher(EventLoop *eventLoop);
-    void dispatch(std::unique_ptr<Event> event);
+    void dispatch(Event* event);
 private:
     EventLoop *eventLoop;
 };

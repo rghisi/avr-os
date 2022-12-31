@@ -21,7 +21,7 @@ public:
 
     EventType eventType() override;
 
-    bool handle(std::unique_ptr<Event> event) override;
+    bool handle(Event* event) override;
 
 private:
     int32_t temperatureSetPoint = 3000;

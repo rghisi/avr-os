@@ -14,7 +14,7 @@ class Test: public EventHandler {
 public:
     Test(EventDispatcher *eventDispatcher, Dimmer *dimmer);
     EventType eventType() override;
-    bool handle(std::unique_ptr<Event> event) override;
+    bool handle(Event* event) override;
 
 private:
     uint8_t dial = 0;

@@ -12,15 +12,15 @@ class TimedDrying: public EventHandler {
 public:
     TimedDrying();
     EventType eventType() override;
-    bool handle(std::unique_ptr<Event> event) override;
+    bool handle(Event* event) override;
     void activate();
     void deactivate();
 private:
     enum class State {
         NONE, MINUTES, SECONDS
     };
-    void handleTimeTick(std::unique_ptr<Event> event);
-    void handleUserInput(std::unique_ptr<Event> event);
+    void handleTimeTick(Event* event);
+    void handleUserInput(Event* event);
     uint32_t previousTimestamp;
     uint8_t seconds;
     uint8_t minutes;

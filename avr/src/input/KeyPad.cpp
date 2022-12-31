@@ -68,10 +68,8 @@ void KeyPad::run() {
                 break;
         }
         if (button != UserInput::Event::NONE) {
-            auto event = std::make_unique<Event>(
-                    Event(USER_INPUT, new UserInput(button, value))
-            );
-            eventDispatcher->dispatch(std::move(event));
+            auto event = new Event(USER_INPUT, new UserInput(button, value));
+            eventDispatcher->dispatch(event);
         }
         previous = current;
     }

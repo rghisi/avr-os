@@ -15,7 +15,7 @@ Test::Test(EventDispatcher *eventDispatcher, Dimmer *dimmer) {
     this->dimmer = dimmer;
 }
 
-bool Test::handle(std::unique_ptr<Event> event) {
+bool Test::handle(Event* event) {
     auto userInput = static_cast<UserInput*>(event->data());
     switch (userInput->event) {
         case UserInput::Event::DIAL_PLUS:
@@ -27,7 +27,6 @@ bool Test::handle(std::unique_ptr<Event> event) {
         default:
             break;
     }
-    delete userInput;
     return true;
 }
 
@@ -36,8 +35,8 @@ void Test::plus() {
     dimmer->setPosition(dial);
     auto s = new char[4];
     sprintf(s, "%" PRIu8, dial);
-    auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, s));
-    eventDispatcher->dispatch(std::move(event));
+    auto event = new Event(EventType::SHOW_TEXT_REQUESTED, s);
+    eventDispatcher->dispatch(event);
 }
 
 void Test::minus() {
@@ -45,6 +44,6 @@ void Test::minus() {
     dimmer->setPosition(dial);
     auto s = new char[4];
     sprintf(s, "%" PRIu8, dial);
-    auto event = std::make_unique<Event>(Event(EventType::SHOW_TEXT_REQUESTED, s));
-    eventDispatcher->dispatch(std::move(event));
+    auto event = new Event(EventType::SHOW_TEXT_REQUESTED, s);
+    eventDispatcher->dispatch(event);
 }
