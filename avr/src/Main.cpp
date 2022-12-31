@@ -107,8 +107,8 @@ int main(void) {
     eventLoop.addHandler(&display, MEMORY_STATS_READ);
     eventLoop.addHandler(&display, SENSOR_READ);
     eventLoop.addHandler(&display, USER_INPUT);
-    eventLoop.addHandler(&timedDrying);
-    eventLoop.addHandler(&timedDrying, USER_INPUT);
+//    eventLoop.addHandler(&timedDrying);
+//    eventLoop.addHandler(&timedDrying, USER_INPUT);
 //    eventLoop.addHandler(&temperatureControl);
     //eventLoop.addHandler(&test);
 
@@ -116,7 +116,7 @@ int main(void) {
     taskScheduler.schedule(&keyPad);
     taskScheduler.schedule(&dial);
     taskScheduler.schedule(&periodicSensorReport);
-    taskScheduler.schedule(&timeTickTask);
+//    taskScheduler.schedule(&timeTickTask);
 //    taskScheduler.schedule(&temperatureControl);
 
 //    auto *dimmerCalibrationTask = new AsyncChain(&eventDispatcher);
