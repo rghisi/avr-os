@@ -4,6 +4,8 @@
 
 #include "AsyncExecutor.h"
 #include "AsyncChain.h"
+#include "TaskSchedulingRequested.h"
+#include "AsyncChainSchedulingRequest.h"
 
 AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, EventDispatcher *eventDispatcher) {
     this->taskScheduler = taskScheduler;
@@ -28,19 +30,19 @@ bool AsyncExecutor::handle(Event* event) {
 }
 
 void AsyncExecutor::executeAsync(Event* event) {
-    auto *async = static_cast<Task*>(event->data());
-    async->run();
+    auto *async = static_cast<TaskSchedulingRequested*>(event);
+    async->task->run();
 }
 
 void AsyncExecutor::executeChain(Event* event) {
-    auto *asyncChain = static_cast<AsyncChain*>(event->data());
+    auto *asyncChain = static_cast<AsyncChainSchedulingRequest*>(event)->asyncChain;
     if (asyncChain->hasNext()) {
         auto nextAsync = asyncChain->next();
         switch (nextAsync->type()) {
             case Task::Type::SINGLE:
                 nextAsync->run();
                 if (asyncChain->hasNext()) {
-                    auto newEvent = new Event(ASYNC_CHAIN_SCHEDULED, asyncChain);
+                    auto newEvent = new AsyncChainSchedulingRequest(asyncChain);
                     eventDispatcher->dispatch(newEvent);
                 } else {
                     delete asyncChain;

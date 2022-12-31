@@ -7,9 +7,12 @@
 
 
 #include "cstdint"
+#include "Event.h"
 
-class MemoryStats {
+class MemoryStats: public Event {
 public:
+    MemoryStats(uint32_t value);
+    ~MemoryStats() override;
     uint32_t value;
 };
 

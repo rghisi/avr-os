@@ -3,7 +3,7 @@
 //
 
 #include "TimedDrying.h"
-#include "../time/TimeTickData.h"
+#include "../time/TimeTick.h"
 #include "../input/UserInput.h"
 
 TimedDrying::TimedDrying() {
@@ -33,7 +33,7 @@ bool TimedDrying::handle(Event* event) {
 }
 
 void TimedDrying::handleTimeTick(Event* event) {
-    auto timeTickData = static_cast<TimeTickData*>(event->data());
+    auto timeTickData = static_cast<TimeTick*>(event);
     auto timestamp = timeTickData->millis();
     if (active) {
         auto delta = timestamp - previousTimestamp;
@@ -48,25 +48,25 @@ void TimedDrying::handleTimeTick(Event* event) {
 }
 
 void TimedDrying::handleUserInput(Event* event) {
-    auto userInput = static_cast<UserInput*>(event->data());
+    auto userInput = static_cast<UserInput*>(event);
     if (active) {
         switch (userInput->event) {
-            case UserInput::Event::DIAL_PLUS:
+            case UserInput::UserInputEvent::DIAL_PLUS:
                 //increase selected
                 break;
-            case UserInput::Event::DIAL_MINUS:
+            case UserInput::UserInputEvent::DIAL_MINUS:
                 //decrease selected
                 break;
-            case UserInput::Event::BUTTON_RIGHT_RELEASED:
+            case UserInput::UserInputEvent::BUTTON_RIGHT_RELEASED:
                 //cycle next - minutes, seconds, none
                 break;
-            case UserInput::Event::BUTTON_LEFT_RELEASED:
+            case UserInput::UserInputEvent::BUTTON_LEFT_RELEASED:
                 //cycle previous - minutes, seconds, none
                 break;
-            case UserInput::Event::BUTTON_ENTER_RELEASED:
+            case UserInput::UserInputEvent::BUTTON_ENTER_RELEASED:
                 //start/pause timer
                 break;
-            case UserInput::Event::DIAL_BUTTON_RELEASED:
+            case UserInput::UserInputEvent::DIAL_BUTTON_RELEASED:
                 //reset timer
                 break;
             default:

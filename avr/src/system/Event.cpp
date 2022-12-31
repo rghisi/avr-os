@@ -4,20 +4,13 @@
 
 #include "Event.h"
 
-Event::Event(EventType type, void *data) {
+Event::Event(EventType type) {
     this->eType = type;
-    this->dataPointer = data;
 }
 
-Event::~Event() {
-    dataPointer = nullptr;
-}
+Event::~Event() = default;
 
 EventType Event::type() {
     return eType;
-}
-
-void *Event::data() {
-    return dataPointer;
 }
 

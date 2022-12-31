@@ -6,6 +6,7 @@
 #include "AsyncFunction.h"
 #include "Event.h"
 #include "AsyncWaitTask.h"
+#include "AsyncChainSchedulingRequest.h"
 
 AsyncChain::AsyncChain(EventDispatcher *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
@@ -21,7 +22,7 @@ AsyncChain *AsyncChain::then(std::function<void(void)> thenLambda) {
 }
 
 AsyncChain *AsyncChain::wait(uint16_t milliseconds) {
-    auto callbackEvent = new Event(ASYNC_CHAIN_SCHEDULED, this);
+    auto callbackEvent = new AsyncChainSchedulingRequest(this);
     auto asyncWait = std::make_unique<AsyncWaitTask>(milliseconds, eventDispatcher, callbackEvent);
     chain.push_back(std::move(asyncWait));
 
@@ -43,6 +44,6 @@ bool AsyncChain::hasNext() {
 }
 
 void AsyncChain::schedule() {
-    auto event = new Event(ASYNC_CHAIN_SCHEDULED, this);
+    auto event = new AsyncChainSchedulingRequest(this);
     eventDispatcher->dispatch(event);
 }

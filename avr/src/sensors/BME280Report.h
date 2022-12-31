@@ -7,10 +7,12 @@
 
 
 #include "cstdint"
+#include "../system/Event.h"
 
-class BME280Report {
+class BME280Report: public Event {
 public:
     BME280Report(int32_t temperatureCelsius, uint32_t pressureMilliBar, uint32_t relativeHumidity);
+    ~BME280Report() override = default;
     int32_t temperatureCelsius;
     uint32_t pressureMilliBar;
     uint32_t relativeHumidity;

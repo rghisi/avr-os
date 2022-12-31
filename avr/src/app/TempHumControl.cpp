@@ -20,7 +20,7 @@ Task::Type TempHumControl::type() {
 
 bool TempHumControl::handle(Event* event) {
     switch (event->type()) {
-        case SENSOR_READ:
+        case BME280_REPORT:
             break;
         default:
             break;
@@ -29,5 +29,5 @@ bool TempHumControl::handle(Event* event) {
 }
 
 EventType TempHumControl::eventType() {
-    return SENSOR_READ;
+    return BME280_REPORT;
 }

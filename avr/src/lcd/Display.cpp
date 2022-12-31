@@ -9,6 +9,8 @@
 #include "../input/KeyPad.h"
 #include "../sensors/BME280Report.h"
 #include "../input/UserInput.h"
+#include "../tasks/CpuStatsEvent.h"
+#include "DisplayTextCommand.h"
 
 extern "C" {
     #include "one/HD44780.h"
@@ -41,7 +43,7 @@ bool Display::handle(Event* event) {
         case USER_INPUT:
             input(event);
             break;
-        case SENSOR_READ:
+        case BME280_REPORT:
             sensor(event);
         default:
             break;
@@ -50,26 +52,26 @@ bool Display::handle(Event* event) {
 }
 
 void Display::stats(Event* event) {
-    auto cpuStats = static_cast<CpuStats*>(event->data());
+    auto cpuStats = static_cast<CpuStatsEvent*>(event);
     char s[4];
     s[0] = ' ';
     s[1] = ' ';
     s[2] = ' ';
     s[3] = 0x00;
     LCD_PrintString(s);
-    sprintf(s, "%" PRIu8, cpuStats->idlePercent());
+    sprintf(s, "%" PRIu8, cpuStats->stats()->idlePercent());
     LCD_GotoXY(13, 0);
     LCD_PrintString(s);
 }
 
 void Display::text(Event* event) {
-    auto text = static_cast<char*>(event->data());
+    auto command = static_cast<DisplayTextCommand*>(event);
     LCD_GotoXY(0, 1);
-    LCD_PrintString(text);
+    LCD_PrintString(command->text);
 }
 
 void Display::memory(Event* event) {
-    auto *memoryStats = static_cast<MemoryStats*>(event->data());
+    auto *memoryStats = static_cast<MemoryStats*>(event);
     char s[5];
     sprintf(s, "%" PRIu32, memoryStats->value);
     LCD_GotoXY(0, 0);
@@ -77,54 +79,54 @@ void Display::memory(Event* event) {
 }
 
 void Display::input(Event* event) {
-    auto userInput = static_cast<UserInput*>(event->data());
+    auto userInput = static_cast<UserInput*>(event);
     char s[8];
     sprintf(s, "       ");
     LCD_GotoXY(5, 0);
     LCD_PrintString(s);
     switch (userInput->event) {
-        case UserInput::Event::DIAL_PLUS:
+        case UserInput::UserInputEvent::DIAL_PLUS:
             dial++;
             sprintf(s, "%" PRIu8, dial);
             break;
-        case UserInput::Event::DIAL_MINUS:
+        case UserInput::UserInputEvent::DIAL_MINUS:
             dial--;
             sprintf(s, "%" PRIu8, dial);
             break;
-        case UserInput::Event::DIAL_BUTTON_PRESSED:
+        case UserInput::UserInputEvent::DIAL_BUTTON_PRESSED:
             s[0] = 'P';
             break;
-        case UserInput::Event::DIAL_BUTTON_RELEASED:
+        case UserInput::UserInputEvent::DIAL_BUTTON_RELEASED:
             s[0] = 'R';
             break;
-        case UserInput::Event::BUTTON_LEFT_PRESSED:
+        case UserInput::UserInputEvent::BUTTON_LEFT_PRESSED:
             sprintf(s, "LP");
             break;
-        case UserInput::Event::BUTTON_LEFT_RELEASED:
+        case UserInput::UserInputEvent::BUTTON_LEFT_RELEASED:
             sprintf(s, "LR");
             break;
-        case UserInput::Event::BUTTON_UP_PRESSED:
+        case UserInput::UserInputEvent::BUTTON_UP_PRESSED:
             sprintf(s, "UP");
             break;
-        case UserInput::Event::BUTTON_UP_RELEASED:
+        case UserInput::UserInputEvent::BUTTON_UP_RELEASED:
             sprintf(s, "UR");
             break;
-        case UserInput::Event::BUTTON_RIGHT_PRESSED:
+        case UserInput::UserInputEvent::BUTTON_RIGHT_PRESSED:
             sprintf(s, "RP");
             break;
-        case UserInput::Event::BUTTON_RIGHT_RELEASED:
+        case UserInput::UserInputEvent::BUTTON_RIGHT_RELEASED:
             sprintf(s, "RR");
             break;
-        case UserInput::Event::BUTTON_DOWN_PRESSED:
+        case UserInput::UserInputEvent::BUTTON_DOWN_PRESSED:
             sprintf(s, "DP");
             break;
-        case UserInput::Event::BUTTON_DOWN_RELEASED:
+        case UserInput::UserInputEvent::BUTTON_DOWN_RELEASED:
             sprintf(s, "DR");
             break;
-        case UserInput::Event::BUTTON_ENTER_PRESSED:
+        case UserInput::UserInputEvent::BUTTON_ENTER_PRESSED:
             sprintf(s, "EP");
             break;
-        case UserInput::Event::BUTTON_ENTER_RELEASED:
+        case UserInput::UserInputEvent::BUTTON_ENTER_RELEASED:
             sprintf(s, "ER");
             break;
         default:
@@ -136,7 +138,7 @@ void Display::input(Event* event) {
 }
 
 void Display::sensor(Event* event) {
-    auto *bme280Report = static_cast<BME280Report*>(event->data());
+    auto *bme280Report = static_cast<BME280Report*>(event);
     char s[12];
     sprintf(s, "%" PRId32 " %" PRIu32, bme280Report->temperatureCelsius, bme280Report->relativeHumidity);
     LCD_GotoXY(6, 1);

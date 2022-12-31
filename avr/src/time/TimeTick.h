@@ -6,19 +6,16 @@
 #define AVR_TIMETICK_H
 
 
-#include "../system/Task.h"
-#include "../system/WallClock.h"
+#include "cstdint"
+#include "../system/Event.h"
 
-class TimeTick: public Task {
+class TimeTick: public Event {
 public:
-    explicit TimeTick(EventDispatcher *eventDispatcher, WallClock *wallClock);
+    explicit TimeTick(uint32_t timestamp);
     ~TimeTick() override = default;
-    void run() override;
-    uint32_t delay() override;
-    Type type() override;
+    uint32_t millis();
 private:
-    EventDispatcher *eventDispatcher;
-    WallClock *wallClock;
+    uint32_t timestamp;
 };
 
 

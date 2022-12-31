@@ -29,12 +29,7 @@ void PeriodicSensorReport::run() {
     relativeHumidity = relativeHumidity / 1024;
 
     auto report = new BME280Report(temperatureCelsius, pressureMilliBar, relativeHumidity);
-    auto event = new Event(EventType::SENSOR_READ, report);
-
-//    auto report2 = new BME280Report(temperatureCelsius, pressureMilliBar, relativeHumidity);
-//    auto event2 = std::make_unique<Event>(Event(EventType::BME280_REPORT, report2));
-    eventDispatcher->dispatch(event);
-//    eventDispatcher->dispatch(std::move(event2));
+    eventDispatcher->dispatch(report);
 }
 
 uint32_t PeriodicSensorReport::delay() {

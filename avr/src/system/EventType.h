@@ -14,7 +14,6 @@ enum EventType {
     ASYNC_SCHEDULED,
     ASYNC_CHAIN_SCHEDULED,
     USER_INPUT,
-    SENSOR_READ,
     BME280_REPORT,
     MAX,
 };

@@ -5,6 +5,7 @@
 #include <avr/io.h>
 #include "PeriodicCpuUsageReport.h"
 #include "../networking/Packet.h"
+#include "CpuStatsEvent.h"
 
 PeriodicCpuUsageReport::PeriodicCpuUsageReport(CpuStats *cpuStats, EventDispatcher *eventDispatcher) {
     this->cpuStats = cpuStats;
@@ -16,7 +17,7 @@ uint32_t PeriodicCpuUsageReport::delay() {
 }
 
 void PeriodicCpuUsageReport::run() {
-    auto event = new Event(EventType::CPU_STATS_READ, cpuStats);
+    auto event = new CpuStatsEvent(cpuStats);
     eventDispatcher->dispatch(event);
 }
 

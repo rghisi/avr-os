@@ -5,14 +5,11 @@
 #include "AsyncTaskTest.h"
 #include "../system/CpuStats.h"
 #include "../system/AsyncChain.h"
+#include "../lcd/DisplayTextCommand.h"
 
 
 AsyncTaskTest::AsyncTaskTest(EventDispatcher *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
-    m1 = new char[] {'F', '(', '1', ')', 0x00};
-    m2 = new char[] {'F', '(', '2', ')', 0x00};
-    m3 = new char[] {'F', '(', '3', ')', 0x00};
-    m4 = new char[] {'F', '(', '4', ')', 0x00};
 }
 
 uint32_t AsyncTaskTest::delay() {
@@ -21,22 +18,26 @@ uint32_t AsyncTaskTest::delay() {
 
 void AsyncTaskTest::run() {
     auto f1 = [*this]() {
-        auto event = new Event(EventType::SHOW_TEXT_REQUESTED, m1);
+        auto m1 = new char[] {'F', '(', '1', ')', 0x00};
+        auto event = new DisplayTextCommand(m1);
         eventDispatcher->dispatch(event);
     };
 
     auto f2 = [*this]() {
-        auto event = new Event(EventType::SHOW_TEXT_REQUESTED, m2);
+        auto m2 = new char[] {'F', '(', '2', ')', 0x00};
+        auto event = new DisplayTextCommand(m2);
         eventDispatcher->dispatch(event);
     };
 
     auto f3 = [*this]() {
-        auto event = new Event(EventType::SHOW_TEXT_REQUESTED, m3);
+        auto m3 = new char[] {'F', '(', '3', ')', 0x00};
+        auto event = new DisplayTextCommand(m3);
         eventDispatcher->dispatch(event);
     };
 
     auto f4 = [*this]() {
-        auto event = new Event(EventType::SHOW_TEXT_REQUESTED, m4);
+        auto m4 = new char[] {'F', '(', '4', ')', 0x00};
+        auto event = new DisplayTextCommand(m4);
         eventDispatcher->dispatch(event);
     };
 

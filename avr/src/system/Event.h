@@ -10,14 +10,12 @@
 
 class Event {
 public:
-    Event(EventType type, void *data);
-    ~Event();
+    explicit Event(EventType type);
+    virtual ~Event();
     EventType type();
-    void *data();
 
 private:
     EventType eType;
-    void *dataPointer;
 };
 
 

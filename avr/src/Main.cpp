@@ -20,7 +20,7 @@
 #include "tasks/TemperatureControl.h"
 #include "input/Dial.h"
 #include "app/Test.h"
-#include "time/TimeTick.h"
+#include "time/TimeTicker.h"
 #include "app/TimedDrying.h"
 
 void * operator new(size_t size)
@@ -67,15 +67,16 @@ auto taskScheduler = TaskScheduler(&wallClock);
 auto eventLoop = EventLoop();
 auto eventDispatcher = EventDispatcher(&eventLoop);
 auto asyncExecutor = AsyncExecutor(&taskScheduler, &eventDispatcher);
-auto periodicMemoryReport = PeriodicMemoryReport(&wallClock, &eventDispatcher);
+auto periodicMemoryReport = PeriodicMemoryReport(&eventDispatcher);
 auto keyPad = KeyPad(&eventDispatcher);
 auto dial = Dial(&eventDispatcher);
 auto periodicSensorReport = PeriodicSensorReport(&eventDispatcher);
 auto dimmer = Dimmer(&atmega, &atmega);
-auto timeTickTask = TimeTick(&eventDispatcher, &wallClock);
+auto timeTickTask = TimeTicker(&eventDispatcher, &wallClock);
 auto timedDrying = TimedDrying();
 //auto temperatureControl = TemperatureControl(&dimmer);
-auto test = Test(&eventDispatcher, &dimmer);
+//auto test = Test(&eventDispatcher, &dimmer);
+auto asyncTest = AsyncTaskTest(&eventDispatcher);
 
 int main(void) {
 //    uint8_t statusLed = _BV(PORTB5);
@@ -105,7 +106,7 @@ int main(void) {
     eventLoop.addHandler(&display);
     eventLoop.addHandler(&display, SHOW_TEXT_REQUESTED);
     eventLoop.addHandler(&display, MEMORY_STATS_READ);
-    eventLoop.addHandler(&display, SENSOR_READ);
+    eventLoop.addHandler(&display, BME280_REPORT);
     eventLoop.addHandler(&display, USER_INPUT);
 //    eventLoop.addHandler(&timedDrying);
 //    eventLoop.addHandler(&timedDrying, USER_INPUT);
@@ -116,6 +117,7 @@ int main(void) {
     taskScheduler.schedule(&keyPad);
     taskScheduler.schedule(&dial);
     taskScheduler.schedule(&periodicSensorReport);
+    taskScheduler.schedule(&asyncTest);
 //    taskScheduler.schedule(&timeTickTask);
 //    taskScheduler.schedule(&temperatureControl);
 

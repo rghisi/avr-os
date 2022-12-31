@@ -4,10 +4,8 @@
 
 #include "PeriodicMemoryReport.h"
 
-PeriodicMemoryReport::PeriodicMemoryReport(WallClock *wallClock, EventDispatcher *eventDispatcher) {
-    this->wallClock = wallClock;
+PeriodicMemoryReport::PeriodicMemoryReport(EventDispatcher *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
-    this->memoryStats = MemoryStats();
 }
 
 PeriodicMemoryReport::~PeriodicMemoryReport() {
@@ -17,8 +15,8 @@ PeriodicMemoryReport::~PeriodicMemoryReport() {
 void PeriodicMemoryReport::run() {
     extern int __heap_start, *__brkval;
     int v;
-    memoryStats.value = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
-    auto event = new Event(EventType::MEMORY_STATS_READ, &memoryStats);
+    auto value = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+    auto event = new MemoryStats(value);
     eventDispatcher->dispatch(event);
 }
 

@@ -36,9 +36,9 @@ void Dial::run() {
     if (newPushButtonState != lastPushButtonState) {
         Event* event;
         if (newPushButtonState) {
-            event = new Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_BUTTON_PRESSED, 0x00));
+            event = new UserInput(UserInput::UserInputEvent::DIAL_BUTTON_PRESSED, 0x00);
         } else {
-            event = new Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_BUTTON_RELEASED, 0x00));
+            event = new UserInput(UserInput::UserInputEvent::DIAL_BUTTON_RELEASED, 0x00);
         }
         eventDispatcher->dispatch(event);
         lastPushButtonState = newPushButtonState;
@@ -48,11 +48,11 @@ void Dial::run() {
             Event* event;
             switch (newDialReadout) {
                 case DIAL_PLUS:
-                    event = new Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_PLUS, 0x00));
+                    event = new UserInput(UserInput::UserInputEvent::DIAL_PLUS, 0x00);
                     eventDispatcher->dispatch(event);
                     break;
                 case DIAL_MINUS:
-                    event = new Event(USER_INPUT, new UserInput(UserInput::Event::DIAL_MINUS, 0x00));
+                    event = new UserInput(UserInput::UserInputEvent::DIAL_MINUS, 0x00);
                     eventDispatcher->dispatch(event);
                     break;
                 default:

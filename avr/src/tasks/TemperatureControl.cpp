@@ -33,7 +33,7 @@ EventType TemperatureControl::eventType() {
 }
 
 bool TemperatureControl::handle(Event* event) {
-    auto bmeReport = static_cast<BME280Report*>(event->data());
+    auto bmeReport = static_cast<BME280Report*>(event);
     currentTemperature = (bmeReport->temperatureCelsius);
     return true;
 }

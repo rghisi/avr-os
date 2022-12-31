@@ -7,10 +7,11 @@
 
 
 #include "cstdint"
+#include "../system/Event.h"
 
-class UserInput {
+class UserInput: public Event {
 public:
-    enum class Event {
+    enum class UserInputEvent {
         DIAL_PLUS,
         DIAL_MINUS,
         DIAL_BUTTON_PRESSED,
@@ -27,8 +28,10 @@ public:
         BUTTON_ENTER_RELEASED,
         NONE
     };
-    explicit UserInput(Event event, uint16_t value);
-    Event event;
+
+    UserInput(UserInput::UserInputEvent event, uint16_t value);
+    ~UserInput() override = default;
+    UserInputEvent event;
     uint16_t value;
 };
 
