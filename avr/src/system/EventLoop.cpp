@@ -8,7 +8,7 @@
 #include "../collections/BlockingQueue.cpp"
 
 EventLoop::EventLoop() {
-    for (int i = 0; i < EventType::MAX; ++i) {
+    for (int i = 0; i < MessageType::MAX; ++i) {
         handlers[i] = nullptr;
     }
 }
@@ -17,7 +17,7 @@ void EventLoop::addHandler(EventHandler *handler) {
     handlers[handler->eventType()] = handler;
 }
 
-void EventLoop::addHandler(EventHandler *handler, EventType eventType) {
+void EventLoop::addHandler(EventHandler *handler, MessageType eventType) {
     handlers[eventType] = handler;
 }
 
@@ -36,7 +36,7 @@ bool EventLoop::process() {
     return false;
 }
 
-bool EventLoop::push(Event* event) {
+bool EventLoop::push(Message* event) {
     if (events.size() <= BUFFER_SIZE) {
         events.push_back(event);
         return true;

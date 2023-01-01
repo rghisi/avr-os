@@ -5,7 +5,7 @@
 #include "AsyncChainSchedulingRequest.h"
 
 AsyncChainSchedulingRequest::AsyncChainSchedulingRequest(AsyncChain* asyncChain)
-: Event(EventType::ASYNC_CHAIN_SCHEDULED) {
+: Message(MessageType::ASYNC_CHAIN_SCHEDULED) {
     this->asyncChain = asyncChain;
 }
 

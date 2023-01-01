@@ -4,7 +4,7 @@
 
 #include "TimeTick.h"
 
-TimeTick::TimeTick(uint32_t timestamp): Event(EventType::TIME_TICK) {
+TimeTick::TimeTick(uint32_t timestamp): Message(MessageType::TIME_TICK) {
     this->timestamp = timestamp;
 }
 

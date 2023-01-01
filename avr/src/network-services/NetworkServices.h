@@ -11,7 +11,7 @@
 #include "PacketSender.h"
 #include "../networking/PacketBuilder.h"
 #include "../system/EventLoop.h"
-#include "../system/EventDispatcher.h"
+#include "../system/MessageDispatcher.h"
 
 class NetworkServices: public EventHandler {
 public:

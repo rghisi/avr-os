@@ -18,7 +18,7 @@ Task::Type TempHumControl::type() {
     return Type::PERIODIC;
 }
 
-bool TempHumControl::handle(Event* event) {
+bool TempHumControl::handle(Message* event) {
     switch (event->type()) {
         case BME280_REPORT:
             break;
@@ -28,6 +28,6 @@ bool TempHumControl::handle(Event* event) {
     return false;
 }
 
-EventType TempHumControl::eventType() {
+MessageType TempHumControl::eventType() {
     return BME280_REPORT;
 }

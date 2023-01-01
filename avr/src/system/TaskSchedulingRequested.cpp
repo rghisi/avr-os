@@ -4,7 +4,7 @@
 
 #include "TaskSchedulingRequested.h"
 
-TaskSchedulingRequested::TaskSchedulingRequested(Task *task): Event(EventType::ASYNC_SCHEDULED) {
+TaskSchedulingRequested::TaskSchedulingRequested(Task *task): Message(MessageType::ASYNC_SCHEDULED) {
     this->task = task;
 }
 

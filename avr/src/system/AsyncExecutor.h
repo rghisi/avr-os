@@ -7,21 +7,21 @@
 
 
 #include "EventHandler.h"
-#include "EventDispatcher.h"
+#include "MessageDispatcher.h"
 #include "TaskScheduler.h"
 #include "AsyncChain.h"
 
 class AsyncExecutor: public EventHandler {
 public:
-    explicit AsyncExecutor(TaskScheduler *taskScheduler, EventDispatcher *eventDispatcher);
-    EventType eventType() override;
-    bool handle(Event* event) override;
+    explicit AsyncExecutor(TaskScheduler *taskScheduler, MessageDispatcher *eventDispatcher);
+    MessageType eventType() override;
+    bool handle(Message* event) override;
 
 private:
     TaskScheduler *taskScheduler;
-    EventDispatcher *eventDispatcher;
-    void executeAsync(Event* event);
-    void executeChain(Event* event);
+    MessageDispatcher *eventDispatcher;
+    void executeAsync(Message* event);
+    void executeChain(Message* event);
 };
 
 

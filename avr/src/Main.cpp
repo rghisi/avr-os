@@ -8,7 +8,7 @@
 #include "hw/avr/ATMega328P.h"
 #include "system/TaskScheduler.h"
 #include "system/EventLoop.h"
-#include "system/EventDispatcher.h"
+#include "system/MessageDispatcher.h"
 #include "system/WallClock.h"
 #include "lcd/Display.h"
 #include "tasks/AsyncTaskTest.h"
@@ -65,18 +65,18 @@ auto display = Display();
 auto wallClock = WallClock();
 auto taskScheduler = TaskScheduler(&wallClock);
 auto eventLoop = EventLoop();
-auto eventDispatcher = EventDispatcher(&eventLoop);
-auto asyncExecutor = AsyncExecutor(&taskScheduler, &eventDispatcher);
-auto periodicMemoryReport = PeriodicMemoryReport(&eventDispatcher);
-auto keyPad = KeyPad(&eventDispatcher);
-auto dial = Dial(&eventDispatcher);
-auto periodicSensorReport = PeriodicSensorReport(&eventDispatcher);
+auto messageDispatcher = MessageDispatcher(&eventLoop);
+auto asyncExecutor = AsyncExecutor(&taskScheduler, &messageDispatcher);
+auto periodicMemoryReport = PeriodicMemoryReport(&messageDispatcher);
+auto keyPad = KeyPad(&messageDispatcher);
+auto dial = Dial(&messageDispatcher);
+auto periodicSensorReport = PeriodicSensorReport(&messageDispatcher);
 auto dimmer = Dimmer(&atmega, &atmega);
-auto timeTickTask = TimeTicker(&eventDispatcher, &wallClock);
-auto timedDrying = TimedDrying();
+auto timeTickTask = TimeTicker(&messageDispatcher, &wallClock);
+auto timedDrying = TimedDrying(&messageDispatcher);
 //auto temperatureControl = TemperatureControl(&dimmer);
-//auto test = Test(&eventDispatcher, &dimmer);
-auto asyncTest = AsyncTaskTest(&eventDispatcher);
+//auto test = Test(&messageDispatcher, &dimmer);
+//auto asyncTest = AsyncTaskTest(&messageDispatcher);
 
 int main(void) {
 //    uint8_t statusLed = _BV(PORTB5);
@@ -104,12 +104,8 @@ int main(void) {
     eventLoop.addHandler(&asyncExecutor);
     eventLoop.addHandler(&asyncExecutor, ASYNC_CHAIN_SCHEDULED);
     eventLoop.addHandler(&display);
-    eventLoop.addHandler(&display, SHOW_TEXT_REQUESTED);
-    eventLoop.addHandler(&display, MEMORY_STATS_READ);
-    eventLoop.addHandler(&display, BME280_REPORT);
-    eventLoop.addHandler(&display, USER_INPUT);
-//    eventLoop.addHandler(&timedDrying);
-//    eventLoop.addHandler(&timedDrying, USER_INPUT);
+    eventLoop.addHandler(&timedDrying);
+    eventLoop.addHandler(&timedDrying, USER_INPUT);
 //    eventLoop.addHandler(&temperatureControl);
     //eventLoop.addHandler(&test);
 
@@ -117,11 +113,11 @@ int main(void) {
     taskScheduler.schedule(&keyPad);
     taskScheduler.schedule(&dial);
     taskScheduler.schedule(&periodicSensorReport);
-    taskScheduler.schedule(&asyncTest);
-//    taskScheduler.schedule(&timeTickTask);
+//    taskScheduler.schedule(&asyncTest);
+    taskScheduler.schedule(&timeTickTask);
 //    taskScheduler.schedule(&temperatureControl);
 
-//    auto *dimmerCalibrationTask = new AsyncChain(&eventDispatcher);
+//    auto *dimmerCalibrationTask = new AsyncChain(&messageDispatcher);
 //    dimmerCalibrationTask
 //            ->wait(1000)
 //            ->then([]() {dimmer.enable();})
@@ -136,6 +132,17 @@ int main(void) {
 //            ->wait(2000)
 //            ->then([]() {dimmer.setPosition(0);})
 //            ->schedule();
+
+    auto *startTimedDrying = new AsyncChain(&messageDispatcher);
+    startTimedDrying
+            ->wait(1000)
+            ->then([]() {timedDrying.activate();})
+            ->wait(32000)
+            ->wait(32000)
+            ->then([]() {timedDrying.deactivate();})
+            ->wait(10000)
+            ->then([]() {timedDrying.activate();})
+            ->schedule();
 
     while (true) {
 //        PORTC |= _BV(PORTC0);

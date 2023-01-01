@@ -6,7 +6,7 @@
 #include "KeyPad.h"
 #include "UserInput.h"
 
-KeyPad::KeyPad(EventDispatcher *eventDispatcher) {
+KeyPad::KeyPad(MessageDispatcher *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
     previous = Key::RELEASED;
 }

@@ -7,17 +7,17 @@
 
 
 #include "../system/Task.h"
-#include "../system/EventDispatcher.h"
+#include "../system/MessageDispatcher.h"
 
 class PeriodicSensorReport: public Task {
 public:
-    explicit PeriodicSensorReport(EventDispatcher *eventDispatcher);
+    explicit PeriodicSensorReport(MessageDispatcher *eventDispatcher);
     ~PeriodicSensorReport() override = default;
     void run() override;
     uint32_t delay() override;
     Type type() override;
 private:
-    EventDispatcher *eventDispatcher;
+    MessageDispatcher *eventDispatcher;
 };
 
 

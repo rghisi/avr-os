@@ -46,7 +46,7 @@
 
 #define __LCD_CMD_DisplayOn				0x04
 #define __LCD_CMD_DisplayOff			0x00
-#define __LCD_CMD_CursonOn				0x02
+#define __LCD_CMD_CursorOn				0x02
 #define __LCD_CMD_CursorOff				0x00
 #define __LCD_CMD_BlinkOn				0x01
 #define __LCD_CMD_BlinkOff				0x00

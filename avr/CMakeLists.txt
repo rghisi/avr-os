@@ -42,11 +42,11 @@ add_executable(${PROJECT_NAME}
 #        src/network-services/Ping.cpp src/network-services/Ping.h
         src/system/WallClock.cpp src/system/WallClock.h
 #        src/networking/PacketReader.cpp src/networking/PacketReader.h
-        src/system/Event.cpp src/system/Event.h
-        src/system/EventType.h
+        src/system/Message.cpp src/system/Message.h
+        src/system/MessageType.h
         src/system/EventLoop.cpp src/system/EventLoop.h
-        src/system/EventHandler.h src/system/EventDispatcher.h
-        src/system/EventDispatcher.cpp src/system/EventDispatcher.h
+        src/system/EventHandler.h src/system/MessageDispatcher.h
+        src/system/MessageDispatcher.cpp src/system/MessageDispatcher.h
 #        src/network-services/Services.h
         src/system/TaskScheduler.cpp src/system/TaskScheduler.h
         src/system/Task.h
@@ -62,12 +62,29 @@ add_executable(${PROJECT_NAME}
         src/collections/PriorityQueue.cpp src/collections/PriorityQueue.h
         src/system/AsyncWaitTask.cpp src/system/AsyncWaitTask.h
         src/tasks/PeriodicMemoryReport.cpp src/tasks/PeriodicMemoryReport.h
-        src/system/MemoryStats.h
         src/std/CRCTable.c
         src/lcd/two/HD44780.h src/lcd/two/HD44780.cpp
 #        src/lcd/two/HD44780_Settings.h src/lcd/two/IO_Macros.h
         src/pid/PID.cpp src/pid/PID.h src/input/KeyPad.cpp src/input/KeyPad.h src/hw/Interrupts.h
-        src/sensors/i2cmaster.h src/sensors/i2cmaster.c src/sensors/bme280_i2c.h src/sensors/bme280_i2c.c src/tasks/PeriodicSensorReport.cpp src/tasks/PeriodicSensorReport.h src/sensors/BME280Report.cpp src/sensors/BME280Report.h src/app/TempHumControl.cpp src/app/TempHumControl.h src/hw/Timer1.h src/hw/ExternalInterrupts.h src/dimmer/Dimmer.cpp src/dimmer/Dimmer.h src/tasks/TemperatureControl.cpp src/tasks/TemperatureControl.h src/input/Dial.h src/input/Dial.cpp src/input/UserInput.cpp src/input/UserInput.h src/input/UserInput.cpp src/app/Test.cpp src/app/Test.h src/time/TimeTicker.cpp src/time/TimeTicker.h src/time/TimeTick.cpp src/time/TimeTick.h src/app/TimedDrying.cpp src/app/TimedDrying.h src/tasks/CpuStatsEvent.cpp src/tasks/CpuStatsEvent.h src/lcd/DisplayTextCommand.cpp src/lcd/DisplayTextCommand.h src/system/MemoryStats.cpp src/system/TaskSchedulingRequested.cpp src/system/TaskSchedulingRequested.h src/system/AsyncChainSchedulingRequest.cpp src/system/AsyncChainSchedulingRequest.h)
+        src/sensors/i2cmaster.h src/sensors/i2cmaster.c
+        src/sensors/bme280_i2c.h src/sensors/bme280_i2c.c
+        src/tasks/PeriodicSensorReport.cpp src/tasks/PeriodicSensorReport.h
+        src/sensors/BME280Report.cpp src/sensors/BME280Report.h
+        src/app/TempHumControl.cpp src/app/TempHumControl.h
+        src/hw/Timer1.h src/hw/ExternalInterrupts.h
+        src/dimmer/Dimmer.cpp src/dimmer/Dimmer.h
+        src/tasks/TemperatureControl.cpp src/tasks/TemperatureControl.h
+        src/input/Dial.h src/input/Dial.cpp
+        src/input/UserInput.cpp src/input/UserInput.h
+        src/app/Test.cpp src/app/Test.h
+        src/time/TimeTicker.cpp src/time/TimeTicker.h
+        src/time/TimeTick.cpp src/time/TimeTick.h
+        src/app/TimedDrying.cpp src/app/TimedDrying.h
+        src/lcd/DrawText.cpp src/lcd/DrawText.h
+        src/system/TaskSchedulingRequested.cpp
+        src/system/TaskSchedulingRequested.h src/system/AsyncChainSchedulingRequest.cpp
+        src/system/AsyncChainSchedulingRequest.h
+        src/lcd/EnableCursorCommand.cpp src/lcd/EnableCursorCommand.h src/lcd/DisplayCommand.cpp src/lcd/DisplayCommand.h src/lcd/Command.cpp src/lcd/Command.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

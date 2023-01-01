@@ -5,11 +5,11 @@
 #include "PeriodicSensorReport.h"
 #include "../sensors/bme280_i2c.h"
 #include "memory"
-#include "../system/Event.h"
+#include "../system/Message.h"
 #include "../sensors/BME280Report.h"
 #include "../sensors/i2cmaster.h"
 
-PeriodicSensorReport::PeriodicSensorReport(EventDispatcher *eventDispatcher) {
+PeriodicSensorReport::PeriodicSensorReport(MessageDispatcher *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
     i2c_init();
     BME280_init();

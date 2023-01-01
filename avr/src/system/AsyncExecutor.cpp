@@ -7,16 +7,16 @@
 #include "TaskSchedulingRequested.h"
 #include "AsyncChainSchedulingRequest.h"
 
-AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, EventDispatcher *eventDispatcher) {
+AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, MessageDispatcher *eventDispatcher) {
     this->taskScheduler = taskScheduler;
     this->eventDispatcher = eventDispatcher;
 }
 
-EventType AsyncExecutor::eventType() {
+MessageType AsyncExecutor::eventType() {
     return ASYNC_SCHEDULED;
 }
 
-bool AsyncExecutor::handle(Event* event) {
+bool AsyncExecutor::handle(Message* event) {
     switch (event->type()) {
         case ASYNC_SCHEDULED:
             executeAsync(event);
@@ -29,12 +29,12 @@ bool AsyncExecutor::handle(Event* event) {
     return false;
 }
 
-void AsyncExecutor::executeAsync(Event* event) {
+void AsyncExecutor::executeAsync(Message* event) {
     auto *async = static_cast<TaskSchedulingRequested*>(event);
     async->task->run();
 }
 
-void AsyncExecutor::executeChain(Event* event) {
+void AsyncExecutor::executeChain(Message* event) {
     auto *asyncChain = static_cast<AsyncChainSchedulingRequest*>(event)->asyncChain;
     if (asyncChain->hasNext()) {
         auto nextAsync = asyncChain->next();

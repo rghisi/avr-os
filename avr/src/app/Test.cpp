@@ -5,18 +5,19 @@
 #include "Test.h"
 #include "../input/UserInput.h"
 #include "cstdio"
-#include "../lcd/DisplayTextCommand.h"
+#include "../lcd/DrawText.h"
+#include "../lcd/DisplayCommand.h"
 
-EventType Test::eventType() {
+MessageType Test::eventType() {
     return USER_INPUT;
 }
 
-Test::Test(EventDispatcher *eventDispatcher, Dimmer *dimmer) {
+Test::Test(MessageDispatcher *eventDispatcher, Dimmer *dimmer) {
     this->eventDispatcher = eventDispatcher;
     this->dimmer = dimmer;
 }
 
-bool Test::handle(Event* event) {
+bool Test::handle(Message* event) {
     auto userInput = static_cast<UserInput*>(event);
     switch (userInput->event) {
         case UserInput::UserInputEvent::DIAL_PLUS:
@@ -36,7 +37,7 @@ void Test::plus() {
     dimmer->setPosition(dial);
     auto s = new char[4];
     sprintf(s, "%" PRIu8, dial);
-    auto event = new DisplayTextCommand(s);
+    auto event = DisplayCommand::drawText(5, 0, s);
     eventDispatcher->dispatch(event);
 }
 
@@ -45,6 +46,6 @@ void Test::minus() {
     dimmer->setPosition(dial);
     auto s = new char[4];
     sprintf(s, "%" PRIu8, dial);
-    auto event = new DisplayTextCommand(s);
+    auto event = DisplayCommand::drawText(5, 0, s);
     eventDispatcher->dispatch(event);
 }

@@ -7,7 +7,7 @@
 
 
 #include "cstdint"
-#include "EventDispatcher.h"
+#include "MessageDispatcher.h"
 #include "Task.h"
 #include "WallClock.h"
 #include "../collections/PriorityQueue.h"

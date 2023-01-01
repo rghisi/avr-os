@@ -117,7 +117,7 @@ void LCD_Setup() {
     LCD_SendCommand(__LCD_CMD_DisplayControl | __LCD_CMD_DisplayOn | __LCD_CMD_CursorOff | __LCD_CMD_BlinkOff);
     //4. Command 4: Auto increment, No shifting
     LCD_SendCommand(__LCD_CMD_EntryModeSet | __LCD_CMD_EntryIncrement | __LCD_CMD_EntryNoShift);
-    //5. Command 1: Clear display, cursor at home
+    //5. Command 1: Clear display, cursorEnabled at home
     LCD_SendCommand(__LCD_CMD_ClearDisplay);
 }
 

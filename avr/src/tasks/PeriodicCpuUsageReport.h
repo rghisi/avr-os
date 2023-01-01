@@ -6,20 +6,20 @@
 #define AVR_PERIODICCPUUSAGEREPORT_H
 
 
-#include "../system/EventDispatcher.h"
+#include "../system/MessageDispatcher.h"
 #include "../system/CpuStats.h"
 #include "../system/Task.h"
 
 class PeriodicCpuUsageReport: public Task {
 public:
-    PeriodicCpuUsageReport(CpuStats *cpuStats, EventDispatcher *eventDispatcher);
+    PeriodicCpuUsageReport(CpuStats *cpuStats, MessageDispatcher *eventDispatcher);
     ~PeriodicCpuUsageReport() override;
     uint32_t delay() override;
     void run() override;
     Type type() override;
 
 private:
-    EventDispatcher *eventDispatcher;
+    MessageDispatcher *eventDispatcher;
     CpuStats *cpuStats;
 };
 

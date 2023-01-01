@@ -17,7 +17,7 @@
  * 1 0 = right turn (+1)
  * 0 1 = left turn (-1)
  */
-Dial::Dial(EventDispatcher *eventDispatcher) {
+Dial::Dial(MessageDispatcher *eventDispatcher) {
 	this->eventDispatcher = eventDispatcher;
     lastDialReadout = 0x00;
     lastPushButtonState = false;
@@ -34,7 +34,7 @@ void Dial::run() {
 	auto newDialReadout = (inputPinValues >> DIAL_A_PORT) & 0b00000011;
 
     if (newPushButtonState != lastPushButtonState) {
-        Event* event;
+        Message* event;
         if (newPushButtonState) {
             event = new UserInput(UserInput::UserInputEvent::DIAL_BUTTON_PRESSED, 0x00);
         } else {
@@ -45,7 +45,7 @@ void Dial::run() {
     }
 	if (newDialReadout != lastDialReadout) {
         if (lastDialReadout == DIAL_IDLE) {
-            Event* event;
+            Message* event;
             switch (newDialReadout) {
                 case DIAL_PLUS:
                     event = new UserInput(UserInput::UserInputEvent::DIAL_PLUS, 0x00);

@@ -4,7 +4,7 @@
 
 #include "AsyncWaitTask.h"
 
-AsyncWaitTask::AsyncWaitTask(uint32_t delay, EventDispatcher *eventDispatcher, Event* callbackEvent) {
+AsyncWaitTask::AsyncWaitTask(uint32_t delay, MessageDispatcher *eventDispatcher, Message* callbackEvent) {
     this->milliseconds = delay;
     this->eventDispatcher = eventDispatcher;
     this->callbackEvent = callbackEvent;

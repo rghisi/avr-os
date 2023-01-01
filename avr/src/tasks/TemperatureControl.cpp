@@ -28,11 +28,11 @@ Task::Type TemperatureControl::type() {
     return Type::PERIODIC;
 }
 
-EventType TemperatureControl::eventType() {
+MessageType TemperatureControl::eventType() {
     return BME280_REPORT;
 }
 
-bool TemperatureControl::handle(Event* event) {
+bool TemperatureControl::handle(Message* event) {
     auto bmeReport = static_cast<BME280Report*>(event);
     currentTemperature = (bmeReport->temperatureCelsius);
     return true;

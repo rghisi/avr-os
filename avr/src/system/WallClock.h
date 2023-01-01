@@ -8,7 +8,7 @@
 
 #include "cstdint"
 #include "../hw/Timer0.h"
-#include "EventDispatcher.h"
+#include "MessageDispatcher.h"
 
 class WallClock: public Timer0InterruptHandler {
 public:

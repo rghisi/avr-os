@@ -7,9 +7,9 @@
 
 
 #include "cstdint"
-#include "../system/Event.h"
+#include "../system/Message.h"
 
-class TimeTick: public Event {
+class TimeTick: public Message {
 public:
     explicit TimeTick(uint32_t timestamp);
     ~TimeTick() override = default;

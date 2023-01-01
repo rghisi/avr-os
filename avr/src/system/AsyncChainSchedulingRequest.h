@@ -6,10 +6,10 @@
 #define AVR_ASYNCCHAINSCHEDULINGREQUEST_H
 
 
-#include "Event.h"
+#include "Message.h"
 #include "AsyncChain.h"
 
-class AsyncChainSchedulingRequest: public Event {
+class AsyncChainSchedulingRequest: public Message {
 public:
     AsyncChainSchedulingRequest(AsyncChain* asyncChain);
     ~AsyncChainSchedulingRequest() override;

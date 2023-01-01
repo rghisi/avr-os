@@ -7,9 +7,9 @@
 
 
 #include "cstdint"
-#include "../system/Event.h"
+#include "../system/Message.h"
 
-class UserInput: public Event {
+class UserInput: public Message {
 public:
     enum class UserInputEvent {
         DIAL_PLUS,

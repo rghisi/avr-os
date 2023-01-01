@@ -6,13 +6,13 @@
 #define AVR_EVENTHANDLER_H
 
 #include "memory"
-#include "EventType.h"
-#include "Event.h"
+#include "MessageType.h"
+#include "Message.h"
 
 class EventHandler {
 public:
-    virtual EventType eventType() = 0;
-    virtual bool handle(Event* event) = 0;
+    virtual MessageType eventType() = 0;
+    virtual bool handle(Message* event) = 0;
 };
 
 

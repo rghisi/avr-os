@@ -9,7 +9,7 @@
 #include "PacketReceiver.h"
 #include "PacketSender.h"
 #include "../system/EventHandler.h"
-#include "../system/EventDispatcher.h"
+#include "../system/MessageDispatcher.h"
 
 class Ping: public EventHandler {
 public:

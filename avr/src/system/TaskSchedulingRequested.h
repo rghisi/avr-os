@@ -6,10 +6,10 @@
 #define AVR_TASKSCHEDULINGREQUESTED_H
 
 
-#include "Event.h"
+#include "Message.h"
 #include "Task.h"
 
-class TaskSchedulingRequested: public Event {
+class TaskSchedulingRequested: public Message {
 public:
     explicit TaskSchedulingRequested(Task* task);
     ~TaskSchedulingRequested() override;

@@ -4,11 +4,11 @@
 
 #include "AsyncChain.h"
 #include "AsyncFunction.h"
-#include "Event.h"
+#include "Message.h"
 #include "AsyncWaitTask.h"
 #include "AsyncChainSchedulingRequest.h"
 
-AsyncChain::AsyncChain(EventDispatcher *eventDispatcher) {
+AsyncChain::AsyncChain(MessageDispatcher *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
 };
 

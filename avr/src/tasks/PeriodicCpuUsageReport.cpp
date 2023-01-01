@@ -5,9 +5,11 @@
 #include <avr/io.h>
 #include "PeriodicCpuUsageReport.h"
 #include "../networking/Packet.h"
-#include "CpuStatsEvent.h"
+#include "../lcd/DrawText.h"
+#include "cstdio"
+#include "../lcd/DisplayCommand.h"
 
-PeriodicCpuUsageReport::PeriodicCpuUsageReport(CpuStats *cpuStats, EventDispatcher *eventDispatcher) {
+PeriodicCpuUsageReport::PeriodicCpuUsageReport(CpuStats *cpuStats, MessageDispatcher *eventDispatcher) {
     this->cpuStats = cpuStats;
     this->eventDispatcher = eventDispatcher;
 }
@@ -17,7 +19,9 @@ uint32_t PeriodicCpuUsageReport::delay() {
 }
 
 void PeriodicCpuUsageReport::run() {
-    auto event = new CpuStatsEvent(cpuStats);
+    auto s = new char[4];
+    sprintf(s, "%" PRIu8, cpuStats->idlePercent());
+    auto event = DisplayCommand::drawText(13, 0, s);
     eventDispatcher->dispatch(event);
 }
 
