@@ -18,9 +18,9 @@ Task::Type TempHumControl::type() {
     return Type::PERIODIC;
 }
 
-bool TempHumControl::handle(std::unique_ptr<Event> event) {
+bool TempHumControl::handle(Message* event) {
     switch (event->type()) {
-        case SENSOR_READ:
+        case BME280_REPORT:
             break;
         default:
             break;
@@ -28,6 +28,6 @@ bool TempHumControl::handle(std::unique_ptr<Event> event) {
     return false;
 }
 
-EventType TempHumControl::eventType() {
-    return SENSOR_READ;
+MessageType TempHumControl::eventType() {
+    return BME280_REPORT;
 }

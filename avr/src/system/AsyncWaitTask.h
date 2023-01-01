@@ -8,19 +8,19 @@
 
 #include "Task.h"
 #include "cstdint"
-#include "EventDispatcher.h"
+#include "MessageDispatcher.h"
 #include "AsyncChain.h"
 
 class AsyncWaitTask: public Task {
 public:
-    AsyncWaitTask(uint32_t delay, EventDispatcher *pDispatcher, std::unique_ptr<Event> callbackEvent);
+    AsyncWaitTask(uint32_t delay, MessageDispatcher *pDispatcher, Message* callbackEvent);
     ~AsyncWaitTask() override;
     void run() override;
     uint32_t delay() override;
     Type type() override;
 private:
-    EventDispatcher *eventDispatcher;
-    std::unique_ptr<Event> callbackEvent;
+    MessageDispatcher *eventDispatcher;
+    Message* callbackEvent;
     uint32_t milliseconds;
 };
 

@@ -5,24 +5,18 @@
 #ifndef AVR_PERIODICMEMORYREPORT_H
 #define AVR_PERIODICMEMORYREPORT_H
 
-
 #include "../system/Task.h"
-#include "../system/EventDispatcher.h"
-#include "../system/MemoryStats.h"
-#include "../system/WallClock.h"
+#include "../system/MessageDispatcher.h"
 
 class PeriodicMemoryReport: public Task {
 public:
-    explicit PeriodicMemoryReport(WallClock *wallClock, EventDispatcher *eventDispatcher);
+    explicit PeriodicMemoryReport(MessageDispatcher *eventDispatcher);
     ~PeriodicMemoryReport() override;
     void run() override;
     uint32_t delay() override;
     Type type() override;
 private:
-    EventDispatcher *eventDispatcher;
-    MemoryStats memoryStats;
-    WallClock *wallClock;
-    uint32_t now;
+    MessageDispatcher *eventDispatcher;
 };
 
 

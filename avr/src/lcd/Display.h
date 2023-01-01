@@ -7,20 +7,22 @@
 
 
 #include "../system/EventHandler.h"
+#include "DrawText.h"
+#include "EnableCursorCommand.h"
 
 class Display: public EventHandler {
 public:
     Display();
-    EventType eventType() override;
-    bool handle(std::unique_ptr<Event> event) override;
+    MessageType eventType() override;
+    bool handle(Message* event) override;
 
 private:
-    void stats(std::unique_ptr<Event> event);
-    void text(std::unique_ptr<Event> event);
-    void memory(std::unique_ptr<Event> event);
-    void input(std::unique_ptr<Event> event);
-    void sensor(std::unique_ptr<Event> event);
-    uint8_t dial = 0;
+    void text(DrawText* command);
+    void enableCursor(EnableCursorCommand *command);
+    void drawCursor() const;
+    bool cursorEnabled = false;
+    uint8_t cursorX = 0;
+    uint8_t cursorY = 0;
 };
 
 

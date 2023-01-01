@@ -6,7 +6,7 @@
 #include "KeyPad.h"
 #include "UserInput.h"
 
-KeyPad::KeyPad(EventDispatcher *eventDispatcher) {
+KeyPad::KeyPad(MessageDispatcher *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
     previous = Key::RELEASED;
 }
@@ -28,50 +28,48 @@ void KeyPad::run() {
         current = Key::ENTER;
     }
     if (current != previous) {
-        UserInput::Event button = UserInput::Event::NONE;
+        UserInput::UserInputEvent button = UserInput::UserInputEvent::NONE;
         switch (current) {
             case Key::RELEASED:
                 switch (previous) {
                     case Key::UP:
-                        button = UserInput::Event::BUTTON_UP_RELEASED;
+                        button = UserInput::UserInputEvent::BUTTON_UP_RELEASED;
                         break;
                     case Key::DOWN:
-                        button = UserInput::Event::BUTTON_DOWN_RELEASED;
+                        button = UserInput::UserInputEvent::BUTTON_DOWN_RELEASED;
                         break;
                     case Key::LEFT:
-                        button = UserInput::Event::BUTTON_LEFT_RELEASED;
+                        button = UserInput::UserInputEvent::BUTTON_LEFT_RELEASED;
                         break;
                     case Key::RIGHT:
-                        button = UserInput::Event::BUTTON_RIGHT_RELEASED;
+                        button = UserInput::UserInputEvent::BUTTON_RIGHT_RELEASED;
                         break;
                     case Key::ENTER:
-                        button = UserInput::Event::BUTTON_ENTER_RELEASED;
+                        button = UserInput::UserInputEvent::BUTTON_ENTER_RELEASED;
                         break;
                     default:
                         break;
                 }
                 break;
             case Key::UP:
-                button = UserInput::Event::BUTTON_UP_PRESSED;
+                button = UserInput::UserInputEvent::BUTTON_UP_PRESSED;
                 break;
             case Key::DOWN:
-                button = UserInput::Event::BUTTON_DOWN_PRESSED;
+                button = UserInput::UserInputEvent::BUTTON_DOWN_PRESSED;
                 break;
             case Key::LEFT:
-                button = UserInput::Event::BUTTON_LEFT_PRESSED;
+                button = UserInput::UserInputEvent::BUTTON_LEFT_PRESSED;
                 break;
             case Key::RIGHT:
-                button = UserInput::Event::BUTTON_RIGHT_PRESSED;
+                button = UserInput::UserInputEvent::BUTTON_RIGHT_PRESSED;
                 break;
             case Key::ENTER:
-                button = UserInput::Event::BUTTON_ENTER_PRESSED;
+                button = UserInput::UserInputEvent::BUTTON_ENTER_PRESSED;
                 break;
         }
-        if (button != UserInput::Event::NONE) {
-            auto event = std::make_unique<Event>(
-                    Event(USER_INPUT, new UserInput(button, value))
-            );
-            eventDispatcher->dispatch(std::move(event));
+        if (button != UserInput::UserInputEvent::NONE) {
+            auto event = new UserInput(button, value);
+            eventDispatcher->dispatch(event);
         }
         previous = current;
     }

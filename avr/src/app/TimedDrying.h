@@ -7,26 +7,31 @@
 
 
 #include "../system/EventHandler.h"
+#include "../system/MessageDispatcher.h"
 
 class TimedDrying: public EventHandler {
 public:
-    TimedDrying();
-    EventType eventType() override;
-    bool handle(std::unique_ptr<Event> event) override;
+    explicit TimedDrying(MessageDispatcher* messageDispatcher);
+    MessageType eventType() override;
+    bool handle(Message* event) override;
     void activate();
     void deactivate();
 private:
-    enum class State {
-        NONE, MINUTES, SECONDS
+    enum State {
+        MINUTES, SECONDS, NONE
     };
-    void handleTimeTick(std::unique_ptr<Event> event);
-    void handleUserInput(std::unique_ptr<Event> event);
+    void handleTimeTick(Message* message);
+    void handleUserInput(Message* event);
+    MessageDispatcher *messageDispatcher;
     uint32_t previousTimestamp;
     uint8_t seconds;
     uint8_t minutes;
     uint8_t setSeconds;
     uint8_t setMinutes;
     bool active;
+    State state = State::NONE;
+
+    void render();
 };
 
 

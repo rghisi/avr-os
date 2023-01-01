@@ -8,17 +8,17 @@
 
 #include "../system/EventHandler.h"
 #include "../dimmer/Dimmer.h"
-#include "../system/EventDispatcher.h"
+#include "../system/MessageDispatcher.h"
 
 class Test: public EventHandler {
 public:
-    Test(EventDispatcher *eventDispatcher, Dimmer *dimmer);
-    EventType eventType() override;
-    bool handle(std::unique_ptr<Event> event) override;
+    Test(MessageDispatcher *eventDispatcher, Dimmer *dimmer);
+    MessageType eventType() override;
+    bool handle(Message* event) override;
 
 private:
     uint8_t dial = 0;
-    EventDispatcher *eventDispatcher;
+    MessageDispatcher *eventDispatcher;
     Dimmer *dimmer;
 
     void plus();

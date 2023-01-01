@@ -4,45 +4,46 @@
 
 #include "AsyncExecutor.h"
 #include "AsyncChain.h"
+#include "TaskSchedulingRequested.h"
+#include "AsyncChainSchedulingRequest.h"
 
-AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, EventDispatcher *eventDispatcher) {
+AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, MessageDispatcher *eventDispatcher) {
     this->taskScheduler = taskScheduler;
     this->eventDispatcher = eventDispatcher;
 }
 
-EventType AsyncExecutor::eventType() {
+MessageType AsyncExecutor::eventType() {
     return ASYNC_SCHEDULED;
 }
 
-bool AsyncExecutor::handle(std::unique_ptr<Event> event) {
+bool AsyncExecutor::handle(Message* event) {
     switch (event->type()) {
         case ASYNC_SCHEDULED:
-            executeAsync(std::move(event));
+            executeAsync(event);
             break;
         case ASYNC_CHAIN_SCHEDULED:
         default:
-            executeChain(std::move(event));
+            executeChain(event);
             break;
     }
     return false;
 }
 
-void AsyncExecutor::executeAsync(std::unique_ptr<Event> event) {
-    auto *async = static_cast<Task*>(event->data());
-    async->run();
-    delete async;
+void AsyncExecutor::executeAsync(Message* event) {
+    auto *async = static_cast<TaskSchedulingRequested*>(event);
+    async->task->run();
 }
 
-void AsyncExecutor::executeChain(std::unique_ptr<Event> event) {
-    auto *asyncChain = static_cast<AsyncChain*>(event->data());
+void AsyncExecutor::executeChain(Message* event) {
+    auto *asyncChain = static_cast<AsyncChainSchedulingRequest*>(event)->asyncChain;
     if (asyncChain->hasNext()) {
         auto nextAsync = asyncChain->next();
         switch (nextAsync->type()) {
             case Task::Type::SINGLE:
                 nextAsync->run();
                 if (asyncChain->hasNext()) {
-                    auto newEvent = std::make_unique<Event>(Event(ASYNC_CHAIN_SCHEDULED, asyncChain));
-                    eventDispatcher->dispatch(std::move(newEvent));
+                    auto newEvent = new AsyncChainSchedulingRequest(asyncChain);
+                    eventDispatcher->dispatch(newEvent);
                 } else {
                     delete asyncChain;
                 }

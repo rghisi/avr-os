@@ -49,7 +49,7 @@ void HD44780::setup() {
     sendCommand(Command::DisplayControl, Command::DisplayOn, Command::CursorOff, Command::BlinkOff);
     //4. Command 4: Auto increment, No shifting
     sendCommand(Command::EntryModeSet, Command::EntryIncrement, Command::EntryNoShift);
-    //5. Command 1: Clear display, cursor at home
+    //5. Command 1: Clear display, cursorEnabled at home
     sendCommand(Command::ClearDisplay);
 }
 

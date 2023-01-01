@@ -4,7 +4,7 @@
 
 #ifndef AVR_SERIALNETWORKINTERFACE_H
 #define AVR_SERIALNETWORKINTERFACE_H
-#include "../system/EventDispatcher.h"
+#include "../system/MessageDispatcher.h"
 #include "../collections/BlockingQueue.h"
 #include "../networking/NetworkInterface.h"
 #include "../networking/PacketBuilder.h"

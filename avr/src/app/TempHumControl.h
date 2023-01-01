@@ -17,9 +17,9 @@ public:
     uint32_t delay() override;
     Type type() override;
 
-    bool handle(std::unique_ptr<Event> event) override;
+    bool handle(Message* event) override;
 
-    EventType eventType() override;
+    MessageType eventType() override;
 
 private:
     uint32_t temperature;
