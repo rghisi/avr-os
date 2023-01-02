@@ -6,12 +6,12 @@
 #define AVR_TEST_H
 
 
-#include "../system/EventHandler.h"
+#include "../system/Subscriber.h"
 #include "../dimmer/Dimmer.h"
 #include "../system/Messaging.h"
 #include "Application.h"
 
-class Test: public EventHandler, public Application {
+class Test: public Subscriber, public Application {
 public:
     Test(Messaging *eventDispatcher, Dimmer *dimmer);
     bool handle(Message* event) override;
@@ -24,9 +24,6 @@ private:
     Dimmer *dimmer;
     void plus();
     void minus();
-    static constexpr MessageType messageTypes[1] = {USER_INPUT};
-    static constexpr uint8_t messageTypeCount = 1;
-
     void renderUI();
 };
 

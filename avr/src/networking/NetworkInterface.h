@@ -8,7 +8,7 @@
 #ifndef NETWORKINTERFACE_H_
 #define NETWORKINTERFACE_H_
 #include "Packet.h"
-#include "../system/EventHandler.h"
+#include "../system/Subscriber.h"
 
 class NetworkInterface: public EventHandler {
 public:

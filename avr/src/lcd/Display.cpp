@@ -11,7 +11,7 @@ extern "C" {
 #include "one/HD44780.h"
 }
 
-Display::Display(): EventHandler(messageTypes, messageTypeCount) {
+Display::Display() {
     LCD_Setup();
     LCD_Clear();
     char hello[] = "Starting";
@@ -64,11 +64,3 @@ void Display::disableCursor() {
     cursorEnabled = false;
     drawCursor();
 }
-
-//void Display::sensor(Message* event) {
-//    auto *bme280Report = static_cast<ClimateReport*>(event);
-//    char s[12];
-//    sprintf(s, "%" PRId32 " %" PRIu32, bme280Report->temperatureCelsius, bme280Report->relativeHumidity);
-//    LCD_GotoXY(6, 1);
-//    LCD_PrintString(s);
-//}

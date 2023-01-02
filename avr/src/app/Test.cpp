@@ -7,7 +7,7 @@
 #include "cstdio"
 #include "../lcd/DrawText.h"
 
-Test::Test(Messaging *eventDispatcher, Dimmer *dimmer): EventHandler(messageTypes, messageTypeCount) {
+Test::Test(Messaging *eventDispatcher, Dimmer *dimmer) {
     this->eventDispatcher = eventDispatcher;
     this->dimmer = dimmer;
 }

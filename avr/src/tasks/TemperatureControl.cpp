@@ -6,7 +6,7 @@
 #include "../sensors/ClimateReport.h"
 #include "ClimateControl.h"
 
-TemperatureControl::TemperatureControl(Messaging *messageDispatcher, Dimmer *dimmer): EventHandler(messageTypes, messageTypeCount) {
+TemperatureControl::TemperatureControl(Messaging *messageDispatcher, Dimmer *dimmer) {
     this->messageDispatcher = messageDispatcher;
     this->dimmer = dimmer;
 }

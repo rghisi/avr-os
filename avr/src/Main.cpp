@@ -1,9 +1,6 @@
-#include <avr/io.h>
-#include <util/delay.h>
 #include <cstdlib>
 #include "../avr-libstdcpp/src/functexcept.cc"
 #include "../avr-libstdcpp/src/list.cc"
-#include <avr/wdt.h>
 
 #include "hw/avr/ATMega328P.h"
 #include "system/TaskScheduler.h"
@@ -62,12 +59,13 @@ void __cxa_guard_abort (__guard *) {};
 void __cxa_pure_virtual(void) {};
 
 auto atmega = ATMega328P();
-auto display = Display();
 auto wallClock = WallClock();
 auto taskScheduler = TaskScheduler(&wallClock);
-auto eventLoop = EventLoop();
+auto subscriberRegistry = SubscriberRegistry();
+auto eventLoop = EventLoop(&subscriberRegistry);
 auto messaging = Messaging(&eventLoop);
 auto asyncExecutor = AsyncExecutor(&taskScheduler, &messaging);
+auto display = Display();
 auto periodicMemoryReport = PeriodicMemoryReport(&messaging);
 auto keyPad = KeyPad(&messaging);
 auto dial = Dial(&messaging);
@@ -104,12 +102,16 @@ int main(void) {
     dial.setup();
     timedDrying.toForeground();
 
-//    eventLoop.addHandler(&asyncExecutor);
-    eventLoop.addHandler(&display);
-    eventLoop.addHandler(&applicationManager);
-    eventLoop.addHandler(&timedDrying);
-    eventLoop.addHandler(&temperatureControl);
-    eventLoop.addHandler(&test);
+    subscriberRegistry.subscribe(&asyncExecutor, ASYNC_SCHEDULED);
+    subscriberRegistry.subscribe(&asyncExecutor, ASYNC_CHAIN_SCHEDULED);
+    subscriberRegistry.subscribe(&display, DISPLAY_COMMAND);
+    subscriberRegistry.subscribe(&applicationManager, USER_INPUT);
+    subscriberRegistry.subscribe(&timedDrying, TIME_TICK);
+    subscriberRegistry.subscribe(&timedDrying, USER_INPUT);
+    subscriberRegistry.subscribe(&timedDrying, CLIMATE_REPORT);
+    subscriberRegistry.subscribe(&temperatureControl, CLIMATE_REPORT);
+    subscriberRegistry.subscribe(&temperatureControl, CLIMATE_CONTROL);
+    subscriberRegistry.subscribe(&test, USER_INPUT);
 
     taskScheduler.schedule(&periodicMemoryReport);
     taskScheduler.schedule(&keyPad);
@@ -147,14 +149,8 @@ int main(void) {
 //            ->schedule();
 
     while (true) {
-//        PORTC |= _BV(PORTC0);
-//        cpuStats.start(wallClock.millis());
-        auto used = taskScheduler.process();
-//        cpuStats.end(wallClock.millis(), used);
-//        cpuStats.start(wallClock.millis());
-        used = eventLoop.process();
-//        cpuStats.end(wallClock.millis(), used);
-//        PORTC &= ~ _BV(PORTC0);
+        taskScheduler.process();
+        eventLoop.process();
     }
 
     return 0;

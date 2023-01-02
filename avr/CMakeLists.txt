@@ -45,7 +45,7 @@ add_executable(${PROJECT_NAME}
         src/system/Message.cpp src/system/Message.h
         src/system/MessageType.h
         src/system/EventLoop.cpp src/system/EventLoop.h
-        src/system/EventHandler.cpp src/system/EventHandler.h
+        src/system/Subscriber.cpp src/system/Subscriber.h
         src/system/Messaging.cpp src/system/Messaging.h
 #        src/network-services/Services.h
         src/system/TaskScheduler.cpp src/system/TaskScheduler.h
@@ -70,7 +70,6 @@ add_executable(${PROJECT_NAME}
         src/sensors/bme280_i2c.h src/sensors/bme280_i2c.c
         src/tasks/PeriodicSensorReport.cpp src/tasks/PeriodicSensorReport.h
         src/sensors/ClimateReport.cpp src/sensors/ClimateReport.h
-        src/app/TempHumControl.cpp src/app/TempHumControl.h
         src/hw/Timer1.h src/hw/ExternalInterrupts.h
         src/dimmer/Dimmer.cpp src/dimmer/Dimmer.h
         src/tasks/TemperatureControl.cpp src/tasks/TemperatureControl.h
@@ -90,7 +89,10 @@ add_executable(${PROJECT_NAME}
         src/app/Application.cpp src/app/Application.h
         src/app/ApplicationManager.cpp src/app/ApplicationManager.h
         src/lcd/ClearDisplay.cpp src/lcd/ClearDisplay.h
-        src/lcd/DisableCursor.cpp src/lcd/DisableCursor.h src/tasks/ClimateControl.cpp src/tasks/ClimateControl.h)
+        src/lcd/DisableCursor.cpp src/lcd/DisableCursor.h
+        src/tasks/ClimateControl.cpp src/tasks/ClimateControl.h
+        src/system/SubscriberRegistry.h
+        src/system/SubscriberRegistry.cpp src/system/SubscriberRegistry.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

@@ -7,8 +7,7 @@
 #include "TaskSchedulingRequested.h"
 #include "AsyncChainSchedulingRequest.h"
 
-AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, Messaging *eventDispatcher)
-: EventHandler(messageTypes, messageTypeCount) {
+AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, Messaging *eventDispatcher) {
     this->taskScheduler = taskScheduler;
     this->eventDispatcher = eventDispatcher;
 }

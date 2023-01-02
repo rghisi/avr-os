@@ -9,12 +9,12 @@
 #include "../system/Task.h"
 #include "../dimmer/Dimmer.h"
 #include "../pid/PID.h"
-#include "../system/EventHandler.h"
+#include "../system/Subscriber.h"
 #include "../sensors/ClimateReport.h"
 #include "ClimateControl.h"
 #include "../system/Messaging.h"
 
-class TemperatureControl: public Task, public EventHandler {
+class TemperatureControl: public Task, public Subscriber {
 public:
     explicit TemperatureControl(Messaging *messageDispatcher, Dimmer *dimmer);
     ~TemperatureControl() override = default;
@@ -23,8 +23,6 @@ public:
     Type type() override;
     bool handle(Message *event) override;
 private:
-    static constexpr MessageType messageTypes[2] = {CLIMATE_REPORT, CLIMATE_CONTROL};
-    static constexpr uint8_t messageTypeCount = 2;
     int32_t temperatureSetPoint = 3000;
     int32_t currentTemperature = 0;
     int32_t dimmerPosition = 0;

@@ -6,13 +6,13 @@
 #define AVR_TIMEDDRYING_H
 
 
-#include "../system/EventHandler.h"
+#include "../system/Subscriber.h"
 #include "../system/Messaging.h"
 #include "Application.h"
 #include "../time/TimeTick.h"
 #include "../sensors/ClimateReport.h"
 
-class TimedDrying: public EventHandler, public Application {
+class TimedDrying: public Subscriber, public Application {
 public:
     explicit TimedDrying(Messaging* messageDispatcher);
     bool handle(Message* event) override;
@@ -25,8 +25,6 @@ private:
     enum class State {
         STOPPED, RUNNING, FINISHED
     };
-    static constexpr MessageType messageTypes[] = {TIME_TICK, USER_INPUT, CLIMATE_REPORT};
-    static constexpr uint8_t messageTypeCount = 3;
     static constexpr uint8_t TIMER_X_POSITION = 10;
     static constexpr uint8_t CLIMATE_X_POSITION = 0;
     static constexpr uint8_t SET_POINT_Y_POSITION = 0;

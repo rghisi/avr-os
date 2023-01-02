@@ -7,7 +7,7 @@
 
 
 #include "../system/Task.h"
-#include "../system/EventHandler.h"
+#include "../system/Subscriber.h"
 #include "../system/Messaging.h"
 
 class AsyncTaskTest : public Task {

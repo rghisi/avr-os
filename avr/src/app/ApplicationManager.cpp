@@ -6,8 +6,7 @@
 #include "../input/UserInput.h"
 #include "../lcd/ClearDisplay.h"
 
-ApplicationManager::ApplicationManager(Messaging *messaging, std::list<Application*> apps)
-: EventHandler(messageTypes, messageTypeCount) {
+ApplicationManager::ApplicationManager(Messaging *messaging, std::list<Application*> apps) {
     this->messaging = messaging;
     this->apps = std::move(apps);
     nextApp();

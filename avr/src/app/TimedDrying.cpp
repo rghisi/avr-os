@@ -11,7 +11,7 @@
 #include "../lcd/DisableCursor.h"
 #include "../tasks/ClimateControl.h"
 
-TimedDrying::TimedDrying(Messaging *messageDispatcher) : EventHandler(messageTypes, messageTypeCount) {
+TimedDrying::TimedDrying(Messaging *messageDispatcher) {
     this->messaging = messageDispatcher;
     setMinutes = 15;
     setSeconds = 0;
