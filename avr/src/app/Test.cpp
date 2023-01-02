@@ -8,11 +8,7 @@
 #include "../lcd/DrawText.h"
 #include "../lcd/DisplayCommand.h"
 
-MessageType Test::eventType() {
-    return USER_INPUT;
-}
-
-Test::Test(MessageDispatcher *eventDispatcher, Dimmer *dimmer) {
+Test::Test(MessageDispatcher *eventDispatcher, Dimmer *dimmer): EventHandler(messageTypes, messageTypeCount) {
     this->eventDispatcher = eventDispatcher;
     this->dimmer = dimmer;
 }
@@ -36,7 +32,7 @@ void Test::plus() {
     dial++;
     dimmer->setPosition(dial);
     auto s = new char[4];
-    sprintf(s, "%" PRIu8, dial);
+    sprintf(s, "%03" PRIu8, dial);
     auto event = DisplayCommand::drawText(5, 0, s);
     eventDispatcher->dispatch(event);
 }
@@ -45,7 +41,7 @@ void Test::minus() {
     dial--;
     dimmer->setPosition(dial);
     auto s = new char[4];
-    sprintf(s, "%" PRIu8, dial);
+    sprintf(s, "%03" PRIu8, dial);
     auto event = DisplayCommand::drawText(5, 0, s);
     eventDispatcher->dispatch(event);
 }

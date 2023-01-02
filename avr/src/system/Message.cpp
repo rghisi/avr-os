@@ -13,4 +13,3 @@ Message::~Message() = default;
 MessageType Message::type() {
     return eType;
 }
-

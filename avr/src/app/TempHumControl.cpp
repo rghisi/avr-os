@@ -4,10 +4,13 @@
 
 #include "TempHumControl.h"
 
+TempHumControl::TempHumControl(): EventHandler(messageTypes, messageTypeCount) {
+}
+
 void TempHumControl::run() {
     temperatureOutput = temperaturePid.update(setTemperature, temperatureOutput);
     humidityOutput = humidityPid.update(setHumidity, humidityOutput);
-    
+
 }
 
 uint32_t TempHumControl::delay() {
@@ -26,8 +29,4 @@ bool TempHumControl::handle(Message* event) {
             break;
     }
     return false;
-}
-
-MessageType TempHumControl::eventType() {
-    return BME280_REPORT;
 }

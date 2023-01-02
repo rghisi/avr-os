@@ -45,7 +45,7 @@ add_executable(${PROJECT_NAME}
         src/system/Message.cpp src/system/Message.h
         src/system/MessageType.h
         src/system/EventLoop.cpp src/system/EventLoop.h
-        src/system/EventHandler.h src/system/MessageDispatcher.h
+        src/system/EventHandler.cpp src/system/EventHandler.h
         src/system/MessageDispatcher.cpp src/system/MessageDispatcher.h
 #        src/network-services/Services.h
         src/system/TaskScheduler.cpp src/system/TaskScheduler.h
@@ -84,7 +84,11 @@ add_executable(${PROJECT_NAME}
         src/system/TaskSchedulingRequested.cpp
         src/system/TaskSchedulingRequested.h src/system/AsyncChainSchedulingRequest.cpp
         src/system/AsyncChainSchedulingRequest.h
-        src/lcd/EnableCursorCommand.cpp src/lcd/EnableCursorCommand.h src/lcd/DisplayCommand.cpp src/lcd/DisplayCommand.h src/lcd/Command.cpp src/lcd/Command.h)
+        src/lcd/EnableCursorCommand.cpp src/lcd/EnableCursorCommand.h
+        src/lcd/DisplayCommand.cpp src/lcd/DisplayCommand.h
+        src/lcd/Command.cpp src/lcd/Command.h
+        src/system/HandlerMultiplexer.cpp src/system/HandlerMultiplexer.h
+        src/app/Application.cpp src/app/Application.h src/app/ApplicationManager.cpp src/app/ApplicationManager.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

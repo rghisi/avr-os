@@ -18,9 +18,6 @@ public:
     void run() override;
     uint32_t delay() override;
     Type type() override;
-
-    MessageType eventType() override;
-
     bool handle(Message* event) override;
 
 private:
@@ -29,6 +26,8 @@ private:
     int32_t dimmerPosition = 0;
     Dimmer *dimmer;
     PID pid = PID(300, 25, 10);
+    static constexpr MessageType messageTypes[1] = {BME280_REPORT};
+    static constexpr uint8_t messageTypeCount = 1;
 };
 
 

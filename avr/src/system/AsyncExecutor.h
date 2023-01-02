@@ -14,7 +14,6 @@
 class AsyncExecutor: public EventHandler {
 public:
     explicit AsyncExecutor(TaskScheduler *taskScheduler, MessageDispatcher *eventDispatcher);
-    MessageType eventType() override;
     bool handle(Message* event) override;
 
 private:
@@ -22,6 +21,8 @@ private:
     MessageDispatcher *eventDispatcher;
     void executeAsync(Message* event);
     void executeChain(Message* event);
+    static constexpr MessageType messageTypes[] = {ASYNC_SCHEDULED, ASYNC_CHAIN_SCHEDULED};
+    static constexpr uint8_t messageTypeCount = 2;
 };
 
 

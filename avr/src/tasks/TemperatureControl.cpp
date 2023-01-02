@@ -5,7 +5,7 @@
 #include "TemperatureControl.h"
 #include "../sensors/BME280Report.h"
 
-TemperatureControl::TemperatureControl(Dimmer *dimmer) {
+TemperatureControl::TemperatureControl(Dimmer *dimmer): EventHandler(messageTypes, messageTypeCount) {
     this->dimmer = dimmer;
 }
 
@@ -26,10 +26,6 @@ uint32_t TemperatureControl::delay() {
 
 Task::Type TemperatureControl::type() {
     return Type::PERIODIC;
-}
-
-MessageType TemperatureControl::eventType() {
-    return BME280_REPORT;
 }
 
 bool TemperatureControl::handle(Message* event) {

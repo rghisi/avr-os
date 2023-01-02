@@ -13,7 +13,6 @@
 class Display: public EventHandler {
 public:
     Display();
-    MessageType eventType() override;
     bool handle(Message* event) override;
 
 private:
@@ -23,6 +22,8 @@ private:
     bool cursorEnabled = false;
     uint8_t cursorX = 0;
     uint8_t cursorY = 0;
+    static constexpr MessageType messageTypes[1] = {DISPLAY_COMMAND};
+    static constexpr uint8_t messageTypeCount = 1;
 };
 
 

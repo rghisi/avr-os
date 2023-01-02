@@ -7,13 +7,10 @@
 #include "TaskSchedulingRequested.h"
 #include "AsyncChainSchedulingRequest.h"
 
-AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, MessageDispatcher *eventDispatcher) {
+AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, MessageDispatcher *eventDispatcher)
+: EventHandler(messageTypes, messageTypeCount) {
     this->taskScheduler = taskScheduler;
     this->eventDispatcher = eventDispatcher;
-}
-
-MessageType AsyncExecutor::eventType() {
-    return ASYNC_SCHEDULED;
 }
 
 bool AsyncExecutor::handle(Message* event) {
