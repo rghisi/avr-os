@@ -8,30 +8,35 @@
 
 #include "../system/EventHandler.h"
 #include "../system/MessageDispatcher.h"
+#include "Application.h"
+#include "../time/TimeTick.h"
 
-class TimedDrying: public EventHandler {
+class TimedDrying: public EventHandler, public Application {
 public:
     explicit TimedDrying(MessageDispatcher* messageDispatcher);
-    MessageType eventType() override;
     bool handle(Message* event) override;
-    void activate();
-    void deactivate();
+    void stop() override;
+    void toForeground() override;
+    void toBackground() override;
+    void renderUI() override;
+
 private:
     enum State {
         MINUTES, SECONDS, NONE
     };
-    void handleTimeTick(Message* message);
+    void updateTimestamp(TimeTick *timeTick);
+    void updateCountdown(TimeTick *timeTick);
     void handleUserInput(Message* event);
     MessageDispatcher *messageDispatcher;
     uint32_t previousTimestamp;
-    uint8_t seconds;
-    uint8_t minutes;
-    uint8_t setSeconds;
-    uint8_t setMinutes;
-    bool active;
+    uint16_t milliseconds;
+    int8_t seconds;
+    int8_t minutes;
+    int8_t setSeconds;
+    int8_t setMinutes;
     State state = State::NONE;
-
-    void render();
+    static constexpr MessageType messageTypes[] = {TIME_TICK, USER_INPUT};
+    static constexpr uint8_t messageTypeCount = 2;
 };
 
 

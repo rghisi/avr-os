@@ -15,17 +15,13 @@ extern "C" {
 #include "one/HD44780.h"
 }
 
-Display::Display() {
+Display::Display(): EventHandler(messageTypes, messageTypeCount) {
     LCD_Setup();
     LCD_Clear();
     char hello[] = "Starting";
     LCD_PrintString(hello);
     _delay_ms(500);
     LCD_Clear();
-}
-
-MessageType Display::eventType() {
-    return DISPLAY_COMMAND;
 }
 
 bool Display::handle(Message *event) {

@@ -13,7 +13,6 @@ public:
     explicit Message(MessageType type);
     virtual ~Message();
     MessageType type();
-
 private:
     MessageType eType;
 };

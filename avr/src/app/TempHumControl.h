@@ -12,14 +12,12 @@
 
 class TempHumControl: public Task, public EventHandler {
 public:
+    TempHumControl();
     ~TempHumControl() override = default;
     void run() override;
     uint32_t delay() override;
     Type type() override;
-
     bool handle(Message* event) override;
-
-    MessageType eventType() override;
 
 private:
     uint32_t temperature;
@@ -28,8 +26,10 @@ private:
     int16_t temperatureOutput;
     int16_t setHumidity;
     int16_t humidityOutput;
-    PID temperaturePid;
-    PID humidityPid;
+    PID temperaturePid = PID(0, 0, 0);
+    PID humidityPid = PID(0, 0, 0);
+    static constexpr MessageType messageTypes[1] = {BME280_REPORT};
+    static constexpr uint8_t messageTypeCount = 1;
 };
 
 

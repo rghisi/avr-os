@@ -75,7 +75,7 @@ auto dimmer = Dimmer(&atmega, &atmega);
 auto timeTickTask = TimeTicker(&messageDispatcher, &wallClock);
 auto timedDrying = TimedDrying(&messageDispatcher);
 //auto temperatureControl = TemperatureControl(&dimmer);
-//auto test = Test(&messageDispatcher, &dimmer);
+auto test = Test(&messageDispatcher, &dimmer);
 //auto asyncTest = AsyncTaskTest(&messageDispatcher);
 
 int main(void) {
@@ -100,14 +100,13 @@ int main(void) {
 
     keyPad.setup();
     dial.setup();
+    timedDrying.toForeground();
 
-    eventLoop.addHandler(&asyncExecutor);
-    eventLoop.addHandler(&asyncExecutor, ASYNC_CHAIN_SCHEDULED);
+//    eventLoop.addHandler(&asyncExecutor);
     eventLoop.addHandler(&display);
     eventLoop.addHandler(&timedDrying);
-    eventLoop.addHandler(&timedDrying, USER_INPUT);
 //    eventLoop.addHandler(&temperatureControl);
-    //eventLoop.addHandler(&test);
+    eventLoop.addHandler(&test);
 
     taskScheduler.schedule(&periodicMemoryReport);
     taskScheduler.schedule(&keyPad);
@@ -133,25 +132,25 @@ int main(void) {
 //            ->then([]() {dimmer.setPosition(0);})
 //            ->schedule();
 
-    auto *startTimedDrying = new AsyncChain(&messageDispatcher);
-    startTimedDrying
-            ->wait(1000)
-            ->then([]() {timedDrying.activate();})
-            ->wait(32000)
-            ->wait(32000)
-            ->then([]() {timedDrying.deactivate();})
-            ->wait(10000)
-            ->then([]() {timedDrying.activate();})
-            ->schedule();
+//    auto *startTimedDrying = new AsyncChain(&messageDispatcher);
+//    startTimedDrying
+//            ->wait(1000)
+//            ->then([]() {timedDrying.toForeground();})
+//            ->wait(32000)
+//            ->wait(32000)
+//            ->then([]() {timedDrying.stop();})
+//            ->wait(10000)
+//            ->then([]() {timedDrying.toForeground();})
+//            ->schedule();
 
     while (true) {
 //        PORTC |= _BV(PORTC0);
-//        cpuStats.start(wallClock.now());
+//        cpuStats.start(wallClock.millis());
         auto used = taskScheduler.process();
-//        cpuStats.end(wallClock.now(), used);
-//        cpuStats.start(wallClock.now());
+//        cpuStats.end(wallClock.millis(), used);
+//        cpuStats.start(wallClock.millis());
         used = eventLoop.process();
-//        cpuStats.end(wallClock.now(), used);
+//        cpuStats.end(wallClock.millis(), used);
 //        PORTC &= ~ _BV(PORTC0);
     }
 

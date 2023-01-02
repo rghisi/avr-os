@@ -13,17 +13,16 @@
 class Test: public EventHandler {
 public:
     Test(MessageDispatcher *eventDispatcher, Dimmer *dimmer);
-    MessageType eventType() override;
     bool handle(Message* event) override;
 
 private:
     uint8_t dial = 0;
     MessageDispatcher *eventDispatcher;
     Dimmer *dimmer;
-
     void plus();
-
     void minus();
+    static constexpr MessageType messageTypes[1] = {USER_INPUT};
+    static constexpr uint8_t messageTypeCount = 1;
 };
 
 

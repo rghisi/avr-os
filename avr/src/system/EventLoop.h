@@ -19,11 +19,14 @@ public:
     bool process();
     bool push(Message* event);
     void addHandler(EventHandler *handler);
-    void addHandler(EventHandler *handler, MessageType eventType);
 private:
     static const uint8_t BUFFER_SIZE = 10;
     std::list<Message*> events;
     EventHandler* handlers[MessageType::MAX]{};
+    uint16_t multiplexerBitmap = 0;
+    void addHandler(EventHandler *handler, MessageType eventType);
+    bool isMultiplexed(MessageType type) const;
+    void setMultiplexed(MessageType type);
 };
 
 
