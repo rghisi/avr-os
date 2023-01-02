@@ -49,10 +49,20 @@ void TimedDrying::updateCountdown(TimeTick *timeTick) {
             seconds += 60;
             minutes--;
         }
-        auto s = new char[6];
-        sprintf(s, "%02" PRIi8 ":%02" PRIi8, minutes, seconds);
-        messageDispatcher->dispatch(DisplayCommand::drawText(10, 1, s));
+        renderCountdown();
     }
+}
+
+void TimedDrying::renderCountdown() {
+    auto countdownAsString = new char[6];
+    sprintf(countdownAsString, "%02" PRIi8 ":%02" PRIi8, minutes, seconds);
+    messageDispatcher->dispatch(DisplayCommand::drawText(10, 1, countdownAsString));
+}
+
+void TimedDrying::renderSetTimer() {
+    auto setTimerAsString = new char[6];
+    sprintf(setTimerAsString, "%02" PRIi8 ":%02" PRIi8, setMinutes, setSeconds);
+    messageDispatcher->dispatch(DisplayCommand::drawText(10, 0, setTimerAsString));
 }
 
 void TimedDrying::handleUserInput(Message *event) {
@@ -72,8 +82,6 @@ void TimedDrying::handleUserInput(Message *event) {
             break;
         case UserInput::UserInputEvent::BUTTON_ENTER_RELEASED:
             //start/pause timer
-            seconds = 0;
-            minutes = 0;
             renderUI();
             break;
         case UserInput::UserInputEvent::DIAL_BUTTON_RELEASED:
@@ -85,7 +93,9 @@ void TimedDrying::handleUserInput(Message *event) {
 }
 
 void TimedDrying::renderUI() {
-    messageDispatcher->dispatch(DisplayCommand::enableCursor(10, 1));
+    renderSetTimer();
+    renderCountdown();
+    messageDispatcher->dispatch(DisplayCommand::enableCursor(10, 0));
 }
 
 void TimedDrying::stop() {

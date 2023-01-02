@@ -37,6 +37,10 @@ private:
     State state = State::NONE;
     static constexpr MessageType messageTypes[] = {TIME_TICK, USER_INPUT};
     static constexpr uint8_t messageTypeCount = 2;
+
+    void renderCountdown();
+
+    void renderSetTimer();
 };
 
 
