@@ -7,7 +7,7 @@
 #include "TaskSchedulingRequested.h"
 #include "AsyncChainSchedulingRequest.h"
 
-AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, MessageDispatcher *eventDispatcher)
+AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, Messaging *eventDispatcher)
 : EventHandler(messageTypes, messageTypeCount) {
     this->taskScheduler = taskScheduler;
     this->eventDispatcher = eventDispatcher;
@@ -40,7 +40,7 @@ void AsyncExecutor::executeChain(Message* event) {
                 nextAsync->run();
                 if (asyncChain->hasNext()) {
                     auto newEvent = new AsyncChainSchedulingRequest(asyncChain);
-                    eventDispatcher->dispatch(newEvent);
+                    eventDispatcher->send(newEvent);
                 } else {
                     delete asyncChain;
                 }

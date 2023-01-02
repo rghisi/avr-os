@@ -5,11 +5,7 @@
 #include "Display.h"
 #include "../system/CpuStats.h"
 #include "cstdio"
-#include "../sensors/BME280Report.h"
-#include "../input/UserInput.h"
-#include "DrawText.h"
 #include "DisplayCommand.h"
-#include "EnableCursorCommand.h"
 
 extern "C" {
 #include "one/HD44780.h"
@@ -25,30 +21,15 @@ Display::Display(): EventHandler(messageTypes, messageTypeCount) {
 }
 
 bool Display::handle(Message *event) {
-    auto command = static_cast<DisplayCommand *>(event)->command;
-    switch (command->type) {
-        case Command::Type::DRAW_TEXT:
-            text(static_cast<DrawText *>(command));
-            break;
-        case Command::Type::ENABLE_CURSOR:
-            enableCursor(static_cast<EnableCursorCommand *>(command));
-            break;
-        case Command::Type::DISABLE_CURSOR:
-            break;
-    }
+    auto command = static_cast<DisplayCommand*>(event);
+    command->command(this);
     return true;
 }
 
-void Display::text(DrawText *command) {
-    LCD_GotoXY(command->x, command->y);
-    LCD_PrintString(command->text);
-    drawCursor();
-}
-
-void Display::enableCursor(EnableCursorCommand *command) {
+void Display::enableCursor(uint8_t x, uint8_t y) {
     cursorEnabled = true;
-    cursorX = command->x;
-    cursorY = command->y;
+    cursorX = x;
+    cursorY = y;
     drawCursor();
 }
 
@@ -58,21 +39,34 @@ void Display::drawCursor() const {
         LCD_SendCommand(
                 __LCD_CMD_DisplayControl |
                 __LCD_CMD_DisplayOn |
-                __LCD_CMD_CursorOn |
-                __LCD_CMD_BlinkOn
+                __LCD_CMD_CursorOn
         );
     } else {
         LCD_SendCommand(
                 __LCD_CMD_DisplayControl |
                 __LCD_CMD_DisplayOn |
-                __LCD_CMD_CursorOff |
-                __LCD_CMD_BlinkOff
+                __LCD_CMD_CursorOff
         );
     }
 }
 
+void Display::clear() {
+    LCD_Clear();
+}
+
+void Display::text(uint8_t x, uint8_t y, char *text) {
+    LCD_GotoXY(x, y);
+    LCD_PrintString(text);
+    drawCursor();
+}
+
+void Display::disableCursor() {
+    cursorEnabled = false;
+    drawCursor();
+}
+
 //void Display::sensor(Message* event) {
-//    auto *bme280Report = static_cast<BME280Report*>(event);
+//    auto *bme280Report = static_cast<ClimateReport*>(event);
 //    char s[12];
 //    sprintf(s, "%" PRId32 " %" PRIu32, bme280Report->temperatureCelsius, bme280Report->relativeHumidity);
 //    LCD_GotoXY(6, 1);

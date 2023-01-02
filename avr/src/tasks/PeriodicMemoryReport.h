@@ -6,17 +6,17 @@
 #define AVR_PERIODICMEMORYREPORT_H
 
 #include "../system/Task.h"
-#include "../system/MessageDispatcher.h"
+#include "../system/Messaging.h"
 
 class PeriodicMemoryReport: public Task {
 public:
-    explicit PeriodicMemoryReport(MessageDispatcher *eventDispatcher);
+    explicit PeriodicMemoryReport(Messaging *eventDispatcher);
     ~PeriodicMemoryReport() override;
     void run() override;
     uint32_t delay() override;
     Type type() override;
 private:
-    MessageDispatcher *eventDispatcher;
+    Messaging *eventDispatcher;
 };
 
 

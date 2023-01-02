@@ -7,15 +7,13 @@
 
 
 #include "../system/Message.h"
-#include "Command.h"
+#include "Display.h"
+#include "functional"
 
 class DisplayCommand: public Message {
 public:
-    explicit DisplayCommand(Command* command);
-    ~DisplayCommand() override;
-    Command *command;
-    static DisplayCommand* drawText(uint8_t x, uint8_t y, char* text);
-    static DisplayCommand* enableCursor(uint8_t x, uint8_t y);
+    explicit DisplayCommand();
+    virtual void command(Display *display) = 0;
 };
 
 

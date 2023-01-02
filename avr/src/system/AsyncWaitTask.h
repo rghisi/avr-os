@@ -8,18 +8,18 @@
 
 #include "Task.h"
 #include "cstdint"
-#include "MessageDispatcher.h"
+#include "Messaging.h"
 #include "AsyncChain.h"
 
 class AsyncWaitTask: public Task {
 public:
-    AsyncWaitTask(uint32_t delay, MessageDispatcher *pDispatcher, Message* callbackEvent);
+    AsyncWaitTask(uint32_t delay, Messaging *pDispatcher, Message* callbackEvent);
     ~AsyncWaitTask() override;
     void run() override;
     uint32_t delay() override;
     Type type() override;
 private:
-    MessageDispatcher *eventDispatcher;
+    Messaging *eventDispatcher;
     Message* callbackEvent;
     uint32_t milliseconds;
 };

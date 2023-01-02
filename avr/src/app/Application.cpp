@@ -4,15 +4,11 @@
 
 #include "Application.h"
 
-void Application::stop() {
-    runningState = RunningState::STOPPED;
-}
-
 void Application::toForeground() {
-    runningState = RunningState::RUNNING_FOREGROUND;
+    runningState = RunningState::FOREGROUND;
 }
 
 void Application::toBackground() {
-    runningState = RunningState::RUNNING_BACKGROUND;
+    runningState = RunningState::BACKGROUND;
 }
 

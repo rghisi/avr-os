@@ -8,10 +8,23 @@
 
 #include "Application.h"
 #include "../system/EventHandler.h"
+#include "list"
+#include "../system/Messaging.h"
 
 class ApplicationManager: public EventHandler {
 public:
-    ApplicationManager(Application* apps);
+    explicit ApplicationManager(Messaging *messaging, std::list<Application*> apps);
+    bool handle(Message *event) override;
+private:
+    static constexpr MessageType messageTypes[] = {USER_INPUT};
+    static constexpr uint8_t messageTypeCount = 1;
+    void previousApp();
+    void nextApp();
+    std::list<Application*> apps;
+    Application *foreground = nullptr;
+    Messaging *messaging;
+
+    void clearUI();
 };
 
 

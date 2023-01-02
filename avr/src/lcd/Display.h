@@ -5,19 +5,17 @@
 #ifndef AVR_DISPLAY_H
 #define AVR_DISPLAY_H
 
-
 #include "../system/EventHandler.h"
-#include "DrawText.h"
-#include "EnableCursorCommand.h"
 
 class Display: public EventHandler {
 public:
     Display();
     bool handle(Message* event) override;
-
+    void clear();
+    void text(uint8_t x, uint8_t y, char *text);
+    void enableCursor(uint8_t x, uint8_t y);
+    void disableCursor();
 private:
-    void text(DrawText* command);
-    void enableCursor(EnableCursorCommand *command);
     void drawCursor() const;
     bool cursorEnabled = false;
     uint8_t cursorX = 0;

@@ -8,7 +8,7 @@
 #include "hw/avr/ATMega328P.h"
 #include "system/TaskScheduler.h"
 #include "system/EventLoop.h"
-#include "system/MessageDispatcher.h"
+#include "system/Messaging.h"
 #include "system/WallClock.h"
 #include "lcd/Display.h"
 #include "tasks/AsyncTaskTest.h"
@@ -22,6 +22,7 @@
 #include "app/Test.h"
 #include "time/TimeTicker.h"
 #include "app/TimedDrying.h"
+#include "app/ApplicationManager.h"
 
 void * operator new(size_t size)
 {
@@ -65,18 +66,19 @@ auto display = Display();
 auto wallClock = WallClock();
 auto taskScheduler = TaskScheduler(&wallClock);
 auto eventLoop = EventLoop();
-auto messageDispatcher = MessageDispatcher(&eventLoop);
-auto asyncExecutor = AsyncExecutor(&taskScheduler, &messageDispatcher);
-auto periodicMemoryReport = PeriodicMemoryReport(&messageDispatcher);
-auto keyPad = KeyPad(&messageDispatcher);
-auto dial = Dial(&messageDispatcher);
-auto periodicSensorReport = PeriodicSensorReport(&messageDispatcher);
+auto messaging = Messaging(&eventLoop);
+auto asyncExecutor = AsyncExecutor(&taskScheduler, &messaging);
+auto periodicMemoryReport = PeriodicMemoryReport(&messaging);
+auto keyPad = KeyPad(&messaging);
+auto dial = Dial(&messaging);
+auto periodicSensorReport = PeriodicSensorReport(&messaging);
 auto dimmer = Dimmer(&atmega, &atmega);
-auto timeTickTask = TimeTicker(&messageDispatcher, &wallClock);
-auto timedDrying = TimedDrying(&messageDispatcher);
-//auto temperatureControl = TemperatureControl(&dimmer);
-auto test = Test(&messageDispatcher, &dimmer);
-//auto asyncTest = AsyncTaskTest(&messageDispatcher);
+auto timeTickTask = TimeTicker(&messaging, &wallClock);
+auto timedDrying = TimedDrying(&messaging);
+auto temperatureControl = TemperatureControl(&messaging, &dimmer);
+auto test = Test(&messaging, &dimmer);
+//auto asyncTest = AsyncTaskTest(&messaging);
+auto applicationManager = ApplicationManager(&messaging, {&timedDrying, &test});
 
 int main(void) {
 //    uint8_t statusLed = _BV(PORTB5);
@@ -104,8 +106,9 @@ int main(void) {
 
 //    eventLoop.addHandler(&asyncExecutor);
     eventLoop.addHandler(&display);
+    eventLoop.addHandler(&applicationManager);
     eventLoop.addHandler(&timedDrying);
-//    eventLoop.addHandler(&temperatureControl);
+    eventLoop.addHandler(&temperatureControl);
     eventLoop.addHandler(&test);
 
     taskScheduler.schedule(&periodicMemoryReport);
@@ -114,9 +117,9 @@ int main(void) {
     taskScheduler.schedule(&periodicSensorReport);
 //    taskScheduler.schedule(&asyncTest);
     taskScheduler.schedule(&timeTickTask);
-//    taskScheduler.schedule(&temperatureControl);
+    taskScheduler.schedule(&temperatureControl);
 
-//    auto *dimmerCalibrationTask = new AsyncChain(&messageDispatcher);
+//    auto *dimmerCalibrationTask = new AsyncChain(&messaging);
 //    dimmerCalibrationTask
 //            ->wait(1000)
 //            ->then([]() {dimmer.enable();})
@@ -132,7 +135,7 @@ int main(void) {
 //            ->then([]() {dimmer.setPosition(0);})
 //            ->schedule();
 
-//    auto *startTimedDrying = new AsyncChain(&messageDispatcher);
+//    auto *startTimedDrying = new AsyncChain(&messaging);
 //    startTimedDrying
 //            ->wait(1000)
 //            ->then([]() {timedDrying.toForeground();})

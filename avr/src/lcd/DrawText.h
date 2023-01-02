@@ -6,13 +6,14 @@
 #define AVR_DRAWTEXT_H
 
 
-#include "../system/Message.h"
-#include "Command.h"
+#include "DisplayCommand.h"
+#include "functional"
 
-class DrawText: public Command {
+class DrawText: public DisplayCommand {
 public:
     explicit DrawText(uint8_t x, uint8_t y, char *text);
     ~DrawText() override;
+    void command(Display *display) override;
     char *text;
     uint8_t x;
     uint8_t y;

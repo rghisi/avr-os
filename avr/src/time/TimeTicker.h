@@ -11,13 +11,13 @@
 
 class TimeTicker: public Task {
 public:
-    explicit TimeTicker(MessageDispatcher *eventDispatcher, WallClock *wallClock);
+    explicit TimeTicker(Messaging *eventDispatcher, WallClock *wallClock);
     ~TimeTicker() override = default;
     void run() override;
     uint32_t delay() override;
     Type type() override;
 private:
-    MessageDispatcher *eventDispatcher;
+    Messaging *eventDispatcher;
     WallClock *wallClock;
 };
 

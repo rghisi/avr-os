@@ -9,7 +9,7 @@
 #include "cstdio"
 #include "../lcd/DisplayCommand.h"
 
-PeriodicCpuUsageReport::PeriodicCpuUsageReport(CpuStats *cpuStats, MessageDispatcher *eventDispatcher) {
+PeriodicCpuUsageReport::PeriodicCpuUsageReport(CpuStats *cpuStats, Messaging *eventDispatcher) {
     this->cpuStats = cpuStats;
     this->eventDispatcher = eventDispatcher;
 }
@@ -21,8 +21,8 @@ uint32_t PeriodicCpuUsageReport::delay() {
 void PeriodicCpuUsageReport::run() {
     auto s = new char[4];
     sprintf(s, "%" PRIu8, cpuStats->idlePercent());
-    auto event = DisplayCommand::drawText(13, 0, s);
-    eventDispatcher->dispatch(event);
+    auto event = new DrawText(13, 0, s);
+    eventDispatcher->send(event);
 }
 
 Task::Type PeriodicCpuUsageReport::type() {

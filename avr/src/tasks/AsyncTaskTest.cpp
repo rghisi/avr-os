@@ -9,7 +9,7 @@
 #include "../lcd/DisplayCommand.h"
 
 
-AsyncTaskTest::AsyncTaskTest(MessageDispatcher *eventDispatcher) {
+AsyncTaskTest::AsyncTaskTest(Messaging *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
 }
 
@@ -20,26 +20,26 @@ uint32_t AsyncTaskTest::delay() {
 void AsyncTaskTest::run() {
     auto f1 = [*this]() {
         auto m1 = new char[] {'F', '(', '1', ')', 0x00};
-        auto event = DisplayCommand::drawText(0, 1, m1);
-        eventDispatcher->dispatch(event);
+        auto event = new DrawText(0, 1, m1);
+        eventDispatcher->send(event);
     };
 
     auto f2 = [*this]() {
         auto m2 = new char[] {'F', '(', '2', ')', 0x00};
-        auto event = DisplayCommand::drawText(0, 1, m2);
-        eventDispatcher->dispatch(event);
+        auto event = new DrawText(0, 1, m2);
+        eventDispatcher->send(event);
     };
 
     auto f3 = [*this]() {
         auto m3 = new char[] {'F', '(', '3', ')', 0x00};
-        auto event = DisplayCommand::drawText(0, 1, m3);
-        eventDispatcher->dispatch(event);
+        auto event = new DrawText(0, 1, m3);
+        eventDispatcher->send(event);
     };
 
     auto f4 = [*this]() {
         auto m4 = new char[] {'F', '(', '4', ')', 0x00};
-        auto event = DisplayCommand::drawText(0, 1, m4);
-        eventDispatcher->dispatch(event);
+        auto event = new DrawText(0, 1, m4);
+        eventDispatcher->send(event);
     };
 
     auto *asyncChain = new AsyncChain(eventDispatcher);

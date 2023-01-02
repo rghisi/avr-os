@@ -10,24 +10,30 @@
 #include "../dimmer/Dimmer.h"
 #include "../pid/PID.h"
 #include "../system/EventHandler.h"
+#include "../sensors/ClimateReport.h"
+#include "ClimateControl.h"
+#include "../system/Messaging.h"
 
 class TemperatureControl: public Task, public EventHandler {
 public:
-    explicit TemperatureControl(Dimmer *dimmer);
+    explicit TemperatureControl(Messaging *messageDispatcher, Dimmer *dimmer);
     ~TemperatureControl() override = default;
     void run() override;
     uint32_t delay() override;
     Type type() override;
-    bool handle(Message* event) override;
-
+    bool handle(Message *event) override;
 private:
+    static constexpr MessageType messageTypes[2] = {CLIMATE_REPORT, CLIMATE_CONTROL};
+    static constexpr uint8_t messageTypeCount = 2;
     int32_t temperatureSetPoint = 3000;
     int32_t currentTemperature = 0;
     int32_t dimmerPosition = 0;
+    Messaging *messageDispatcher;
     Dimmer *dimmer;
     PID pid = PID(300, 25, 10);
-    static constexpr MessageType messageTypes[1] = {BME280_REPORT};
-    static constexpr uint8_t messageTypeCount = 1;
+    bool enabled;
+    void handle(ClimateReport *climateReport);
+    void handle(ClimateControl *climateControl);
 };
 
 

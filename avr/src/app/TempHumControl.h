@@ -28,7 +28,7 @@ private:
     int16_t humidityOutput;
     PID temperaturePid = PID(0, 0, 0);
     PID humidityPid = PID(0, 0, 0);
-    static constexpr MessageType messageTypes[1] = {BME280_REPORT};
+    static constexpr MessageType messageTypes[1] = {CLIMATE_REPORT};
     static constexpr uint8_t messageTypeCount = 1;
 };
 

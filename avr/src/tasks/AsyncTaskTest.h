@@ -8,18 +8,18 @@
 
 #include "../system/Task.h"
 #include "../system/EventHandler.h"
-#include "../system/MessageDispatcher.h"
+#include "../system/Messaging.h"
 
 class AsyncTaskTest : public Task {
 public:
-    explicit AsyncTaskTest(MessageDispatcher *eventDispatcher);
+    explicit AsyncTaskTest(Messaging *eventDispatcher);
     ~AsyncTaskTest() override;
     uint32_t delay() override;
     void run() override;
     Type type() override;
 
 private:
-    MessageDispatcher *eventDispatcher;
+    Messaging *eventDispatcher;
 };
 
 

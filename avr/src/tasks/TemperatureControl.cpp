@@ -3,20 +3,27 @@
 //
 
 #include "TemperatureControl.h"
-#include "../sensors/BME280Report.h"
+#include "../sensors/ClimateReport.h"
+#include "ClimateControl.h"
 
-TemperatureControl::TemperatureControl(Dimmer *dimmer): EventHandler(messageTypes, messageTypeCount) {
+TemperatureControl::TemperatureControl(Messaging *messageDispatcher, Dimmer *dimmer): EventHandler(messageTypes, messageTypeCount) {
+    this->messageDispatcher = messageDispatcher;
     this->dimmer = dimmer;
 }
 
 void TemperatureControl::run() {
-    dimmerPosition = pid.update(temperatureSetPoint, currentTemperature);
-    if (dimmerPosition > 255) {
-        dimmer->setPosition(255);
-    } else if (dimmerPosition < 0) {
-        dimmer->setPosition(0);
+    if (enabled) {
+        dimmerPosition = pid.update(temperatureSetPoint, currentTemperature);
+        if (dimmerPosition > 255) {
+            dimmer->setPosition(255);
+        } else if (dimmerPosition < 0) {
+            dimmer->setPosition(0);
+        } else {
+            dimmer->setPosition((uint8_t)dimmerPosition);
+        }
+        dimmer->enable();
     } else {
-        dimmer->setPosition((uint8_t)dimmerPosition);
+        dimmer->disable();
     }
 }
 
@@ -29,7 +36,24 @@ Task::Type TemperatureControl::type() {
 }
 
 bool TemperatureControl::handle(Message* event) {
-    auto bmeReport = static_cast<BME280Report*>(event);
-    currentTemperature = (bmeReport->temperatureCelsius);
+    switch (event->type()) {
+        case CLIMATE_REPORT:
+            handle(static_cast<ClimateReport *>(event));
+            break;
+        case CLIMATE_CONTROL:
+            handle(static_cast<ClimateControl*>(event));
+            break;
+        default:
+            break;
+    }
     return true;
+}
+
+void TemperatureControl::handle(ClimateReport *climateReport) {
+    currentTemperature = (climateReport->temperatureCelsius);
+}
+
+void TemperatureControl::handle(ClimateControl *climateControl) {
+    enabled = climateControl->enabled;
+    temperatureSetPoint = climateControl->temperature;
 }

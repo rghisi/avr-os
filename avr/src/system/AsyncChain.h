@@ -10,11 +10,11 @@
 #include "Task.h"
 #include "memory"
 #include "functional"
-#include "MessageDispatcher.h"
+#include "Messaging.h"
 
 class AsyncChain {
 public:
-    AsyncChain(MessageDispatcher *eventDispatcher);
+    AsyncChain(Messaging *eventDispatcher);
     ~AsyncChain();
     AsyncChain* then(std::function<void(void)> thenLambda);
     AsyncChain* wait(uint16_t milliseconds);
@@ -22,7 +22,7 @@ public:
     std::unique_ptr<Task> next();
     bool hasNext();
 private:
-    MessageDispatcher *eventDispatcher;
+    Messaging *eventDispatcher;
     std::list<std::unique_ptr<Task>> chain;
 };
 

@@ -23,7 +23,7 @@ Task::Type TempHumControl::type() {
 
 bool TempHumControl::handle(Message* event) {
     switch (event->type()) {
-        case BME280_REPORT:
+        case CLIMATE_REPORT:
             break;
         default:
             break;

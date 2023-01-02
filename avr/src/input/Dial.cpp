@@ -13,11 +13,11 @@
 //static const int8_t Dial::QUADRATURE_TABLE[] = { 0,  0, 0, 0, 0, 0, 0, -1,  0, 0, 0, 1, 0, 0,  0 };
 /*
  * Period = 1ms
- * 0 0 = idle state
+ * 0 0 = idle selection
  * 1 0 = right turn (+1)
  * 0 1 = left turn (-1)
  */
-Dial::Dial(MessageDispatcher *eventDispatcher) {
+Dial::Dial(Messaging *eventDispatcher) {
 	this->eventDispatcher = eventDispatcher;
     lastDialReadout = 0x00;
     lastPushButtonState = false;
@@ -40,7 +40,7 @@ void Dial::run() {
         } else {
             event = new UserInput(UserInput::UserInputEvent::DIAL_BUTTON_RELEASED, 0x00);
         }
-        eventDispatcher->dispatch(event);
+        eventDispatcher->send(event);
         lastPushButtonState = newPushButtonState;
     }
 	if (newDialReadout != lastDialReadout) {
@@ -49,11 +49,11 @@ void Dial::run() {
             switch (newDialReadout) {
                 case DIAL_PLUS:
                     event = new UserInput(UserInput::UserInputEvent::DIAL_PLUS, 0x00);
-                    eventDispatcher->dispatch(event);
+                    eventDispatcher->send(event);
                     break;
                 case DIAL_MINUS:
                     event = new UserInput(UserInput::UserInputEvent::DIAL_MINUS, 0x00);
-                    eventDispatcher->dispatch(event);
+                    eventDispatcher->send(event);
                     break;
                 default:
                     break;

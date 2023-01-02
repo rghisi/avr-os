@@ -6,7 +6,7 @@
 #include "KeyPad.h"
 #include "UserInput.h"
 
-KeyPad::KeyPad(MessageDispatcher *eventDispatcher) {
+KeyPad::KeyPad(Messaging *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
     previous = Key::RELEASED;
 }
@@ -69,7 +69,7 @@ void KeyPad::run() {
         }
         if (button != UserInput::UserInputEvent::NONE) {
             auto event = new UserInput(button, value);
-            eventDispatcher->dispatch(event);
+            eventDispatcher->send(event);
         }
         previous = current;
     }

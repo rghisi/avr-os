@@ -8,19 +8,15 @@
 
 class Application {
 public:
-    virtual void stop();
-
     virtual void toForeground();
-
     virtual void toBackground();
-    virtual void renderUI() = 0;
+
 protected:
     enum class RunningState {
-        RUNNING_FOREGROUND,
-        RUNNING_BACKGROUND,
-        STOPPED
+        FOREGROUND,
+        BACKGROUND
     };
-    RunningState runningState = RunningState::STOPPED;
+    RunningState runningState = RunningState::BACKGROUND;
 };
 
 

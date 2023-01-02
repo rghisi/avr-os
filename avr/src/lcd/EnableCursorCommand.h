@@ -6,13 +6,15 @@
 #define AVR_ENABLECURSORCOMMAND_H
 
 
-#include "../system/Message.h"
-#include "Command.h"
+#include "DisplayCommand.h"
+#include "functional"
 
-class EnableCursorCommand: public Command {
+class EnableCursorCommand: public DisplayCommand {
 public:
     EnableCursorCommand(uint8_t x, uint8_t y);
     ~EnableCursorCommand() override;
+    void command(Display *display) override;
+private:
     uint8_t x;
     uint8_t y;
 };
