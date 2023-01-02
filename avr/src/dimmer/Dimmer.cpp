@@ -49,11 +49,15 @@ void Dimmer::enable() {
 }
 
 void Dimmer::disable() {
-    externalInterrupt->externalInterruptDisable();
-    timer->resetTimer1();
-    timer->stopTimer1();
-    timer->timer1DoNothingOnCompareMatchA();
-    state = State::DISABLED;
+    if (state != State::DISABLED) {
+        externalInterrupt->externalInterruptDisable();
+        timer->resetTimer1();
+        timer->stopTimer1();
+        timer->timer1ClearOnCompareMatchA();
+        timer->timer1ForceCompareMatchA();
+        timer->timer1DoNothingOnCompareMatchA();
+        state = State::DISABLED;
+    }
 }
 
 void Dimmer::setPosition(uint8_t position) {

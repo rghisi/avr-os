@@ -4,10 +4,6 @@
 
 #include "HandlerMultiplexer.h"
 
-HandlerMultiplexer::HandlerMultiplexer() : EventHandler(nullptr, 0) {
-    type = MAX;
-}
-
 HandlerMultiplexer::~HandlerMultiplexer() = default;
 
 bool HandlerMultiplexer::handle(Message *message) {
@@ -17,6 +13,6 @@ bool HandlerMultiplexer::handle(Message *message) {
     return true;
 }
 
-void HandlerMultiplexer::add(EventHandler *handler) {
+void HandlerMultiplexer::add(Subscriber *handler) {
     this->handlers.push_back(handler);
 }

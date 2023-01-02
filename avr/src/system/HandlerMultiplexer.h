@@ -6,18 +6,16 @@
 #define AVR_HANDLERMULTIPLEXER_H
 
 #include "MessageType.h"
-#include "EventHandler.h"
+#include "Subscriber.h"
 #include "list"
 
-class HandlerMultiplexer: public EventHandler {
+class HandlerMultiplexer: public Subscriber {
 public:
-    HandlerMultiplexer();
     ~HandlerMultiplexer();
     bool handle(Message* message) override;
-    void add(EventHandler *handler);
+    void add(Subscriber *handler);
 private:
-    MessageType type;
-    std::list<EventHandler*> handlers;
+    std::list<Subscriber*> handlers;
 };
 
 #endif //AVR_HANDLERMULTIPLEXER_H

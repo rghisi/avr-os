@@ -8,7 +8,7 @@
 #include "AsyncWaitTask.h"
 #include "AsyncChainSchedulingRequest.h"
 
-AsyncChain::AsyncChain(MessageDispatcher *eventDispatcher) {
+AsyncChain::AsyncChain(Messaging *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
 };
 
@@ -45,5 +45,5 @@ bool AsyncChain::hasNext() {
 
 void AsyncChain::schedule() {
     auto event = new AsyncChainSchedulingRequest(this);
-    eventDispatcher->dispatch(event);
+    eventDispatcher->send(event);
 }

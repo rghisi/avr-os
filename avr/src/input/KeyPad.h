@@ -7,12 +7,12 @@
 
 
 #include "../system/Task.h"
-#include "../system/MessageDispatcher.h"
+#include "../system/Messaging.h"
 
 class KeyPad: public Task {
 public:
     enum class Key { RELEASED, UP, DOWN, LEFT, RIGHT, ENTER };
-    KeyPad(MessageDispatcher *eventDispatcher);
+    KeyPad(Messaging *eventDispatcher);
     ~KeyPad() override = default;
     void run() override;
     uint32_t delay() override;
@@ -20,7 +20,7 @@ public:
     void setup();
 private:
     Key previous;
-    MessageDispatcher *eventDispatcher;
+    Messaging *eventDispatcher;
 };
 
 

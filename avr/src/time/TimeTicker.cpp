@@ -5,7 +5,7 @@
 #include "TimeTicker.h"
 #include "TimeTick.h"
 
-TimeTicker::TimeTicker(MessageDispatcher *eventDispatcher, WallClock *wallClock) {
+TimeTicker::TimeTicker(Messaging *eventDispatcher, WallClock *wallClock) {
     this->eventDispatcher = eventDispatcher;
     this->wallClock = wallClock;
 }
@@ -13,7 +13,7 @@ TimeTicker::TimeTicker(MessageDispatcher *eventDispatcher, WallClock *wallClock)
 void TimeTicker::run() {
     auto now = wallClock->now();
     auto event = new TimeTick(now);
-    eventDispatcher->dispatch(event);
+    eventDispatcher->send(event);
 }
 
 uint32_t TimeTicker::delay() {

@@ -7,14 +7,14 @@
 
 #ifndef INPUT_DIAL_H_
 #include <avr/io.h>
-#include "../system/MessageDispatcher.h"
+#include "../system/Messaging.h"
 #include "../system/Task.h"
 
 #define INPUT_DIAL_H_
 
 class Dial: public Task {
 public:
-	Dial(MessageDispatcher *eventDispatcher);
+	Dial(Messaging *eventDispatcher);
     ~Dial() override = default;
     void setup();
     void run() override;
@@ -30,7 +30,7 @@ private:
     static const uint8_t PUSH_BUTTON_PORT = PORTC3;
     static const uint8_t DIAL_PORT_MASK = _BV(DIAL_A_PORT) | _BV(DIAL_B_PORT) | _BV(PUSH_BUTTON_PORT);
 
-    MessageDispatcher *eventDispatcher;
+    Messaging *eventDispatcher;
     uint8_t lastDialReadout;
     bool lastPushButtonState;
 //    static const int8_t QUADRATURE_TABLE[];

@@ -5,9 +5,8 @@
 #include "PeriodicMemoryReport.h"
 #include "../lcd/DrawText.h"
 #include "cstdio"
-#include "../lcd/DisplayCommand.h"
 
-PeriodicMemoryReport::PeriodicMemoryReport(MessageDispatcher *eventDispatcher) {
+PeriodicMemoryReport::PeriodicMemoryReport(Messaging *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
 }
 
@@ -21,8 +20,8 @@ void PeriodicMemoryReport::run() {
     uint16_t value = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
     auto s = new char[5];
     sprintf(s, "%" PRIu16, value);
-    auto event = DisplayCommand::drawText(0, 0, s);
-    eventDispatcher->dispatch(event);
+    auto event = new DrawText(4, 0, s);
+    eventDispatcher->send(event);
 }
 
 uint32_t PeriodicMemoryReport::delay() {

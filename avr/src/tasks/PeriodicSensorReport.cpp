@@ -6,10 +6,10 @@
 #include "../sensors/bme280_i2c.h"
 #include "memory"
 #include "../system/Message.h"
-#include "../sensors/BME280Report.h"
+#include "../sensors/ClimateReport.h"
 #include "../sensors/i2cmaster.h"
 
-PeriodicSensorReport::PeriodicSensorReport(MessageDispatcher *eventDispatcher) {
+PeriodicSensorReport::PeriodicSensorReport(Messaging *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
     i2c_init();
     BME280_init();
@@ -28,8 +28,8 @@ void PeriodicSensorReport::run() {
     BME280_readout(&temperatureCelsius, &pressureMilliBar, &relativeHumidity);
     relativeHumidity = relativeHumidity / 1024;
 
-    auto report = new BME280Report(temperatureCelsius, pressureMilliBar, relativeHumidity);
-    eventDispatcher->dispatch(report);
+    auto report = new ClimateReport(temperatureCelsius, pressureMilliBar, relativeHumidity);
+    eventDispatcher->send(report);
 }
 
 uint32_t PeriodicSensorReport::delay() {

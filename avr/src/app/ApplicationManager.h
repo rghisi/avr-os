@@ -7,11 +7,21 @@
 
 
 #include "Application.h"
-#include "../system/EventHandler.h"
+#include "../system/Subscriber.h"
+#include "list"
+#include "../system/Messaging.h"
 
-class ApplicationManager: public EventHandler {
+class ApplicationManager: public Subscriber {
 public:
-    ApplicationManager(Application* apps);
+    explicit ApplicationManager(Messaging *messaging, std::list<Application*> apps);
+    bool handle(Message *event) override;
+private:
+    void previousApp();
+    void nextApp();
+    std::list<Application*> apps;
+    Application *foreground = nullptr;
+    Messaging *messaging;
+    void clearUI();
 };
 
 
