@@ -20,10 +20,9 @@ Display::Display() {
     LCD_Clear();
 }
 
-bool Display::handle(Message *event) {
+void Display::handle(Message *event) {
     auto command = static_cast<DisplayCommand*>(event);
     command->command(this);
-    return true;
 }
 
 void Display::enableCursor(uint8_t x, uint8_t y) {

@@ -13,12 +13,15 @@ class Dimmer: public ExternalInterruptHandler, public TimerCompareMatchInterrupt
 public:
     explicit Dimmer(Timer1 *timer1, ExternalInterrupt *externalInterrupt);
     void handleExternalInterrupt() override;
-    void setPosition(uint8_t position);
+    void setPosition(uint16_t position);
+    uint16_t getPosition();
     void enable();
     void disable();
 
 private:
     static constexpr uint16_t PULSE_LENGTH = 1200;
+    static constexpr uint16_t HEADROOM = 500;
+    static constexpr uint16_t MAX_DELAY = 20000 - HEADROOM;
     void handleTimerCompareMatchInterrupt() override;
     enum class State {
         DISABLED,
@@ -30,8 +33,7 @@ private:
     Timer1 *timer;
     ExternalInterrupt *externalInterrupt;
     uint16_t timeToZeroCross = 1200;
-    uint16_t position = 20000 - timeToZeroCross - 500;
-    uint16_t positionStep = position >> 8;
+    uint16_t delay = MAX_DELAY;
 };
 
 

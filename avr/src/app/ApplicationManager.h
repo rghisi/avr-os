@@ -10,11 +10,17 @@
 #include "../system/Subscriber.h"
 #include "list"
 #include "../system/Messaging.h"
+#include "../system/AsyncChain.h"
 
 class ApplicationManager: public Subscriber {
 public:
     explicit ApplicationManager(Messaging *messaging, std::list<Application*> apps);
-    bool handle(Message *event) override;
+    void handle(Message *event) override;
+
+    void start();
+
+protected:
+    AsyncChain *titleDisplay = nullptr;
 private:
     void previousApp();
     void nextApp();
@@ -22,6 +28,8 @@ private:
     Application *foreground = nullptr;
     Messaging *messaging;
     void clearUI();
+
+    void runForeground();
 };
 
 

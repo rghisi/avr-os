@@ -4,6 +4,7 @@
 
 #include "Dimmer.h"
 #include "avr/io.h"
+#include "../system/Math.h"
 
 Dimmer::Dimmer(Timer1 *timer1, ExternalInterrupt *externalInterrupt) {
     this->timer = timer1;
@@ -17,7 +18,7 @@ void Dimmer::handleExternalInterrupt() {
         case State::WAITING_ZERO_CROSS_START:
             timer->timer1ForceCompareMatchA();
             timer->stopTimer1();
-            timer->timer1CompareMatchA(timeToZeroCross + position);
+            timer->timer1CompareMatchA(timeToZeroCross + delay);
             timer->timer1SetOnCompareMatchA();
             timer->startTimer1();
             state = State::WAITING_PULSE_START;
@@ -60,8 +61,12 @@ void Dimmer::disable() {
     }
 }
 
-void Dimmer::setPosition(uint8_t position) {
-    this->position = (UINT8_MAX - position) * positionStep;
+void Dimmer::setPosition(uint16_t position) {
+    this->delay = MAX_DELAY - Math::min(position, MAX_DELAY);
+}
+
+uint16_t Dimmer::getPosition() {
+    return MAX_DELAY - delay;
 }
 
 

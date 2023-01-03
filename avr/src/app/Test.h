@@ -14,9 +14,11 @@
 class Test: public Subscriber, public Application {
 public:
     Test(Messaging *eventDispatcher, Dimmer *dimmer);
-    bool handle(Message* event) override;
+    void handle(Message* event) override;
     void toForeground() override;
     void toBackground() override;
+
+    char *title() override;
 
 private:
     uint8_t dial = 0;

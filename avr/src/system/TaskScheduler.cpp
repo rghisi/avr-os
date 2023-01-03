@@ -17,7 +17,7 @@ bool TaskScheduler::process() {
         if (scheduledTask->timeOfExecution <= now) {
             scheduledTasks.pop();
             scheduledTask->task->run();
-            reschedule(scheduledTask, now);
+            reschedule(scheduledTask);
             return true;
         }
     }
@@ -31,7 +31,7 @@ void TaskScheduler::schedule(Task *task) {
     scheduledTasks.offer(scheduledTask);
 }
 
-void TaskScheduler::reschedule(ScheduledTask *scheduledTask, uint32_t now) {
+void TaskScheduler::reschedule(ScheduledTask *scheduledTask) {
     switch (scheduledTask->task->type()) {
         case Task::Type::SINGLE:
             delete scheduledTask;
@@ -40,7 +40,7 @@ void TaskScheduler::reschedule(ScheduledTask *scheduledTask, uint32_t now) {
             delete scheduledTask;
             break;
         case Task::Type::PERIODIC:
-            uint32_t nextExecution = now + scheduledTask->task->delay();
+            uint32_t nextExecution = scheduledTask->timeOfExecution + scheduledTask->task->delay();
             scheduledTask->timeOfExecution = nextExecution;
             scheduledTasks.offer(scheduledTask);
             break;

@@ -12,7 +12,7 @@ Test::Test(Messaging *eventDispatcher, Dimmer *dimmer) {
     this->dimmer = dimmer;
 }
 
-bool Test::handle(Message* event) {
+void Test::handle(Message* event) {
     if (runningState == Application::RunningState::FOREGROUND) {
         auto userInput = static_cast<UserInput*>(event);
         switch (userInput->event) {
@@ -26,7 +26,6 @@ bool Test::handle(Message* event) {
                 break;
         }
     }
-    return true;
 }
 
 void Test::plus() {
@@ -55,4 +54,8 @@ void Test::toForeground() {
 
 void Test::toBackground() {
     Application::toBackground();
+}
+
+char *Test::title() {
+    return new char[] {'T', 'e', 's', 't', 0x00};
 }

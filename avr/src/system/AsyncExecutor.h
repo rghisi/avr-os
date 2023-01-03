@@ -14,7 +14,7 @@
 class AsyncExecutor: public Subscriber {
 public:
     explicit AsyncExecutor(TaskScheduler *taskScheduler, Messaging *eventDispatcher);
-    bool handle(Message* event) override;
+    void handle(Message* event) override;
 
 private:
     TaskScheduler *taskScheduler;

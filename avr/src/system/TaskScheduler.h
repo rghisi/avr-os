@@ -27,7 +27,7 @@ private:
     };
     WallClock *wallClock;
     PriorityQueue<ScheduledTask*> scheduledTasks;
-    void reschedule(ScheduledTask *scheduledTask, uint32_t now);
+    void reschedule(ScheduledTask *scheduledTask);
 };
 
 

@@ -83,16 +83,16 @@ add_executable(${PROJECT_NAME}
         src/system/TaskSchedulingRequested.cpp
         src/system/TaskSchedulingRequested.h src/system/AsyncChainSchedulingRequest.cpp
         src/system/AsyncChainSchedulingRequest.h
-        src/lcd/EnableCursorCommand.cpp src/lcd/EnableCursorCommand.h
+        src/lcd/EnableCursor.cpp src/lcd/EnableCursor.h
         src/lcd/DisplayCommand.cpp src/lcd/DisplayCommand.h
         src/system/HandlerMultiplexer.cpp src/system/HandlerMultiplexer.h
         src/app/Application.cpp src/app/Application.h
         src/app/ApplicationManager.cpp src/app/ApplicationManager.h
         src/lcd/ClearDisplay.cpp src/lcd/ClearDisplay.h
         src/lcd/DisableCursor.cpp src/lcd/DisableCursor.h
-        src/tasks/ClimateControl.cpp src/tasks/ClimateControl.h
+        src/tasks/TemperatureControlCommand.cpp src/tasks/TemperatureControlCommand.h
         src/system/SubscriberRegistry.h
-        src/system/SubscriberRegistry.cpp src/system/SubscriberRegistry.h)
+        src/system/SubscriberRegistry.cpp src/system/SubscriberRegistry.h src/app/TimedMultiTrayDrying.cpp src/app/TimedMultiTrayDrying.h src/time/Timer.cpp src/time/Timer.h src/time/TimerState.cpp src/time/TimerState.h src/system/Math.cpp src/system/Math.h src/tasks/TemperatureControlStatus.cpp src/tasks/TemperatureControlStatus.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

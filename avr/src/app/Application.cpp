@@ -12,3 +12,7 @@ void Application::toBackground() {
     runningState = RunningState::BACKGROUND;
 }
 
+bool Application::isRunning() {
+    return runningState == RunningState::RUNNING;
+}
+
