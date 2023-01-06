@@ -146,11 +146,11 @@ void TimedMultiTrayDrying::changeSelected(int8_t amount) {
     switch (selection) {
         case TEMPERATURE:
             setTemperature += amount;
-            setTemperature = Math::max(0, Math::min(70, setTemperature));
+            setTemperature = Math::max((int8_t)0, Math::min((int8_t)70, setTemperature));
             break;
         case MINUTES:
             setMinutes += amount;
-            setMinutes = Math::max(0, Math::min(120, setMinutes));
+            setMinutes = Math::max((int8_t)0, Math::min((int8_t)120, setMinutes));
             break;
         default:
             break;

@@ -27,7 +27,7 @@ private:
     int32_t currentTemperature = 0;
     Messaging *messaging;
     Dimmer *dimmer;
-    PID pid = PID(300, 25, 10);
+    PID pid = PID(300, 25, 10, 0, 16000, 140, 200);
     bool enabled;
     void handle(ClimateReport *climateReport);
     void handle(TemperatureControlCommand *climateControl);

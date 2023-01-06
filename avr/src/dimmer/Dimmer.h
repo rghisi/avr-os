@@ -21,7 +21,7 @@ public:
 private:
     static constexpr uint16_t PULSE_LENGTH = 1200;
     static constexpr uint16_t HEADROOM = 500;
-    static constexpr uint16_t MAX_DELAY = 20000 - HEADROOM;
+    static constexpr uint16_t MAX_DELAY = 16666 - HEADROOM;
     void handleTimerCompareMatchInterrupt() override;
     enum class State {
         DISABLED,

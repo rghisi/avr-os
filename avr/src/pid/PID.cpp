@@ -3,61 +3,38 @@
 //
 
 #include "PID.h"
+#include "../system/Math.h"
 
-PID::PID(int32_t pFactor, int32_t iFactor, int32_t dFactor) {
-    // Start values for PID controller
-    sumError = 0;
-    lastProcessValue = 0;
-    // Tuning constants for PID loop
-    PFactor = pFactor;
-    IFactor = iFactor;
-    DFactor = dFactor;
-    // Limits to avoid overflow
-    maxError = MAX_INT / (PFactor + 1);
-    maxSumError = MAX_I_TERM / (IFactor + 1);
+PID::PID(int32_t pFactor, int32_t iFactor, int32_t dFactor,
+         int32_t minControlSignal, int32_t maxControlSignal,
+         int32_t maxError, int32_t maxIntegral) {
+    this->sumError = 0;
+    this->lastProcessValue = 0;
+    this->pFactor = pFactor;
+    this->iFactor = iFactor;
+    this->dFactor = dFactor;
+    this->minControlSignal = minControlSignal;
+    this->maxControlSignal = maxControlSignal;
+    this->maxError = maxError;
+    this->maxIntegral = maxIntegral;
 }
 
 int32_t PID::update(int32_t setPoint, int32_t processValue) {
-    int32_t error, p_term, d_term;
-    int32_t i_term, ret, temp;
+    auto error = setPoint - processValue;
 
-    error = setPoint - processValue;
+    auto p_term = pFactor * error;
 
-    // Calculate Pterm and limit error overflow
-    if (error > maxError) {
-        p_term = MAX_INT;
-    } else if (error < -maxError) {
-        p_term = -MAX_INT;
-    } else {
-        p_term = PFactor * error;
-    }
+    sumError = Math::max(Math::min(sumError + error, maxIntegral), -maxIntegral);
+    auto i_term = iFactor * sumError;
 
-    // Calculate Iterm and limit integral runaway
-    temp = sumError + error;
-    if (temp > maxSumError) {
-        i_term = MAX_I_TERM;
-        sumError = maxSumError;
-    } else if (temp < -maxSumError) {
-        i_term = -MAX_I_TERM;
-        sumError = -maxSumError;
-    } else {
-        sumError = temp;
-        i_term = IFactor * sumError;
-    }
+    auto d_term = dFactor * (lastProcessValue - processValue);
 
-    // Calculate Dterm
-    d_term = DFactor * (lastProcessValue - processValue);
+    auto ret = (p_term + i_term + d_term) >> SCALING_FACTOR;
+    ret = Math::max(Math::min(ret, maxControlSignal), minControlSignal);
 
     lastProcessValue = processValue;
 
-    ret = (p_term + i_term + d_term) / SCALING_FACTOR;
-    if (ret > MAX_INT) {
-        ret = MAX_INT;
-    } else if (ret < -MAX_INT) {
-        ret = -MAX_INT;
-    }
-
-    return ((int16_t) ret);
+    return ret;
 }
 
 void PID::resetIntegrator() {
