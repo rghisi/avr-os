@@ -10,7 +10,6 @@
 #include "../lcd/EnableCursor.h"
 #include "../lcd/DisableCursor.h"
 #include "../tasks/TemperatureControlCommand.h"
-#include "../tasks/TemperatureControlStatus.h"
 
 TimedDrying::TimedDrying(Messaging *messageDispatcher, Timer *timer) {
     this->messaging = messageDispatcher;
@@ -108,7 +107,7 @@ void TimedDrying::handleTemperatureControlStatus(TemperatureControlStatus *tempe
     auto string = new char[6];
     string[5] = 0x00;
     if (temperatureControlStatus->enabled) {
-        sprintf(string, "P%04" PRIu16 "", temperatureControlStatus->position);
+        sprintf(string, "P%05" PRIu16 "", temperatureControlStatus->position);
     } else {
         sprintf(string, "Desl.");
     }

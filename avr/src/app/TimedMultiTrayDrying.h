@@ -13,6 +13,7 @@
 #include "../time/TimerState.h"
 #include "../sensors/ClimateReport.h"
 #include "../input/UserInput.h"
+#include "../tasks/TemperatureControlStatus.h"
 
 class TimedMultiTrayDrying: public Subscriber, public Application {
 public:
@@ -23,9 +24,12 @@ public:
     char *title() override;
 
 private:
+    static constexpr uint8_t NUMBER_OF_TRAYS = 4;
     static constexpr uint8_t FIRST_LINE = 0;
     static constexpr uint8_t SECOND_LINE = 1;
     static constexpr uint8_t SET_POINTS_X = 0;
+    static constexpr uint8_t TEMPERATURE_X = 8;
+    static constexpr uint8_t POWER_X = 12;
     static constexpr uint8_t TIMERS_X = 0;
     static constexpr uint8_t TICK_TOCK_X = 15;
     static constexpr uint8_t MINUTES_CURSOR_X = 2;
@@ -42,11 +46,12 @@ private:
     bool tickTock = true;
     int8_t setMinutes = 15;
     int8_t setTemperature = 20;
-    std::array<int8_t, 4> seconds = std::array<int8_t, 4>();
-    std::array<int8_t, 4> minutes = std::array<int8_t, 4>();
+    std::array<int8_t, 4> seconds = std::array<int8_t, NUMBER_OF_TRAYS>();
+    std::array<int8_t, 4> minutes = std::array<int8_t, NUMBER_OF_TRAYS>();
     void updateTimers();
     void handleUserInput(UserInput *userInput);
     void handleClimateReport(ClimateReport *climateReport);
+    void handleTemperatureControlStatus(TemperatureControlStatus *pStatus);
     void renderUI();
     void cycleSelection(int8_t amount);
     void changeSelected(int8_t amount);
@@ -54,7 +59,10 @@ private:
     void renderSetPoints();
     void renderTimers();
     void startSelectedTrayTimer();
+
     void renderTickTock();
+
+    void stopDrying();
 };
 
 

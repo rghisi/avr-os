@@ -30,7 +30,7 @@ private:
     enum class State {
         STOPPED, RUNNING, FINISHED
     };
-    static constexpr uint8_t TIMER_X_POSITION = 10;
+    static constexpr uint8_t TIMER_X_POSITION = 11;
     static constexpr uint8_t CLIMATE_X_POSITION = 0;
     static constexpr uint8_t SET_POINT_Y_POSITION = 0;
     static constexpr uint8_t CURRENT_VALUES_Y_POSITION = 1;

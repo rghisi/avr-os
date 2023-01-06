@@ -8,6 +8,8 @@
 #include "../lcd/DrawText.h"
 #include "../lcd/EnableCursor.h"
 #include "../lcd/DisableCursor.h"
+#include "../tasks/TemperatureControlCommand.h"
+#include "../tasks/TemperatureControlStatus.h"
 
 TimedMultiTrayDrying::TimedMultiTrayDrying(Messaging *messaging) {
     this->messaging = messaging;
@@ -29,6 +31,9 @@ void TimedMultiTrayDrying::handle(Message *event) {
             case CLIMATE_REPORT:
                 handleClimateReport(static_cast<ClimateReport *>(event));
                 break;
+            case TEMPERATURE_CONTROL_STATUS:
+                handleTemperatureControlStatus(static_cast<TemperatureControlStatus *>(event));
+                break;
             default:
                 break;
         }
@@ -36,6 +41,7 @@ void TimedMultiTrayDrying::handle(Message *event) {
 }
 
 void TimedMultiTrayDrying::updateTimers() {
+    uint8_t zeroedTimers = 0;
     for (uint8_t i = 0; i < seconds.size(); i++) {
         int8_t s = seconds[i];
         int8_t m = minutes[i];
@@ -50,7 +56,13 @@ void TimedMultiTrayDrying::updateTimers() {
             }
             seconds[i] = s;
             minutes[i] = m;
+            if (s == 0 && m == 0) {
+                zeroedTimers++;
+            }
         }
+    }
+    if (zeroedTimers == NUMBER_OF_TRAYS) {
+        stopDrying();
     }
 }
 
@@ -87,7 +99,23 @@ void TimedMultiTrayDrying::handleUserInput(UserInput *userInput) {
 }
 
 void TimedMultiTrayDrying::handleClimateReport(ClimateReport *climateReport) {
+    auto firstLine = new char[4];
+    firstLine[3] = 0;
+    uint8_t temperature = Math::divBy10(Math::divBy10(climateReport->temperatureCelsius));
+    sprintf(firstLine, "%02" PRIu8 "C", temperature);
+    messaging->send(new DrawText(TEMPERATURE_X, FIRST_LINE, firstLine));
+}
 
+void TimedMultiTrayDrying::handleTemperatureControlStatus(TemperatureControlStatus *temperatureControlStatus) {
+    auto firstLine = new char[5];
+    firstLine[4] = 0;
+    if (temperatureControlStatus->enabled) {
+        uint16_t position = Math::divBy10(temperatureControlStatus->position);
+        sprintf(firstLine, "%04" PRIu16, position);
+    } else {
+        sprintf(firstLine, "Desl");
+    }
+    messaging->send(new DrawText(POWER_X, FIRST_LINE, firstLine));
 }
 
 void TimedMultiTrayDrying::toForeground() {
@@ -162,9 +190,9 @@ void TimedMultiTrayDrying::renderCursor() {
 }
 
 void TimedMultiTrayDrying::renderSetPoints() {
-    auto firstLine = new char[17];
-    firstLine[16] = 0;
-    sprintf(firstLine, "%02" PRIi8 "m %02" PRIi8 "C Desl.", setMinutes, setTemperature);
+    auto firstLine = new char[8];
+    firstLine[7] = 0;
+    sprintf(firstLine, "%02" PRIi8 "m %02" PRIi8 "C", setMinutes, setTemperature);
     messaging->send(new DrawText(SET_POINTS_X, FIRST_LINE, firstLine));
 }
 
@@ -207,6 +235,7 @@ void TimedMultiTrayDrying::startSelectedTrayTimer() {
         default:
             break;
     }
+    messaging->send(new TemperatureControlCommand(true, setTemperature, 0));
 }
 
 void TimedMultiTrayDrying::renderTickTock() {
@@ -215,4 +244,8 @@ void TimedMultiTrayDrying::renderTickTock() {
     string[0] = tickTock ? '.' : ' ';
     string[1] = 0x00;
     messaging->send(new DrawText(TICK_TOCK_X, SECOND_LINE, string));
+}
+
+void TimedMultiTrayDrying::stopDrying() {
+    messaging->send(new TemperatureControlCommand(false, setTemperature, 0));
 }
