@@ -8,14 +8,18 @@
 
 class Application {
 public:
+    virtual char* title() = 0;
     virtual void toForeground();
     virtual void toBackground();
+    bool isRunning();
 
 protected:
     enum class RunningState {
         FOREGROUND,
-        BACKGROUND
+        BACKGROUND,
+        RUNNING
     };
+
     RunningState runningState = RunningState::BACKGROUND;
 };
 

@@ -12,7 +12,7 @@
 class HandlerMultiplexer: public Subscriber {
 public:
     ~HandlerMultiplexer();
-    bool handle(Message* message) override;
+    void handle(Message* message) override;
     void add(Subscriber *handler);
 private:
     std::list<Subscriber*> handlers;

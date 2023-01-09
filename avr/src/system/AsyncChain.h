@@ -14,16 +14,19 @@
 
 class AsyncChain {
 public:
-    AsyncChain(Messaging *eventDispatcher);
+    explicit AsyncChain(Messaging *messaging);
     ~AsyncChain();
     AsyncChain* then(std::function<void(void)> thenLambda);
     AsyncChain* wait(uint16_t milliseconds);
     void schedule();
     std::unique_ptr<Task> next();
     bool hasNext();
+    bool isCancelled();
+    void cancel();
 private:
     Messaging *eventDispatcher;
     std::list<std::unique_ptr<Task>> chain;
+    bool cancelled = false;
 };
 
 

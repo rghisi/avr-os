@@ -10,10 +10,9 @@
 
 class ClimateReport: public Message {
 public:
-    ClimateReport(int32_t temperatureCelsius, uint32_t pressureMilliBar, uint32_t relativeHumidity);
+    ClimateReport(int32_t temperatureCelsius, uint32_t relativeHumidity);
     ~ClimateReport() override = default;
     int32_t temperatureCelsius;
-    uint32_t pressureMilliBar;
     uint32_t relativeHumidity;
 };
 

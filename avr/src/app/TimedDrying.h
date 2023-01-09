@@ -11,13 +11,18 @@
 #include "Application.h"
 #include "../time/TimeTick.h"
 #include "../sensors/ClimateReport.h"
+#include "../time/TimerState.h"
+#include "../input/UserInput.h"
+#include "../tasks/TemperatureControlStatus.h"
 
 class TimedDrying: public Subscriber, public Application {
 public:
-    explicit TimedDrying(Messaging* messageDispatcher);
-    bool handle(Message* event) override;
+    explicit TimedDrying(Messaging* messageDispatcher, Timer *timer);
+    void handle(Message* event) override;
     void toForeground() override;
     void toBackground() override;
+    char *title() override;
+
 private:
     enum Selection: int8_t {
         NONE = 0, TEMPERATURE, MINUTES, SECONDS, MAX
@@ -25,44 +30,37 @@ private:
     enum class State {
         STOPPED, RUNNING, FINISHED
     };
-    static constexpr uint8_t TIMER_X_POSITION = 10;
+    static constexpr uint8_t TIMER_X_POSITION = 11;
     static constexpr uint8_t CLIMATE_X_POSITION = 0;
     static constexpr uint8_t SET_POINT_Y_POSITION = 0;
     static constexpr uint8_t CURRENT_VALUES_Y_POSITION = 1;
     Messaging *messaging;
+    Timer *timer;
     Selection selection = Selection::NONE;
     State countdownState = State::STOPPED;
     uint8_t cursorX = TIMER_X_POSITION + 1;
-    uint32_t previousTimestamp;
-    uint16_t milliseconds;
     int8_t seconds;
     int8_t minutes;
     int8_t setSeconds;
     int8_t setMinutes;
-    uint8_t setTemperature;
-    uint8_t temperature;
-    uint8_t humidity;
-    void renderUI();
-    void updateTimestamp(TimeTick *timeTick);
-    void updateCountdown(TimeTick *timeTick);
-    void handleUserInput(Message* event);
-    void renderCountdown();
-    void renderSetTimer();
-    void renderCursor();
-    void changeUISelection(int8_t amount);
-    void changeSelection(int8_t amount);
+    int8_t setTemperature;
     void startStop();
     void finish();
     void start();
-    void renderSetClimate();
-    void handleClimateReport(ClimateReport *climateReport);
-    void renderClimate();
-    static int8_t max(int8_t a, int8_t b);
-    static int8_t min(int8_t a, int8_t b);
-
     void stop();
-
-    void resetCountdown();
+    void cycleSelection(int8_t amount);
+    void changeSelected(int8_t amount);
+    void handleTimerState(TimerState *timerState);
+    void handleUserInput(UserInput* userInput);
+    void handleTemperatureControlStatus(TemperatureControlStatus *temperatureControlStatus);
+    void handleClimateReport(ClimateReport *climateReport);
+    void renderUI();
+    void renderCountdown();
+    void renderSetTimer();
+    void renderCursor();
+    void renderSetClimate();
+    void renderClimate();
+    void renderStatus();
 };
 
 

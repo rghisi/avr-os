@@ -184,7 +184,7 @@ void LCD_BuildChar(char *Data, uint8_t Position) {
     for (i = 0; i < 8; i++)
         LCD_SendData(Data[i]);
 
-    //Return to the DDRAM position
+    //Return to the DDRAM delay
     LCD_GotoXY(p.X, p.Y);
 }
 
@@ -205,7 +205,7 @@ void LCD_BuildChar_P(const char *Data, uint8_t Position) {
     for (i = 0; i < 8; i++)
         LCD_SendData(pgm_read_byte(Data[i]));
 
-    //Return to the DDRAM position
+    //Return to the DDRAM delay
     LCD_GotoXY(p.X, p.Y);
 }
 
@@ -225,7 +225,7 @@ void LCD_ClearLine(uint8_t Line) {
     }
 }
 
-//Go to specified position.
+//Go to specified delay.
 void LCD_GotoXY(uint8_t X, uint8_t Y) {
     if ((X < __LCD_Columns) && (Y < __LCD_Rows)) {
         uint8_t addr = 0;
@@ -263,7 +263,7 @@ void LCD_GotoXY(uint8_t X, uint8_t Y) {
     }
 }
 
-//Get current position.
+//Get current delay.
 Point_t LCD_GetP() {
     Point_t p;
 
@@ -311,12 +311,12 @@ Point_t LCD_GetP() {
     return p;
 }
 
-//Get X position.
+//Get X delay.
 uint8_t LCD_GetX() {
     return LCD_GetP().X;
 }
 
-//Get Y position.
+//Get Y delay.
 uint8_t LCD_GetY() {
     return LCD_GetP().Y;
 }

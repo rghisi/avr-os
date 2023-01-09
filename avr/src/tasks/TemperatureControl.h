@@ -11,27 +11,26 @@
 #include "../pid/PID.h"
 #include "../system/Subscriber.h"
 #include "../sensors/ClimateReport.h"
-#include "ClimateControl.h"
+#include "TemperatureControlCommand.h"
 #include "../system/Messaging.h"
 
 class TemperatureControl: public Task, public Subscriber {
 public:
-    explicit TemperatureControl(Messaging *messageDispatcher, Dimmer *dimmer);
+    explicit TemperatureControl(Messaging *messaging, Dimmer *dimmer);
     ~TemperatureControl() override = default;
     void run() override;
     uint32_t delay() override;
     Type type() override;
-    bool handle(Message *event) override;
+    void handle(Message *event) override;
 private:
-    int32_t temperatureSetPoint = 3000;
+    int32_t temperatureSetPoint = 0;
     int32_t currentTemperature = 0;
-    int32_t dimmerPosition = 0;
-    Messaging *messageDispatcher;
+    Messaging *messaging;
     Dimmer *dimmer;
-    PID pid = PID(300, 25, 10);
+    PID pid = PID(300, 25, 10, 0, 16000, 140, 200);
     bool enabled;
     void handle(ClimateReport *climateReport);
-    void handle(ClimateControl *climateControl);
+    void handle(TemperatureControlCommand *climateControl);
 };
 
 

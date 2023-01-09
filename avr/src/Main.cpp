@@ -20,6 +20,7 @@
 #include "time/TimeTicker.h"
 #include "app/TimedDrying.h"
 #include "app/ApplicationManager.h"
+#include "app/TimedMultiTrayDrying.h"
 
 void * operator new(size_t size)
 {
@@ -64,19 +65,21 @@ auto taskScheduler = TaskScheduler(&wallClock);
 auto subscriberRegistry = SubscriberRegistry();
 auto eventLoop = EventLoop(&subscriberRegistry);
 auto messaging = Messaging(&eventLoop);
+auto timer = Timer(&messaging, &wallClock);
 auto asyncExecutor = AsyncExecutor(&taskScheduler, &messaging);
 auto display = Display();
-auto periodicMemoryReport = PeriodicMemoryReport(&messaging);
+//auto periodicMemoryReport = PeriodicMemoryReport(&messaging);
 auto keyPad = KeyPad(&messaging);
 auto dial = Dial(&messaging);
 auto periodicSensorReport = PeriodicSensorReport(&messaging);
 auto dimmer = Dimmer(&atmega, &atmega);
 auto timeTickTask = TimeTicker(&messaging, &wallClock);
-auto timedDrying = TimedDrying(&messaging);
 auto temperatureControl = TemperatureControl(&messaging, &dimmer);
+
+auto timedDrying = TimedDrying(&messaging, &timer);
+auto timedMultiTrayDrying = TimedMultiTrayDrying(&messaging);
 auto test = Test(&messaging, &dimmer);
-//auto asyncTest = AsyncTaskTest(&messaging);
-auto applicationManager = ApplicationManager(&messaging, {&timedDrying, &test});
+auto applicationManager = ApplicationManager(&messaging, {&timedDrying, &timedMultiTrayDrying, &test});
 
 int main(void) {
 //    uint8_t statusLed = _BV(PORTB5);
@@ -100,26 +103,37 @@ int main(void) {
 
     keyPad.setup();
     dial.setup();
-    timedDrying.toForeground();
 
+    subscriberRegistry.subscribe(&timer, TIME_TICK);
     subscriberRegistry.subscribe(&asyncExecutor, ASYNC_SCHEDULED);
     subscriberRegistry.subscribe(&asyncExecutor, ASYNC_CHAIN_SCHEDULED);
     subscriberRegistry.subscribe(&display, DISPLAY_COMMAND);
     subscriberRegistry.subscribe(&applicationManager, USER_INPUT);
-    subscriberRegistry.subscribe(&timedDrying, TIME_TICK);
+    subscriberRegistry.subscribe(&timedDrying, TIMER_STATE);
     subscriberRegistry.subscribe(&timedDrying, USER_INPUT);
     subscriberRegistry.subscribe(&timedDrying, CLIMATE_REPORT);
+    subscriberRegistry.subscribe(&timedDrying, TEMPERATURE_CONTROL_STATUS);
+    subscriberRegistry.subscribe(&timedMultiTrayDrying, TIME_TICK);
+    subscriberRegistry.subscribe(&timedMultiTrayDrying, USER_INPUT);
+    subscriberRegistry.subscribe(&timedMultiTrayDrying, CLIMATE_REPORT);
+    subscriberRegistry.subscribe(&timedMultiTrayDrying, TEMPERATURE_CONTROL_STATUS);
     subscriberRegistry.subscribe(&temperatureControl, CLIMATE_REPORT);
-    subscriberRegistry.subscribe(&temperatureControl, CLIMATE_CONTROL);
+    subscriberRegistry.subscribe(&temperatureControl, TEMPERATURE_CONTROL_COMMAND);
     subscriberRegistry.subscribe(&test, USER_INPUT);
 
-    taskScheduler.schedule(&periodicMemoryReport);
+//    taskScheduler.schedule(&periodicMemoryReport);
     taskScheduler.schedule(&keyPad);
     taskScheduler.schedule(&dial);
     taskScheduler.schedule(&periodicSensorReport);
-//    taskScheduler.schedule(&asyncTest);
     taskScheduler.schedule(&timeTickTask);
     taskScheduler.schedule(&temperatureControl);
+
+    auto *startupTasks = new AsyncChain(&messaging);
+    startupTasks
+            ->then([]() {applicationManager.start();})
+            ->schedule();
+
+
 
 //    auto *dimmerCalibrationTask = new AsyncChain(&messaging);
 //    dimmerCalibrationTask

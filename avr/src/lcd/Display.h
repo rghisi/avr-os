@@ -10,7 +10,7 @@
 class Display: public Subscriber {
 public:
     Display();
-    bool handle(Message* event) override;
+    void handle(Message* event) override;
     void clear();
     void text(uint8_t x, uint8_t y, char *text);
     void enableCursor(uint8_t x, uint8_t y);

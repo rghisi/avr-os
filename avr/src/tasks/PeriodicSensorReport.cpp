@@ -23,12 +23,9 @@ PeriodicSensorReport::PeriodicSensorReport(Messaging *eventDispatcher) {
 
 void PeriodicSensorReport::run() {
     int32_t temperatureCelsius;
-    uint32_t pressureMilliBar;
     uint32_t relativeHumidity;
-    BME280_readout(&temperatureCelsius, &pressureMilliBar, &relativeHumidity);
-    relativeHumidity = relativeHumidity / 1024;
-
-    auto report = new ClimateReport(temperatureCelsius, pressureMilliBar, relativeHumidity);
+    BME280_readout(&temperatureCelsius, nullptr, &relativeHumidity);
+    auto report = new ClimateReport(temperatureCelsius, relativeHumidity);
     eventDispatcher->send(report);
 }
 

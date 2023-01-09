@@ -8,8 +8,8 @@
 #include "AsyncWaitTask.h"
 #include "AsyncChainSchedulingRequest.h"
 
-AsyncChain::AsyncChain(Messaging *eventDispatcher) {
-    this->eventDispatcher = eventDispatcher;
+AsyncChain::AsyncChain(Messaging *messaging) {
+    this->eventDispatcher = messaging;
 };
 
 AsyncChain::~AsyncChain() = default;
@@ -46,4 +46,12 @@ bool AsyncChain::hasNext() {
 void AsyncChain::schedule() {
     auto event = new AsyncChainSchedulingRequest(this);
     eventDispatcher->send(event);
+}
+
+bool AsyncChain::isCancelled() {
+    return cancelled;
+}
+
+void AsyncChain::cancel() {
+    cancelled = true;
 }

@@ -117,7 +117,7 @@ void HD44780::buildChar(char *Data, uint8_t Position) {
     for (i = 0; i < 8; i++)
         sendData(Data[i]);
 
-    //Return to the DDRAM position
+    //Return to the DDRAM delay
     gotoXY(p.X, p.Y);
 }
 
@@ -139,7 +139,7 @@ void HD44780::buildChar_P(const char *Data, uint8_t Position) {
     for (i = 0; i < 8; i++)
         sendData(pgm_read_byte(Data[i]));
 
-    //Return to the DDRAM position
+    //Return to the DDRAM delay
     gotoXY(p.X, p.Y);
 }
 
@@ -159,7 +159,7 @@ void HD44780::clearLine(uint8_t Line) {
     }
 }
 
-//Go to specified position.
+//Go to specified delay.
 void HD44780::gotoXY(uint8_t X, uint8_t Y) {
     if ((X < config.columns) && (Y < config.rows)) {
         uint8_t addr = 0;
@@ -182,7 +182,7 @@ void HD44780::gotoXY(uint8_t X, uint8_t Y) {
     }
 }
 
-//Get current position.
+//Get current delay.
 Point_t HD44780::getP() {
     Point_t p;
     p.X = read();

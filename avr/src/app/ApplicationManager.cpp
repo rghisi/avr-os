@@ -5,14 +5,15 @@
 #include "ApplicationManager.h"
 #include "../input/UserInput.h"
 #include "../lcd/ClearDisplay.h"
+#include "cstdio"
+#include "../lcd/DrawText.h"
 
 ApplicationManager::ApplicationManager(Messaging *messaging, std::list<Application*> apps) {
     this->messaging = messaging;
     this->apps = std::move(apps);
-    nextApp();
 }
 
-bool ApplicationManager::handle(Message *event) {
+void ApplicationManager::handle(Message *event) {
     switch (event->type()) {
         case USER_INPUT:
             UserInput *userInput;
@@ -33,29 +34,56 @@ bool ApplicationManager::handle(Message *event) {
         default:
             break;
     }
-    return false;
 }
 
 void ApplicationManager::previousApp() {
-    if (foreground != nullptr) {
-        foreground->toBackground();
-        apps.push_front(foreground);
+    if (foreground == nullptr || !foreground->isRunning()) {
+        if (foreground != nullptr) {
+            foreground->toBackground();
+            apps.push_front(foreground);
+        }
+        foreground = apps.back();
+        apps.pop_back();
+        runForeground();
     }
-    foreground = apps.back();
-    apps.pop_back();
-    foreground->toForeground();
 }
 
 void ApplicationManager::nextApp() {
-    if (foreground != nullptr) {
-        foreground->toBackground();
-        apps.push_back(foreground);
+    if (foreground == nullptr || !foreground->isRunning()) {
+        if (foreground != nullptr) {
+            foreground->toBackground();
+            apps.push_back(foreground);
+        }
+        foreground = apps.front();
+        apps.pop_front();
+        runForeground();
     }
-    foreground = apps.front();
-    apps.pop_front();
-    foreground->toForeground();
+}
+
+void ApplicationManager::runForeground() {
+    if (titleDisplay != nullptr && !titleDisplay->isCancelled()) {
+        titleDisplay->cancel();
+    }
+    titleDisplay = new AsyncChain(messaging);
+    titleDisplay
+            ->then([this](){
+                messaging->send(new DrawText(0, 0, foreground->title()));
+            })
+            ->wait(800)
+            ->then([this](){
+                messaging->send(new ClearDisplay());
+            })
+            ->then([this](){
+                foreground->toForeground();
+            })
+            ->schedule();
 }
 
 void ApplicationManager::clearUI() {
     messaging->send(new ClearDisplay());
+}
+
+void ApplicationManager::start() {
+    clearUI();
+    nextApp();
 }

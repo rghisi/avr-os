@@ -264,12 +264,12 @@ uint8_t BME280_readout(int32_t* temp_p, uint32_t* press_p, uint32_t* hum_p){
 		return BME280_I2C_FAIL;
 	}
 	
-	int32_t press = (int32_t)(((uint32_t)measurebytes[0]<<12) | ((uint32_t)measurebytes[1]<<4) | (uint32_t)measurebytes[2] >> 4);
+//	int32_t press = (int32_t)(((uint32_t)measurebytes[0]<<12) | ((uint32_t)measurebytes[1]<<4) | (uint32_t)measurebytes[2] >> 4);
 	int32_t temp  = (int32_t)(((uint32_t)measurebytes[3]<<12) | ((uint32_t)measurebytes[4]<<4) | (uint32_t)measurebytes[5] >> 4);
 	int32_t hum   = (int32_t)(((uint32_t)measurebytes[6]<<8)  | ((uint32_t)measurebytes[7]));
 	
 	*temp_p  = BME280_compensate_T_int32(temp);
-	*press_p = BME280_compensate_P_int32(press);
+//	*press_p = BME280_compensate_P_int32(press);
 	*hum_p   = bme280_compensate_H_int32(hum);
 	
 	return 0;

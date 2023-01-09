@@ -12,7 +12,7 @@ AsyncExecutor::AsyncExecutor(TaskScheduler *taskScheduler, Messaging *eventDispa
     this->eventDispatcher = eventDispatcher;
 }
 
-bool AsyncExecutor::handle(Message* event) {
+void AsyncExecutor::handle(Message* event) {
     switch (event->type()) {
         case ASYNC_SCHEDULED:
             executeAsync(event);
@@ -22,7 +22,6 @@ bool AsyncExecutor::handle(Message* event) {
             executeChain(event);
             break;
     }
-    return false;
 }
 
 void AsyncExecutor::executeAsync(Message* event) {
@@ -32,7 +31,7 @@ void AsyncExecutor::executeAsync(Message* event) {
 
 void AsyncExecutor::executeChain(Message* event) {
     auto *asyncChain = static_cast<AsyncChainSchedulingRequest*>(event)->asyncChain;
-    if (asyncChain->hasNext()) {
+    if (asyncChain->hasNext() && !asyncChain->isCancelled()) {
         auto nextAsync = asyncChain->next();
         switch (nextAsync->type()) {
             case Task::Type::SINGLE:

@@ -34,8 +34,9 @@
 * PB1 (Timer1 A)
 * PB2 (Timer1 B)
 
-### Buzzer
-* PD3 (TimedDrying 2 B)
+### Fan
+* PD3 (PWM)
+* PC7 (On/Off)
 
 ### UART
 * PD0 (RX)

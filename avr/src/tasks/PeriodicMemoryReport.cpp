@@ -19,8 +19,8 @@ void PeriodicMemoryReport::run() {
     int v;
     uint16_t value = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
     auto s = new char[5];
-    sprintf(s, "%" PRIu16, value);
-    auto event = new DrawText(4, 0, s);
+    sprintf(s, "%04" PRIu16, value);
+    auto event = new DrawText(12, 1, s);
     eventDispatcher->send(event);
 }
 
