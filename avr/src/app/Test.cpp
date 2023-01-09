@@ -6,6 +6,7 @@
 #include "../input/UserInput.h"
 #include "cstdio"
 #include "../lcd/DrawText.h"
+#include "cstring"
 
 Test::Test(Messaging *eventDispatcher, Dimmer *dimmer) {
     this->eventDispatcher = eventDispatcher;
@@ -41,9 +42,8 @@ void Test::minus() {
 }
 
 void Test::renderUI() {
-    auto s = new char[4];
-    s[3] = 0;
-    sprintf(s, "%03" PRIu8, dial);
+    auto *s = new char[4];
+    sprintf(s, "%03u", dial);
     eventDispatcher->send(new DrawText(11, 0, s));
 }
 

@@ -11,7 +11,7 @@
 
 class KeyPad: public Task {
 public:
-    enum class Key { RELEASED, UP, DOWN, LEFT, RIGHT, ENTER };
+    enum class Key: uint8_t { RELEASED, UP, DOWN, LEFT, RIGHT, ENTER };
     KeyPad(Messaging *eventDispatcher);
     ~KeyPad() override = default;
     void run() override;

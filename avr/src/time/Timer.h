@@ -13,7 +13,7 @@
 
 class Timer: public Subscriber {
 public:
-    enum class State {
+    enum class State: uint8_t {
         STOPPED, WAITING_START, RUNNING, PAUSED, FINISHED
     };
     explicit Timer(Messaging *messaging, WallClock *wallClock);

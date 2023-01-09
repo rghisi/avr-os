@@ -23,7 +23,7 @@ private:
     static constexpr uint16_t HEADROOM = 500;
     static constexpr uint16_t MAX_DELAY = 16666 - HEADROOM;
     void handleTimerCompareMatchInterrupt() override;
-    enum class State {
+    enum class State: uint8_t {
         DISABLED,
         WAITING_ZERO_CROSS_START,
         WAITING_PULSE_START,

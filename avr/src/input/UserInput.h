@@ -11,7 +11,7 @@
 
 class UserInput: public Message {
 public:
-    enum class UserInputEvent {
+    enum class UserInputEvent: uint8_t {
         DIAL_PLUS,
         DIAL_MINUS,
         DIAL_BUTTON_PRESSED,
