@@ -17,7 +17,7 @@ add_compile_options("-I${CMAKE_SOURCE_DIR}/avr-libstdcpp/include")
 add_compile_options("-fdata-sections")
 add_compile_options("-ffunction-sections")
 
-add_link_options(-Wl,--print-memory-usage,--gc-sections)
+add_link_options(-Wl,--print-memory-usage,--gc-sections)#,-u,vfprintf -lprintf_min)
 add_link_options("-mmcu=${TARGET_CPU}")
 
 add_executable(${PROJECT_NAME}

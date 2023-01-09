@@ -17,7 +17,7 @@ extern "C" void TIMER0_COMPA_vect(void) __attribute__ ((signal));
 
 class ATMega32U4: public USART, public Timer0 {
 public:
-    enum class BitRate { B9600 };
+    enum class BitRate: uint8_t { B9600 };
     ATMega32U4(BitRate bitRate);
     void disableReadyToSendInterrupt() override;
     void disableTransmitter() override;

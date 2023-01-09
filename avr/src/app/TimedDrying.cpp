@@ -156,7 +156,7 @@ void TimedDrying::renderCountdown() {
             sprintf(countdownAsString, "Parado");
             break;
         case State::RUNNING:
-            sprintf(countdownAsString, "%02" PRIi8 ":%02" PRIi8 " ", minutes, seconds);
+            sprintf(countdownAsString, "%02i:%02i ", minutes, seconds);
             break;
         case State::FINISHED:
             sprintf(countdownAsString, "Pronto");
@@ -167,7 +167,7 @@ void TimedDrying::renderCountdown() {
 void TimedDrying::renderSetTimer() {
     auto setTimerAsString = new char[7];
     setTimerAsString[6] = 0x00;
-    sprintf(setTimerAsString, "%02" PRIi8 ":%02" PRIi8 " ", setMinutes, setSeconds);
+    sprintf(setTimerAsString, "%02" PRIi8 ":%02i ", setMinutes, setSeconds);
     messaging->send(new DrawText(TIMER_X_POSITION, SET_POINT_Y_POSITION, setTimerAsString));
 }
 
@@ -182,7 +182,7 @@ void TimedDrying::renderCursor() {
 void TimedDrying::renderSetClimate() {
     auto string = new char[7];
     string[6] = 0x00;
-    sprintf(string, "%02" PRIu8 "C", setTemperature);
+    sprintf(string, "%02iC", setTemperature);
     messaging->send(new DrawText(CLIMATE_X_POSITION, SET_POINT_Y_POSITION, string));
 }
 

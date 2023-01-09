@@ -102,7 +102,7 @@ void TimedMultiTrayDrying::handleClimateReport(ClimateReport *climateReport) {
     auto firstLine = new char[4];
     firstLine[3] = 0;
     uint8_t temperature = Math::divBy10(Math::divBy10(climateReport->temperatureCelsius));
-    sprintf(firstLine, "%02" PRIu8 "C", temperature);
+    sprintf(firstLine, "%02uC", temperature);
     messaging->send(new DrawText(TEMPERATURE_X, FIRST_LINE, firstLine));
 }
 
@@ -111,7 +111,7 @@ void TimedMultiTrayDrying::handleTemperatureControlStatus(TemperatureControlStat
     firstLine[4] = 0;
     if (temperatureControlStatus->enabled) {
         uint16_t position = Math::divBy10(temperatureControlStatus->position);
-        sprintf(firstLine, "%04" PRIu16, position);
+        sprintf(firstLine, "%04u", position);
     } else {
         sprintf(firstLine, "Desl");
     }
@@ -192,7 +192,7 @@ void TimedMultiTrayDrying::renderCursor() {
 void TimedMultiTrayDrying::renderSetPoints() {
     auto firstLine = new char[8];
     firstLine[7] = 0;
-    sprintf(firstLine, "%02" PRIi8 "m %02" PRIi8 "C", setMinutes, setTemperature);
+    sprintf(firstLine, "%02im %02iC", setMinutes, setTemperature);
     messaging->send(new DrawText(SET_POINTS_X, FIRST_LINE, firstLine));
 }
 
@@ -207,7 +207,7 @@ void TimedMultiTrayDrying::renderTimers() {
     };
     sprintf(
             lineTwo,
-            "A%02" PRIi8 " B%02" PRIi8 " C%02" PRIi8 " D%02" PRIi8,
+            "A%02i B%02i C%02i D%02i",
             timers[0], timers[1], timers[2], timers[3]
             );
     messaging->send(new DrawText(TIMERS_X, SECOND_LINE, lineTwo));

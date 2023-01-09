@@ -27,7 +27,7 @@ private:
     enum Selection: int8_t {
         NONE = 0, TEMPERATURE, MINUTES, SECONDS, MAX
     };
-    enum class State {
+    enum class State: uint8_t {
         STOPPED, RUNNING, FINISHED
     };
     static constexpr uint8_t TIMER_X_POSITION = 11;

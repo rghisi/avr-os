@@ -18,7 +18,7 @@ public:
 
 private:
     void reset();
-    enum class State {
+    enum class State: uint8_t {
         WAITING_PACKET_START, DESTINATION, SOURCE, LENGTH, ID_MSB, ID_LSB, SERVICE, CRC, PAYLOAD, FINISHED
     };
     State state;

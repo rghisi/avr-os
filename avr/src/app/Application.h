@@ -6,6 +6,8 @@
 #define AVR_APPLICATION_H
 
 
+#include "cstdint"
+
 class Application {
 public:
     virtual char* title() = 0;
@@ -14,7 +16,7 @@ public:
     bool isRunning();
 
 protected:
-    enum class RunningState {
+    enum class RunningState: uint8_t {
         FOREGROUND,
         BACKGROUND,
         RUNNING

@@ -9,7 +9,7 @@
 
 class Task {
 public:
-    enum class Type {
+    enum class Type: uint8_t {
         PERIODIC,
         SINGLE,
         WAIT

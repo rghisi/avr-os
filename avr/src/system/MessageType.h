@@ -5,8 +5,9 @@
 #ifndef AVR_MESSAGETYPE_H
 #define AVR_MESSAGETYPE_H
 
+#include <cstdint>
 
-enum MessageType {
+enum MessageType: uint8_t {
     TIME_TICK,
     TIMER_STATE,
     DISPLAY_COMMAND,
