@@ -92,7 +92,7 @@ add_executable(${PROJECT_NAME}
         src/lcd/DisableCursor.cpp src/lcd/DisableCursor.h
         src/tasks/TemperatureControlCommand.cpp src/tasks/TemperatureControlCommand.h
         src/system/SubscriberRegistry.h
-        src/system/SubscriberRegistry.cpp src/system/SubscriberRegistry.h src/app/TimedMultiTrayDrying.cpp src/app/TimedMultiTrayDrying.h src/time/Timer.cpp src/time/Timer.h src/time/TimerState.cpp src/time/TimerState.h src/system/Math.cpp src/system/Math.h src/tasks/TemperatureControlStatus.cpp src/tasks/TemperatureControlStatus.h)
+        src/system/SubscriberRegistry.cpp src/system/SubscriberRegistry.h src/app/TimedMultiTrayDrying.cpp src/app/TimedMultiTrayDrying.h src/time/Timer.cpp src/time/Timer.h src/time/TimerState.cpp src/time/TimerState.h src/system/Math.cpp src/system/Math.h src/tasks/TemperatureControlStatus.cpp src/tasks/TemperatureControlStatus.h src/comms/Serial.cpp src/comms/Serial.h src/comms/SerialPacket.cpp src/comms/SerialPacket.h src/services/SerialReporter.cpp src/services/SerialReporter.h src/tasks/MemoryReport.cpp src/tasks/MemoryReport.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

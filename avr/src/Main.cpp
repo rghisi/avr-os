@@ -8,7 +8,6 @@
 #include "system/Messaging.h"
 #include "system/WallClock.h"
 #include "lcd/Display.h"
-#include "tasks/AsyncTaskTest.h"
 #include "system/AsyncExecutor.h"
 #include "tasks/PeriodicMemoryReport.h"
 #include "input/KeyPad.h"
@@ -21,6 +20,8 @@
 #include "app/TimedDrying.h"
 #include "app/ApplicationManager.h"
 #include "app/TimedMultiTrayDrying.h"
+#include "comms/Serial.h"
+#include "services/SerialReporter.h"
 
 void * operator new(size_t size)
 {
@@ -67,10 +68,12 @@ auto eventLoop = EventLoop(&subscriberRegistry);
 auto messaging = Messaging(&eventLoop);
 auto timer = Timer(&messaging, &wallClock);
 auto asyncExecutor = AsyncExecutor(&taskScheduler, &messaging);
+auto serial = Serial(&atmega);
 auto display = Display();
-//auto periodicMemoryReport = PeriodicMemoryReport(&messaging);
+auto periodicMemoryReport = PeriodicMemoryReport(&messaging);
 auto keyPad = KeyPad(&messaging);
 auto dial = Dial(&messaging);
+auto serialReporter = SerialReporter(&messaging);
 auto periodicSensorReport = PeriodicSensorReport(&messaging);
 auto dimmer = Dimmer(&atmega, &atmega);
 auto timeTickTask = TimeTicker(&messaging, &wallClock);
@@ -82,17 +85,8 @@ auto test = Test(&messaging, &dimmer);
 auto applicationManager = ApplicationManager(&messaging, {&timedDrying, &timedMultiTrayDrying, &test});
 
 int main(void) {
-//    uint8_t statusLed = _BV(PORTB5);
-//    DDRB |= statusLed;
-//    PORTB &= ~statusLed;
-//    _delay_ms(1000);
-//    PORTB |= statusLed;
-//    _delay_ms(1000);
-//    PORTB &= ~statusLed;
-
-//    DDRC |= _BV(PORTC0);
-
-
+    atmega.setInterruptHandler(&serial);
+    atmega.enableTransmitterAndReadyToSendInterrupt();
     atmega.setupTimer0();
     atmega.setTimer0InterruptHandler(&wallClock);
     atmega.setupTimer1();
@@ -104,6 +98,7 @@ int main(void) {
     keyPad.setup();
     dial.setup();
 
+    subscriberRegistry.subscribe(&serial, SERIAL_SEND);
     subscriberRegistry.subscribe(&timer, TIME_TICK);
     subscriberRegistry.subscribe(&asyncExecutor, ASYNC_SCHEDULED);
     subscriberRegistry.subscribe(&asyncExecutor, ASYNC_CHAIN_SCHEDULED);
@@ -120,47 +115,19 @@ int main(void) {
     subscriberRegistry.subscribe(&temperatureControl, CLIMATE_REPORT);
     subscriberRegistry.subscribe(&temperatureControl, TEMPERATURE_CONTROL_COMMAND);
     subscriberRegistry.subscribe(&test, USER_INPUT);
+    subscriberRegistry.subscribe(&serialReporter, CLIMATE_REPORT);
+    subscriberRegistry.subscribe(&serialReporter, TEMPERATURE_CONTROL_STATUS);
+    subscriberRegistry.subscribe(&serialReporter, MEMORY_REPORT);
 
-//    taskScheduler.schedule(&periodicMemoryReport);
+    taskScheduler.schedule(&periodicMemoryReport);
     taskScheduler.schedule(&keyPad);
     taskScheduler.schedule(&dial);
     taskScheduler.schedule(&periodicSensorReport);
     taskScheduler.schedule(&timeTickTask);
     taskScheduler.schedule(&temperatureControl);
+    taskScheduler.schedule(&serialReporter);
 
-    auto *startupTasks = new AsyncChain(&messaging);
-    startupTasks
-            ->then([]() {applicationManager.start();})
-            ->schedule();
-
-
-
-//    auto *dimmerCalibrationTask = new AsyncChain(&messaging);
-//    dimmerCalibrationTask
-//            ->wait(1000)
-//            ->then([]() {dimmer.enable();})
-//            ->wait(500)
-//            ->then([]() {dimmer.setPosition(64);})
-//            ->wait(2000)
-//            ->then([]() {dimmer.setPosition(128);})
-//            ->wait(2000)
-//            ->then([]() {dimmer.setPosition(255);})
-//            ->wait(2000)
-//            ->then([]() {dimmer.setPosition(16);})
-//            ->wait(2000)
-//            ->then([]() {dimmer.setPosition(0);})
-//            ->schedule();
-
-//    auto *startTimedDrying = new AsyncChain(&messaging);
-//    startTimedDrying
-//            ->wait(1000)
-//            ->then([]() {timedDrying.toForeground();})
-//            ->wait(32000)
-//            ->wait(32000)
-//            ->then([]() {timedDrying.stop();})
-//            ->wait(10000)
-//            ->then([]() {timedDrying.toForeground();})
-//            ->schedule();
+    applicationManager.start();
 
     while (true) {
         taskScheduler.process();

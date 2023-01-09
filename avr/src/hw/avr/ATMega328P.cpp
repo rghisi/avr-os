@@ -2,15 +2,21 @@
 // Created by ghisi on 09.11.22.
 //
 
+#define BAUD 9600
 #include <avr/interrupt.h>
 #include "ATMega328P.h"
 
+USARTInterruptHandler *ATMega328P::interruptHandler = nullptr;
 Timer0InterruptHandler *ATMega328P::timer0InterruptHandler = nullptr;
 TimerCompareMatchInterruptHandler *ATMega328P::timer1CompareMatchAInterruptHandler = nullptr;
 TimerCompareMatchInterruptHandler *ATMega328P::timer1CompareMatchBInterruptHandler = nullptr;
 ExternalInterruptHandler *ATMega328P::externalInterruptHandler = nullptr;
 
 ATMega328P::ATMega328P() {
+    UCSR0C = (_BV(UCSZ01)) | (_BV(UCSZ00));
+    UBRR0 = 25;
+    //PD0 = RX
+    //PD1 = TX
 }
 
 void ATMega328P::setTimer0InterruptHandler(Timer0InterruptHandler *handler) {
@@ -140,4 +146,52 @@ void ATMega328P::resetTimer1() {
 
 void ATMega328P::timer1ForceCompareMatchA() {
     TCCR1C |= _BV(FOC1A);
+}
+
+void ATMega328P::disableReceiver() {
+    UCSR0B &= ~(_BV(RXEN0) | _BV(RXCIE0));
+}
+
+void ATMega328P::enableReceiver() {
+    UCSR0B |= _BV(RXEN0) | _BV(RXCIE0);
+}
+
+void ATMega328P::setInterruptHandler(USARTInterruptHandler *handler) {
+    ATMega328P::interruptHandler = handler;
+}
+
+void ATMega328P::send(uint8_t byte) {
+    UDR0 = byte;
+}
+
+void ATMega328P::disableReadyToSendInterrupt() {
+    UCSR0B &= ~_BV(UDRIE0);
+}
+
+void ATMega328P::disableTransmitter() {
+    UCSR0B &= ~((_BV(TXEN0) | _BV(TXCIE0)));
+//    DDRD &= ~(_BV(PORTD3) | _BV(PORTD2));
+//    PORTD &= ~(_BV(PORTD3) | _BV(PORTD2));
+}
+
+void ATMega328P::enableTransmitterAndReadyToSendInterrupt() {
+    UCSR0B |= _BV(TXEN0) | _BV(UDRIE0) | _BV(TXCIE0);
+}
+
+void USART_TX_vect(void) {
+    if (ATMega328P::interruptHandler != nullptr) {
+        ATMega328P::interruptHandler->transmissionFinished();
+    }
+}
+void USART_RX_vect(void) {
+    if (ATMega328P::interruptHandler != nullptr) {
+        uint8_t byte = UDR0;
+        ATMega328P::interruptHandler->frameReceived(byte);
+    }
+}
+
+void USART_UDRE_vect(void) {
+    if (ATMega328P::interruptHandler != nullptr) {
+        ATMega328P::interruptHandler->readyToSend();
+    }
 }
