@@ -17,7 +17,6 @@ public:
     void handle(Message* event) override;
     void toForeground() override;
     void toBackground() override;
-
     char *title() override;
 
 private:

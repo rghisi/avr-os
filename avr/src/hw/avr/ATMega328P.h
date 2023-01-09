@@ -12,13 +12,17 @@
 #include "../I2C.h"
 #include "../Timer1.h"
 #include "../ExternalInterrupts.h"
+#include "../USART.h"
 
+extern "C" void USART_UDRE_vect(void) __attribute__ ((signal));
+extern "C" void USART_TX_vect(void) __attribute__ ((signal));
+extern "C" void USART_RX_vect(void) __attribute__ ((signal));
 extern "C" void TIMER0_COMPA_vect(void) __attribute__ ((signal));
 extern "C" void TIMER1_COMPA_vect(void) __attribute__ ((signal));
 extern "C" void TIMER1_COMPB_vect(void) __attribute__ ((signal));
 extern "C" void INT0_vect(void) __attribute__ ((signal));
 
-class ATMega328P: public Interrupts, public Timer0, public Timer1, public ExternalInterrupt {
+class ATMega328P: public USART, public Interrupts, public Timer0, public Timer1, public ExternalInterrupt {
 public:
     ATMega328P();
     void setupTimer0() override;
@@ -43,12 +47,25 @@ public:
     void externalInterruptOnFallingEdge() override;
     void externalInterruptOnRisingEdge() override;
     void setExternalInterruptHandler(ExternalInterruptHandler *handler) override;
+    friend void USART_TX_vect(void);
+    friend void USART_RX_vect(void);
+    friend void USART_UDRE_vect(void);
+    friend void TIMER0_COMPA_vect(void);
     friend void TIMER0_COMPA_vect(void);
     friend void TIMER1_COMPA_vect(void);
     friend void TIMER1_COMPB_vect(void);
     friend void INT0_vect(void);
 
+    void disableReadyToSendInterrupt() override;
+    void disableTransmitter() override;
+    void enableTransmitterAndReadyToSendInterrupt() override;
+    void enableReceiver() override;
+    void disableReceiver() override;
+    void setInterruptHandler(USARTInterruptHandler *handler) override;
+    void send(uint8_t byte) override;
+
 private:
+    static USARTInterruptHandler *interruptHandler;
     static Timer0InterruptHandler *timer0InterruptHandler;
     static TimerCompareMatchInterruptHandler *timer1CompareMatchAInterruptHandler;
     static TimerCompareMatchInterruptHandler *timer1CompareMatchBInterruptHandler;

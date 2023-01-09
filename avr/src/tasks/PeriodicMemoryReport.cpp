@@ -5,6 +5,7 @@
 #include "PeriodicMemoryReport.h"
 #include "../lcd/DrawText.h"
 #include "cstdio"
+#include "MemoryReport.h"
 
 PeriodicMemoryReport::PeriodicMemoryReport(Messaging *eventDispatcher) {
     this->eventDispatcher = eventDispatcher;
@@ -18,14 +19,11 @@ void PeriodicMemoryReport::run() {
     extern int __heap_start, *__brkval;
     int v;
     uint16_t value = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
-    auto s = new char[5];
-    sprintf(s, "%04" PRIu16, value);
-    auto event = new DrawText(12, 1, s);
-    eventDispatcher->send(event);
+    eventDispatcher->send(new MemoryReport(value));
 }
 
 uint32_t PeriodicMemoryReport::delay() {
-    return 200;
+    return 1000;
 }
 
 Task::Type PeriodicMemoryReport::type() {
