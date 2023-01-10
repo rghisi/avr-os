@@ -11,7 +11,7 @@
 
 class Subscriber {
 public:
-    virtual void handle(Message* event) = 0;
+    virtual void handle(Message* message) = 0;
 };
 
 

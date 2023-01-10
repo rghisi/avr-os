@@ -30,7 +30,7 @@ void PeriodicSensorReport::run() {
 }
 
 uint32_t PeriodicSensorReport::delay() {
-    return 1000;
+    return 500;
 }
 
 Task::Type PeriodicSensorReport::type() {

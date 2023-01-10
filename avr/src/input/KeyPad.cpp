@@ -5,9 +5,10 @@
 #include <avr/io.h>
 #include "KeyPad.h"
 #include "UserInput.h"
+#include "../services/buzzer/BuzzerCommand.h"
 
-KeyPad::KeyPad(Messaging *eventDispatcher) {
-    this->eventDispatcher = eventDispatcher;
+KeyPad::KeyPad(Messaging *messaging) {
+    this->messaging = messaging;
     previous = Key::RELEASED;
 }
 
@@ -69,7 +70,10 @@ void KeyPad::run() {
         }
         if (button != UserInput::UserInputEvent::NONE) {
             auto event = new UserInput(button, value);
-            eventDispatcher->send(event);
+            messaging->send(event);
+            if (current == Key::RELEASED) {
+                messaging->send(new BuzzerCommand(10));
+            }
         }
         previous = current;
     }
@@ -84,9 +88,8 @@ Task::Type KeyPad::type() {
 }
 
 void KeyPad::setup() {
-    DDRC &= ~_BV(PORTC0);
     DIDR0 = _BV(ADC0D);
-    ADMUX = _BV(REFS0); //AVcc reference
+    ADMUX = _BV(REFS0) | _BV(MUX2) | _BV(MUX1); //AVcc reference
     ADCSRA = _BV(ADEN) | _BV(ADATE) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
     ADCSRB = 0x00;
     ADCSRA |= _BV(ADSC);
