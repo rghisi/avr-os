@@ -17,11 +17,10 @@ public:
     uint16_t getPosition();
     void enable();
     void disable();
-
-private:
     static constexpr uint16_t PULSE_LENGTH = 1200;
-    static constexpr uint16_t HEADROOM = 500;
+    static constexpr uint16_t HEADROOM = 1800;
     static constexpr uint16_t MAX_DELAY = 16666 - HEADROOM;
+private:
     void handleTimerCompareMatchInterrupt() override;
     enum class State: uint8_t {
         DISABLED,
