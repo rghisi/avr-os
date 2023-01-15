@@ -20,7 +20,7 @@ void SerialReporter::handle(Message *event) {
             ClimateReport *climateReport;
             climateReport = static_cast<ClimateReport*>(event);
             temperature = climateReport->temperatureCelsius;
-            humidity = climateReport->relativeHumidity;
+            humidity = climateReport->relativeHumidity >> 10;
             break;
         case TEMPERATURE_CONTROL_STATUS:
             TemperatureControlStatus *temperatureControlStatus;

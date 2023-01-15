@@ -10,6 +10,7 @@
 #include "../lcd/EnableCursor.h"
 #include "../lcd/DisableCursor.h"
 #include "../tasks/TemperatureControlCommand.h"
+#include "../services/buzzer/BuzzerCommand.h"
 
 TimedDrying::TimedDrying(Messaging *messageDispatcher, Timer *timer) {
     this->messaging = messageDispatcher;
@@ -256,6 +257,7 @@ void TimedDrying::finish() {
     messaging->send(new TemperatureControlCommand(false, setTemperature, 0));
     renderCountdown();
     renderStatus();
+    messaging->send(new BuzzerCommand(130));
 }
 
 char *TimedDrying::title() {

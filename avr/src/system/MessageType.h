@@ -19,6 +19,7 @@ enum MessageType: uint8_t {
     TEMPERATURE_CONTROL_STATUS,
     SERIAL_SEND,
     MEMORY_REPORT,
+    BUZZER,
     MAX,
 };
 

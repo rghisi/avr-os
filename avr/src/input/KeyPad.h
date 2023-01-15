@@ -12,7 +12,7 @@
 class KeyPad: public Task {
 public:
     enum class Key: uint8_t { RELEASED, UP, DOWN, LEFT, RIGHT, ENTER };
-    KeyPad(Messaging *eventDispatcher);
+    explicit KeyPad(Messaging *messaging);
     ~KeyPad() override = default;
     void run() override;
     uint32_t delay() override;
@@ -20,7 +20,7 @@ public:
     void setup();
 private:
     Key previous;
-    Messaging *eventDispatcher;
+    Messaging *messaging;
 };
 
 
