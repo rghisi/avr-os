@@ -250,5 +250,5 @@ void TimedMultiTrayDrying::renderTickTock() {
 
 void TimedMultiTrayDrying::stopDrying() {
     messaging->send(new TemperatureControlCommand(false, setTemperature, 0));
-    messaging->send(new FanCommand(160));
+    messaging->send(new FanCommand(0));
 }

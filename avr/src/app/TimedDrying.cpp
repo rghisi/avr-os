@@ -109,7 +109,7 @@ void TimedDrying::handleTemperatureControlStatus(TemperatureControlStatus *tempe
     auto string = new char[6];
     string[5] = 0x00;
     if (temperatureControlStatus->enabled) {
-        sprintf(string, "P%05" PRIu16 "", temperatureControlStatus->position);
+        sprintf(string, "Kp%05" PRIu16 "", temperatureControlStatus->position);
     } else {
         sprintf(string, "Desl.");
     }

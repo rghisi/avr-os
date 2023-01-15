@@ -21,7 +21,7 @@ void TemperatureControl::run() {
         dimmer->enable();
     } else {
         dimmer->disable();
-        pid.resetIntegrator();
+        pid.reset();
     }
     messaging->send(new TemperatureControlStatus(enabled, dimmer->getPosition()));
 }

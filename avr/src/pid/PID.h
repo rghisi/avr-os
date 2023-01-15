@@ -13,7 +13,7 @@ public:
     PID(int32_t pFactor, int32_t iFactor, int32_t dFactor, int32_t minControlSignal, int32_t maxControlSignal,
         int32_t maxError, int32_t maxIntegral);
     int32_t update(int32_t setPoint, int32_t processValue);
-    void resetIntegrator();
+    void reset();
 private:
     int32_t lastProcessValue;
     int32_t sumError;
