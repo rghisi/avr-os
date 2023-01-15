@@ -13,7 +13,7 @@
 
 class Test: public Subscriber, public Application {
 public:
-    Test(Messaging *eventDispatcher, Dimmer *dimmer);
+    Test(Messaging *messaging, Dimmer *dimmer);
     void handle(Message* event) override;
     void toForeground() override;
     void toBackground() override;
@@ -21,7 +21,7 @@ public:
 
 private:
     uint8_t dial = 0;
-    Messaging *eventDispatcher;
+    Messaging *messaging;
     Dimmer *dimmer;
     void plus();
     void minus();

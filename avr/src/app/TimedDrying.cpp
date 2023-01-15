@@ -11,6 +11,7 @@
 #include "../lcd/DisableCursor.h"
 #include "../tasks/TemperatureControlCommand.h"
 #include "../services/buzzer/BuzzerCommand.h"
+#include "../services/Fan/FanCommand.h"
 
 TimedDrying::TimedDrying(Messaging *messageDispatcher, Timer *timer) {
     this->messaging = messageDispatcher;
@@ -238,6 +239,7 @@ void TimedDrying::stop() {
     countdownState = State::STOPPED;
     timer->stop();
     messaging->send(new TemperatureControlCommand(false, setTemperature, 0));
+    messaging->send(new FanCommand(0));
     renderCountdown();
     renderStatus();
 }
@@ -247,6 +249,7 @@ void TimedDrying::start() {
     countdownState = State::RUNNING;
     timer->start(setMinutes, setSeconds);
     messaging->send(new TemperatureControlCommand(true, setTemperature, 0));
+    messaging->send(new FanCommand(160));
     renderCountdown();
     renderStatus();
 }
@@ -255,6 +258,7 @@ void TimedDrying::finish() {
     runningState = Application::RunningState::FOREGROUND;
     countdownState = State::FINISHED;
     messaging->send(new TemperatureControlCommand(false, setTemperature, 0));
+    messaging->send(new FanCommand(0));
     renderCountdown();
     renderStatus();
     messaging->send(new BuzzerCommand(130));
