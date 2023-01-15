@@ -25,6 +25,7 @@
 #include "services/SerialReporter.h"
 #include "services/buzzer/Buzzer.h"
 #include "services/buzzer/BuzzerCommand.h"
+#include "services/Fan/Fan.h"
 
 void * operator new(size_t size)
 {
@@ -82,6 +83,7 @@ auto dimmer = Dimmer(&atmega, &atmega);
 auto timeTickTask = TimeTicker(&messaging, &wallClock);
 auto temperatureControl = TemperatureControl(&messaging, &dimmer);
 auto buzzer = Buzzer(&messaging);
+auto fan = Fan();
 
 auto timedDrying = TimedDrying(&messaging, &timer);
 auto timedMultiTrayDrying = TimedMultiTrayDrying(&messaging);
@@ -102,7 +104,9 @@ int main(void) {
     keyPad.setup();
     dial.setup();
     buzzer.setup();
+    fan.setup();
 
+    subscriberRegistry.subscribe(&fan, FAN_COMMAND);
     subscriberRegistry.subscribe(&buzzer, BUZZER);
     subscriberRegistry.subscribe(&serial, SERIAL_SEND);
     subscriberRegistry.subscribe(&timer, TIME_TICK);

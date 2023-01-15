@@ -20,6 +20,7 @@ enum MessageType: uint8_t {
     SERIAL_SEND,
     MEMORY_REPORT,
     BUZZER,
+    FAN_COMMAND,
     MAX,
 };
 

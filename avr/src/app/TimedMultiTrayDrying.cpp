@@ -10,6 +10,7 @@
 #include "../lcd/DisableCursor.h"
 #include "../tasks/TemperatureControlCommand.h"
 #include "../tasks/TemperatureControlStatus.h"
+#include "../services/Fan/FanCommand.h"
 
 TimedMultiTrayDrying::TimedMultiTrayDrying(Messaging *messaging) {
     this->messaging = messaging;
@@ -236,6 +237,7 @@ void TimedMultiTrayDrying::startSelectedTrayTimer() {
             break;
     }
     messaging->send(new TemperatureControlCommand(true, setTemperature, 0));
+    messaging->send(new FanCommand(160));
 }
 
 void TimedMultiTrayDrying::renderTickTock() {
@@ -248,4 +250,5 @@ void TimedMultiTrayDrying::renderTickTock() {
 
 void TimedMultiTrayDrying::stopDrying() {
     messaging->send(new TemperatureControlCommand(false, setTemperature, 0));
+    messaging->send(new FanCommand(160));
 }

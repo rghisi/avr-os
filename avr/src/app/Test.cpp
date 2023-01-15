@@ -7,9 +7,10 @@
 #include "cstdio"
 #include "../lcd/DrawText.h"
 #include "cstring"
+#include "../services/Fan/FanCommand.h"
 
-Test::Test(Messaging *eventDispatcher, Dimmer *dimmer) {
-    this->eventDispatcher = eventDispatcher;
+Test::Test(Messaging *messaging, Dimmer *dimmer) {
+    this->messaging = messaging;
     this->dimmer = dimmer;
 }
 
@@ -22,6 +23,12 @@ void Test::handle(Message* event) {
                 break;
             case UserInput::UserInputEvent::DIAL_MINUS:
                 minus();
+                break;
+            case UserInput::UserInputEvent::BUTTON_ENTER_RELEASED:
+                messaging->send(new FanCommand(dial));
+                break;
+            case UserInput::UserInputEvent::DIAL_BUTTON_RELEASED:
+                messaging->send(new FanCommand(0));
                 break;
             default:
                 break;
@@ -44,7 +51,7 @@ void Test::minus() {
 void Test::renderUI() {
     auto *s = new char[4];
     sprintf(s, "%03u", dial);
-    eventDispatcher->send(new DrawText(11, 0, s));
+    messaging->send(new DrawText(11, 0, s));
 }
 
 void Test::toForeground() {
