@@ -34,6 +34,7 @@ private:
     static constexpr uint8_t CLIMATE_X_POSITION = 0;
     static constexpr uint8_t SET_POINT_Y_POSITION = 0;
     static constexpr uint8_t CURRENT_VALUES_Y_POSITION = 1;
+    static constexpr uint8_t fanPower = 180;
     Messaging *messaging;
     Timer *timer;
     Selection selection = Selection::NONE;

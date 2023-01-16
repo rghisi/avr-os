@@ -106,12 +106,12 @@ void TimedDrying::handleClimateReport(ClimateReport *climateReport) {
 }
 
 void TimedDrying::handleTemperatureControlStatus(TemperatureControlStatus *temperatureControlStatus) {
-    auto string = new char[6];
-    string[5] = 0x00;
+    auto string = new char[7];
+    string[6] = 0x00;
     if (temperatureControlStatus->enabled) {
-        sprintf(string, "Kp%05" PRIu16 "", temperatureControlStatus->position);
+        sprintf(string, "P%05u", temperatureControlStatus->position);
     } else {
-        sprintf(string, "Desl.");
+        sprintf(string, "Desl. ");
     }
     messaging->send(new DrawText(4, SET_POINT_Y_POSITION, string));
 }
@@ -249,7 +249,7 @@ void TimedDrying::start() {
     countdownState = State::RUNNING;
     timer->start(setMinutes, setSeconds);
     messaging->send(new TemperatureControlCommand(true, setTemperature, 0));
-    messaging->send(new FanCommand(160));
+    messaging->send(new FanCommand(fanPower));
     renderCountdown();
     renderStatus();
 }

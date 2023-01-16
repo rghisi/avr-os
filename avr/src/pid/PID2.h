@@ -26,7 +26,7 @@ private:
     static constexpr int32_t A2d = Kd/dt;
     static constexpr int32_t N = 5;
     static constexpr double tau = Kd / (double)(Kp * N);
-    static constexpr double alpha = dt / (2.0f * tau) * scaling;
+    static constexpr double alpha = dt / (((2.0f * tau) * scaling) + (tau == 0 ? 1 : 0));
     static constexpr int32_t alpha1 = (alpha / (alpha + scaling)) * scaling;
     static constexpr int32_t alpha2 = ((alpha - scaling) / (alpha + scaling)) * scaling;
 

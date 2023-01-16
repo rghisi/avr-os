@@ -53,5 +53,5 @@ void TemperatureControl::handle(ClimateReport *climateReport) {
 
 void TemperatureControl::handle(TemperatureControlCommand *climateControl) {
     enabled = climateControl->enabled;
-    temperatureSetPoint = climateControl->temperature * 100;
+    temperatureSetPoint = (climateControl->temperature * 100) + 50;
 }
