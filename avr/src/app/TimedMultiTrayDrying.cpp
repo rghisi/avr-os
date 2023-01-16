@@ -11,6 +11,7 @@
 #include "../tasks/TemperatureControlCommand.h"
 #include "../tasks/TemperatureControlStatus.h"
 #include "../services/Fan/FanCommand.h"
+#include "../services/buzzer/BuzzerCommand.h"
 
 TimedMultiTrayDrying::TimedMultiTrayDrying(Messaging *messaging) {
     this->messaging = messaging;
@@ -42,28 +43,31 @@ void TimedMultiTrayDrying::handle(Message *event) {
 }
 
 void TimedMultiTrayDrying::updateTimers() {
-    uint8_t zeroedTimers = 0;
-    for (uint8_t i = 0; i < seconds.size(); i++) {
-        int8_t s = seconds[i];
-        int8_t m = minutes[i];
-        if (s > 0 || m > 0) {
-            s--;
-            if (s < 0) {
-                s = 59;
-                m--;
-                if (m < 0) {
-                    m = 0;
+    if (isRunning) {
+        uint8_t zeroedTimers = 0;
+        for (uint8_t i = 0; i < seconds.size(); i++) {
+            int8_t s = seconds[i];
+            int8_t m = minutes[i];
+            if (s > 0 || m > 0) {
+                s--;
+                if (s < 0) {
+                    s = 59;
+                    m--;
+                    if (m < 0) {
+                        m = 0;
+                    }
                 }
+                seconds[i] = s;
+                minutes[i] = m;
             }
-            seconds[i] = s;
-            minutes[i] = m;
             if (s == 0 && m == 0) {
                 zeroedTimers++;
             }
         }
-    }
-    if (zeroedTimers == NUMBER_OF_TRAYS) {
-        stopDrying();
+        if (zeroedTimers == NUMBER_OF_TRAYS) {
+            stopDrying();
+            isRunning = false;
+        }
     }
 }
 
@@ -93,6 +97,7 @@ void TimedMultiTrayDrying::handleUserInput(UserInput *userInput) {
             renderCursor();
             break;
         case UserInput::UserInputEvent::DIAL_BUTTON_RELEASED:
+            stopDrying();
             break;
         default:
             break;
@@ -100,23 +105,18 @@ void TimedMultiTrayDrying::handleUserInput(UserInput *userInput) {
 }
 
 void TimedMultiTrayDrying::handleClimateReport(ClimateReport *climateReport) {
-    auto firstLine = new char[4];
-    firstLine[3] = 0;
+    auto firstLine = new char[8];
+    firstLine[7] = 0;
     uint8_t temperature = Math::divBy10(Math::divBy10(climateReport->temperatureCelsius));
-    sprintf(firstLine, "%02uC", temperature);
+    sprintf(firstLine, "%02uC %02u%%", temperature, climateReport->relativeHumidity >> 10);
     messaging->send(new DrawText(TEMPERATURE_X, FIRST_LINE, firstLine));
 }
 
 void TimedMultiTrayDrying::handleTemperatureControlStatus(TemperatureControlStatus *temperatureControlStatus) {
-    auto firstLine = new char[5];
-    firstLine[4] = 0;
-    if (temperatureControlStatus->enabled) {
-        uint16_t position = Math::divBy10(temperatureControlStatus->position);
-        sprintf(firstLine, "%04u", position);
-    } else {
-        sprintf(firstLine, "Desl");
-    }
-    messaging->send(new DrawText(POWER_X, FIRST_LINE, firstLine));
+    auto string = new char[2];
+    string[0] = temperatureControlStatus->enabled ? 0xa5 : ' ';
+    string[1] = 0x00;
+    messaging->send(new DrawText(TICK_TOCK_X, FIRST_LINE, string));
 }
 
 void TimedMultiTrayDrying::toForeground() {
@@ -129,7 +129,12 @@ void TimedMultiTrayDrying::toBackground() {
 }
 
 char *TimedMultiTrayDrying::title() {
-    return new char[] {'B', 'a', 'n', 'd', 'e', 'j', 'a', 0x00};
+    return new char[] {
+        'B', 'a', 'n',
+        'd', 'e',
+        'j', 'a',
+        0x00
+    };
 }
 
 void TimedMultiTrayDrying::cycleSelection(int8_t amount) {
@@ -192,7 +197,7 @@ void TimedMultiTrayDrying::renderCursor() {
 
 void TimedMultiTrayDrying::renderSetPoints() {
     auto firstLine = new char[8];
-    firstLine[7] = 0;
+    firstLine[7] = 0x00;
     sprintf(firstLine, "%02im %02iC", setMinutes, setTemperature);
     messaging->send(new DrawText(SET_POINTS_X, FIRST_LINE, firstLine));
 }
@@ -236,19 +241,25 @@ void TimedMultiTrayDrying::startSelectedTrayTimer() {
         default:
             break;
     }
-    messaging->send(new TemperatureControlCommand(true, setTemperature, 0));
-    messaging->send(new FanCommand(160));
+    if (!isRunning) {
+        messaging->send(new TemperatureControlCommand(true, setTemperature, 0));
+        messaging->send(new FanCommand(fanPower));
+        isRunning = true;
+    }
 }
 
 void TimedMultiTrayDrying::renderTickTock() {
     tickTock = !tickTock;
     auto string = new char[2];
-    string[0] = tickTock ? '.' : ' ';
+    string[0] = tickTock ? 0xa5 : ' ';
     string[1] = 0x00;
     messaging->send(new DrawText(TICK_TOCK_X, SECOND_LINE, string));
 }
 
 void TimedMultiTrayDrying::stopDrying() {
+    std::fill_n(seconds.begin(), seconds.size(), 0);
+    std::fill_n(minutes.begin(), minutes.size(), 0);
     messaging->send(new TemperatureControlCommand(false, setTemperature, 0));
-    messaging->send(new FanCommand(0));
+    messaging->send(new FanCommand(FanCommand::OFF));
+    messaging->send(new BuzzerCommand(150));
 }

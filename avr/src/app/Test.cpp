@@ -64,5 +64,10 @@ void Test::toBackground() {
 }
 
 char *Test::title() {
-    return new char[] {'T', 'e', 's', 't', 0x00};
+    return new char[] {
+        'M', 'a',
+        'n', 'u',
+        'a', 'l',
+        0x00
+    };
 }

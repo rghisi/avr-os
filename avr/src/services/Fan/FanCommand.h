@@ -13,6 +13,7 @@ class FanCommand: public Message {
 public:
     explicit FanCommand(uint8_t power);
     uint8_t power;
+    static constexpr uint8_t OFF = 0;
 };
 
 

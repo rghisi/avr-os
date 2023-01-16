@@ -31,6 +31,7 @@ private:
         STOPPED, RUNNING, FINISHED
     };
     static constexpr uint8_t TIMER_X_POSITION = 11;
+    static constexpr uint8_t RUNNING_TIMER_X_POSITION = 10;
     static constexpr uint8_t CLIMATE_X_POSITION = 0;
     static constexpr uint8_t SET_POINT_Y_POSITION = 0;
     static constexpr uint8_t CURRENT_VALUES_Y_POSITION = 1;
@@ -42,9 +43,9 @@ private:
     uint8_t cursorX = TIMER_X_POSITION + 1;
     int8_t seconds;
     int8_t minutes;
-    int8_t setSeconds;
-    int8_t setMinutes;
-    int8_t setTemperature;
+    int8_t setSeconds = 0;
+    int8_t setMinutes = 30;
+    int8_t setTemperature = 40;
     void startStop();
     void finish();
     void start();
