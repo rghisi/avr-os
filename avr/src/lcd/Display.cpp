@@ -14,10 +14,6 @@ extern "C" {
 Display::Display() {
     LCD_Setup();
     LCD_Clear();
-    char hello[] = "Starting";
-    LCD_PrintString(hello);
-    _delay_ms(500);
-    LCD_Clear();
 }
 
 void Display::handle(Message *event) {

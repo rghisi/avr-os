@@ -92,7 +92,13 @@ add_executable(${PROJECT_NAME}
         src/lcd/DisableCursor.cpp src/lcd/DisableCursor.h
         src/tasks/TemperatureControlCommand.cpp src/tasks/TemperatureControlCommand.h
         src/system/SubscriberRegistry.h
-        src/system/SubscriberRegistry.cpp src/system/SubscriberRegistry.h src/app/TimedMultiTrayDrying.cpp src/app/TimedMultiTrayDrying.h src/time/Timer.cpp src/time/Timer.h src/time/TimerState.cpp src/time/TimerState.h src/system/Math.cpp src/system/Math.h src/tasks/TemperatureControlStatus.cpp src/tasks/TemperatureControlStatus.h src/comms/Serial.cpp src/comms/Serial.h src/comms/SerialPacket.cpp src/comms/SerialPacket.h src/services/SerialReporter.cpp src/services/SerialReporter.h src/tasks/MemoryReport.cpp src/tasks/MemoryReport.h src/services/buzzer/Buzzer.cpp src/services/buzzer/Buzzer.h src/services/buzzer/BuzzerCommand.cpp src/services/buzzer/BuzzerCommand.h src/services/Fan/Fan.cpp src/services/Fan/Fan.h src/services/Fan/FanCommand.cpp src/services/Fan/FanCommand.h)
+        src/system/SubscriberRegistry.cpp src/system/SubscriberRegistry.h
+        src/app/TimedMultiTrayDrying.cpp src/app/TimedMultiTrayDrying.h
+        src/time/Timer.cpp src/time/Timer.h
+        src/time/TimerState.cpp src/time/TimerState.h
+        src/system/Math.cpp src/system/Math.h
+        src/tasks/TemperatureControlStatus.cpp
+        src/tasks/TemperatureControlStatus.h src/comms/Serial.cpp src/comms/Serial.h src/comms/SerialPacket.cpp src/comms/SerialPacket.h src/services/SerialReporter.cpp src/services/SerialReporter.h src/tasks/MemoryReport.cpp src/tasks/MemoryReport.h src/services/buzzer/Buzzer.cpp src/services/buzzer/Buzzer.h src/services/buzzer/BuzzerCommand.cpp src/services/buzzer/BuzzerCommand.h src/services/Fan/Fan.cpp src/services/Fan/Fan.h src/services/Fan/FanCommand.cpp src/services/Fan/FanCommand.h src/pid/PID2.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH
@@ -102,6 +108,6 @@ add_custom_target(FLASH
 
 #32u4
 #add_custom_target(FLASH
-#        ${AVR_DUDE_EXECUTABLE} -p ${TARGET_CPU} -cavr109 -b57600 -P ${AVR_DUDE_PORT} ${FLASH_VERBOSE_FLAG} -F -D -U flash:w:${PROJECT_BINARY_DIR}/${PROJECT_NAME}:a
+#        ${AVR_DUDE_EXECUTABLE} -p ${TARGET_CPU} -cavr109 -b57600 -Kp ${AVR_DUDE_PORT} ${FLASH_VERBOSE_FLAG} -F -D -U flash:w:${PROJECT_BINARY_DIR}/${PROJECT_NAME}:a
 #        DEPENDS ${PROJECT_NAME}
 #        COMMENT "Flash to ${TARGET_CPU}")

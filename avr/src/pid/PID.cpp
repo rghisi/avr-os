@@ -37,6 +37,6 @@ int32_t PID::update(int32_t setPoint, int32_t processValue) {
     return ret;
 }
 
-void PID::resetIntegrator() {
+void PID::reset() {
     sumError = 0;
 }

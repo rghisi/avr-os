@@ -21,7 +21,7 @@ void TemperatureControl::run() {
         dimmer->enable();
     } else {
         dimmer->disable();
-        pid.resetIntegrator();
+        pid.reset();
     }
     messaging->send(new TemperatureControlStatus(enabled, dimmer->getPosition()));
 }
@@ -53,5 +53,5 @@ void TemperatureControl::handle(ClimateReport *climateReport) {
 
 void TemperatureControl::handle(TemperatureControlCommand *climateControl) {
     enabled = climateControl->enabled;
-    temperatureSetPoint = climateControl->temperature * 100;
+    temperatureSetPoint = (climateControl->temperature * 100) + 50;
 }

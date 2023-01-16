@@ -13,6 +13,7 @@
 #include "../sensors/ClimateReport.h"
 #include "TemperatureControlCommand.h"
 #include "../system/Messaging.h"
+#include "../pid/PID2.h"
 
 class TemperatureControl: public Task, public Subscriber {
 public:
@@ -27,7 +28,11 @@ private:
     int32_t currentTemperature = 0;
     Messaging *messaging;
     Dimmer *dimmer;
-    PID pid = PID(5120, 128, 10240, 0, Dimmer::MAX_DELAY, 14000, 5000);
+    //2000 25 5000 - best best
+    static constexpr int32_t Kp = 2000;
+    static constexpr int32_t Ki = 25;
+    static constexpr int32_t Kd = 5000;
+    PID2<Kp, Ki, Kd, 0, Dimmer::MAX_DELAY> pid = PID2<Kp, Ki, Kd, 0, Dimmer::MAX_DELAY>();
     bool enabled;
     void handle(ClimateReport *climateReport);
     void handle(TemperatureControlCommand *climateControl);
