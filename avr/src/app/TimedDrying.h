@@ -45,7 +45,7 @@ private:
     int8_t minutes;
     int8_t setSeconds = 0;
     int8_t setMinutes = 30;
-    int8_t setTemperature = 40;
+    int8_t setTemperature = 50;
     void startStop();
     void finish();
     void start();

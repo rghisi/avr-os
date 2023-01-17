@@ -46,8 +46,8 @@ private:
     Selection selection = Selection::NONE;
     bool tickTock = true;
     bool isRunning = false;
-    int8_t setMinutes = 15;
-    int8_t setTemperature = 40;
+    int8_t setMinutes = 10;
+    int8_t setTemperature = 50;
     std::array<int8_t, 4> seconds = std::array<int8_t, NUMBER_OF_TRAYS>();
     std::array<int8_t, 4> minutes = std::array<int8_t, NUMBER_OF_TRAYS>();
     void updateTimers();

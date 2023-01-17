@@ -16,7 +16,6 @@
 TimedDrying::TimedDrying(Messaging *messageDispatcher, Timer *timer) {
     this->messaging = messageDispatcher;
     this->timer = timer;
-    setTemperature = 40;
     seconds = setSeconds;
     minutes = setMinutes;
 }
