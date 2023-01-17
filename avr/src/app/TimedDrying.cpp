@@ -2,6 +2,7 @@
 // Created by ghisi on 12/30/22.
 //
 
+#include <avr/pgmspace.h>
 #include "cstdio"
 #include "algorithm"
 #include "../system/Math.h"
@@ -98,7 +99,7 @@ void TimedDrying::handleClimateReport(ClimateReport *climateReport) {
     string[7] = 0x00;
     uint8_t temperature = Math::divBy10(Math::divBy10(climateReport->temperatureCelsius));
     uint8_t humidity = climateReport->relativeHumidity >> 10;
-    sprintf(string, "%02uC %02u%%", temperature, humidity);
+    sprintf_P(string, PSTR("%02uC %02u%%"), temperature, humidity);
     messaging->send(new DrawText(CLIMATE_X_POSITION, CURRENT_VALUES_Y_POSITION, string));
 }
 
@@ -106,9 +107,9 @@ void TimedDrying::handleTemperatureControlStatus(TemperatureControlStatus *tempe
     auto string = new char[7];
     string[6] = 0x00;
     if (temperatureControlStatus->enabled) {
-        sprintf(string, "P%05u", temperatureControlStatus->position);
+        sprintf_P(string, PSTR("P%05u"), temperatureControlStatus->position);
     } else {
-        sprintf(string, "Desl. ");
+        sprintf_P(string, PSTR("Desl. "));
     }
     messaging->send(new DrawText(4, SET_POINT_Y_POSITION, string));
 }
@@ -152,13 +153,13 @@ void TimedDrying::renderCountdown() {
     countdownAsString[6] = 0;
     switch (countdownState) {
         case State::STOPPED:
-            sprintf(countdownAsString, "Parado");
+            sprintf_P(countdownAsString, PSTR("Parado"));
             break;
         case State::RUNNING:
-            sprintf(countdownAsString, " %02i:%02i", minutes, seconds);
+            sprintf_P(countdownAsString, PSTR(" %02i:%02i"), minutes, seconds);
             break;
         case State::FINISHED:
-            sprintf(countdownAsString, "Pronto");
+            sprintf_P(countdownAsString, PSTR("Pronto"));
     }
     messaging->send(new DrawText(RUNNING_TIMER_X_POSITION, CURRENT_VALUES_Y_POSITION, countdownAsString));
 }
@@ -166,7 +167,7 @@ void TimedDrying::renderCountdown() {
 void TimedDrying::renderSetTimer() {
     auto setTimerAsString = new char[6];
     setTimerAsString[5] = 0x00;
-    sprintf(setTimerAsString, "%02i:%02i ", setMinutes, setSeconds);
+    sprintf_P(setTimerAsString, PSTR("%02i:%02i "), setMinutes, setSeconds);
     messaging->send(new DrawText(TIMER_X_POSITION, SET_POINT_Y_POSITION, setTimerAsString));
 }
 
@@ -181,7 +182,7 @@ void TimedDrying::renderCursor() {
 void TimedDrying::renderSetClimate() {
     auto string = new char[4];
     string[3] = 0x00;
-    sprintf(string, "%02iC", setTemperature);
+    sprintf_P(string, PSTR("%02iC"), setTemperature);
     messaging->send(new DrawText(CLIMATE_X_POSITION, SET_POINT_Y_POSITION, string));
 }
 
