@@ -6,24 +6,26 @@
 #include "EventLoop.h"
 #include "../collections/BlockingQueue.cpp"
 #include "HandlerMultiplexer.h"
+#include "CpuStats.h"
 
-EventLoop::EventLoop(SubscriberRegistry *subscriberRegistry) {
+EventLoop::EventLoop(SubscriberRegistry *subscriberRegistry, WallClock *wallClock) {
     this->subscriberRegistry = subscriberRegistry;
+    this->wallClock = wallClock;
 }
 
-bool EventLoop::process() {
+void EventLoop::process() {
     if (!events.empty()) {
         auto event = events.front();
         events.pop_front();
         auto *subscriber = subscriberRegistry->get(event->type());
         if (subscriber != nullptr) {
+            auto userTimeStart = wallClock->now();
             subscriber->handle(event);
+            CpuStats::eventLoopUserTime += wallClock->now() - userTimeStart;
         }
         delete event;
-        return true;
     }
 
-    return false;
 }
 
 bool EventLoop::push(Message* event) {

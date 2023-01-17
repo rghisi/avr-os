@@ -12,16 +12,18 @@
 #include "list"
 #include "any"
 #include "SubscriberRegistry.h"
+#include "WallClock.h"
 
 class EventLoop {
 public:
-    EventLoop(SubscriberRegistry *subscriberRegistry);
-    bool process();
+    EventLoop(SubscriberRegistry *subscriberRegistry, WallClock *wallClock);
+    void process();
     bool push(Message* event);
 private:
     static const uint8_t BUFFER_SIZE = 10;
     std::list<Message*> events;
     SubscriberRegistry *subscriberRegistry;
+    WallClock *wallClock;
 };
 
 
