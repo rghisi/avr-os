@@ -18,6 +18,14 @@ public:
     virtual void run() = 0;
     virtual uint32_t delay() = 0;
     virtual Type type() = 0;
+    uint32_t nextExecution = 0;
+    bool operator<(const Task &rhs) const {
+        return nextExecution < rhs.nextExecution;
+    }
+
+    bool operator<=(const Task &rhs) const {
+        return !(rhs < *this);
+    }
 };
 
 
