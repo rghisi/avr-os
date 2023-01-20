@@ -47,8 +47,8 @@ void SerialReporter::handle(Message *event) {
 }
 
 void SerialReporter::run() {
-    auto stringBuffer = new char[25];
-    for (uint8_t i = 0; i < 25; i++) {
+    auto stringBuffer = new char[33];
+    for (uint8_t i = 0; i < 33; i++) {
         stringBuffer[i] = 0;
     }
     sprintf_P(stringBuffer, PSTR("%u\t%u\t%u\t%li\t%lu\t%u\t%u\n"), schedulerUserTime, eventLoopUserTime, freeMemory, temperature, humidity, tcEnabled, tcPosition);

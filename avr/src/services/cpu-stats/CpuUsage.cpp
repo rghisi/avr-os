@@ -22,6 +22,8 @@ void CpuUsage::run() {
             CpuStats::eventLoopUserTime
         )
     );
+    CpuStats::schedulerUserTime = 0;
+    CpuStats::eventLoopUserTime = 0;
 }
 
 Task::Type CpuUsage::type() {
