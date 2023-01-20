@@ -13,6 +13,7 @@
 #include "any"
 #include "SubscriberRegistry.h"
 #include "WallClock.h"
+#include "../collections/BlockingQueue.h"
 
 class EventLoop {
 public:
@@ -20,8 +21,8 @@ public:
     void process();
     bool push(Message* event);
 private:
-    static const uint8_t BUFFER_SIZE = 10;
-    std::list<Message*> events;
+    static constexpr uint8_t BUFFER_SIZE = 10;
+    BlockingQueue<Message*, BUFFER_SIZE> events;
     SubscriberRegistry *subscriberRegistry;
     WallClock *wallClock;
 };
