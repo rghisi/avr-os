@@ -27,7 +27,7 @@ void TaskScheduler::process() {
 
 void TaskScheduler::schedule(Task *task) {
     auto delay = scheduleSeed++;
-    if (task->type() != Task::Type::WAIT) {
+    if (task->type() == Task::Type::WAIT) {
         delay = task->delay();
     }
     task->nextExecution = wallClock->now() + delay;
