@@ -16,7 +16,7 @@ class TaskScheduler {
 public:
     explicit TaskScheduler(WallClock *wallClock);
     void schedule(Task *task);
-    bool process();
+    void process();
 private:
     uint8_t scheduleSeed = 10;
     WallClock *wallClock;

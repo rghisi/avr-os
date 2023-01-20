@@ -10,14 +10,8 @@
 
 class CpuStats {
 public:
-    void start(uint32_t startTimestamp);
-    void end(uint32_t endTimestamp, bool usedNotIdle);
-    uint8_t idlePercent();
-    uint32_t usedTime = 0;
-    uint32_t idleTime = 0;
-private:
-    uint32_t startTimestamp;
-    uint16_t s = 0;
+    static uint16_t schedulerUserTime;
+    static uint16_t eventLoopUserTime;
 };
 
 

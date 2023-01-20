@@ -2,6 +2,7 @@
 // Created by ghisi on 12/30/22.
 //
 
+#include <avr/pgmspace.h>
 #include "cstdio"
 #include "algorithm"
 #include "../system/Math.h"
@@ -16,9 +17,6 @@
 TimedDrying::TimedDrying(Messaging *messageDispatcher, Timer *timer) {
     this->messaging = messageDispatcher;
     this->timer = timer;
-    setMinutes = 15;
-    setSeconds = 0;
-    setTemperature = 40;
     seconds = setSeconds;
     minutes = setMinutes;
 }
@@ -101,7 +99,7 @@ void TimedDrying::handleClimateReport(ClimateReport *climateReport) {
     string[7] = 0x00;
     uint8_t temperature = Math::divBy10(Math::divBy10(climateReport->temperatureCelsius));
     uint8_t humidity = climateReport->relativeHumidity >> 10;
-    sprintf(string, "%02" PRIu8 "C %02" PRIu8 "%%", temperature, humidity);
+    sprintf_P(string, PSTR("%02uC %02u%%"), temperature, humidity);
     messaging->send(new DrawText(CLIMATE_X_POSITION, CURRENT_VALUES_Y_POSITION, string));
 }
 
@@ -109,9 +107,9 @@ void TimedDrying::handleTemperatureControlStatus(TemperatureControlStatus *tempe
     auto string = new char[7];
     string[6] = 0x00;
     if (temperatureControlStatus->enabled) {
-        sprintf(string, "P%05u", temperatureControlStatus->position);
+        sprintf_P(string, PSTR("P%05u"), temperatureControlStatus->position);
     } else {
-        sprintf(string, "Desl. ");
+        sprintf_P(string, PSTR("Desl. "));
     }
     messaging->send(new DrawText(4, SET_POINT_Y_POSITION, string));
 }
@@ -155,21 +153,21 @@ void TimedDrying::renderCountdown() {
     countdownAsString[6] = 0;
     switch (countdownState) {
         case State::STOPPED:
-            sprintf(countdownAsString, "Parado");
+            sprintf_P(countdownAsString, PSTR("Parado"));
             break;
         case State::RUNNING:
-            sprintf(countdownAsString, "%02i:%02i ", minutes, seconds);
+            sprintf_P(countdownAsString, PSTR(" %02i:%02i"), minutes, seconds);
             break;
         case State::FINISHED:
-            sprintf(countdownAsString, "Pronto");
+            sprintf_P(countdownAsString, PSTR("Pronto"));
     }
-    messaging->send(new DrawText(TIMER_X_POSITION, CURRENT_VALUES_Y_POSITION, countdownAsString));
+    messaging->send(new DrawText(RUNNING_TIMER_X_POSITION, CURRENT_VALUES_Y_POSITION, countdownAsString));
 }
 
 void TimedDrying::renderSetTimer() {
-    auto setTimerAsString = new char[7];
-    setTimerAsString[6] = 0x00;
-    sprintf(setTimerAsString, "%02" PRIi8 ":%02i ", setMinutes, setSeconds);
+    auto setTimerAsString = new char[6];
+    setTimerAsString[5] = 0x00;
+    sprintf_P(setTimerAsString, PSTR("%02i:%02i "), setMinutes, setSeconds);
     messaging->send(new DrawText(TIMER_X_POSITION, SET_POINT_Y_POSITION, setTimerAsString));
 }
 
@@ -182,9 +180,9 @@ void TimedDrying::renderCursor() {
 }
 
 void TimedDrying::renderSetClimate() {
-    auto string = new char[7];
-    string[6] = 0x00;
-    sprintf(string, "%02iC", setTemperature);
+    auto string = new char[4];
+    string[3] = 0x00;
+    sprintf_P(string, PSTR("%02iC"), setTemperature);
     messaging->send(new DrawText(CLIMATE_X_POSITION, SET_POINT_Y_POSITION, string));
 }
 
@@ -239,7 +237,7 @@ void TimedDrying::stop() {
     countdownState = State::STOPPED;
     timer->stop();
     messaging->send(new TemperatureControlCommand(false, setTemperature, 0));
-    messaging->send(new FanCommand(0));
+    messaging->send(new FanCommand(FanCommand::OFF));
     renderCountdown();
     renderStatus();
 }
@@ -247,6 +245,8 @@ void TimedDrying::stop() {
 void TimedDrying::start() {
     runningState = Application::RunningState::RUNNING;
     countdownState = State::RUNNING;
+    minutes = setMinutes;
+    seconds = setSeconds;
     timer->start(setMinutes, setSeconds);
     messaging->send(new TemperatureControlCommand(true, setTemperature, 0));
     messaging->send(new FanCommand(fanPower));
@@ -258,14 +258,19 @@ void TimedDrying::finish() {
     runningState = Application::RunningState::FOREGROUND;
     countdownState = State::FINISHED;
     messaging->send(new TemperatureControlCommand(false, setTemperature, 0));
-    messaging->send(new FanCommand(0));
+    messaging->send(new FanCommand(FanCommand::OFF));
     renderCountdown();
     renderStatus();
-    messaging->send(new BuzzerCommand(130));
+    messaging->send(new BuzzerCommand(150));
 }
 
 char *TimedDrying::title() {
-    return new char[] {'T', 'e', 'm', 'p', 'o', 'r', 'i','z','a','d','o','r', 0x00};
+    return new char[] {
+        'T', 'e', 'm', 'p',
+        'o', 'r', 'i','z',
+        'a','d','o','r',
+        0x00
+    };
 }
 
 void TimedDrying::renderStatus() {

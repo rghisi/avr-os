@@ -2,6 +2,7 @@
 // Created by ghisi on 12.12.22.
 //
 
+#include <avr/pgmspace.h>
 #include "Test.h"
 #include "../input/UserInput.h"
 #include "cstdio"
@@ -50,7 +51,7 @@ void Test::minus() {
 
 void Test::renderUI() {
     auto *s = new char[4];
-    sprintf(s, "%03u", dial);
+    sprintf_P(s, PSTR("%03u"), dial);
     messaging->send(new DrawText(11, 0, s));
 }
 
@@ -64,5 +65,10 @@ void Test::toBackground() {
 }
 
 char *Test::title() {
-    return new char[] {'T', 'e', 's', 't', 0x00};
+    return new char[] {
+        'M', 'a',
+        'n', 'u',
+        'a', 'l',
+        0x00
+    };
 }

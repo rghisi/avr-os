@@ -8,6 +8,7 @@
 
 #include "../system/Task.h"
 #include "../system/WallClock.h"
+#include "../system/Messaging.h"
 
 class TimeTicker: public Task {
 public:

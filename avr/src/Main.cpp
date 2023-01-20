@@ -26,6 +26,7 @@
 #include "services/buzzer/Buzzer.h"
 #include "services/buzzer/BuzzerCommand.h"
 #include "services/Fan/Fan.h"
+#include "services/cpu-stats/CpuUsage.h"
 
 void * operator new(size_t size)
 {
@@ -68,13 +69,14 @@ auto atmega = ATMega328P();
 auto wallClock = WallClock();
 auto taskScheduler = TaskScheduler(&wallClock);
 auto subscriberRegistry = SubscriberRegistry();
-auto eventLoop = EventLoop(&subscriberRegistry);
+auto eventLoop = EventLoop(&subscriberRegistry, &wallClock);
 auto messaging = Messaging(&eventLoop);
 auto timer = Timer(&messaging, &wallClock);
 auto asyncExecutor = AsyncExecutor(&taskScheduler, &messaging);
 auto serial = Serial(&atmega);
 auto display = Display();
 auto periodicMemoryReport = PeriodicMemoryReport(&messaging);
+auto cpuUsage = CpuUsage(&messaging);
 auto keyPad = KeyPad(&messaging);
 auto dial = Dial(&messaging);
 auto serialReporter = SerialReporter(&messaging);
@@ -128,7 +130,9 @@ int main(void) {
     subscriberRegistry.subscribe(&serialReporter, CLIMATE_REPORT);
     subscriberRegistry.subscribe(&serialReporter, TEMPERATURE_CONTROL_STATUS);
     subscriberRegistry.subscribe(&serialReporter, MEMORY_REPORT);
+    subscriberRegistry.subscribe(&serialReporter, CPU_REPORT);
 
+    taskScheduler.schedule(&cpuUsage);
     taskScheduler.schedule(&periodicMemoryReport);
     taskScheduler.schedule(&keyPad);
     taskScheduler.schedule(&dial);

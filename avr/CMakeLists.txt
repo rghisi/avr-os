@@ -51,7 +51,7 @@ add_executable(${PROJECT_NAME}
         src/system/TaskScheduler.cpp src/system/TaskScheduler.h
         src/system/Task.h
 #        src/tasks/PeriodicPing.cpp src/tasks/PeriodicPing.h
-        src/tasks/PeriodicCpuUsageReport.cpp src/tasks/PeriodicCpuUsageReport.h
+        src/services/cpu-stats/CpuUsage.cpp src/services/cpu-stats/CpuUsage.h
         src/system/CpuStats.cpp src/system/CpuStats.h
         src/lcd/Display.cpp src/lcd/Display.h
         src/lcd/one/HD44780.h src/lcd/one/HD44780.c src/lcd/one/HD44780_Settings.h src/lcd/one/IO_Macros.h
@@ -98,13 +98,20 @@ add_executable(${PROJECT_NAME}
         src/time/TimerState.cpp src/time/TimerState.h
         src/system/Math.cpp src/system/Math.h
         src/tasks/TemperatureControlStatus.cpp
-        src/tasks/TemperatureControlStatus.h src/comms/Serial.cpp src/comms/Serial.h src/comms/SerialPacket.cpp src/comms/SerialPacket.h src/services/SerialReporter.cpp src/services/SerialReporter.h src/tasks/MemoryReport.cpp src/tasks/MemoryReport.h src/services/buzzer/Buzzer.cpp src/services/buzzer/Buzzer.h src/services/buzzer/BuzzerCommand.cpp src/services/buzzer/BuzzerCommand.h src/services/Fan/Fan.cpp src/services/Fan/Fan.h src/services/Fan/FanCommand.cpp src/services/Fan/FanCommand.h src/pid/PID2.h)
+        src/tasks/TemperatureControlStatus.h src/comms/Serial.cpp src/comms/Serial.h src/comms/SerialPacket.cpp src/comms/SerialPacket.h src/services/SerialReporter.cpp src/services/SerialReporter.h src/tasks/MemoryReport.cpp src/tasks/MemoryReport.h src/services/buzzer/Buzzer.cpp src/services/buzzer/Buzzer.h src/services/buzzer/BuzzerCommand.cpp src/services/buzzer/BuzzerCommand.h src/services/Fan/Fan.cpp src/services/Fan/Fan.h src/services/Fan/FanCommand.cpp src/services/Fan/FanCommand.h src/pid/PID2.h src/services/cpu-stats/CpuUsageReport.cpp src/services/cpu-stats/CpuUsageReport.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH
         ${AVR_DUDE_EXECUTABLE} -p ${TARGET_CPU} -carduino -b57600 -P ${AVR_DUDE_PORT} ${FLASH_VERBOSE_FLAG} -F -D -U flash:w:${PROJECT_BINARY_DIR}/${PROJECT_NAME}:a
         DEPENDS ${PROJECT_NAME}
         COMMENT "Flash to ${TARGET_CPU}")
+
+add_custom_command(
+        POST_BUILD
+        TARGET ${PROJECT_NAME}
+        COMMAND avr-size -B ${PROJECT_BINARY_DIR}/${PROJECT_NAME}
+        COMMENT "Size:"
+)
 
 #32u4
 #add_custom_target(FLASH
