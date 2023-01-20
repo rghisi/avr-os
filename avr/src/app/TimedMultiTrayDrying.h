@@ -38,14 +38,16 @@ private:
     static constexpr uint8_t TRAY_B_CURSOR_X = 4;
     static constexpr uint8_t TRAY_C_CURSOR_X = 8;
     static constexpr uint8_t TRAY_D_CURSOR_X = 12;
+    static constexpr uint8_t fanPower = 180;
     enum Selection: int8_t {
         NONE = 0, MINUTES, TEMPERATURE, TRAY_A, TRAY_B, TRAY_C, TRAY_D, MAX
     };
     Messaging *messaging;
     Selection selection = Selection::NONE;
     bool tickTock = true;
-    int8_t setMinutes = 15;
-    int8_t setTemperature = 20;
+    bool isRunning = false;
+    int8_t setMinutes = 10;
+    int8_t setTemperature = 50;
     std::array<int8_t, 4> seconds = std::array<int8_t, NUMBER_OF_TRAYS>();
     std::array<int8_t, 4> minutes = std::array<int8_t, NUMBER_OF_TRAYS>();
     void updateTimers();
@@ -59,9 +61,7 @@ private:
     void renderSetPoints();
     void renderTimers();
     void startSelectedTrayTimer();
-
     void renderTickTock();
-
     void stopDrying();
 };
 

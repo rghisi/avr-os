@@ -2,6 +2,7 @@
 // Created by ghisi on 1/9/23.
 //
 
+#include <avr/pgmspace.h>
 #include "SerialReporter.h"
 #include "cstdio"
 #include "../sensors/ClimateReport.h"
@@ -50,7 +51,7 @@ void SerialReporter::run() {
     for (uint8_t i = 0; i < 25; i++) {
         stringBuffer[i] = 0;
     }
-    sprintf(stringBuffer, "%u\t%u\t%u\t%li\t%lu\t%u\t%u\n", schedulerUserTime, eventLoopUserTime, freeMemory, temperature, humidity, tcEnabled, tcPosition);
+    sprintf_P(stringBuffer, PSTR("%u\t%u\t%u\t%li\t%lu\t%u\t%u\n"), schedulerUserTime, eventLoopUserTime, freeMemory, temperature, humidity, tcEnabled, tcPosition);
     messaging->send(new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer)));
 }
 

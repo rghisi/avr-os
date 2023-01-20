@@ -106,6 +106,13 @@ add_custom_target(FLASH
         DEPENDS ${PROJECT_NAME}
         COMMENT "Flash to ${TARGET_CPU}")
 
+add_custom_command(
+        POST_BUILD
+        TARGET ${PROJECT_NAME}
+        COMMAND avr-size -B ${PROJECT_BINARY_DIR}/${PROJECT_NAME}
+        COMMENT "Size:"
+)
+
 #32u4
 #add_custom_target(FLASH
 #        ${AVR_DUDE_EXECUTABLE} -p ${TARGET_CPU} -cavr109 -b57600 -Kp ${AVR_DUDE_PORT} ${FLASH_VERBOSE_FLAG} -F -D -U flash:w:${PROJECT_BINARY_DIR}/${PROJECT_NAME}:a
