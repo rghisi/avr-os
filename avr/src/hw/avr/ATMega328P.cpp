@@ -35,7 +35,7 @@ void ATMega328P::setupTimer0() {
     TCCR0A = _BV(WGM01);
     TCCR0B = _BV(CS01) | _BV(CS00);
     TCNT0 = 0;
-    OCR0A = 250;
+    OCR0A = 249;
     TIMSK0 = _BV(OCIE0A);
 }
 
