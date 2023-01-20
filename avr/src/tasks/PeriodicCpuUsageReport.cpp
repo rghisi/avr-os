@@ -3,6 +3,7 @@
 //
 
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 #include "PeriodicCpuUsageReport.h"
 #include "../networking/Packet.h"
 #include "../lcd/DrawText.h"
@@ -20,7 +21,7 @@ uint32_t PeriodicCpuUsageReport::delay() {
 
 void PeriodicCpuUsageReport::run() {
     auto s = new char[4];
-    sprintf(s, "%" PRIu8, cpuStats->idlePercent());
+    sprintf_P(s, PSTR("%" PRIu8), cpuStats->idlePercent());
     auto event = new DrawText(13, 0, s);
     eventDispatcher->send(event);
 }

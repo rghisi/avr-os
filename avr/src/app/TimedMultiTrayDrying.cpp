@@ -2,6 +2,7 @@
 // Created by ghisi on 1/2/23.
 //
 
+#include <avr/pgmspace.h>
 #include "cstdio"
 #include "TimedMultiTrayDrying.h"
 #include "../system/Math.h"
@@ -9,7 +10,6 @@
 #include "../lcd/EnableCursor.h"
 #include "../lcd/DisableCursor.h"
 #include "../tasks/TemperatureControlCommand.h"
-#include "../tasks/TemperatureControlStatus.h"
 #include "../services/Fan/FanCommand.h"
 #include "../services/buzzer/BuzzerCommand.h"
 
@@ -108,7 +108,7 @@ void TimedMultiTrayDrying::handleClimateReport(ClimateReport *climateReport) {
     auto firstLine = new char[8];
     firstLine[7] = 0;
     uint8_t temperature = Math::divBy10(Math::divBy10(climateReport->temperatureCelsius));
-    sprintf(firstLine, "%02uC %02u%%", temperature, climateReport->relativeHumidity >> 10);
+    sprintf_P(firstLine, PSTR("%02uC %02u%%"), temperature, climateReport->relativeHumidity >> 10);
     messaging->send(new DrawText(TEMPERATURE_X, FIRST_LINE, firstLine));
 }
 
@@ -198,7 +198,7 @@ void TimedMultiTrayDrying::renderCursor() {
 void TimedMultiTrayDrying::renderSetPoints() {
     auto firstLine = new char[8];
     firstLine[7] = 0x00;
-    sprintf(firstLine, "%02im %02iC", setMinutes, setTemperature);
+    sprintf_P(firstLine, PSTR("%02im %02iC"), setMinutes, setTemperature);
     messaging->send(new DrawText(SET_POINTS_X, FIRST_LINE, firstLine));
 }
 
@@ -211,9 +211,9 @@ void TimedMultiTrayDrying::renderTimers() {
             minutes[2] > 0 ? minutes[2] : seconds[2],
             minutes[3] > 0 ? minutes[3] : seconds[3],
     };
-    sprintf(
+    sprintf_P(
             lineTwo,
-            "A%02i B%02i C%02i D%02i",
+            PSTR("A%02i B%02i C%02i D%02i"),
             timers[0], timers[1], timers[2], timers[3]
             );
     messaging->send(new DrawText(TIMERS_X, SECOND_LINE, lineTwo));
