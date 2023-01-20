@@ -18,16 +18,9 @@ public:
     void schedule(Task *task);
     void process();
 private:
-    struct ScheduledTask {
-        uint32_t timeOfExecution;
-        Task *task;
-        ~ScheduledTask();
-        bool operator<(const ScheduledTask &rhs) const;
-        bool operator<=(const ScheduledTask &rhs) const;
-    };
     WallClock *wallClock;
-    PriorityQueue<ScheduledTask*> scheduledTasks;
-    void reschedule(ScheduledTask *scheduledTask);
+    PriorityQueue<Task*> scheduledTasks;
+    void reschedule(Task *task);
 };
 
 

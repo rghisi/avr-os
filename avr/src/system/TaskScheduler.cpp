@@ -14,47 +14,33 @@ TaskScheduler::TaskScheduler(WallClock *wallClock) {
 void TaskScheduler::process() {
     if (!scheduledTasks.isEmpty()) {
         uint32_t now = wallClock->now();
-        auto *scheduledTask = scheduledTasks.peek();
-        if (scheduledTask->timeOfExecution <= now) {
+        auto *task = scheduledTasks.peek();
+        if (task->nextExecution <= now) {
             scheduledTasks.pop();
             uint32_t userTimeStart = wallClock->now();
-            scheduledTask->task->run();
-            reschedule(scheduledTask);
+            task->run();
+            reschedule(task);
             CpuStats::schedulerUserTime += wallClock->now() - userTimeStart;
         }
     }
 }
 
 void TaskScheduler::schedule(Task *task) {
-    uint32_t nextExecution = wallClock->now() + task->delay();
-    auto *scheduledTask = new ScheduledTask{.timeOfExecution = nextExecution, .task = task};
-    scheduledTasks.offer(scheduledTask);
+    task->nextExecution = wallClock->now() + task->delay();
+    scheduledTasks.offer(task);
 }
 
-void TaskScheduler::reschedule(ScheduledTask *scheduledTask) {
-    switch (scheduledTask->task->type()) {
+void TaskScheduler::reschedule(Task *task) {
+    switch (task->type()) {
         case Task::Type::SINGLE:
-            delete scheduledTask;
+            delete task;
             break;
         case Task::Type::WAIT:
-            delete scheduledTask;
+            delete task;
             break;
         case Task::Type::PERIODIC:
-            uint32_t nextExecution = scheduledTask->timeOfExecution + scheduledTask->task->delay();
-            scheduledTask->timeOfExecution = nextExecution;
-            scheduledTasks.offer(scheduledTask);
+            task->nextExecution += task->delay();
+            scheduledTasks.offer(task);
             break;
     }
-}
-
-bool TaskScheduler::ScheduledTask::operator<(const ScheduledTask &rhs) const {
-    return timeOfExecution < rhs.timeOfExecution;
-}
-
-bool TaskScheduler::ScheduledTask::operator<=(const ScheduledTask &rhs) const {
-    return !(rhs < *this);
-}
-
-TaskScheduler::ScheduledTask::~ScheduledTask() {
-    delete task;
 }
