@@ -18,7 +18,6 @@ public:
     void schedule(Task *task);
     void process();
 private:
-    uint8_t scheduleSeed = 10;
     WallClock *wallClock;
     PriorityQueue<Task*> scheduledTasks;
     void reschedule(Task *task);
