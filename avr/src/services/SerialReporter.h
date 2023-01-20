@@ -28,6 +28,8 @@ private:
     bool tcEnabled = false;
     uint16_t tcPosition = 0;
     uint16_t freeMemory = 0;
+    uint16_t schedulerUserTime;
+    uint16_t eventLoopUserTime;
 };
 
 

@@ -10,6 +10,7 @@
 #include "../system/Subscriber.h"
 #include "../system/WallClock.h"
 #include "TimeTick.h"
+#include "../system/Messaging.h"
 
 class Timer: public Subscriber {
 public:

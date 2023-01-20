@@ -5,24 +5,24 @@
 #include <avr/io.h>
 #include "TaskScheduler.h"
 #include "../collections/PriorityQueue.cpp"
+#include "CpuStats.h"
 
 TaskScheduler::TaskScheduler(WallClock *wallClock) {
     this->wallClock = wallClock;
 }
 
-bool TaskScheduler::process() {
+void TaskScheduler::process() {
     if (!scheduledTasks.isEmpty()) {
         uint32_t now = wallClock->now();
         auto *scheduledTask = scheduledTasks.peek();
         if (scheduledTask->timeOfExecution <= now) {
             scheduledTasks.pop();
+            uint32_t userTimeStart = wallClock->now();
             scheduledTask->task->run();
             reschedule(scheduledTask);
-            return true;
+            CpuStats::schedulerUserTime += wallClock->now() - userTimeStart;
         }
     }
-
-    return false;
 }
 
 void TaskScheduler::schedule(Task *task) {

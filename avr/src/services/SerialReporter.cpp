@@ -10,6 +10,7 @@
 #include "../comms/SerialPacket.h"
 #include "cstring"
 #include "../tasks/MemoryReport.h"
+#include "cpu-stats/CpuUsageReport.h"
 
 SerialReporter::SerialReporter(Messaging *messaging) {
     this->messaging = messaging;
@@ -34,17 +35,23 @@ void SerialReporter::handle(Message *event) {
             memoryReport = static_cast<MemoryReport*>(event);
             freeMemory = memoryReport->freeMemory;
             break;
+        case CPU_REPORT:
+            CpuUsageReport *cpuUsageReport;
+            cpuUsageReport = static_cast<CpuUsageReport*>(event);
+            schedulerUserTime = cpuUsageReport->schedulerUserTime;
+            eventLoopUserTime = cpuUsageReport->eventLoopUserTime;
+            break;
         default:
             break;
     }
 }
 
 void SerialReporter::run() {
-    auto stringBuffer = new char[25];
-    for (uint8_t i = 0; i < 25; i++) {
+    auto stringBuffer = new char[33];
+    for (uint8_t i = 0; i < 33; i++) {
         stringBuffer[i] = 0;
     }
-    sprintf_P(stringBuffer, PSTR("%u\t%li\t%lu\t%u\t%u\n"), freeMemory, temperature, humidity, tcEnabled, tcPosition);
+    sprintf_P(stringBuffer, PSTR("%u\t%u\t%u\t%li\t%lu\t%u\t%u\n"), schedulerUserTime, eventLoopUserTime, freeMemory, temperature, humidity, tcEnabled, tcPosition);
     messaging->send(new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer)));
 }
 
