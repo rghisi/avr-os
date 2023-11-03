@@ -104,20 +104,31 @@ TEST(BlockingQueue, ShouldReturnAcceptAndReturnElements_WhenUsedExtensivelly) {
 
     auto queue = BlockingQueue<Dummy*, 2>();
 
+    ASSERT_TRUE(queue.isEmpty());
+
     ASSERT_TRUE(queue.offer(elementOne));
+    ASSERT_FALSE(queue.isEmpty());
     ASSERT_TRUE(queue.offer(elementTwo));
+    ASSERT_FALSE(queue.isEmpty());
+    ASSERT_TRUE(queue.isFull());
     ASSERT_FALSE(queue.offer(elementThree));
+    ASSERT_FALSE(queue.isEmpty());
+    ASSERT_TRUE(queue.isFull());
 
     Dummy* firstPolled = queue.poll();
     ASSERT_EQ(elementOne, firstPolled);
+    ASSERT_FALSE(queue.isEmpty());
 
     ASSERT_TRUE(queue.offer(elementThree));
 
     Dummy* secondPolled = queue.poll();
     ASSERT_EQ(elementTwo, secondPolled);
+    ASSERT_FALSE(queue.isEmpty());
 
     Dummy* thirdPolled = queue.poll();
     ASSERT_EQ(elementThree, thirdPolled);
+    ASSERT_TRUE(queue.isEmpty());
+    ASSERT_FALSE(queue.isFull());
 }
 
 TEST(BlockingQueue, ShouldBeEmpty_WhenQueueHasNoItems) {
@@ -143,7 +154,9 @@ TEST(BlockingQueue, ShouldBeFull_WhenNoMoreElementsAreAccepted) {
 
     ASSERT_FALSE(queue.isFull());
     queue.offer(element);
+    ASSERT_FALSE(queue.isEmpty());
     ASSERT_FALSE(queue.isFull());
     queue.offer(element);
+    ASSERT_FALSE(queue.isEmpty());
     ASSERT_TRUE(queue.isFull());
 }

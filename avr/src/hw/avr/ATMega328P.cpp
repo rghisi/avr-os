@@ -2,7 +2,6 @@
 // Created by ghisi on 09.11.22.
 //
 
-#define BAUD 9600
 #include <avr/interrupt.h>
 #include "ATMega328P.h"
 
@@ -14,7 +13,8 @@ ExternalInterruptHandler *ATMega328P::externalInterruptHandler = nullptr;
 
 ATMega328P::ATMega328P() {
     UCSR0C = (_BV(UCSZ01)) | (_BV(UCSZ00));
-    UBRR0 = 25;
+//    UBRR0 = 25; //38k
+    UBRR0 = 0; //1mbps
     //PD0 = RX
     //PD1 = TX
 }
@@ -175,7 +175,7 @@ void ATMega328P::disableTransmitter() {
 }
 
 void ATMega328P::enableTransmitterAndReadyToSendInterrupt() {
-    UCSR0B |= _BV(TXEN0) | _BV(UDRIE0) | _BV(TXCIE0);
+    UCSR0B |= _BV(TXEN0) | _BV(UDRIE0); //| _BV(TXCIE0);
 }
 
 void USART_TX_vect(void) {

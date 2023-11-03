@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <avr/pgmspace.h>
 #include <util/delay.h>
 #include "../avr-libstdcpp/src/functexcept.cc"
 #include "../avr-libstdcpp/src/list.cc"
@@ -8,49 +9,40 @@
 #include "system/EventLoop.h"
 #include "system/Messaging.h"
 #include "system/WallClock.h"
-#include "lcd/Display.h"
-#include "system/AsyncExecutor.h"
-#include "tasks/PeriodicMemoryReport.h"
-#include "input/KeyPad.h"
-#include "tasks/PeriodicSensorReport.h"
-#include "dimmer/Dimmer.h"
-#include "tasks/TemperatureControl.h"
-#include "input/Dial.h"
-#include "app/Test.h"
-#include "time/TimeTicker.h"
-#include "app/TimedDrying.h"
-#include "app/ApplicationManager.h"
-#include "app/TimedMultiTrayDrying.h"
 #include "comms/Serial.h"
-#include "services/SerialReporter.h"
-#include "services/buzzer/Buzzer.h"
-#include "services/buzzer/BuzzerCommand.h"
-#include "services/Fan/Fan.h"
-#include "services/cpu-stats/CpuUsage.h"
+#include "services/InfiniteTask.h"
+#include "comms/SerialPacket.h"
+#include "cstdio"
+#include "cstring"
+#include "system/OS.h"
+#include "std/Random.h"
+#include "services/PerformanceReporter.h"
+#include "system/MemoryAllocator.h"
+#include "services/PiTask.h"
 
 void * operator new(size_t size)
 {
-    return malloc(size);
+    return OS::memalloc(size);
 }
 
 void operator delete(void * ptr)
 {
-    free(ptr);
+    OS::memfree(ptr);
 }
 
 void * operator new[](size_t size)
 {
-    return malloc(size);
+    return OS::memalloc(size);
 }
 
 void operator delete[](void * ptr)
 {
-    free(ptr);
+    OS::memfree(ptr);
 }
 
 void operator delete(void* ptr, unsigned  int x)
 {
-    free(ptr);
+    OS::memfree(ptr);
 }
 
 __extension__ typedef int __guard __attribute__((mode (__DI__)));
@@ -67,87 +59,55 @@ void __cxa_pure_virtual(void) {};
 
 auto atmega = ATMega328P();
 auto wallClock = WallClock();
-auto taskScheduler = TaskScheduler(&wallClock);
 auto subscriberRegistry = SubscriberRegistry();
 auto eventLoop = EventLoop(&subscriberRegistry, &wallClock);
-auto messaging = Messaging(&eventLoop);
-auto timer = Timer(&messaging, &wallClock);
-auto asyncExecutor = AsyncExecutor(&taskScheduler, &messaging);
+auto taskScheduler = TaskScheduler(&wallClock, &eventLoop);
+auto m = Messaging(&eventLoop);
 auto serial = Serial(&atmega);
-auto display = Display();
-auto periodicMemoryReport = PeriodicMemoryReport(&messaging);
-auto cpuUsage = CpuUsage(&messaging);
-auto keyPad = KeyPad(&messaging);
-auto dial = Dial(&messaging);
-auto serialReporter = SerialReporter(&messaging);
-auto periodicSensorReport = PeriodicSensorReport(&messaging);
-auto dimmer = Dimmer(&atmega, &atmega);
-auto timeTickTask = TimeTicker(&messaging, &wallClock);
-auto temperatureControl = TemperatureControl(&messaging, &dimmer);
-auto buzzer = Buzzer(&messaging);
-auto fan = Fan();
+auto infiniteTaskOne = InfiniteTask(1);
+auto infiniteTaskTwo = InfiniteTask(2);
+//auto infiniteTaskThree = InfiniteTask(3);
+//auto infiniteTaskFour = InfiniteTask(4);
+//auto infiniteTaskFive = InfiniteTask(5);
+//auto piTask = PiTask();
+auto performanceReporter = PerformanceReporter();
+auto ma = MemoryAllocator<256>();
 
-auto timedDrying = TimedDrying(&messaging, &timer);
-auto timedMultiTrayDrying = TimedMultiTrayDrying(&messaging);
-auto test = Test(&messaging, &dimmer);
-auto applicationManager = ApplicationManager(&messaging, {&timedDrying, &timedMultiTrayDrying, &test});
+TaskScheduler *OS::scheduler = &taskScheduler;
+Messaging *OS::messaging = &m;
+MemoryAllocator<256> *OS::memoryAllocator = &ma;
+
+//[[maybe_unused]] extern int __heap_start, __heap_end, *__brkval;
 
 int main(void) {
+    Random::seed(123);
+//    auto a = (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
     atmega.setInterruptHandler(&serial);
     atmega.enableTransmitterAndReadyToSendInterrupt();
     atmega.setupTimer0();
     atmega.setTimer0InterruptHandler(&wallClock);
-    atmega.setupTimer1();
-    atmega.setTimer1CompareMatchAInterruptHandler(&dimmer);
+    auto a = new uint8_t[10]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    auto b = new uint8_t[7]{11, 12, 13, 14, 15, 16, 17};
+//    atmega.setupTimer1();
     atmega.setupExternalInterrupt();
-    atmega.setExternalInterruptHandler(&dimmer);
     atmega.enableInterrupts();
-
-    keyPad.setup();
-    dial.setup();
-    buzzer.setup();
-    fan.setup();
-
-    subscriberRegistry.subscribe(&fan, FAN_COMMAND);
-    subscriberRegistry.subscribe(&buzzer, BUZZER);
+//
     subscriberRegistry.subscribe(&serial, SERIAL_SEND);
-    subscriberRegistry.subscribe(&timer, TIME_TICK);
-    subscriberRegistry.subscribe(&asyncExecutor, ASYNC_SCHEDULED);
-    subscriberRegistry.subscribe(&asyncExecutor, ASYNC_CHAIN_SCHEDULED);
-    subscriberRegistry.subscribe(&display, DISPLAY_COMMAND);
-    subscriberRegistry.subscribe(&applicationManager, USER_INPUT);
-    subscriberRegistry.subscribe(&timedDrying, TIMER_STATE);
-    subscriberRegistry.subscribe(&timedDrying, USER_INPUT);
-    subscriberRegistry.subscribe(&timedDrying, CLIMATE_REPORT);
-    subscriberRegistry.subscribe(&timedDrying, TEMPERATURE_CONTROL_STATUS);
-    subscriberRegistry.subscribe(&timedMultiTrayDrying, TIME_TICK);
-    subscriberRegistry.subscribe(&timedMultiTrayDrying, USER_INPUT);
-    subscriberRegistry.subscribe(&timedMultiTrayDrying, CLIMATE_REPORT);
-    subscriberRegistry.subscribe(&timedMultiTrayDrying, TEMPERATURE_CONTROL_STATUS);
-    subscriberRegistry.subscribe(&temperatureControl, CLIMATE_REPORT);
-    subscriberRegistry.subscribe(&temperatureControl, TEMPERATURE_CONTROL_COMMAND);
-    subscriberRegistry.subscribe(&test, USER_INPUT);
-    subscriberRegistry.subscribe(&serialReporter, CLIMATE_REPORT);
-    subscriberRegistry.subscribe(&serialReporter, TEMPERATURE_CONTROL_STATUS);
-    subscriberRegistry.subscribe(&serialReporter, MEMORY_REPORT);
-    subscriberRegistry.subscribe(&serialReporter, CPU_REPORT);
-
-    taskScheduler.schedule(&cpuUsage);
-    taskScheduler.schedule(&periodicMemoryReport);
-    taskScheduler.schedule(&keyPad);
-    taskScheduler.schedule(&dial);
-    taskScheduler.schedule(&periodicSensorReport);
-    taskScheduler.schedule(&timeTickTask);
-    taskScheduler.schedule(&temperatureControl);
-    taskScheduler.schedule(&serialReporter);
-
-    applicationManager.start();
-    messaging.send(new BuzzerCommand(70));
-
-    while (true) {
-        taskScheduler.process();
-        eventLoop.process();
-    }
+//
+    auto stringBuffer = new char[24];
+    sprintf_P(stringBuffer, PSTR("-- Starting --\n\n"));
+    auto *event = new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer));
+    OS::send(event);
+//
+//
+    taskScheduler.schedule(&infiniteTaskOne);
+    taskScheduler.schedule(&infiniteTaskTwo);
+//    taskScheduler.schedule(&infiniteTaskThree);
+//    taskScheduler.schedule(&infiniteTaskFour);
+//    taskScheduler.schedule(&piTask);
+//    taskScheduler.schedule(&infiniteTaskThree);
+    taskScheduler.schedule(&performanceReporter);
+    OS::run();
 
     return 0;
 }

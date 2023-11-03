@@ -10,16 +10,17 @@
 #include "Messaging.h"
 #include "Task.h"
 #include "WallClock.h"
-#include "../collections/PriorityQueue.h"
+#include "../collections/StaticPriorityQueue.h"
 
 class TaskScheduler {
 public:
-    explicit TaskScheduler(WallClock *wallClock);
+    explicit TaskScheduler(WallClock *wallClock, EventLoop *pLoop);
+    void run();
     void schedule(Task *task);
-    void process();
 private:
     WallClock *wallClock;
-    PriorityQueue<Task*> scheduledTasks;
+    EventLoop *eventLoop;
+    StaticPriorityQueue<Task*, 6> scheduledTasks;
     void reschedule(Task *task);
 };
 

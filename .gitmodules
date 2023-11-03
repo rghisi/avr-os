@@ -1,0 +1,6 @@
+[submodule "avr/avr-libstdcpp"]
+	path = avr/avr-libstdcpp
+	url = https://github.com/modm-io/avr-libstdcpp
+[submodule "avr/avr-context"]
+	path = avr/avr-context
+	url = https://github.com/arbv/avr-context.git

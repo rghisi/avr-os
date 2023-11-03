@@ -11,9 +11,9 @@
 * LCD_D5	D, 6
 * LCD_D6	D, 5
 * LCD_D7	D, 4
-* LCD_RS	B, 5
-* LCD_RW   B, 4
-* LCD_EN	B, 0
+* LCD_RS	BLOCK_SIZE_BYTES, 5
+* LCD_RW   BLOCK_SIZE_BYTES, 4
+* LCD_EN	BLOCK_SIZE_BYTES, 0
 
 ### BME / I2C
 * PC4
@@ -32,7 +32,7 @@
 
 ### Triac Trigger
 * PB1 (Timer1 A)
-* PB2 (Timer1 B)
+* PB2 (Timer1 BLOCK_SIZE_BYTES)
 
 ### Fan
 * PD3 (PWM)

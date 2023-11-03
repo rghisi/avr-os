@@ -15,11 +15,13 @@ EventLoop::EventLoop(SubscriberRegistry *subscriberRegistry, WallClock *wallCloc
 void EventLoop::process() {
     if (!events.isEmpty()) {
         auto event = events.poll();
-        auto *subscriber = subscriberRegistry->get(event->type());
-        if (subscriber != nullptr) {
-            auto userTimeStart = wallClock->now();
-            subscriber->handle(event);
-            CpuStats::eventLoopUserTime += wallClock->now() - userTimeStart;
+        if (event) {
+            auto *subscriber = subscriberRegistry->get(event->type());
+            if (subscriber != nullptr) {
+                auto userTimeStart = wallClock->now();
+                subscriber->handle(event);
+                CpuStats::eventLoopUserTime += wallClock->now() - userTimeStart;
+            }
         }
         delete event;
     }

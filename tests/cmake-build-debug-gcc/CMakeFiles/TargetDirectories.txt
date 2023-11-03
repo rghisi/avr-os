@@ -1,3 +1,3 @@
-/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-debug-gcc/CMakeFiles/PlantWateringTests.dir
-/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-debug-gcc/CMakeFiles/edit_cache.dir
-/mnt/hdd/ghisi/Desenvolvimento/git/plant-watering/tests/cmake-build-debug-gcc/CMakeFiles/rebuild_cache.dir
+/mnt/hdd/ghisi/Desenvolvimento/git/avr-os/tests/cmake-build-debug-gcc/CMakeFiles/AVROSTests.dir
+/mnt/hdd/ghisi/Desenvolvimento/git/avr-os/tests/cmake-build-debug-gcc/CMakeFiles/edit_cache.dir
+/mnt/hdd/ghisi/Desenvolvimento/git/avr-os/tests/cmake-build-debug-gcc/CMakeFiles/rebuild_cache.dir

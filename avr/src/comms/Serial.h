@@ -22,7 +22,7 @@ public:
     void handle(Message *event) override;
 
 private:
-    BlockingQueue<uint8_t, 30> outputBuffer;
+    BlockingQueue<uint8_t, 64> outputBuffer;
     USART *usart;
 };
 

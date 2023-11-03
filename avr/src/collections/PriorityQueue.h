@@ -9,16 +9,6 @@
 #include "memory"
 #include "list"
 
-template <typename E>
-struct Element {
-    E element;
-    Element<E> *next;
-    ~Element();
-};
-
-template<typename E>
-Element<E>::~Element() = default;
-
 template <typename T>
 class PriorityQueue {
 public:
