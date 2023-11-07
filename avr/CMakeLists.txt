@@ -62,8 +62,7 @@ add_executable(${PROJECT_NAME}
         src/services/PiTask.h
         src/services/PiTask.cpp
         src/system/StaticTask.h
-        src/system/Promise.h
-        src/system/TaskPromise.h)
+        src/system/Promise.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

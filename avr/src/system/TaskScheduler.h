@@ -11,7 +11,6 @@
 #include "Task.h"
 #include "WallClock.h"
 #include "../collections/StaticPriorityQueue.h"
-#include "TaskPromise.h"
 
 class TaskPromise {
 public:
