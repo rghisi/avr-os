@@ -6,9 +6,8 @@
 #define AVR_MEMORYALLOCATOR_H
 
 
-#include <cmath>
 #include "cstdint"
-#include "cstdio"
+#include "cstddef"
 
 enum class AllocationFlags { FREE = 0x00, USED = 0xFF };
 
@@ -28,29 +27,34 @@ public:
     }
 };
 
+class MemoryStats {
+public:
+    size_t size;
+    size_t used;
+    size_t usedBlocks;
+    size_t freeBlocks;
+};
+
 template <size_t S>
 class MemoryAllocator {
 public:
-    constexpr static auto AllocationOverhead = sizeof(Allocation);
+    constexpr static size_t AllocationOverhead = sizeof(Allocation);
     MemoryAllocator();
     uintptr_t *allocate(size_t requestedBytes);
     void free(void *ptr);
-    size_t memoryUsed();
-    size_t peakMemoryUsed();
-    size_t memoryAvailable();
+    MemoryStats *stats();
+
 private:
-    constexpr static unsigned floorlog2(unsigned x)
-    {
+    constexpr static unsigned floorlog2(unsigned x) {
         return x < 2 ? x : 1+floorlog2(x >> 1);
     }
     constexpr static auto MinimumAllocationSize = sizeof(uintptr_t);
     constexpr static auto MemoryPositions = S / MinimumAllocationSize;
     constexpr static auto MinimumAllocationSizePower = floorlog2(MinimumAllocationSize) - 1;
-    uintptr_t memory[MemoryPositions] = {};
+
     Allocation *allocationList = nullptr;
-    size_t size = S;
-    size_t used = AllocationOverhead;
-    size_t peakUsed = AllocationOverhead;
+    MemoryStats memoryStats;
+    uintptr_t memory[MemoryPositions] = {};
 
     Allocation *merge(Allocation *left, Allocation *right);
 };

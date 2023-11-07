@@ -99,7 +99,11 @@ void OS::startTask(Task *task) {
     OS::stackPointer = SP;
     SP = task->stackPointer;
     sei();
+    task->state = TaskState::RUNNING;
     task->run();
+    task->state = TaskState::TERMINATED;
+    SP = OS::stackPointer;
+    restoreContext();
 }
 
 void OS::switchToTask(Task *task) {
@@ -116,6 +120,11 @@ void OS::yield(Task *task) {
     restoreContext();
 }
 
+void OS::await(Task *task, Promise *promise) {
+    OS::scheduler->add(new TaskPromise(task, promise));
+    yield(task);
+}
+
 void OS::send(Message *event) {
     messaging->send(event);
 }
@@ -128,6 +137,6 @@ void OS::memfree(void *p) {
     OS::memoryAllocator->free(p);
 }
 
-uint16_t OS::usedMemory() {
-    return OS::memoryAllocator->peakMemoryUsed();
+MemoryStats *OS::memoryStats() {
+    return OS::memoryAllocator->stats();
 }

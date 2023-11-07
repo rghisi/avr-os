@@ -9,6 +9,7 @@
 #include "../comms/SerialPacket.h"
 #include "../system/OS.h"
 #include "../std/Random.h"
+#include "../comms/Serial.h"
 
 InfiniteTask::InfiniteTask(uint8_t taskNumber) {
     this->taskNumber = taskNumber;
@@ -17,25 +18,28 @@ InfiniteTask::InfiniteTask(uint8_t taskNumber) {
 
 void InfiniteTask::run() {
     uint16_t counter = 0;
+    uint8_t sleepAmount;
     while (true) {
         counter++;
-        print(counter);
-        sleep(Random::next());
-        printMessage(counter);
+        sleepAmount = Random::next();
+        print(counter, sleepAmount);
+        sleep(sleepAmount);
+        sleepAmount = Random::next();
+        printMessage(counter, sleepAmount);
         sleep(Random::next());
     }
 }
 
-void InfiniteTask::print(uint16_t counter) const {
-    auto stringBuffer = new char[16];
-    sprintf(stringBuffer, "Task %u A:%u\n", taskNumber, counter);
-    auto event = new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer));
-    OS::send(event);
+void InfiniteTask::print(uint16_t counter, uint8_t sleep) {
+    auto stringBuffer = new char[20];
+    sprintf_P(stringBuffer, PSTR("T %u A:%u S:%u\n"), taskNumber, counter, sleep);
+    await(Serial::sendAsync(stringBuffer, strlen(stringBuffer)));
+//    auto event = new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer));
+//    OS::send(event);
 }
 
-void InfiniteTask::printMessage(uint16_t counter) const {
-    auto stringBuffer = new char[16];
-    sprintf(stringBuffer, "Task %u B:%u\n", taskNumber, counter);
-    auto *event = new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer));
-    OS::send(event);
+void InfiniteTask::printMessage(uint16_t counter, uint8_t sleep) {
+    auto stringBuffer = new char[20];
+    sprintf_P(stringBuffer, PSTR("T %u B:%u S:%u\n"), taskNumber, counter, sleep);
+    Serial::send(stringBuffer, strlen(stringBuffer));
 }

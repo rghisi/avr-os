@@ -22,15 +22,14 @@ const uint8_t Random::sequence[] = {
 };
 
 uint8_t Random::last = 0;
-uint8_t Random::offset = 0;
 
 uint8_t Random::next() {
-    last = sequence[last + offset];
+    last = sequence[last];
 
     return last;
 }
 
 void Random::seed(uint8_t seed) {
-    offset = seed;
+    last = seed;
 }
 

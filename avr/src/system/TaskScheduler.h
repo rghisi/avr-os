@@ -11,17 +11,23 @@
 #include "Task.h"
 #include "WallClock.h"
 #include "../collections/StaticPriorityQueue.h"
+#include "TaskPromise.h"
 
 class TaskScheduler {
 public:
     explicit TaskScheduler(WallClock *wallClock, EventLoop *pLoop);
     void run();
     void schedule(Task *task);
+    void add(TaskPromise *taskPromise);
 private:
     WallClock *wallClock;
     EventLoop *eventLoop;
-    StaticPriorityQueue<Task*, 6> scheduledTasks;
+    static StaticPriorityQueue<Task, 10> scheduledTasks;
+    static BlockingQueue<TaskPromise*, 10> taskPromises;
+
     void reschedule(Task *task);
+
+    void processPromises();
 };
 
 

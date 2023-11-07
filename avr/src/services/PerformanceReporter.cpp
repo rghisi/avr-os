@@ -9,6 +9,7 @@
 #include "cstring"
 #include "../system/CpuStats.h"
 #include "cstdio"
+#include "../comms/Serial.h"
 
 void PerformanceReporter::run() {
     while (true) {
@@ -18,11 +19,22 @@ void PerformanceReporter::run() {
     }
 }
 
-void PerformanceReporter::send() const {
+void PerformanceReporter::send() {
+    auto memoryStats = OS::memoryStats();
     auto stringBuffer = new char[36];
-    sprintf(stringBuffer, "C:%u S:%u E:%u M:%u\n", executions, CpuStats::schedulerUserTime, CpuStats::eventLoopUserTime, OS::usedMemory());
-    auto event = new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer));
-    OS::send(event);
+    sprintf_P(
+            stringBuffer,
+            PSTR("C:%u\tS:%u\tE:%u\tM:%u\tU:%u\tF:%u\n"),
+            executions,
+            CpuStats::schedulerUserTime,
+            CpuStats::eventLoopUserTime,
+            memoryStats->used,
+            memoryStats->usedBlocks,
+            memoryStats->freeBlocks
+            );
+    Serial::send(stringBuffer, strlen(stringBuffer));
+//    auto event = new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer));
+//    OS::send(event);
     CpuStats::schedulerUserTime = 0;
     CpuStats::eventLoopUserTime = 0;
 }

@@ -22,10 +22,19 @@ bool Task::operator>=(const Task &rhs) const {
 
 void Task::yield() {
     nextExecution = 0;
+    state = TaskState::WAITING;
     OS::yield(this);
 }
 
 void Task::sleep(uint16_t ms) {
     nextExecution = ms;
+    state = TaskState::WAITING;
     OS::yield(this);
+}
+
+void Task::await(Promise *promise) {
+    nextExecution = 0;
+    state = TaskState::BLOCKED;
+    OS::await(this, promise);
+    delete promise;
 }

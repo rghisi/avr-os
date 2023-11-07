@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.23)
 project(avr CXX C)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_RELEASE "-Os")
+set(CMAKE_CXX_FLAGS_DEBUG "-Os")
 
 #include(CMakeVerifyCompiler.txt)
 
@@ -29,7 +30,7 @@ add_executable(${PROJECT_NAME}
         src/hw/USART.h
 #        src/hw/avr/ATMega32U4.cpp src/hw/avr/ATMega32U4.h
         src/hw/avr/ATMega328P.cpp src/hw/avr/ATMega328P.h
-        src/collections/BlockingQueue.cpp src/collections/BlockingQueue.h
+        src/collections/BlockingQueue.h
         src/collections/Array.cpp src/collections/Array.h
 #        src/std/CRC.cpp src/std/CRC.h
         src/std/Random.cpp src/std/Random.h
@@ -56,10 +57,13 @@ add_executable(${PROJECT_NAME}
         src/system/OS.h src/system/OS.cpp
         src/services/InfiniteTask.cpp src/services/InfiniteTask.h
         src/services/PerformanceReporter.cpp src/services/PerformanceReporter.h
-        src/collections/StaticPriorityQueue.cpp src/collections/StaticPriorityQueue.h
+        src/collections/StaticPriorityQueue.h
         src/system/MemoryAllocator.h src/system/MemoryAllocator.cpp
         src/services/PiTask.h
-        src/services/PiTask.cpp)
+        src/services/PiTask.cpp
+        src/system/StaticTask.h
+        src/system/Promise.h
+        src/system/TaskPromise.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

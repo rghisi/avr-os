@@ -17,7 +17,7 @@ class OS {
 public:
     static TaskScheduler *scheduler;
     static Messaging *messaging;
-    static MemoryAllocator<256> *memoryAllocator;
+    static MemoryAllocator<128> *memoryAllocator;
     static volatile uintptr_t stackPointer;
 
     static void send(Message* event);
@@ -25,9 +25,10 @@ public:
     __attribute__ ((naked)) static void startTask(Task *task);
     __attribute__ ((naked)) static void switchToTask(Task *task);
     __attribute__ ((naked)) static void yield(Task*);
+    static void await(Task *task, Promise *promise);
     static void *memalloc(size_t size);
     static void memfree(void *ptr);
-    static uint16_t usedMemory();
+    static MemoryStats *memoryStats();
 };
 
 #endif //AVR_OS_H

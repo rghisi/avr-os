@@ -27,10 +27,6 @@ uintptr_t *MemoryAllocator<S>::allocate(size_t requestedBytes) {
     }
 
     const auto bytesLeftAfterAllocation = allocation->size - totalBytesRequired;
-    used += totalBytesRequired;
-    if (used > peakUsed) {
-        peakUsed = used;
-    }
     allocation->size = totalBytesRequired;
     allocation->flags = AllocationFlags::USED;
     const auto currentAllocationAddress = ((uintptr_t*) std::addressof(*allocation));
@@ -49,6 +45,9 @@ uintptr_t *MemoryAllocator<S>::allocate(size_t requestedBytes) {
 
 template<size_t S>
 void MemoryAllocator<S>::free(void *ptr) {
+    if (ptr == nullptr) {
+        return;
+    }
     const auto dataPointerAddress = (uintptr_t*) ptr;
     const auto allocationAddress = dataPointerAddress - (AllocationOverhead >> MinimumAllocationSizePower);
     auto allocation = (Allocation*) allocationAddress;
@@ -60,27 +59,6 @@ void MemoryAllocator<S>::free(void *ptr) {
     if (allocation->next != nullptr && allocation->next->isFree()) {
         allocation = merge(allocation, allocation->next);
     }
-
-    if (allocation->previous == nullptr && allocation->next == nullptr) {
-        this->used = AllocationOverhead;
-    } else {
-        this->used -= allocation->size - AllocationOverhead;
-    }
-}
-
-template<size_t S>
-size_t MemoryAllocator<S>::memoryUsed() {
-    return used;
-}
-
-template<size_t S>
-size_t MemoryAllocator<S>::peakMemoryUsed() {
-    return peakUsed;
-}
-
-template<size_t S>
-size_t MemoryAllocator<S>::memoryAvailable() {
-    return size - used;
 }
 
 template<size_t S>
@@ -92,4 +70,24 @@ Allocation *MemoryAllocator<S>::merge(Allocation *left, Allocation *right) {
     }
 
     return left;
+}
+
+template<size_t S>
+MemoryStats *MemoryAllocator<S>::stats() {
+    memoryStats.size = S;
+    memoryStats.used = 0;
+    memoryStats.freeBlocks = 0;
+    memoryStats.usedBlocks = 0;
+    auto *allocation = allocationList;
+    while (allocation != nullptr) {
+        if (allocation->isFree()) {
+            memoryStats.freeBlocks++;
+        } else {
+            memoryStats.usedBlocks++;
+            memoryStats.used += allocation->size;
+        }
+        allocation = allocation->next;
+    }
+
+    return &this->memoryStats;
 }

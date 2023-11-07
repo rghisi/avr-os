@@ -161,6 +161,7 @@ void ATMega328P::setInterruptHandler(USARTInterruptHandler *handler) {
 }
 
 void ATMega328P::send(uint8_t byte) {
+    while (!(UCSR0A & (1<<UDRE0)));
     UDR0 = byte;
 }
 
@@ -175,7 +176,7 @@ void ATMega328P::disableTransmitter() {
 }
 
 void ATMega328P::enableTransmitterAndReadyToSendInterrupt() {
-    UCSR0B |= _BV(TXEN0) | _BV(UDRIE0); //| _BV(TXCIE0);
+    UCSR0B |= _BV(TXEN0);// | _BV(UDRIE0); //| _BV(TXCIE0);
 }
 
 void USART_TX_vect(void) {

@@ -8,15 +8,16 @@
 
 #include "../system/Task.h"
 #include "../system/Messaging.h"
+#include "../system/StaticTask.h"
 
-class InfiniteTask: public Task {
+class InfiniteTask: public StaticTask<64> {
 public:
     explicit InfiniteTask(uint8_t taskNumber);
     void run() override;
 private:
     uint8_t taskNumber;
-    void print(uint16_t counter) const;
-    void printMessage(uint16_t counter) const;
+    void print(uint16_t counter, uint8_t i);
+    void printMessage(uint16_t counter, uint8_t i);
 };
 
 

@@ -3,7 +3,6 @@
 //
 
 #include "EventLoop.h"
-#include "../collections/BlockingQueue.cpp"
 #include "HandlerMultiplexer.h"
 #include "CpuStats.h"
 
@@ -18,14 +17,13 @@ void EventLoop::process() {
         if (event) {
             auto *subscriber = subscriberRegistry->get(event->type());
             if (subscriber != nullptr) {
-                auto userTimeStart = wallClock->now();
+                auto userTimeStart = wallClock->now;
                 subscriber->handle(event);
-                CpuStats::eventLoopUserTime += wallClock->now() - userTimeStart;
+                CpuStats::eventLoopUserTime += wallClock->now - userTimeStart;
             }
         }
         delete event;
     }
-
 }
 
 bool EventLoop::push(Message* event) {

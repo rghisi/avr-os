@@ -6,12 +6,12 @@
 #define AVR_PERFORMANCEREPORTER_H
 
 
-#include "../system/Task.h"
+#include "../system/StaticTask.h"
 
-class PerformanceReporter: public Task {
+class PerformanceReporter: public StaticTask<64> {
 public:
     [[noreturn]] void run() override;
-    void send() const;
+    void send();
     uint16_t executions = 0;
 };
 

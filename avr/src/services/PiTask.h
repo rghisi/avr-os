@@ -6,11 +6,12 @@
 #define AVR_PITASK_H
 
 
-#include "../system/Task.h"
+#include "../system/StaticTask.h"
 
-class PiTask: public Task {
+class PiTask: public StaticTask<128> {
     void run() override;
     double pi;
+    double npi;
 private:
     double n;
     double sign;
