@@ -11,9 +11,8 @@
 StaticPriorityQueue<Task, 10> TaskScheduler::scheduledTasks = StaticPriorityQueue<Task, 10>();
 BlockingQueue<TaskPromise*, 10> TaskScheduler::taskPromises = BlockingQueue<TaskPromise*, 10>();
 
-TaskScheduler::TaskScheduler(WallClock *wallClock, EventLoop *eventLoop) {
+TaskScheduler::TaskScheduler(WallClock *wallClock) {
     this->wallClock = wallClock;
-    this->eventLoop = eventLoop;
 }
 
 void TaskScheduler::schedule(Task *task) {
@@ -21,13 +20,7 @@ void TaskScheduler::schedule(Task *task) {
     scheduledTasks.offer(task);
 }
 
-void TaskScheduler::reschedule(Task *task) {
-    task->nextExecution += wallClock->now;
-    scheduledTasks.offer(task);
-}
-
 void TaskScheduler::run() {
-    eventLoop->process();
     processPromises();
     if (!scheduledTasks.isEmpty()) {
         uint32_t now = wallClock->now;
@@ -42,7 +35,7 @@ void TaskScheduler::run() {
                 OS::switchToTask(task);
             }
             if (task->state != TaskState::TERMINATED) {
-                reschedule(task);
+                schedule(task);
             }
             CpuStats::schedulerUserTime += wallClock->now - userTimeStart;
         }
@@ -62,11 +55,8 @@ void TaskScheduler::processPromises() {
     }
 }
 
-void TaskScheduler::add(TaskPromise *taskPromise) {
-    if (taskPromises.isFull()) {
-        //Implement yield here in the hope of freeing space
-        delete taskPromise;
-    } else {
-        taskPromises.offer(taskPromise);
+void TaskScheduler::add(Task *task, Promise *promise) {
+    if (!taskPromises.isFull()) {
+        taskPromises.offer(new TaskPromise(task, promise));
     }
 }

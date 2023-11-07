@@ -121,7 +121,7 @@ void OS::yield(Task *task) {
 }
 
 void OS::await(Task *task, Promise *promise) {
-    OS::scheduler->add(new TaskPromise(task, promise));
+    OS::scheduler->add(task, promise);
     yield(task);
 }
 

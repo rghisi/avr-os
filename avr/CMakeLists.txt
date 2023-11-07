@@ -35,23 +35,23 @@ add_executable(${PROJECT_NAME}
 #        src/std/CRC.cpp src/std/CRC.h
         src/std/Random.cpp src/std/Random.h
         src/system/WallClock.cpp src/system/WallClock.h
-        src/system/Message.cpp src/system/Message.h
-        src/system/MessageType.h
-        src/system/EventLoop.cpp src/system/EventLoop.h
-        src/system/Subscriber.cpp src/system/Subscriber.h
-        src/system/Messaging.cpp src/system/Messaging.h
+        src/events/Message.cpp src/events/Message.h
+        src/events/MessageType.h
+        src/events/EventLoop.cpp src/events/EventLoop.h
+        src/events/Subscriber.cpp src/events/Subscriber.h
+        src/events/Messaging.cpp src/events/Messaging.h
         src/system/TaskScheduler.cpp src/system/TaskScheduler.h
         src/system/Task.h src/system/Task.cpp
         src/system/CpuStats.cpp src/system/CpuStats.h
         src/collections/PriorityQueue.cpp src/collections/PriorityQueue.h
         src/std/CRCTable.c
         src/hw/Timer1.h src/hw/ExternalInterrupts.h
-        src/system/TaskSchedulingRequested.cpp
-        src/system/TaskSchedulingRequested.h
-        src/system/HandlerMultiplexer.cpp src/system/HandlerMultiplexer.h
-        src/system/SubscriberRegistry.h
-        src/system/SubscriberRegistry.cpp src/system/SubscriberRegistry.h
-        src/system/Math.cpp src/system/Math.h
+        src/events/TaskSchedulingRequested.cpp
+        src/events/TaskSchedulingRequested.h
+        src/events/HandlerMultiplexer.cpp src/events/HandlerMultiplexer.h
+        src/events/SubscriberRegistry.h
+        src/events/SubscriberRegistry.cpp src/events/SubscriberRegistry.h
+        src/system/Math.h
         src/comms/Serial.cpp src/comms/Serial.h
         src/comms/SerialPacket.cpp src/comms/SerialPacket.h
         src/system/OS.h src/system/OS.cpp

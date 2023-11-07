@@ -5,7 +5,7 @@
 #ifndef AVR_SERIALPACKET_H
 #define AVR_SERIALPACKET_H
 
-#include "../system/Message.h"
+#include "../events/Message.h"
 
 class SerialPacket: public Message {
 public:

@@ -6,7 +6,6 @@
 #define AVR_TASK_H
 
 #include <cstdint>
-#include "functional"
 #include "Promise.h"
 
 enum class TaskState: uint_fast8_t {

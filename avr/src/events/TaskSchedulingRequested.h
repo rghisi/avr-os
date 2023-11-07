@@ -7,7 +7,7 @@
 
 
 #include "Message.h"
-#include "Task.h"
+#include "../system/Task.h"
 
 class TaskSchedulingRequested: public Message {
 public:

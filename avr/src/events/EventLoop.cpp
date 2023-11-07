@@ -4,7 +4,7 @@
 
 #include "EventLoop.h"
 #include "HandlerMultiplexer.h"
-#include "CpuStats.h"
+#include "../system/CpuStats.h"
 
 EventLoop::EventLoop(SubscriberRegistry *subscriberRegistry, WallClock *wallClock) {
     this->subscriberRegistry = subscriberRegistry;

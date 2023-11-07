@@ -8,6 +8,7 @@
 #include "cstring"
 #include "cstdio"
 #include "../comms/Serial.h"
+#include "complex"
 
 void PiTask::run() {
     pi = 0;

@@ -5,7 +5,7 @@
 #ifndef AVR_MESSAGETYPE_H
 #define AVR_MESSAGETYPE_H
 
-#include <cstdint>
+#include "cstdint"
 
 enum MessageType: uint8_t {
     ASYNC_SCHEDULED,

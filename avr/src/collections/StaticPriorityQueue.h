@@ -6,10 +6,6 @@
 #define AVR_STATICPRIORITYQUEUE_H
 
 #include "cstdint"
-#include "array"
-#include "cstddef"
-#include "../comms/Serial.h"
-#include "cstring"
 
 template<typename T, size_t S>
 class StaticPriorityQueue {

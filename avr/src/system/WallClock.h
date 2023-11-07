@@ -16,5 +16,4 @@ public:
 private:
 };
 
-
 #endif //AVR_WALLCLOCK_H

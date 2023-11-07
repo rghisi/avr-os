@@ -14,3 +14,5 @@
 1	873	1699391114294425495	CMakeFiles/AVROSTests.dir/src/collections/BlockingQueueTest.cpp.o	eb1d6aed572aeb4f
 2	781	1699391114202423649	CMakeFiles/AVROSTests.dir/src/collections/PriorityQueueTest.cpp.o	69bae351ca4d979f
 1	89	1699391113510409759	CMakeFiles/AVROSTests.dir/mnt/hdd/ghisi/Desenvolvimento/git/avr-os/avr/src/system/MemoryAllocator.cpp.o	97ec2b8079b4f753
+1	684	1699396352931229136	CMakeFiles/AVROSTests.dir/src/collections/StaticPriorityQueueTest.cpp.o	28a8f36744cb1af5
+684	764	1699396353011230458	AVROSTests	4a495a916b2a4f5

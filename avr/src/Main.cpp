@@ -6,8 +6,8 @@
 
 #include "hw/avr/ATMega328P.h"
 #include "system/TaskScheduler.h"
-#include "system/EventLoop.h"
-#include "system/Messaging.h"
+#include "events/EventLoop.h"
+#include "events/Messaging.h"
 #include "system/WallClock.h"
 #include "comms/Serial.h"
 #include "services/InfiniteTask.h"
@@ -18,6 +18,7 @@
 #include "services/PerformanceReporter.h"
 #include "system/MemoryAllocator.h"
 #include "services/PiTask.h"
+#include "services/AnnoyingTask.h"
 
 void * operator new(size_t size)
 {
@@ -59,15 +60,16 @@ void __cxa_pure_virtual(void) {};
 auto atmega = ATMega328P();
 auto wallClock = WallClock();
 auto subscriberRegistry = SubscriberRegistry();
-auto eventLoop = EventLoop(&subscriberRegistry, &wallClock);
-auto taskScheduler = TaskScheduler(&wallClock, &eventLoop);
-auto m = Messaging(&eventLoop);
+//auto eventLoop = EventLoop(&subscriberRegistry, &wallClock);
+auto taskScheduler = TaskScheduler(&wallClock);
+//auto m = Messaging(&eventLoop);
 auto serial = Serial(&atmega);
 Serial *Serial::self = &serial;
 
 auto infiniteTaskOne = InfiniteTask(1);
 auto infiniteTaskTwo = InfiniteTask(2);
 auto infiniteTaskThree = InfiniteTask(3);
+auto annoyingTask = AnnoyingTask();
 //auto infiniteTaskFour = InfiniteTask(4);
 //auto infiniteTaskFive = InfiniteTask(5);
 auto piTask = PiTask();
@@ -75,7 +77,7 @@ auto performanceReporter = PerformanceReporter();
 auto ma = MemoryAllocator<128>();
 
 TaskScheduler *OS::scheduler = &taskScheduler;
-Messaging *OS::messaging = &m;
+//Messaging *OS::messaging = &m;
 MemoryAllocator<128> *OS::memoryAllocator = &ma;
 
 int main(void) {
@@ -100,6 +102,7 @@ int main(void) {
     taskScheduler.schedule(&piTask);
 //    taskScheduler.schedule(&infiniteTaskThree);
     taskScheduler.schedule(&performanceReporter);
+    taskScheduler.schedule(&annoyingTask);
     OS::run();
 
     return 0;
