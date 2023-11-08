@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.23)
 project(avr CXX C)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS_RELEASE "-Os")
 set(CMAKE_CXX_FLAGS_DEBUG "-Os")
 

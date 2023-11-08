@@ -12,7 +12,7 @@
 class WallClock: public Timer0InterruptHandler {
 public:
     void processTick() override;
-    volatile uint32_t now = 0;
+    uint32_t now = 0;
 private:
 };
 
