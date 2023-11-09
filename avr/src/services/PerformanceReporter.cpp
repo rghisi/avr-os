@@ -15,26 +15,26 @@ void PerformanceReporter::run() {
     while (true) {
         executions++;
         send();
-        sleep(1000);
+        sleep(100);
     }
 }
 
 void PerformanceReporter::send() {
     auto memoryStats = OS::memoryStats();
-    auto stringBuffer = new char[36];
+    auto stringBuffer = new char[48];
     sprintf_P(
             stringBuffer,
-            PSTR("C:%u\tS:%u\tE:%u\tM:%u\tU:%u\tF:%u\n"),
+            PSTR("C:%u\tU:%u\tF:%u\tBu:%u\tBf:%u\tD:%u\n"),
             executions,
-            CpuStats::schedulerUserTime,
-            CpuStats::eventLoopUserTime,
+//            CpuStats::schedulerUserTime,
+//            CpuStats::eventLoopUserTime,
             memoryStats->used,
+            memoryStats->free,
             memoryStats->usedBlocks,
-            memoryStats->freeBlocks
+            memoryStats->freeBlocks,
+            memoryStats->delta
             );
     Serial::send(stringBuffer, strlen(stringBuffer));
-//    auto event = new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer));
-//    OS::send(event);
     CpuStats::schedulerUserTime = 0;
     CpuStats::eventLoopUserTime = 0;
 }

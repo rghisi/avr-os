@@ -14,7 +14,7 @@ enum class TaskState: uint_fast8_t {
 
 class Task {
 public:
-    ~Task() = default;
+    virtual ~Task() = 0;
     virtual void run() = 0;
     volatile uint32_t nextExecution = 0;
     bool operator<(const Task &rhs) const;

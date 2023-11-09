@@ -12,6 +12,7 @@
 #include "../events/Subscriber.h"
 #include "../collections/BlockingQueue.h"
 #include "../system/Promise.h"
+#include "string_view"
 
 class Serial: public USARTInterruptHandler, public Subscriber {
 public:
@@ -27,6 +28,7 @@ public:
     static void sendf(const char *format, size_t size, uintptr_t v);
     static Promise *sendAsync(char *bytes, size_t size);
     static Serial *self;
+    static char *readLine();
 
 private:
 

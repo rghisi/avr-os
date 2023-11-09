@@ -6,6 +6,8 @@
 #define AVR_USART_H
 
 #include "cstdint"
+#include "string_view"
+#include "vector"
 
 class USARTInterruptHandler {
 public:
@@ -23,6 +25,7 @@ public:
     virtual void disableReceiver() = 0;
     virtual void setInterruptHandler(USARTInterruptHandler *handler) = 0;
     virtual void send(uint8_t byte) = 0;
+    virtual char *readLine() = 0;
 };
 
 #endif //AVR_USART_H

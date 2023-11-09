@@ -12,9 +12,9 @@ public:
     static uint8_t next();
     static void seed(uint8_t);
 private:
+    static uint8_t _next(uint8_t previous);
     static uint8_t last;
     static uint8_t offset;
-    static const uint8_t sequence[];
 };
 
 

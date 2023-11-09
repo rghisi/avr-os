@@ -14,7 +14,7 @@ enum class AllocationFlags { FREE = 0x00, USED = 0xFF };
 class Allocation {
 public:
     explicit Allocation(size_t size) {
-        this->size = size;
+        this->size = size + sizeof(Allocation);
         flags = AllocationFlags::FREE;
     }
     size_t size;
@@ -31,8 +31,10 @@ class MemoryStats {
 public:
     size_t size;
     size_t used;
+    size_t free;
     size_t usedBlocks;
     size_t freeBlocks;
+    size_t delta;
 };
 
 template <size_t S>

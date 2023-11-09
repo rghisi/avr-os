@@ -13,6 +13,7 @@
 #include "../Timer1.h"
 #include "../ExternalInterrupts.h"
 #include "../USART.h"
+#include "vector"
 
 extern "C" void USART_UDRE_vect(void) __attribute__ ((signal));
 extern "C" void USART_TX_vect(void) __attribute__ ((signal));
@@ -63,6 +64,7 @@ public:
     void disableReceiver() override;
     void setInterruptHandler(USARTInterruptHandler *handler) override;
     void send(uint8_t byte) override;
+    char *readLine() override;
 
 private:
     static USARTInterruptHandler *interruptHandler;

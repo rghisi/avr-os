@@ -6,8 +6,6 @@
 #include "InfiniteTask.h"
 #include "cstdio"
 #include "cstring"
-#include "../comms/SerialPacket.h"
-#include "../system/OS.h"
 #include "../std/Random.h"
 #include "../comms/Serial.h"
 
@@ -34,8 +32,6 @@ void InfiniteTask::print(uint16_t counter, uint8_t sleep) {
     auto stringBuffer = new char[20];
     sprintf_P(stringBuffer, PSTR("T %u A:%u S:%u\n"), taskNumber, counter, sleep);
     await(Serial::sendAsync(stringBuffer, strlen(stringBuffer)));
-//    auto event = new SerialPacket(reinterpret_cast<uint8_t *>(stringBuffer), strlen(stringBuffer));
-//    OS::send(event);
 }
 
 void InfiniteTask::printMessage(uint16_t counter, uint8_t sleep) {

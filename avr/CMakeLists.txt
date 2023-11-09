@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.23)
 project(avr CXX C)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS_RELEASE "-Os")
-set(CMAKE_CXX_FLAGS_DEBUG "-Os")
+#set(CMAKE_CXX_FLAGS_DEBUG "-Os")
 
 #include(CMakeVerifyCompiler.txt)
 
@@ -60,9 +60,12 @@ add_executable(${PROJECT_NAME}
         src/collections/StaticPriorityQueue.h
         src/system/MemoryAllocator.h src/system/MemoryAllocator.cpp
         src/services/PiTask.h
-        src/services/PiTask.cpp
         src/system/StaticTask.h
-        src/system/Promise.h)
+        src/system/Promise.h
+        src/system/HeapTask.h
+        src/services/Console.h
+        src/system/TaskExecPromise.h
+        src/services/BuTask.h)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

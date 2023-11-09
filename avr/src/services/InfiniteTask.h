@@ -7,7 +7,6 @@
 
 
 #include "../system/Task.h"
-#include "../events/Messaging.h"
 #include "../system/StaticTask.h"
 
 class InfiniteTask: public StaticTask<64> {

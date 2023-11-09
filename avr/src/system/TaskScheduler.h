@@ -28,12 +28,12 @@ public:
     explicit TaskScheduler(WallClock *wallClock);
     void run();
     void schedule(Task *task);
-    static void add(Task *task, Promise *promise);
+    void add(Task *task, Promise *promise);
 private:
     WallClock *wallClock;
     static StaticPriorityQueue<Task, 10> scheduledTasks;
     static BlockingQueue<TaskPromise*, 10> taskPromises;
-    static void processPromises();
+    void processPromises();
 
 };
 

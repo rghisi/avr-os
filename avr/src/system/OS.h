@@ -17,11 +17,13 @@ class OS {
 public:
     static TaskScheduler *scheduler;
     static Messaging *messaging;
-    static MemoryAllocator<128> *memoryAllocator;
+    static MemoryAllocator<1152> *memoryAllocator;
     static volatile uintptr_t stackPointer;
 
     static void send(Message* event);
-    static void run();
+    static void start();
+    static void schedule(Task *task);
+    static Promise *execAsync(Task *task);
     __attribute__ ((naked)) static void startTask(Task *task);
     __attribute__ ((naked)) static void switchToTask(Task *task);
     __attribute__ ((naked)) static void yield(Task*);

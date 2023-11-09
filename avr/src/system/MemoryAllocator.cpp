@@ -17,10 +17,18 @@ uintptr_t *MemoryAllocator<S>::allocate(size_t requestedBytes) {
     const auto remainderBytes = requestedBytesWithOverhead & (MinimumAllocationSize - 1);
     const auto totalBytesRequired = requestedBytesWithOverhead + remainderBytes;
 
-    auto *allocation = allocationList;
-    while (allocation != nullptr && (!allocation->isFree() || (allocation->isFree() && allocation->size < totalBytesRequired))) {
+    auto allocation = allocationList;
+    Allocation *bestAllocation = nullptr;
+    while (allocation != nullptr) {
+        if (allocation->isFree() && allocation->size >= totalBytesRequired) {
+            if (bestAllocation == nullptr || allocation->size < bestAllocation->size) {
+                bestAllocation = allocation;
+            }
+        }
         allocation = allocation->next;
     }
+
+    allocation = bestAllocation;
 
     if (allocation == nullptr) {
         return nullptr;
@@ -63,7 +71,7 @@ void MemoryAllocator<S>::free(void *ptr) {
 
 template<size_t S>
 Allocation *MemoryAllocator<S>::merge(Allocation *left, Allocation *right) {
-    left->size += right->size + AllocationOverhead;
+    left->size += right->size;
     left->next = right->next;
     if (right->next != nullptr) {
         right->next->previous = left;
@@ -76,18 +84,22 @@ template<size_t S>
 MemoryStats *MemoryAllocator<S>::stats() {
     memoryStats.size = S;
     memoryStats.used = 0;
+    memoryStats.free = 0;
     memoryStats.freeBlocks = 0;
     memoryStats.usedBlocks = 0;
     auto *allocation = allocationList;
     while (allocation != nullptr) {
         if (allocation->isFree()) {
             memoryStats.freeBlocks++;
+            memoryStats.free += allocation->size;
         } else {
             memoryStats.usedBlocks++;
             memoryStats.used += allocation->size;
         }
         allocation = allocation->next;
     }
+
+    memoryStats.delta = S - (memoryStats.used + memoryStats.free);
 
     return &this->memoryStats;
 }

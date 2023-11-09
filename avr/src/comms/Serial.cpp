@@ -51,14 +51,15 @@ void Serial::send(char *bytes, size_t size) {
     for (size_t i = 0; i < size; i++) {
         Serial::self->usart->send(bytes[i]);
     }
-    delete bytes;
+
+    delete[] bytes;
 }
 
 Promise *Serial::sendAsync(char *bytes, size_t size) {
     for (size_t i = 0; i < size; i++) {
         Serial::self->usart->send(bytes[i]);
     }
-    delete bytes;
+    delete[] bytes;
     auto promise = new Promise();
     promise->complete();
     return promise;
@@ -71,4 +72,9 @@ void Serial::send(size_t num) {
     for (size_t i = 0; i < len; i++) {
         Serial::self->usart->send(buffer[i]);
     }
+    delete[] buffer;
+}
+
+char *Serial::readLine() {
+    return Serial::self->usart->readLine();
 }

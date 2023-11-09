@@ -14,9 +14,10 @@ protected:
     StaticTask() {
         stackPointer = reinterpret_cast<volatile uintptr_t>(&stack[S - 1]);
     }
+    ~StaticTask() override = default;
 
 private:
-    volatile uint8_t *stack[S] = {nullptr};
+    volatile uint8_t *stack[S];
 };
 
 #endif //AVR_STATICTASK_H

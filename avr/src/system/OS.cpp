@@ -4,6 +4,8 @@
 
 
 #include "OS.h"
+#include "TaskExecPromise.h"
+#include "../comms/Serial.h"
 
 #define saveContext() \
 asm volatile ( \
@@ -88,10 +90,17 @@ asm volatile ( \
 
 volatile uint16_t OS::stackPointer = 0;
 
-void OS::run() {
-    while (true) {
-        scheduler->run();
-    }
+void OS::start() {
+    scheduler->run();
+}
+
+void OS::schedule(Task *task) {
+    scheduler->schedule(task);
+}
+
+Promise *OS::execAsync(Task *task) {
+    scheduler->schedule(task);
+    return new TaskExecPromise(task);
 }
 
 void OS::startTask(Task *task) {
@@ -121,7 +130,7 @@ void OS::yield(Task *task) {
 }
 
 void OS::await(Task *task, Promise *promise) {
-    OS::scheduler->add(task, promise);
+    scheduler->add(task, promise);
     yield(task);
 }
 

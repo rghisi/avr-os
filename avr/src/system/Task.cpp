@@ -38,3 +38,5 @@ void Task::await(Promise *promise) {
     OS::await(this, promise);
     delete promise;
 }
+
+Task::~Task() = default;

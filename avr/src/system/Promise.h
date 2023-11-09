@@ -8,22 +8,16 @@
 class Promise {
 public:
     Promise() = default;
-    explicit Promise(void *value) {
-        this->value = value;
-    }
+    virtual ~Promise() = default;
 
-    ~Promise() {
-
-    }
-
-    [[nodiscard]] bool isCompleted() const {
+    [[nodiscard]] virtual bool isCompleted() {
         return completed;
     }
     void complete() {
         completed = true;
     }
-    void *value = nullptr;
-private:
+
+protected:
     bool completed = false;
 };
 #endif //AVR_PROMISE_H

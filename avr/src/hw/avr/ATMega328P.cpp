@@ -4,6 +4,7 @@
 
 #include <avr/interrupt.h>
 #include "ATMega328P.h"
+#include "vector"
 
 USARTInterruptHandler *ATMega328P::interruptHandler = nullptr;
 Timer0InterruptHandler *ATMega328P::timer0InterruptHandler = nullptr;
@@ -149,11 +150,11 @@ void ATMega328P::timer1ForceCompareMatchA() {
 }
 
 void ATMega328P::disableReceiver() {
-    UCSR0B &= ~(_BV(RXEN0) | _BV(RXCIE0));
+    UCSR0B &= ~(_BV(RXEN0)); // | _BV(RXCIE0));
 }
 
 void ATMega328P::enableReceiver() {
-    UCSR0B |= _BV(RXEN0) | _BV(RXCIE0);
+    UCSR0B |= _BV(RXEN0); // | _BV(RXCIE0);
 }
 
 void ATMega328P::setInterruptHandler(USARTInterruptHandler *handler) {
@@ -195,4 +196,24 @@ void USART_UDRE_vect(void) {
     if (ATMega328P::interruptHandler != nullptr) {
         ATMega328P::interruptHandler->readyToSend();
     }
+}
+
+char *ATMega328P::readLine() {
+    enableReceiver();
+    auto line = new char[10];
+    for (uint8_t i = 0; i < 10; i++) {
+        line[i] = 0;
+    }
+    char c = 0;
+    for (uint8_t i = 0; i < 10; i++) {
+        if (c == '\n') {
+            break;
+        }
+        while (!(UCSR0A & (1<<RXC0)));
+        c = UDR0;
+        line[i] = c;
+    }
+    disableReceiver();
+
+    return line;
 }
