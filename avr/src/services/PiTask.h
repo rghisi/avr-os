@@ -5,18 +5,15 @@
 #ifndef AVR_PITASK_H
 #define AVR_PITASK_H
 
-
-#include "../system/StaticTask.h"
 #include <avr/pgmspace.h>
-#include "PiTask.h"
 #include "../system/OS.h"
 #include "cstring"
 #include "cstdio"
 #include "../comms/Serial.h"
 #include "complex"
-#include "../system/HeapTask.h"
+#include "../system/HeapStack.h"
 
-class PiTask: public HeapTask {
+class PiTask: public Task {
 public:
     PiTask();
     void run() override;
@@ -28,11 +25,14 @@ private:
     uint32_t nn = 0;
 };
 
-PiTask::PiTask() : HeapTask(128) {
-
+PiTask::PiTask(): Task(new HeapStack(128)) {
 }
 
 void PiTask::run() {
+    auto sb = new char[18];
+    sprintf_P(sb, PSTR("Calculating PI: "));
+    Serial::send(sb, strlen(sb));
+
     pi = 0;
     npi = 3.0;
     n = 2;
@@ -44,17 +44,17 @@ void PiTask::run() {
         sign = sign * (-1.0);
         n += 2;
         nn++;
-        if (nn % 2 == 0) {
-            auto stringBuffer = new char[10];
-            sprintf_P(stringBuffer, PSTR("%f\n"), pi);
-            await(Serial::sendAsync(stringBuffer, strlen(stringBuffer)));
-            sleep(50);
-        }
+//        if (nn % 2 == 0) {
+//            auto stringBuffer = new char[10];
+//            sprintf_P(stringBuffer, PSTR("%f\n"), pi);
+//            await(Serial::sendAsync(stringBuffer, strlen(stringBuffer)));
+////            sleep(50);
+//        }
     } while (std::abs(npi - pi) > 0.000001);
 
-    auto stringBuffer = new char[16];
-    sprintf_P(stringBuffer, PSTR("PI: %f\n"), pi);
-    await(Serial::sendAsync(stringBuffer, strlen(stringBuffer)));
+    auto stringBuffer = new char[10];
+    sprintf_P(stringBuffer, PSTR("%f\n"), pi);
+    Serial::send(stringBuffer, strlen(stringBuffer));
 }
 
 #endif //AVR_PITASK_H

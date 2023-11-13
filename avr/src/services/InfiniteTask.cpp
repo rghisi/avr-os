@@ -9,7 +9,7 @@
 #include "../std/Random.h"
 #include "../comms/Serial.h"
 
-InfiniteTask::InfiniteTask(uint8_t taskNumber) {
+InfiniteTask::InfiniteTask(uint8_t taskNumber): Task(&stack) {
     this->taskNumber = taskNumber;
     nextExecution = 5 + taskNumber;
 }
@@ -31,7 +31,8 @@ void InfiniteTask::run() {
 void InfiniteTask::print(uint16_t counter, uint8_t sleep) {
     auto stringBuffer = new char[20];
     sprintf_P(stringBuffer, PSTR("T %u A:%u S:%u\n"), taskNumber, counter, sleep);
-    await(Serial::sendAsync(stringBuffer, strlen(stringBuffer)));
+    auto p = await(Serial::sendAsync(stringBuffer, strlen(stringBuffer)));
+    delete p;
 }
 
 void InfiniteTask::printMessage(uint16_t counter, uint8_t sleep) {

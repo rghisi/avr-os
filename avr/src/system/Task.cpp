@@ -4,6 +4,14 @@
 #include "Task.h"
 #include "OS.h"
 
+Task::Task(Stack *stack) {
+    this->stack = stack;
+}
+
+Task::~Task() {
+    delete stack;
+}
+
 bool Task::operator<(const Task &rhs) const {
     return nextExecution < rhs.nextExecution;
 }
@@ -32,11 +40,9 @@ void Task::sleep(uint16_t ms) {
     OS::yield(this);
 }
 
-void Task::await(Promise *promise) {
+Promise * Task::await(Promise *promise) {
     nextExecution = 0;
     state = TaskState::BLOCKED;
     OS::await(this, promise);
-    delete promise;
+    return promise;
 }
-
-Task::~Task() = default;

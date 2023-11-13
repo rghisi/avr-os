@@ -6,6 +6,7 @@
 #include "SerialPacket.h"
 #include "cstdio"
 #include "cstring"
+#include "../system/PromiseWithReturn.h"
 
 Serial::Serial(USART *usart) {
     this->usart = usart;
@@ -77,4 +78,10 @@ void Serial::send(size_t num) {
 
 char *Serial::readLine() {
     return Serial::self->usart->readLine();
+}
+
+Promise *Serial::readLineAsync() {
+    auto promise = new PromiseWithReturn<char*>();
+    self->usart->readLine(promise);
+    return promise;
 }

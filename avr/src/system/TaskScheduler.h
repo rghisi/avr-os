@@ -11,6 +11,7 @@
 #include "Task.h"
 #include "WallClock.h"
 #include "../collections/StaticPriorityQueue.h"
+#include "PeriodicTask.h"
 
 class TaskPromise {
 public:
@@ -23,17 +24,50 @@ public:
     Promise *promise;
 };
 
+class PeriodicScheduledTask {
+public:
+    explicit PeriodicScheduledTask(PeriodicTask *task) {
+        this->task = task;
+        nextExecution = 0;
+    }
+    ~PeriodicScheduledTask() = default;
+
+    bool operator<(const PeriodicScheduledTask &rhs) const {
+        return nextExecution < rhs.nextExecution;
+    }
+
+    bool operator>(const PeriodicScheduledTask &rhs) const {
+        return rhs < *this;
+    }
+
+    bool operator<=(const PeriodicScheduledTask &rhs) const {
+        return !(rhs < *this);
+    }
+
+    bool operator>=(const PeriodicScheduledTask &rhs) const {
+        return !(*this < rhs);
+    }
+
+    PeriodicTask *task;
+    volatile uint_fast32_t nextExecution;
+};
+
 class TaskScheduler {
 public:
     explicit TaskScheduler(WallClock *wallClock);
-    void run();
+
+    [[noreturn]] void run();
     void schedule(Task *task);
+    void schedule(PeriodicTask *task);
     void add(Task *task, Promise *promise);
 private:
     WallClock *wallClock;
     static StaticPriorityQueue<Task, 10> scheduledTasks;
+    static StaticPriorityQueue<PeriodicScheduledTask, 10> periodicTasks;
     static BlockingQueue<TaskPromise*, 10> taskPromises;
     void processPromises();
+    void processPeriodicTasks();
+    void processRegularTasks();
 
 };
 

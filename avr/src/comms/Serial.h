@@ -29,6 +29,7 @@ public:
     static Promise *sendAsync(char *bytes, size_t size);
     static Serial *self;
     static char *readLine();
+    static Promise *readLineAsync();
 
 private:
 

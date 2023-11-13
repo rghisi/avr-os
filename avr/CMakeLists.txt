@@ -56,16 +56,20 @@ add_executable(${PROJECT_NAME}
         src/comms/SerialPacket.cpp src/comms/SerialPacket.h
         src/system/OS.h src/system/OS.cpp
         src/services/InfiniteTask.cpp src/services/InfiniteTask.h
-        src/services/PerformanceReporter.cpp src/services/PerformanceReporter.h
+        src/services/PerformanceReporter.h
         src/collections/StaticPriorityQueue.h
         src/system/MemoryAllocator.h src/system/MemoryAllocator.cpp
         src/services/PiTask.h
-        src/system/StaticTask.h
         src/system/Promise.h
-        src/system/HeapTask.h
         src/services/Console.h
         src/system/TaskExecPromise.h
-        src/services/BuTask.h)
+        src/services/BuTask.h
+        src/system/PeriodicTask.h
+        src/services/PerformanceReporter.cpp
+        src/system/Stack.h
+        src/system/StaticStack.h
+        src/system/PromiseWithReturn.h
+)
 
 set(FLASH_VERBOSE_FLAG "-v")
 add_custom_target(FLASH

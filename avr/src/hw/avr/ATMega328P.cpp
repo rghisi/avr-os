@@ -217,3 +217,25 @@ char *ATMega328P::readLine() {
 
     return line;
 }
+
+void ATMega328P::readLine(PromiseWithReturn<char*> *promise) {
+    auto line = new char[10];
+    enableReceiver();
+
+//    for (uint8_t i = 0; i < 10; i++) {
+//        line[i] = 0;
+//    }
+//    char c = 0;
+//    for (uint8_t i = 0; i < 10; i++) {
+//        if (c == '\n') {
+//            break;
+//        }
+//        while (!(UCSR0A & (1<<RXC0)));
+//        c = UDR0;
+//        line[i] = c;
+//    }
+//    disableReceiver();
+
+    promise->data = line;
+    promise->complete();
+}

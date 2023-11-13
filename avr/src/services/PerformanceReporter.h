@@ -6,14 +6,18 @@
 #define AVR_PERFORMANCEREPORTER_H
 
 
-#include "../system/StaticTask.h"
+#include "../system/PeriodicTask.h"
+#include "../system/StaticStack.h"
 
-class PerformanceReporter: public StaticTask<64> {
+class PerformanceReporter: public PeriodicTask {
 public:
-    [[noreturn]] void run() override;
-    void send();
+    PerformanceReporter();
+    void run() override;
+    uint_fast16_t period() override;
     uint16_t executions = 0;
+private:
+    StaticStack<64> staticStack = StaticStack<64>();
+    const uint_fast16_t PERIOD = 100;
 };
-
 
 #endif //AVR_PERFORMANCEREPORTER_H

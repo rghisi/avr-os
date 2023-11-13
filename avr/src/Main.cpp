@@ -92,8 +92,8 @@ int main() {
     atmega.setTimer0InterruptHandler(&wallClock);
     atmega.enableInterrupts();
 
-    auto stringBuffer = new char[24];
-    sprintf_P(stringBuffer, PSTR("-- Starting --\n\n"));
+    auto stringBuffer = new char[60];
+    sprintf_P(stringBuffer, PSTR("\n\n--------------------- Starting ---------------------\n\n"));
     Serial::send(stringBuffer, strlen(stringBuffer));
 
 //    OS::schedule(&infiniteTaskOne);

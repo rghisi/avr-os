@@ -5,24 +5,23 @@
 #ifndef AVR_CONSOLE_H
 #define AVR_CONSOLE_H
 
-#include "../system/HeapTask.h"
 #include "../comms/Serial.h"
 
-class Console: public HeapTask {
+class Console: public Task {
 public:
     Console();
     void run() override;
 };
 
-Console::Console() : HeapTask(128) {
+Console::Console() : Task(new HeapStack(128)) {
 
 }
 
 void Console::run() {
     while (true) {
-        auto line = Serial::readLine();
-//        sleep(200);
-        Serial::send(line, strlen(line));
+        auto promise = static_cast<PromiseWithReturn<char*>*>(await(Serial::readLineAsync()));
+//        sleep(500);
+//        Serial::send(promise->data, strlen(promise->data));
 //        if (line->starts_with("pi")) {
 //            Serial::send("aqui\n", 5);
 //            auto piTask = new PiTask();
@@ -31,9 +30,11 @@ void Console::run() {
 //            auto task = new BuTask();
 //            await(OS::execAsync(task));
 //        }
-        delete line;
+//        delete promise->data;
+        delete promise;
         auto task = new PiTask();
-        await(OS::execAsync(task));
+        auto p = await(OS::execAsync(task));
+        delete p;
         delete task;
     }
 }

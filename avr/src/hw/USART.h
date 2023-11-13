@@ -8,6 +8,8 @@
 #include "cstdint"
 #include "string_view"
 #include "vector"
+#include "../system/Promise.h"
+#include "../system/PromiseWithReturn.h"
 
 class USARTInterruptHandler {
 public:
@@ -26,6 +28,7 @@ public:
     virtual void setInterruptHandler(USARTInterruptHandler *handler) = 0;
     virtual void send(uint8_t byte) = 0;
     virtual char *readLine() = 0;
+    virtual void readLine(PromiseWithReturn<char*> *promise) = 0;
 };
 
 #endif //AVR_USART_H

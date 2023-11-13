@@ -106,11 +106,9 @@ Promise *OS::execAsync(Task *task) {
 void OS::startTask(Task *task) {
     saveContext();
     OS::stackPointer = SP;
-    SP = task->stackPointer;
+    SP = task->stack->pointer;
     sei();
-    task->state = TaskState::RUNNING;
     task->run();
-    task->state = TaskState::TERMINATED;
     SP = OS::stackPointer;
     restoreContext();
 }
@@ -118,13 +116,13 @@ void OS::startTask(Task *task) {
 void OS::switchToTask(Task *task) {
     saveContext();
     OS::stackPointer = SP;
-    SP = task->stackPointer;
+    SP = task->stack->pointer;
     restoreContext();
 }
 
 void OS::yield(Task *task) {
     saveContext();
-    task->stackPointer = SP;
+    task->stack->pointer = SP;
     SP = OS::stackPointer;
     restoreContext();
 }

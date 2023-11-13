@@ -65,6 +65,7 @@ public:
     void setInterruptHandler(USARTInterruptHandler *handler) override;
     void send(uint8_t byte) override;
     char *readLine() override;
+    void readLine(PromiseWithReturn<char*> *promise) override;
 
 private:
     static USARTInterruptHandler *interruptHandler;

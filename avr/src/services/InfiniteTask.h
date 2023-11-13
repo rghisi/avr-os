@@ -7,13 +7,14 @@
 
 
 #include "../system/Task.h"
-#include "../system/StaticTask.h"
+#include "../system/StaticStack.h"
 
-class InfiniteTask: public StaticTask<64> {
+class InfiniteTask: public Task {
 public:
     explicit InfiniteTask(uint8_t taskNumber);
     void run() override;
 private:
+    StaticStack<64> stack = StaticStack<64>();
     uint8_t taskNumber;
     void print(uint16_t counter, uint8_t i);
     void printMessage(uint16_t counter, uint8_t i);
