@@ -4,7 +4,6 @@
 
 #include "EventLoop.h"
 #include "HandlerMultiplexer.h"
-#include "../system/CpuStats.h"
 
 EventLoop::EventLoop(SubscriberRegistry *subscriberRegistry, WallClock *wallClock) {
     this->subscriberRegistry = subscriberRegistry;
@@ -17,9 +16,7 @@ void EventLoop::process() {
         if (event) {
             auto *subscriber = subscriberRegistry->get(event->type());
             if (subscriber != nullptr) {
-                auto userTimeStart = wallClock->now;
                 subscriber->handle(event);
-                CpuStats::eventLoopUserTime += wallClock->now - userTimeStart;
             }
         }
         delete event;

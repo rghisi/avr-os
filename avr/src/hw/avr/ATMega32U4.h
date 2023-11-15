@@ -8,7 +8,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "../USART.h"
-#include "../Timer0.h"
 
 extern "C" void USART1_UDRE_vect(void) __attribute__ ((signal));
 extern "C" void USART1_TX_vect(void) __attribute__ ((signal));
@@ -21,11 +20,10 @@ public:
     ATMega32U4(BitRate bitRate);
     void disableReadyToSendInterrupt() override;
     void disableTransmitter() override;
-    void enableTransmitterAndReadyToSendInterrupt() override;
+    void enableTransmitter() override;
     void disableReceiver() override;
     void enableReceiver() override;
     void setInterruptHandler(USARTInterruptHandler *handler) override;
-    void setTimer0InterruptHandler(Timer0InterruptHandler *handler) override;
     void send(uint8_t byte) override;
     friend void USART1_TX_vect(void);
     friend void USART1_RX_vect(void);

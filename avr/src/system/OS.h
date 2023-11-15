@@ -7,7 +7,6 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "../events/Messaging.h"
 #include "TaskScheduler.h"
 #include "MemoryAllocator.cpp"
 
@@ -16,13 +15,12 @@
 class OS {
 public:
     static TaskScheduler *scheduler;
-    static Messaging *messaging;
     static MemoryAllocator<1152> *memoryAllocator;
     static volatile uintptr_t stackPointer;
 
-    static void send(Message* event);
     static void start();
     static void schedule(Task *task);
+    static void schedule(PeriodicTask *task);
     static Promise *execAsync(Task *task);
     __attribute__ ((naked)) static void startTask(Task *task);
     __attribute__ ((naked)) static void switchToTask(Task *task);

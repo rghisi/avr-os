@@ -22,7 +22,7 @@ class USART {
 public:
     virtual void disableReadyToSendInterrupt() = 0;
     virtual void disableTransmitter() = 0;
-    virtual void enableTransmitterAndReadyToSendInterrupt() = 0;
+    virtual void enableTransmitter() = 0;
     virtual void enableReceiver() = 0;
     virtual void disableReceiver() = 0;
     virtual void setInterruptHandler(USARTInterruptHandler *handler) = 0;

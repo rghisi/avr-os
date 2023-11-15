@@ -7,8 +7,8 @@
 
 class Interrupts {
 public:
-    virtual void enableInterrupts() = 0;
-    virtual void disableInterrupts() = 0;
+    static inline void enable();
+    static inline void disable();
 };
 
 #endif //AVR_INTERRUPTS_H

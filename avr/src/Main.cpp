@@ -64,49 +64,22 @@ void __cxa_guard_release (__guard *g) {*(char *)g = 1;};
 void __cxa_guard_abort (__guard *) {};
 void __cxa_pure_virtual(void) {};
 
+TaskScheduler ta = TaskScheduler();
+TaskScheduler *OS::scheduler = &ta;
+MemoryAllocator<1152> ma = MemoryAllocator<1152>();
+MemoryAllocator<1152> *OS::memoryAllocator = &ma;
+
 auto atmega = ATMega328P();
-auto wallClock = WallClock();
-//auto eventLoop = EventLoop(&subscriberRegistry, &wallClock);
-auto taskScheduler = TaskScheduler(&wallClock);
-//auto m = Messaging(&eventLoop);
 auto serial = Serial(&atmega);
 Serial *Serial::self = &serial;
 
-//auto infiniteTaskOne = InfiniteTask(1);
-//auto infiniteTaskTwo = InfiniteTask(2);
-//auto infiniteTaskThree = InfiniteTask(3);
-//auto annoyingTask = AnnoyingTask();
-//auto infiniteTaskFour = InfiniteTask(4);
-//auto infiniteTaskFive = InfiniteTask(5);
 auto performanceReporter = PerformanceReporter();
-auto ma = MemoryAllocator<1152>();
-
-TaskScheduler *OS::scheduler = &taskScheduler;
-//Messaging *OS::messaging = &m;
-MemoryAllocator<1152> *OS::memoryAllocator = &ma;
 
 int main() {
-    Random::seed(123);
-    atmega.enableTransmitterAndReadyToSendInterrupt();
-    atmega.setupTimer0();
-    atmega.setTimer0InterruptHandler(&wallClock);
-    atmega.enableInterrupts();
+    atmega.enableTransmitter();
 
-    auto stringBuffer = new char[60];
-    sprintf_P(stringBuffer, PSTR("\n\n--------------------- Starting ---------------------\n\n"));
-    Serial::send(stringBuffer, strlen(stringBuffer));
-
-//    OS::schedule(&infiniteTaskOne);
-//    OS::schedule(new PiTask());
-//    OS::schedule(new BuTask());
+    OS::schedule(&performanceReporter);
     OS::schedule(new Console());
-//    taskScheduler.schedule(&infiniteTaskTwo);
-//    taskScheduler.schedule(&infiniteTaskThree);
-//    taskScheduler.schedule(&infiniteTaskFour);
-//    taskScheduler.schedule(&infiniteTaskFive);
-//    taskScheduler.schedule(&infiniteTaskThree);
-    taskScheduler.schedule(&performanceReporter);
-//    taskScheduler.schedule(&annoyingTask);
     OS::start();
 
     return 0;

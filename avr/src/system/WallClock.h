@@ -5,14 +5,12 @@
 #ifndef AVR_WALLCLOCK_H
 #define AVR_WALLCLOCK_H
 
-
 #include "cstdint"
-#include "../hw/Timer0.h"
 
-class WallClock: public Timer0InterruptHandler {
+class WallClock {
 public:
-    void processTick() override;
-    uint32_t now = 0;
+    static void setup();
+    static volatile uint32_t now;
 private:
 };
 

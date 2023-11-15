@@ -54,14 +54,13 @@ public:
 
 class TaskScheduler {
 public:
-    explicit TaskScheduler(WallClock *wallClock);
+    explicit TaskScheduler();
 
     [[noreturn]] void run();
     void schedule(Task *task);
     void schedule(PeriodicTask *task);
     void add(Task *task, Promise *promise);
 private:
-    WallClock *wallClock;
     static StaticPriorityQueue<Task, 10> scheduledTasks;
     static StaticPriorityQueue<PeriodicScheduledTask, 10> periodicTasks;
     static BlockingQueue<TaskPromise*, 10> taskPromises;

@@ -26,7 +26,6 @@ add_link_options("-mmcu=${TARGET_CPU}")
 
 add_executable(${PROJECT_NAME}
         src/Main.cpp
-        src/hw/Timer0.h
         src/hw/USART.h
 #        src/hw/avr/ATMega32U4.cpp src/hw/avr/ATMega32U4.h
         src/hw/avr/ATMega328P.cpp src/hw/avr/ATMega328P.h
@@ -34,7 +33,7 @@ add_executable(${PROJECT_NAME}
         src/collections/Array.cpp src/collections/Array.h
 #        src/std/CRC.cpp src/std/CRC.h
         src/std/Random.cpp src/std/Random.h
-        src/system/WallClock.cpp src/system/WallClock.h
+        src/hw/avr/atmega328p/WallClock.cpp src/system/WallClock.h
         src/events/Message.cpp src/events/Message.h
         src/events/MessageType.h
         src/events/EventLoop.cpp src/events/EventLoop.h
@@ -42,10 +41,8 @@ add_executable(${PROJECT_NAME}
         src/events/Messaging.cpp src/events/Messaging.h
         src/system/TaskScheduler.cpp src/system/TaskScheduler.h
         src/system/Task.h src/system/Task.cpp
-        src/system/CpuStats.cpp src/system/CpuStats.h
         src/collections/PriorityQueue.cpp src/collections/PriorityQueue.h
         src/std/CRCTable.c
-        src/hw/Timer1.h src/hw/ExternalInterrupts.h
         src/events/TaskSchedulingRequested.cpp
         src/events/TaskSchedulingRequested.h
         src/events/HandlerMultiplexer.cpp src/events/HandlerMultiplexer.h
@@ -69,6 +66,7 @@ add_executable(${PROJECT_NAME}
         src/system/Stack.h
         src/system/StaticStack.h
         src/system/PromiseWithReturn.h
+        src/hw/avr/atmega328p/Interrupts.cpp
 )
 
 set(FLASH_VERBOSE_FLAG "-v")

@@ -19,7 +19,7 @@ Console::Console() : Task(new HeapStack(128)) {
 
 void Console::run() {
     while (true) {
-        auto promise = static_cast<PromiseWithReturn<char*>*>(await(Serial::readLineAsync()));
+//        auto promise = static_cast<PromiseWithReturn<char*>*>(await(Serial::readLineAsync()));
 //        sleep(500);
 //        Serial::send(promise->data, strlen(promise->data));
 //        if (line->starts_with("pi")) {
@@ -31,11 +31,12 @@ void Console::run() {
 //            await(OS::execAsync(task));
 //        }
 //        delete promise->data;
-        delete promise;
+//        delete promise;
         auto task = new PiTask();
         auto p = await(OS::execAsync(task));
         delete p;
         delete task;
+        sleep(50);
     }
 }
 

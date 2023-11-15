@@ -8,7 +8,6 @@
 #include "cstdio"
 #include "../comms/Serial.h"
 #include "cstring"
-#include "../system/CpuStats.h"
 #include "../system/HeapStack.h"
 
 PerformanceReporter::PerformanceReporter(): PeriodicTask(&staticStack) {
@@ -21,10 +20,8 @@ void PerformanceReporter::run() {
     auto stringBuffer = new char[48];
     sprintf_P(
             stringBuffer,
-            PSTR("C:%u\tU:%u\tF:%u\tBu:%u\tBf:%u\tD:%u\n"),
+            PSTR("C:%u\tU:%u\tF:%u\tBu:%u\tBf:%u\tD:%u\n\r"),
             executions,
-//            CpuStats::schedulerUserTime,
-//            CpuStats::eventLoopUserTime,
             memoryStats->used,
             memoryStats->free,
             memoryStats->usedBlocks,
@@ -32,8 +29,6 @@ void PerformanceReporter::run() {
             memoryStats->delta
     );
     Serial::send(stringBuffer, strlen(stringBuffer));
-    CpuStats::schedulerUserTime = 0;
-    CpuStats::eventLoopUserTime = 0;
 }
 
 uint_fast16_t PerformanceReporter::period() {

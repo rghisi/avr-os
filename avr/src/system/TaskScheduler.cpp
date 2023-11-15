@@ -3,9 +3,7 @@
 //
 
 #include <avr/pgmspace.h>
-#include <util/delay.h>
 #include "TaskScheduler.h"
-#include "CpuStats.h"
 #include "OS.h"
 #include "cstdio"
 #include "cstring"
@@ -15,22 +13,21 @@ StaticPriorityQueue<Task, 10> TaskScheduler::scheduledTasks = StaticPriorityQueu
 StaticPriorityQueue<PeriodicScheduledTask, 10> TaskScheduler::periodicTasks = StaticPriorityQueue<PeriodicScheduledTask, 10>();
 BlockingQueue<TaskPromise*, 10> TaskScheduler::taskPromises = BlockingQueue<TaskPromise*, 10>();
 
-TaskScheduler::TaskScheduler(WallClock *wallClock) {
-    this->wallClock = wallClock;
+TaskScheduler::TaskScheduler() {
 }
 
 void TaskScheduler::schedule(Task *task) {
     if (task->state == TaskState::TERMINATED) {
         task->nextExecution = 0;
     } else {
-        task->nextExecution += wallClock->now;
+        task->nextExecution += WallClock::now;
     }
     scheduledTasks.offer(task);
 }
 
 void TaskScheduler::schedule(PeriodicTask *task) {
     auto *periodicScheduledTask = new PeriodicScheduledTask(task);
-    periodicScheduledTask->nextExecution = wallClock->now + task->period();
+    periodicScheduledTask->nextExecution = WallClock::now + task->period();
     periodicTasks.offer(periodicScheduledTask);
 }
 
@@ -65,7 +62,7 @@ void TaskScheduler::processPromises() {
 void TaskScheduler::processPeriodicTasks() {
     if (!periodicTasks.isEmpty()) {
         auto *periodicScheduledTask = periodicTasks.peek();
-        auto now = wallClock->now;
+        auto now = WallClock::now;
         while (periodicScheduledTask->nextExecution <= now) {
             periodicTasks.pop();
             auto *periodicTask = periodicScheduledTask->task;
@@ -81,7 +78,7 @@ void TaskScheduler::processPeriodicTasks() {
 
 void TaskScheduler::processRegularTasks() {
     if (!scheduledTasks.isEmpty()) {
-        uint32_t now = wallClock->now;
+        auto now = WallClock::now;
         auto *task = scheduledTasks.peek();
         if (task->nextExecution <= now) {
             scheduledTasks.pop();

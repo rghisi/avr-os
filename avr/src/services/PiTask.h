@@ -53,7 +53,7 @@ void PiTask::run() {
     } while (std::abs(npi - pi) > 0.000001);
 
     auto stringBuffer = new char[10];
-    sprintf_P(stringBuffer, PSTR("%f\n"), pi);
+    sprintf_P(stringBuffer, PSTR("%f\n\r"), pi);
     Serial::send(stringBuffer, strlen(stringBuffer));
 }
 

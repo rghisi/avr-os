@@ -17,7 +17,7 @@ public:
     uint16_t executions = 0;
 private:
     StaticStack<64> staticStack = StaticStack<64>();
-    const uint_fast16_t PERIOD = 100;
+    const uint_fast16_t PERIOD = 1000;
 };
 
 #endif //AVR_PERFORMANCEREPORTER_H
