@@ -17,6 +17,7 @@
 #include "services/PiTask.h"
 #include "services/AnnoyingTask.h"
 #include "services/Console.h"
+#include "hw/avr/AVRContextSwitcher.h"
 
 extern "C" {
     void *malloc(size_t size) {
@@ -68,6 +69,9 @@ TaskScheduler ta = TaskScheduler();
 TaskScheduler *OS::scheduler = &ta;
 MemoryAllocator<1152> ma = MemoryAllocator<1152>();
 MemoryAllocator<1152> *OS::memoryAllocator = &ma;
+
+AVRContextSwitcher cs = AVRContextSwitcher();
+ContextSwitcher *OS::contextSwitcher = &cs;
 
 auto atmega = ATMega328P();
 auto serial = Serial(&atmega);

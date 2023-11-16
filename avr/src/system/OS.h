@@ -9,22 +9,21 @@
 #include <avr/interrupt.h>
 #include "TaskScheduler.h"
 #include "MemoryAllocator.cpp"
-
-
+#include "ContextSwitcher.h"
 
 class OS {
 public:
     static TaskScheduler *scheduler;
     static MemoryAllocator<1152> *memoryAllocator;
-    static volatile uintptr_t stackPointer;
+    static ContextSwitcher *contextSwitcher;
 
     static void start();
     static void schedule(Task *task);
     static void schedule(PeriodicTask *task);
     static Promise *execAsync(Task *task);
-    __attribute__ ((naked)) static void startTask(Task *task);
-    __attribute__ ((naked)) static void switchToTask(Task *task);
-    __attribute__ ((naked)) static void yield(Task*);
+    static void startTask(Task *task);
+    static void switchToTask(Task *task);
+    static void yield(Task*);
     static void await(Task *task, Promise *promise);
     static void *memalloc(size_t size);
     static void memfree(void *ptr);

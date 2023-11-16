@@ -18,6 +18,7 @@ add_compile_options("-mcall-prologues")
 add_compile_options("-I${CMAKE_SOURCE_DIR}/avr-libstdcpp/include")
 add_compile_options("-fdata-sections")
 add_compile_options("-ffunction-sections")
+add_compile_options("-finline-functions")
 #add_compile_options("-mdouble=64")
 #add_compile_options("-fpermissive")
 
@@ -27,11 +28,9 @@ add_link_options("-mmcu=${TARGET_CPU}")
 add_executable(${PROJECT_NAME}
         src/Main.cpp
         src/hw/USART.h
-#        src/hw/avr/ATMega32U4.cpp src/hw/avr/ATMega32U4.h
         src/hw/avr/ATMega328P.cpp src/hw/avr/ATMega328P.h
         src/collections/BlockingQueue.h
         src/collections/Array.cpp src/collections/Array.h
-#        src/std/CRC.cpp src/std/CRC.h
         src/std/Random.cpp src/std/Random.h
         src/hw/avr/atmega328p/WallClock.cpp src/system/WallClock.h
         src/events/Message.cpp src/events/Message.h
@@ -42,7 +41,6 @@ add_executable(${PROJECT_NAME}
         src/system/TaskScheduler.cpp src/system/TaskScheduler.h
         src/system/Task.h src/system/Task.cpp
         src/collections/PriorityQueue.cpp src/collections/PriorityQueue.h
-        src/std/CRCTable.c
         src/events/TaskSchedulingRequested.cpp
         src/events/TaskSchedulingRequested.h
         src/events/HandlerMultiplexer.cpp src/events/HandlerMultiplexer.h
@@ -66,7 +64,9 @@ add_executable(${PROJECT_NAME}
         src/system/Stack.h
         src/system/StaticStack.h
         src/system/PromiseWithReturn.h
-        src/hw/avr/atmega328p/Interrupts.cpp
+        src/system/ContextSwitcher.h
+        src/hw/avr/AVRContextSwitcher.h
+
 )
 
 set(FLASH_VERBOSE_FLAG "-v")
