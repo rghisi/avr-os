@@ -7,12 +7,15 @@
 
 
 #include "Promise.h"
+#include "type_traits"
+#include "stddef.h"
 
 template <typename T>
 class PromiseWithReturn: public Promise {
 public:
     ~PromiseWithReturn() override {
-        delete data;
+        if constexpr (std::is_pointer<T>::value)
+            delete data;
     }
     T data;
     size_t size;

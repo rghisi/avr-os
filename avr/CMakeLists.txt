@@ -28,7 +28,7 @@ add_link_options("-mmcu=${TARGET_CPU}")
 add_executable(${PROJECT_NAME}
         src/Main.cpp
         src/hw/USART.h
-        src/hw/avr/ATMega328P.cpp src/hw/avr/ATMega328P.h
+        src/hw/avr/atmega328p/SerialPort0.cpp src/hw/avr/atmega328p/SerialPort0.h
         src/collections/BlockingQueue.h
         src/collections/Array.cpp src/collections/Array.h
         src/std/Random.cpp src/std/Random.h
@@ -48,7 +48,6 @@ add_executable(${PROJECT_NAME}
         src/events/SubscriberRegistry.cpp src/events/SubscriberRegistry.h
         src/system/Math.h
         src/comms/Serial.cpp src/comms/Serial.h
-        src/comms/SerialPacket.cpp src/comms/SerialPacket.h
         src/system/OS.h src/system/OS.cpp
         src/services/InfiniteTask.cpp src/services/InfiniteTask.h
         src/services/PerformanceReporter.h
@@ -60,12 +59,13 @@ add_executable(${PROJECT_NAME}
         src/system/TaskExecPromise.h
         src/services/BuTask.h
         src/system/PeriodicTask.h
-        src/services/PerformanceReporter.cpp
         src/system/Stack.h
         src/system/StaticStack.h
         src/system/PromiseWithReturn.h
         src/system/ContextSwitcher.h
         src/hw/avr/AVRContextSwitcher.h
+        src/services/ConsoleLineHandler.h
+        src/services/Shell.h
 
 )
 

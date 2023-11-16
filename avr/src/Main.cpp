@@ -2,7 +2,7 @@
 #include "../avr-libstdcpp/src/functexcept.cc"
 #include "../avr-libstdcpp/src/list.cc"
 
-#include "hw/avr/ATMega328P.h"
+#include "hw/avr/atmega328p/SerialPort0.h"
 #include "system/TaskScheduler.h"
 #include "events/EventLoop.h"
 #include "system/WallClock.h"
@@ -67,22 +67,17 @@ void __cxa_pure_virtual(void) {};
 
 TaskScheduler ta = TaskScheduler();
 TaskScheduler *OS::scheduler = &ta;
-MemoryAllocator<1152> ma = MemoryAllocator<1152>();
-MemoryAllocator<1152> *OS::memoryAllocator = &ma;
+MemoryAllocator<1408> ma = MemoryAllocator<1408>();
+MemoryAllocator<1408> *OS::memoryAllocator = &ma;
 
 AVRContextSwitcher cs = AVRContextSwitcher();
 ContextSwitcher *OS::contextSwitcher = &cs;
 
-auto atmega = ATMega328P();
-auto serial = Serial(&atmega);
+auto serialPort0 = SerialPort0();
+auto serial = Serial(&serialPort0);
 Serial *Serial::self = &serial;
 
-auto performanceReporter = PerformanceReporter();
-
 int main() {
-    atmega.enableTransmitter();
-
-    OS::schedule(&performanceReporter);
     OS::schedule(new Console());
     OS::start();
 

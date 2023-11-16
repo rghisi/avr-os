@@ -6,18 +6,38 @@
 #define AVR_PERFORMANCEREPORTER_H
 
 
-#include "../system/PeriodicTask.h"
 #include "../system/StaticStack.h"
+#include <avr/pgmspace.h>
+#include "../system/OS.h"
+#include "cstdio"
+#include "../comms/Serial.h"
+#include "cstring"
 
-class PerformanceReporter: public PeriodicTask {
+class PerformanceReporter: public Task {
 public:
     PerformanceReporter();
     void run() override;
-    uint_fast16_t period() override;
-    uint16_t executions = 0;
 private:
     StaticStack<64> staticStack = StaticStack<64>();
-    const uint_fast16_t PERIOD = 1000;
 };
+
+PerformanceReporter::PerformanceReporter(): Task(&staticStack) {
+
+}
+
+void PerformanceReporter::run() {
+    auto memoryStats = OS::memoryStats();
+    auto stringBuffer = new char[48];
+    sprintf_P(
+            stringBuffer,
+            PSTR("U:%u\tF:%u\tBu:%u\tBf:%u\tD:%u\r\n"),
+            memoryStats->used,
+            memoryStats->free,
+            memoryStats->usedBlocks,
+            memoryStats->freeBlocks,
+            memoryStats->delta
+    );
+    Serial::send(stringBuffer, strlen(stringBuffer));
+}
 
 #endif //AVR_PERFORMANCEREPORTER_H

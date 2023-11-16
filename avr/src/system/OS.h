@@ -14,7 +14,7 @@
 class OS {
 public:
     static TaskScheduler *scheduler;
-    static MemoryAllocator<1152> *memoryAllocator;
+    static MemoryAllocator<1408> *memoryAllocator;
     static ContextSwitcher *contextSwitcher;
 
     static void start();

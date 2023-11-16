@@ -2,17 +2,17 @@
 // Created by ghisi on 22.03.23.
 //
 
+#include <avr/pgmspace.h>
 #include "MemoryAllocator.h"
 #include "memory"
+#include "../comms/Serial.h"
+#include "cstdio"
+#include "cstring"
 
 template<size_t S>
 MemoryAllocator<S>::MemoryAllocator() {
     auto *memoryStartAddress = &memory[0];
     this->allocationList = new (memoryStartAddress) Allocation(S - AllocationOverhead);
-    memoryStats.used = 0;
-    memoryStats.size = S;
-    memoryStats.usedBlocks = 0;
-    memoryStats.freeBlocks = 1;
 }
 
 template<size_t S>
@@ -31,9 +31,6 @@ uintptr_t *MemoryAllocator<S>::allocate(size_t requestedBytes) {
 
     allocation->size = totalBytesRequired;
     allocation->flags = AllocationFlags::USED;
-    memoryStats.used += allocation->size;
-    memoryStats.usedBlocks++;
-    memoryStats.freeBlocks--;
 
     const auto currentAllocationAddress = ((uintptr_t*) std::addressof(*allocation));
     if (bytesLeftAfterAllocation > 0) {
@@ -42,7 +39,6 @@ uintptr_t *MemoryAllocator<S>::allocate(size_t requestedBytes) {
         freeBlock->next = allocation->next;
         freeBlock->previous = allocation;
         allocation->next = freeBlock;
-        memoryStats.freeBlocks++;
     }
 
     const auto currentAllocationDataAddress = currentAllocationAddress + (AllocationOverhead >> MinimumAllocationSizePower);
@@ -51,11 +47,11 @@ uintptr_t *MemoryAllocator<S>::allocate(size_t requestedBytes) {
 }
 
 template<size_t S>
-Allocation *MemoryAllocator<S>::findBestAllocation(const size_t totalBytesRequired) const {
+Allocation *MemoryAllocator<S>::findBestAllocation(const size_t size) const {
     auto allocation = allocationList;
     Allocation *bestAllocation = nullptr;
     while (allocation != nullptr) {
-        if (allocation->isFree() && allocation->size >= totalBytesRequired) {
+        if (allocation->isFree() && allocation->size >= size) {
             if (bestAllocation == nullptr || allocation->size < bestAllocation->size) {
                 bestAllocation = allocation;
             }
@@ -75,17 +71,12 @@ void MemoryAllocator<S>::free(void *ptr) {
     const auto allocationAddress = dataPointerAddress - (AllocationOverhead >> MinimumAllocationSizePower);
     auto allocation = (Allocation*) allocationAddress;
     allocation->flags = AllocationFlags::FREE;
-    memoryStats.used -= allocation->size;
-    memoryStats.usedBlocks--;
-    memoryStats.freeBlocks++;
 
     if (allocation->previous != nullptr && allocation->previous->isFree()) {
         allocation = merge(allocation->previous, allocation);
-        memoryStats.freeBlocks--;
     }
     if (allocation->next != nullptr && allocation->next->isFree()) {
         allocation = merge(allocation, allocation->next);
-        memoryStats.freeBlocks--;
     }
 }
 
@@ -102,21 +93,35 @@ Allocation *MemoryAllocator<S>::merge(Allocation *left, Allocation *right) {
 
 template<size_t S>
 MemoryStats *MemoryAllocator<S>::stats() {
-//    memoryStats.size = S;
-//    memoryStats.freeBlocks = 0;
-//    memoryStats.usedBlocks = 0;
-//    auto *allocation = allocationList;
-//    while (allocation != nullptr) {
-//        if (allocation->isFree()) {
-//            memoryStats.freeBlocks++;
-//        } else {
-//            memoryStats.usedBlocks++;
-//        }
-//        allocation = allocation->next;
-//    }
+    memoryStats.size = S;
+    memoryStats.used = 0;
+    memoryStats.free = 0;
+    memoryStats.freeBlocks = 0;
+    memoryStats.usedBlocks = 0;
+    auto *allocation = allocationList;
+    while (allocation != nullptr) {
 
-    memoryStats.free = S - memoryStats.used;
+        auto stringBuffer = new char[12];
+        sprintf_P(
+                stringBuffer,
+                PSTR("%u(%u)\n\r"),
+                allocation->size,
+                allocation->isFree() ? 0 : 1
+        );
+        Serial::send(stringBuffer, strlen(stringBuffer));
+
+        if (allocation->isFree()) {
+            memoryStats.freeBlocks++;
+            memoryStats.free += allocation->size;
+        } else {
+            memoryStats.usedBlocks++;
+            memoryStats.used += allocation->size;
+        }
+        allocation = allocation->next;
+    }
     memoryStats.delta = S - (memoryStats.used + memoryStats.free);
+
+    Serial::send("\r\n", 2);
 
     return &this->memoryStats;
 }

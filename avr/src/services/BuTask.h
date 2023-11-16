@@ -8,22 +8,22 @@
 #include "cstring"
 #include "cstdio"
 #include "../comms/Serial.h"
-#include "../system/HeapTask.h"
+#include "../system/Task.h"
+#include "../system/StaticStack.h"
 
-class BuTask: public HeapTask {
+class BuTask: public Task {
 public:
     BuTask();
-    ~BuTask() override = default;
+    ~BuTask() = default;
     void run() override;
 };
 
-BuTask::BuTask(): HeapTask(96) {
+BuTask::BuTask(): Task(new StaticStack<64>()) {
 
 }
 
 void BuTask::run() {
-    Serial::send("Bu!\n", 4);
-    yield();
+    Serial::send("Bu!\r\n", 5);
 }
 
 

@@ -60,7 +60,7 @@ private:
 
     Allocation *merge(Allocation *left, Allocation *right);
 
-    [[nodiscard]] Allocation *findBestAllocation(const size_t totalBytesRequired) const;
+    [[nodiscard]] Allocation *findBestAllocation(size_t size) const;
 };
 
 #endif //AVR_MEMORYALLOCATOR_H
