@@ -55,10 +55,12 @@ private:
     constexpr static auto MinimumAllocationSizePower = floorlog2(MinimumAllocationSize) - 1;
 
     Allocation *allocationList = nullptr;
-    MemoryStats memoryStats;
+    MemoryStats memoryStats = MemoryStats();
     uintptr_t memory[MemoryPositions] = {};
 
     Allocation *merge(Allocation *left, Allocation *right);
+
+    [[nodiscard]] Allocation *findBestAllocation(const size_t totalBytesRequired) const;
 };
 
 #endif //AVR_MEMORYALLOCATOR_H

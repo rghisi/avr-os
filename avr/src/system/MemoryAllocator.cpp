@@ -9,6 +9,10 @@ template<size_t S>
 MemoryAllocator<S>::MemoryAllocator() {
     auto *memoryStartAddress = &memory[0];
     this->allocationList = new (memoryStartAddress) Allocation(S - AllocationOverhead);
+    memoryStats.used = 0;
+    memoryStats.size = S;
+    memoryStats.usedBlocks = 0;
+    memoryStats.freeBlocks = 1;
 }
 
 template<size_t S>
@@ -17,6 +21,37 @@ uintptr_t *MemoryAllocator<S>::allocate(size_t requestedBytes) {
     const auto remainderBytes = requestedBytesWithOverhead & (MinimumAllocationSize - 1);
     const auto totalBytesRequired = requestedBytesWithOverhead + remainderBytes;
 
+    auto *allocation = findBestAllocation(totalBytesRequired);
+
+    if (allocation == nullptr) {
+        return nullptr;
+    }
+
+    const auto bytesLeftAfterAllocation = allocation->size - totalBytesRequired;
+
+    allocation->size = totalBytesRequired;
+    allocation->flags = AllocationFlags::USED;
+    memoryStats.used += allocation->size;
+    memoryStats.usedBlocks++;
+    memoryStats.freeBlocks--;
+
+    const auto currentAllocationAddress = ((uintptr_t*) std::addressof(*allocation));
+    if (bytesLeftAfterAllocation > 0) {
+        const auto nextAllocationAddress = currentAllocationAddress + (totalBytesRequired >> MinimumAllocationSizePower);
+        const auto freeBlock = new (nextAllocationAddress) Allocation(bytesLeftAfterAllocation - AllocationOverhead);
+        freeBlock->next = allocation->next;
+        freeBlock->previous = allocation;
+        allocation->next = freeBlock;
+        memoryStats.freeBlocks++;
+    }
+
+    const auto currentAllocationDataAddress = currentAllocationAddress + (AllocationOverhead >> MinimumAllocationSizePower);
+
+    return currentAllocationDataAddress;
+}
+
+template<size_t S>
+Allocation *MemoryAllocator<S>::findBestAllocation(const size_t totalBytesRequired) const {
     auto allocation = allocationList;
     Allocation *bestAllocation = nullptr;
     while (allocation != nullptr) {
@@ -28,27 +63,7 @@ uintptr_t *MemoryAllocator<S>::allocate(size_t requestedBytes) {
         allocation = allocation->next;
     }
 
-    allocation = bestAllocation;
-
-    if (allocation == nullptr) {
-        return nullptr;
-    }
-
-    const auto bytesLeftAfterAllocation = allocation->size - totalBytesRequired;
-    allocation->size = totalBytesRequired;
-    allocation->flags = AllocationFlags::USED;
-    const auto currentAllocationAddress = ((uintptr_t*) std::addressof(*allocation));
-    const auto currentAllocationDataAddress = currentAllocationAddress + (AllocationOverhead >> MinimumAllocationSizePower);
-
-    if (bytesLeftAfterAllocation > 0) {
-        const auto nextAllocationAddress = currentAllocationAddress + (totalBytesRequired >> MinimumAllocationSizePower);
-        const auto freeBlock = new (nextAllocationAddress) Allocation(bytesLeftAfterAllocation - AllocationOverhead);
-        freeBlock->next = allocation->next;
-        freeBlock->previous = allocation;
-        allocation->next = freeBlock;
-    }
-
-    return currentAllocationDataAddress;
+    return bestAllocation;
 }
 
 template<size_t S>
@@ -60,12 +75,17 @@ void MemoryAllocator<S>::free(void *ptr) {
     const auto allocationAddress = dataPointerAddress - (AllocationOverhead >> MinimumAllocationSizePower);
     auto allocation = (Allocation*) allocationAddress;
     allocation->flags = AllocationFlags::FREE;
+    memoryStats.used -= allocation->size;
+    memoryStats.usedBlocks--;
+    memoryStats.freeBlocks++;
 
     if (allocation->previous != nullptr && allocation->previous->isFree()) {
         allocation = merge(allocation->previous, allocation);
+        memoryStats.freeBlocks--;
     }
     if (allocation->next != nullptr && allocation->next->isFree()) {
         allocation = merge(allocation, allocation->next);
+        memoryStats.freeBlocks--;
     }
 }
 
@@ -82,23 +102,20 @@ Allocation *MemoryAllocator<S>::merge(Allocation *left, Allocation *right) {
 
 template<size_t S>
 MemoryStats *MemoryAllocator<S>::stats() {
-    memoryStats.size = S;
-    memoryStats.used = 0;
-    memoryStats.free = 0;
-    memoryStats.freeBlocks = 0;
-    memoryStats.usedBlocks = 0;
-    auto *allocation = allocationList;
-    while (allocation != nullptr) {
-        if (allocation->isFree()) {
-            memoryStats.freeBlocks++;
-            memoryStats.free += allocation->size;
-        } else {
-            memoryStats.usedBlocks++;
-            memoryStats.used += allocation->size;
-        }
-        allocation = allocation->next;
-    }
+//    memoryStats.size = S;
+//    memoryStats.freeBlocks = 0;
+//    memoryStats.usedBlocks = 0;
+//    auto *allocation = allocationList;
+//    while (allocation != nullptr) {
+//        if (allocation->isFree()) {
+//            memoryStats.freeBlocks++;
+//        } else {
+//            memoryStats.usedBlocks++;
+//        }
+//        allocation = allocation->next;
+//    }
 
+    memoryStats.free = S - memoryStats.used;
     memoryStats.delta = S - (memoryStats.used + memoryStats.free);
 
     return &this->memoryStats;
