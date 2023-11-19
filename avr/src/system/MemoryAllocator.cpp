@@ -2,10 +2,8 @@
 // Created by ghisi on 22.03.23.
 //
 
-#include <avr/pgmspace.h>
 #include "MemoryAllocator.h"
 #include "memory"
-#include "../comms/Serial.h"
 #include "cstdio"
 #include "cstring"
 
@@ -70,13 +68,15 @@ void MemoryAllocator<S>::free(void *ptr) {
     const auto dataPointerAddress = (uintptr_t*) ptr;
     const auto allocationAddress = dataPointerAddress - (AllocationOverhead >> MinimumAllocationSizePower);
     auto allocation = (Allocation*) allocationAddress;
-    allocation->flags = AllocationFlags::FREE;
+    if (allocation->flags == AllocationFlags::USED) {
+        allocation->flags = AllocationFlags::FREE;
 
-    if (allocation->previous != nullptr && allocation->previous->isFree()) {
-        allocation = merge(allocation->previous, allocation);
-    }
-    if (allocation->next != nullptr && allocation->next->isFree()) {
-        allocation = merge(allocation, allocation->next);
+        if (allocation->previous != nullptr && allocation->previous->isFree()) {
+            allocation = merge(allocation->previous, allocation);
+        }
+        if (allocation->next != nullptr && allocation->next->isFree()) {
+            allocation = merge(allocation, allocation->next);
+        }
     }
 }
 
@@ -100,16 +100,6 @@ MemoryStats *MemoryAllocator<S>::stats() {
     memoryStats.usedBlocks = 0;
     auto *allocation = allocationList;
     while (allocation != nullptr) {
-
-        auto stringBuffer = new char[12];
-        sprintf_P(
-                stringBuffer,
-                PSTR("%u(%u)\n\r"),
-                allocation->size,
-                allocation->isFree() ? 0 : 1
-        );
-        Serial::send(stringBuffer, strlen(stringBuffer));
-
         if (allocation->isFree()) {
             memoryStats.freeBlocks++;
             memoryStats.free += allocation->size;
@@ -120,8 +110,6 @@ MemoryStats *MemoryAllocator<S>::stats() {
         allocation = allocation->next;
     }
     memoryStats.delta = S - (memoryStats.used + memoryStats.free);
-
-    Serial::send("\r\n", 2);
 
     return &this->memoryStats;
 }

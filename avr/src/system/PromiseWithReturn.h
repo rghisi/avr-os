@@ -8,7 +8,7 @@
 
 #include "Promise.h"
 #include "type_traits"
-#include "stddef.h"
+#include <cstddef>
 
 template <typename T>
 class PromiseWithReturn: public Promise {
@@ -18,6 +18,6 @@ public:
             delete data;
     }
     T data;
-    size_t size;
+    size_t size = 0;
 };
 #endif //AVR_PROMISEWITHRETURN_H

@@ -62,7 +62,7 @@ void Serial::send(size_t num) {
     delete[] buffer;
 }
 
-Promise *Serial::readCharAsync() {
+PromiseWithReturn<char> *Serial::readCharAsync() {
     auto promise = new PromiseWithReturn<char>();
     promise->data = 0;
     self->usart->readCharAsync(promise);

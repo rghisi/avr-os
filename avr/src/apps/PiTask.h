@@ -5,13 +5,14 @@
 #ifndef AVR_PITASK_H
 #define AVR_PITASK_H
 
-#include <avr/pgmspace.h>
+#include "../../../../../../../../../opt/avr-gcc/avr/include/avr/pgmspace.h"
 #include "../system/OS.h"
 #include "cstring"
 #include "cstdio"
 #include "../comms/Serial.h"
 #include "complex"
 #include "../system/HeapStack.h"
+#include "../console/App.h"
 
 class PiTask: public Task {
 public:
@@ -49,5 +50,16 @@ void PiTask::run() {
     sprintf_P(stringBuffer, PSTR("%f (%u)\n\r"), bestPi, iterations);
     Serial::send(stringBuffer, strlen(stringBuffer));
 }
+
+class PiApp: public App {
+public:
+    PiApp() {
+        name = "pi";
+    }
+
+    Task* load() override {
+        return new PiTask();
+    }
+};
 
 #endif //AVR_PITASK_H

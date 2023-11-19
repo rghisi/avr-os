@@ -111,6 +111,7 @@ private:
         SP = task->stack->pointer;
         sei();
         task->run();
+        task->state = TaskState::TERMINATED;
         SP = stackPointer;
         restoreContext();
     }

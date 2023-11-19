@@ -11,7 +11,6 @@
 
 InfiniteTask::InfiniteTask(uint8_t taskNumber): Task(&stack) {
     this->taskNumber = taskNumber;
-    nextExecution = 5 + taskNumber;
 }
 
 void InfiniteTask::run() {

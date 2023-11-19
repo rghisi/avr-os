@@ -61,7 +61,7 @@ public:
     void schedule(PeriodicTask *task);
     void add(Task *task, Promise *promise);
 private:
-    static StaticPriorityQueue<Task, 10> scheduledTasks;
+    static BlockingQueue<Task*, 10> scheduledTasks;
     static StaticPriorityQueue<PeriodicScheduledTask, 10> periodicTasks;
     static BlockingQueue<TaskPromise*, 10> taskPromises;
     void processPromises();

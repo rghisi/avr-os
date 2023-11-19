@@ -49,23 +49,28 @@ add_executable(${PROJECT_NAME}
         src/system/Math.h
         src/comms/Serial.cpp src/comms/Serial.h
         src/system/OS.h src/system/OS.cpp
-        src/services/InfiniteTask.cpp src/services/InfiniteTask.h
-        src/services/PerformanceReporter.h
         src/collections/StaticPriorityQueue.h
         src/system/MemoryAllocator.h src/system/MemoryAllocator.cpp
-        src/services/PiTask.h
         src/system/Promise.h
-        src/services/Console.h
         src/system/TaskExecPromise.h
-        src/services/BuTask.h
         src/system/PeriodicTask.h
         src/system/Stack.h
         src/system/StaticStack.h
         src/system/PromiseWithReturn.h
         src/system/ContextSwitcher.h
         src/hw/avr/AVRContextSwitcher.h
-        src/services/ConsoleLineHandler.h
-        src/services/Shell.h
+        src/console/Shell.h
+        src/console/App.h
+        src/apps/InfiniteTask.cpp src/apps/InfiniteTask.h
+        src/apps/PerformanceReporter.h
+        src/apps/PiTask.h
+        src/apps/BuTask.h
+        src/console/Console.h
+        src/system/TimeWaitPromise.h
+        src/console/ShellCommand.h
+        src/console/commands/List.h
+        src/console/Shell.cpp
+        src/console/commands/Clear.h
 
 )
 

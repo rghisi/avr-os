@@ -4,19 +4,12 @@
 
 #include "hw/avr/atmega328p/SerialPort0.h"
 #include "system/TaskScheduler.h"
-#include "events/EventLoop.h"
-#include "system/WallClock.h"
 #include "comms/Serial.h"
-#include "services/InfiniteTask.h"
 #include "cstdio"
 #include "cstring"
 #include "system/OS.h"
-#include "std/Random.h"
-#include "services/PerformanceReporter.h"
 #include "system/MemoryAllocator.h"
-#include "services/PiTask.h"
-#include "services/AnnoyingTask.h"
-#include "services/Console.h"
+#include "console/Shell.h"
 #include "hw/avr/AVRContextSwitcher.h"
 
 extern "C" {
@@ -78,7 +71,7 @@ auto serial = Serial(&serialPort0);
 Serial *Serial::self = &serial;
 
 int main() {
-    OS::schedule(new Console());
+    OS::schedule(new Shell());
     OS::start();
 
     return 0;

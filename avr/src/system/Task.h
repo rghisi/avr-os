@@ -8,6 +8,7 @@
 #include <cstdint>
 #include "Promise.h"
 #include "Stack.h"
+#include "PromiseWithReturn.h"
 
 enum class TaskState: uint_fast8_t {
     CREATED, WAITING, RUNNING, BLOCKED, TERMINATED
@@ -18,11 +19,6 @@ public:
     explicit Task(Stack *stack);
     ~Task();
     virtual void run() = 0;
-    volatile uint32_t nextExecution = 0;
-    bool operator<(const Task &rhs) const;
-    bool operator>(const Task &rhs) const;
-    bool operator<=(const Task &rhs) const;
-    bool operator>=(const Task &rhs) const;
 
     TaskState state = TaskState::CREATED;
     Stack *stack;

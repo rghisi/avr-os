@@ -13,7 +13,7 @@ A OOP, toy, OS for embedded (or not) systems.
   * Cleanup required to remove old periodic tracing
   * Move background sleep implementation out of tasks
 * [x] Basic Async/Await mechanism aimed for I/O
-* [ ] Console with serial hw
+* [ ] Shell with port hw
   * Basic blocking primitives
   * Better support needed
 * [x] Custom heap memory allocator

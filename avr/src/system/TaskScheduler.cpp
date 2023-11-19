@@ -9,7 +9,7 @@
 #include "cstring"
 #include "../comms/Serial.h"
 
-StaticPriorityQueue<Task, 10> TaskScheduler::scheduledTasks = StaticPriorityQueue<Task, 10>();
+BlockingQueue<Task*, 10> TaskScheduler::scheduledTasks = BlockingQueue<Task*, 10>();
 StaticPriorityQueue<PeriodicScheduledTask, 10> TaskScheduler::periodicTasks = StaticPriorityQueue<PeriodicScheduledTask, 10>();
 BlockingQueue<TaskPromise*, 10> TaskScheduler::taskPromises = BlockingQueue<TaskPromise*, 10>();
 
@@ -17,11 +17,6 @@ TaskScheduler::TaskScheduler() {
 }
 
 void TaskScheduler::schedule(Task *task) {
-    if (task->state == TaskState::TERMINATED) {
-        task->nextExecution = 0;
-    } else {
-        task->nextExecution += WallClock::now;
-    }
     scheduledTasks.offer(task);
 }
 
@@ -51,7 +46,6 @@ void TaskScheduler::processPromises() {
         auto taskPromise = taskPromises.poll();
         if (taskPromise->promise->isCompleted()) {
             taskPromise->task->state = TaskState::WAITING;
-            taskPromise->task->nextExecution = 0;
             delete taskPromise;
         } else {
             taskPromises.offer(taskPromise);
@@ -78,23 +72,44 @@ void TaskScheduler::processPeriodicTasks() {
 
 void TaskScheduler::processRegularTasks() {
     if (!scheduledTasks.isEmpty()) {
-        auto now = WallClock::now;
-        auto *task = scheduledTasks.peek();
-        if (task->nextExecution <= now) {
-            scheduledTasks.pop();
-            if (task->state != TaskState::TERMINATED) {
-                if (task->state == TaskState::CREATED) {
-                    task->state = TaskState::RUNNING;
-                    OS::startTask(task);
-                    if (task->state == TaskState::RUNNING) {
-                        task->state = TaskState::TERMINATED;
-                    }
-                } else if (task->state == TaskState::WAITING) {
-                    task->state = TaskState::RUNNING;
-                    OS::switchToTask(task);
+        auto *task = scheduledTasks.poll();
+        if (task->state != TaskState::TERMINATED) {
+            if (task->state == TaskState::CREATED) {
+                task->state = TaskState::RUNNING;
+                OS::startTask(task);
+                if (task->state == TaskState::RUNNING) {
+                    task->state = TaskState::TERMINATED;
                 }
-                schedule(task);
+            } else if (task->state == TaskState::WAITING) {
+                task->state = TaskState::RUNNING;
+                OS::switchToTask(task);
             }
+            schedule(task);
+        } else {
+            delete task;
         }
     }
 }
+
+//void TaskScheduler::processRegularTasks() {
+//    if (!scheduledTasks.isEmpty()) {
+//        auto now = WallClock::now;
+//        auto *task = scheduledTasks.peek();
+//        if (task->nextExecution <= now) {
+//            scheduledTasks.pop();
+//            if (task->state != TaskState::TERMINATED) {
+//                if (task->state == TaskState::CREATED) {
+//                    task->state = TaskState::RUNNING;
+//                    OS::startTask(task);
+//                    if (task->state == TaskState::RUNNING) {
+//                        task->state = TaskState::TERMINATED;
+//                    }
+//                } else if (task->state == TaskState::WAITING) {
+//                    task->state = TaskState::RUNNING;
+//                    OS::switchToTask(task);
+//                }
+//                schedule(task);
+//            }
+//        }
+//    }
+//}

@@ -20,7 +20,7 @@ public:
     static void sendf(const char *format, size_t size, uintptr_t v);
     static Promise *sendAsync(char *bytes, size_t size);
     static Serial *self;
-    static Promise *readCharAsync();
+    static PromiseWithReturn<char> *readCharAsync();
 
 private:
 

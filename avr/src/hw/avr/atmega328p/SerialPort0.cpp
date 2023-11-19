@@ -25,7 +25,7 @@ void SerialPort0::enableReceiver() {
 }
 
 void SerialPort0::disableTransmitter() {
-    UCSR0B &= ~((_BV(TXEN0) | _BV(TXCIE0)));
+    UCSR0B &= ~(_BV(TXEN0));
 }
 
 void SerialPort0::enableTransmitter() {

@@ -7,11 +7,12 @@
 
 
 #include "../system/StaticStack.h"
-#include <avr/pgmspace.h>
+#include "../../../../../../../../../opt/avr-gcc/avr/include/avr/pgmspace.h"
 #include "../system/OS.h"
-#include "cstdio"
+#include "../../avr-libstdcpp/include/cstdio"
 #include "../comms/Serial.h"
-#include "cstring"
+#include "../../avr-libstdcpp/include/cstring"
+#include "../console/App.h"
 
 class PerformanceReporter: public Task {
 public:
@@ -39,5 +40,16 @@ void PerformanceReporter::run() {
     );
     Serial::send(stringBuffer, strlen(stringBuffer));
 }
+
+class FreeApp: public App {
+public:
+    FreeApp() {
+        name = "free";
+    }
+
+    Task* load() override {
+        return new PerformanceReporter();
+    }
+};
 
 #endif //AVR_PERFORMANCEREPORTER_H
