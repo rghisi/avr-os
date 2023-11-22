@@ -6,7 +6,7 @@
 #define AVR_SERIAL_H
 
 
-#include "../hw/USART.h"
+#include "USART.h"
 #include "../system/Promise.h"
 
 class Serial {
@@ -17,7 +17,6 @@ public:
     static void send(char *bytes, size_t size);
     static void send(char c);
     static void send(size_t num);
-    static void sendf(const char *format, size_t size, uintptr_t v);
     static Promise *sendAsync(char *bytes, size_t size);
     static Serial *self;
     static PromiseWithReturn<char> *readCharAsync();

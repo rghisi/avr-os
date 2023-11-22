@@ -33,7 +33,8 @@ Console::Console(Serial *port): Task(new StaticStack<96>()) {
 }
 
 void Console::moveTo(uint_fast8_t row, uint_fast8_t column) {
-
+    this->row = row;
+    this->column = column;
 }
 
 void Console::write(char c) {

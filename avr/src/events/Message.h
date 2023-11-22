@@ -17,5 +17,14 @@ private:
     MessageType eType;
 };
 
+Message::Message(MessageType type) {
+    this->eType = type;
+}
+
+Message::~Message() = default;
+
+MessageType Message::type() {
+    return eType;
+}
 
 #endif //AVR_MESSAGE_H

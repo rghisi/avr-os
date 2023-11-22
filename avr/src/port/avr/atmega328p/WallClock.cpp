@@ -9,6 +9,9 @@ extern "C" void TIMER0_COMPA_vect(void) __attribute__ ((signal));
 
 volatile uint32_t WallClock::now = 0;
 
+/**
+ * Setting Timer0 to 1ms period and enabling compare interrup
+ */
 void WallClock::setup() {
     TCCR0A = _BV(WGM01);
     TCCR0B = _BV(CS01) | _BV(CS00);

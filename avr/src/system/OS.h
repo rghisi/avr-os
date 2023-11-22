@@ -10,6 +10,7 @@
 #include "TaskScheduler.h"
 #include "MemoryAllocator.cpp"
 #include "ContextSwitcher.h"
+#include "Event.h"
 
 class OS {
 public:
@@ -28,6 +29,8 @@ public:
     static void *memalloc(size_t size);
     static void memfree(void *ptr);
     static MemoryStats *memoryStats();
+
+    static void dispatch(Event *event);
 };
 
 #endif //AVR_OS_H

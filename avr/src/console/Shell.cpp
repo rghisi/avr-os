@@ -88,7 +88,7 @@ void Shell::executeLineHandler() {
             Serial::send(COLOR_WHITE_BRIGHT, COLOR_SIZE);
             Serial::send(line, column + 1);
             Serial::send(COLOR_RED_BRIGHT, COLOR_SIZE);
-            Serial::send("NOT FOUND\r\n", 11);
+            Serial::send(" NOT FOUND\r\n", 11);
             Serial::send(RESET_STYLE, RESET_STYLE_SIZE);
         }
     }

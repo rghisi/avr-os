@@ -61,3 +61,7 @@ void OS::memfree(void *p) {
 MemoryStats *OS::memoryStats() {
     return memoryAllocator->stats();
 }
+
+void OS::dispatch(Event *event) {
+
+}

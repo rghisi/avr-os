@@ -16,5 +16,12 @@ private:
     EventLoop *eventLoop;
 };
 
+Messaging::Messaging(EventLoop *eventLoop) {
+    this->eventLoop = eventLoop;
+}
+
+void Messaging::send(Message* event) {
+    this->eventLoop->push(event);
+}
 
 #endif //AVR_MESSAGING_H
