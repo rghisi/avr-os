@@ -7,11 +7,11 @@
 
 
 #include "cstdint"
-#include "../events/Messaging.h"
 #include "Task.h"
 #include "WallClock.h"
 #include "../collections/StaticPriorityQueue.h"
 #include "PeriodicTask.h"
+#include "../collections/BlockingQueue.h"
 
 class TaskPromise {
 public:

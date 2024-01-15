@@ -5,9 +5,8 @@
 #ifndef AVR_SERIALPORT0_H
 #define AVR_SERIALPORT0_H
 
-
 #include "cstdint"
-#include "../../USART.h"
+#include "../../../comms/USART.h"
 #include "vector"
 
 extern "C" void USART_RX_vect(void) __attribute__ ((signal));

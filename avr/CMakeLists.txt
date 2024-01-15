@@ -26,26 +26,27 @@ add_link_options(-Wl,--print-memory-usage,--gc-sections,-u,vfprintf -lprintf_flt
 add_link_options("-mmcu=${TARGET_CPU}")
 
 add_executable(${PROJECT_NAME}
+        src/port/avr/atmega328p/SerialPort0.h
+        src/port/avr/atmega328p/SerialPort0.cpp
+        src/port/avr/atmega328p/WallClock.cpp
+        src/port/avr/AVRContextSwitcher.h
+        src/system/WallClock.h
         src/Main.cpp
-        src/hw/USART.h
-        src/hw/avr/atmega328p/SerialPort0.cpp src/hw/avr/atmega328p/SerialPort0.h
+        src/comms/USART.h
         src/collections/BlockingQueue.h
         src/collections/Array.cpp src/collections/Array.h
         src/std/Random.cpp src/std/Random.h
-        src/hw/avr/atmega328p/WallClock.cpp src/system/WallClock.h
-        src/events/Message.cpp src/events/Message.h
+        src/events/Message.h
         src/events/MessageType.h
-        src/events/EventLoop.cpp src/events/EventLoop.h
-        src/events/Subscriber.cpp src/events/Subscriber.h
-        src/events/Messaging.cpp src/events/Messaging.h
+        src/events/EventLoop.h
+        src/events/Subscriber.h
+        src/events/Messaging.h
         src/system/TaskScheduler.cpp src/system/TaskScheduler.h
         src/system/Task.h src/system/Task.cpp
         src/collections/PriorityQueue.cpp src/collections/PriorityQueue.h
-        src/events/TaskSchedulingRequested.cpp
-        src/events/TaskSchedulingRequested.h
-        src/events/HandlerMultiplexer.cpp src/events/HandlerMultiplexer.h
+        src/events/HandlerMultiplexer.h
         src/events/SubscriberRegistry.h
-        src/events/SubscriberRegistry.cpp src/events/SubscriberRegistry.h
+        src/events/SubscriberRegistry.h
         src/system/Math.h
         src/comms/Serial.cpp src/comms/Serial.h
         src/system/OS.h src/system/OS.cpp
@@ -58,7 +59,6 @@ add_executable(${PROJECT_NAME}
         src/system/StaticStack.h
         src/system/PromiseWithReturn.h
         src/system/ContextSwitcher.h
-        src/hw/avr/AVRContextSwitcher.h
         src/console/Shell.h
         src/console/App.h
         src/apps/InfiniteTask.cpp src/apps/InfiniteTask.h
@@ -71,7 +71,9 @@ add_executable(${PROJECT_NAME}
         src/console/commands/List.h
         src/console/Shell.cpp
         src/console/commands/Clear.h
-
+        src/io/Keyboard.h
+        src/io/KeyPressEvent.h
+        src/system/Event.h
 )
 
 set(FLASH_VERBOSE_FLAG "-v")

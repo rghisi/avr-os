@@ -5,7 +5,6 @@
 #include "Serial.h"
 #include "cstdio"
 #include "cstring"
-#include "../system/PromiseWithReturn.h"
 
 Serial::Serial(USART *usart) {
     this->usart = usart;
@@ -15,17 +14,6 @@ void Serial::send(const char *bytes, size_t size) {
     Serial::self->usart->enableTransmitter();
     for (size_t i = 0; i < size; i++) {
         Serial::self->usart->send(bytes[i]);
-    }
-    Serial::self->usart->disableTransmitter();
-}
-
-void Serial::sendf(const char *format, size_t size, uintptr_t ptr) {
-    Serial::self->usart->enableTransmitter();
-    auto buffer = new char[size];
-    sprintf(buffer, format, ptr);
-    auto len = strlen(buffer);
-    for (size_t i = 0; i < len; i++) {
-        Serial::self->usart->send(buffer[i]);
     }
     Serial::self->usart->disableTransmitter();
 }

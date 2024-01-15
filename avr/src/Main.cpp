@@ -2,7 +2,7 @@
 #include "../avr-libstdcpp/src/functexcept.cc"
 #include "../avr-libstdcpp/src/list.cc"
 
-#include "hw/avr/atmega328p/SerialPort0.h"
+#include "port/avr/atmega328p/SerialPort0.h"
 #include "system/TaskScheduler.h"
 #include "comms/Serial.h"
 #include "cstdio"
@@ -10,7 +10,7 @@
 #include "system/OS.h"
 #include "system/MemoryAllocator.h"
 #include "console/Shell.h"
-#include "hw/avr/AVRContextSwitcher.h"
+#include "port/avr/AVRContextSwitcher.h"
 
 extern "C" {
     void *malloc(size_t size) {
