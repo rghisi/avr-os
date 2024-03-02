@@ -1,3 +1,0 @@
-/mnt/hdd/ghisi/Desenvolvimento/git/avr-os/tests/cmake-build-release-gcc/CMakeFiles/AVROSTests.dir
-/mnt/hdd/ghisi/Desenvolvimento/git/avr-os/tests/cmake-build-release-gcc/CMakeFiles/edit_cache.dir
-/mnt/hdd/ghisi/Desenvolvimento/git/avr-os/tests/cmake-build-release-gcc/CMakeFiles/rebuild_cache.dir
