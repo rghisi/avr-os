@@ -47,7 +47,7 @@ public:
         name = "free";
     }
 
-    Task* load() override {
+    Task* load(char* args) override {
         return new PerformanceReporter();
     }
 };

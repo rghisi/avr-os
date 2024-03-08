@@ -10,6 +10,6 @@
 class App {
 public:
     const char* name;
-    virtual Task* load() = 0;
+    virtual Task* load(char* args) = 0;
 };
 #endif //AVR_APP_H

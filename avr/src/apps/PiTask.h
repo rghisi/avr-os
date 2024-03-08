@@ -57,7 +57,7 @@ public:
         name = "pi";
     }
 
-    Task* load() override {
+    Task* load(char* args) override {
         return new PiTask();
     }
 };

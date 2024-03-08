@@ -34,8 +34,9 @@ add_executable(${PROJECT_NAME}
         src/Main.cpp
         src/comms/USART.h
         src/collections/BlockingQueue.h
-        src/collections/Array.cpp src/collections/Array.h
+        src/collections/Array.h
         src/std/Random.cpp src/std/Random.h
+        src/std/String.h
         src/events/Message.h
         src/events/MessageType.h
         src/events/EventLoop.h
@@ -74,6 +75,9 @@ add_executable(${PROJECT_NAME}
         src/io/Keyboard.h
         src/io/KeyPressEvent.h
         src/system/Event.h
+        src/apps/NewTaskModel.h
+        src/apps/NewTaskModel.cpp
+        src/apps/Process.h
 )
 
 set(FLASH_VERBOSE_FLAG "-v")

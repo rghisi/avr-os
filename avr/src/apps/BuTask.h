@@ -35,7 +35,7 @@ public:
         name = "bu";
     }
 
-    Task* load() override {
+    Task* load(char* args) override {
         return new BuTask();
     }
 };

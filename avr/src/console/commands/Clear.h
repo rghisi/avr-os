@@ -14,7 +14,7 @@ public:
     explicit Clear() : ShellCommand("clear") {
     }
 
-    void run() override {
+    void run(char* args) override {
         Serial::send(CLEAR_SCREEN, CLEAR_SCREEN_SIZE);
     }
 

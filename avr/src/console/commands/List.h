@@ -14,7 +14,7 @@ public:
         this->shell = shell;
     }
 
-    void run() override {
+    void run(char* args) override {
         for (auto &command: shell->commands) {
             Serial::send(command->name, strlen(command->name));
             Serial::send("\t", 1);

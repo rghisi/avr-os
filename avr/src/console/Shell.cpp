@@ -12,10 +12,13 @@
 #include "../apps/BuTask.h"
 #include "algorithm"
 #include "commands/Clear.h"
+#include "../std/String.h"
+#include "../apps/NewTaskModel.h"
+#include "../apps/Process.h"
 
 Shell::Shell() : Task(new HeapStack(128)) {
-   apps = {new PiApp(), new FreeApp(), new BuApp()};
-   commands = {new List(this), new Clear()};
+    apps = {new PiApp(), new FreeApp(), new BuApp(), new ProcessApp("ouch", &(NewTaskModel::main))};
+    commands = {new List(this), new Clear()};
 }
 
 [[noreturn]] void Shell::run() {
@@ -67,6 +70,18 @@ void Shell::executeLineHandler() {
         return;
     }
 
+//    auto firstSpaceIndex = String::findFirst(' ', line);
+//    char* command = nullptr;
+//    char* args = nullptr;
+//    if (firstSpaceIndex > 0) {
+//        command = new char[firstSpaceIndex + 1];
+//        for (size_t i = 0; i < firstSpaceIndex; i++) {
+//            command[i] = line[i];
+//        }
+//    } else {
+//        command = line;
+//    }
+
     auto appNameMatcher = [&](App *app) -> bool {
         return strcmp(app->name, (const char*)line) == 0;
     };
@@ -75,7 +90,7 @@ void Shell::executeLineHandler() {
 
     if (found != std::end(apps)) {
         auto index = found - apps.begin();
-        executeTask(apps[index]->load());
+        executeTask(apps[index]->load(line));
     } else {
         auto commandNameMatcher = [&](ShellCommand *command) -> bool {
             return strcmp(command->name, (const char*)line) == 0;
@@ -83,7 +98,7 @@ void Shell::executeLineHandler() {
         auto commandFound = std::find_if(commands.begin(), commands.end(), commandNameMatcher);
         if (commandFound != std::end(commands)) {
             auto index = commandFound - commands.begin();
-            commands[index]->run();
+            commands[index]->run(line);
         } else {
             Serial::send(COLOR_WHITE_BRIGHT, COLOR_SIZE);
             Serial::send(line, column + 1);

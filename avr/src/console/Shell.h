@@ -13,7 +13,7 @@ class Shell: public Task {
 public:
     Shell();
     [[noreturn]] void run() override;
-    std::array<App*, 3> apps;
+    std::array<App*, 4> apps;
     std::array<ShellCommand*, 2> commands;
 private:
     static constexpr uint_fast8_t COLUMNS = 40;

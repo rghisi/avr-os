@@ -10,7 +10,7 @@ public:
     explicit ShellCommand(const char *name) {
         this->name = name;
     }
-    virtual void run() = 0;
+    virtual void run(char* args) = 0;
     const char *name;
 };
 
