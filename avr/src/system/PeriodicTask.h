@@ -9,7 +9,7 @@
 
 class PeriodicTask: public Task {
 public:
-    explicit PeriodicTask(Stack *stack): Task(stack) {
+    explicit PeriodicTask(): Task() {
 
     }
     virtual uint_fast16_t period() = 0;

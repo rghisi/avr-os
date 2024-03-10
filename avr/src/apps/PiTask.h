@@ -5,19 +5,16 @@
 #ifndef AVR_PITASK_H
 #define AVR_PITASK_H
 
-#include "../../../../../../../../../opt/avr-gcc/avr/include/avr/pgmspace.h"
 #include "../system/OS.h"
 #include "cstring"
 #include "cstdio"
 #include "../comms/Serial.h"
 #include "complex"
-#include "../system/HeapStack.h"
-#include "../console/App.h"
 
-class PiTask: public Task {
+class PiTask {
 public:
-    PiTask();
-    void run() override;
+    void calculatePi();
+    static int_fast8_t run(char* args);
 private:
     double bestPi = 0;
     double newPi = 0;
@@ -26,13 +23,8 @@ private:
     uint_fast8_t iterations = 0;
 };
 
-PiTask::PiTask(): Task(new HeapStack(128)) {
-}
-
-void PiTask::run() {
-    auto sb = new char[18];
-    sprintf_P(sb, PSTR("Calculating PI: "));
-    Serial::send(sb, strlen(sb));
+void PiTask::calculatePi() {
+    Serial::send("PI is ");
 
     bestPi = 0;
     newPi = 3.0;
@@ -47,19 +39,18 @@ void PiTask::run() {
     } while (std::abs(newPi - bestPi) > 0.000001);
 
     auto stringBuffer = new char[18];
-    sprintf_P(stringBuffer, PSTR("%f (%u)\n\r"), bestPi, iterations);
+    sprintf(stringBuffer, "%f (%u)\n\r", bestPi, iterations);
     Serial::send(stringBuffer, strlen(stringBuffer));
+
+    delete[] stringBuffer;
 }
 
-class PiApp: public App {
-public:
-    PiApp() {
-        name = "pi";
-    }
+int_fast8_t PiTask::run(char *args) {
+    auto piTask = new PiTask();
+    piTask->calculatePi();
+    delete piTask;
 
-    Task* load(char* args) override {
-        return new PiTask();
-    }
-};
+    return 0;
+}
 
 #endif //AVR_PITASK_H

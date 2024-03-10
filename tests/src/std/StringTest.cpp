@@ -39,3 +39,29 @@ TEST(String, ShouldReturnIndexOfFirstOccurence_WhenProvidedCharExistsInStringNon
     auto indexOfC = String::findFirst('c', string);
     ASSERT_EQ(2, indexOfC);
 }
+
+TEST(String, ShouldReturnNumberOfOccurrences_WhenProvidedCharExistsInString) {
+    auto countA = String::count('a', "abracadabra");
+    ASSERT_EQ(5, countA);
+
+    auto countE = String::count('e', "abracadabra");
+    ASSERT_EQ(0, countE);
+}
+
+TEST(String, ShouldReturnIndexOfFirstOccurenceAfterStartIndex_WhenProvidedCharExistsInStringAfterStartIndex) {
+    auto string = "abracadabra";
+    ASSERT_EQ(0, String::find('a', string, 0));
+    ASSERT_EQ(3, String::find('a', string, 1));
+    ASSERT_EQ(5, String::find('a', string, 4));
+    ASSERT_EQ(7, String::find('a', string, 6));
+    ASSERT_EQ(10, String::find('a', string, 8));
+    ASSERT_EQ(-1, String::find('a', string, 11));
+}
+
+TEST(String, ShouldReturnStringParts_WhenSeparatorExistsInString) {
+    auto string = "one two three";
+    auto parts = String::split(' ', string);
+    ASSERT_STREQ("one", parts[0]);
+    ASSERT_STREQ("two", parts[1]);
+    ASSERT_STREQ("three", parts[2]);
+}

@@ -13,7 +13,7 @@ InfiniteTask::InfiniteTask(uint8_t taskNumber): Task(&stack) {
     this->taskNumber = taskNumber;
 }
 
-void InfiniteTask::run() {
+void InfiniteTask::execute() {
     uint16_t counter = 0;
     uint8_t sleepAmount;
     while (true) {

@@ -4,30 +4,34 @@
 
 #include "Shell.h"
 #include "../system/OS.h"
-#include "App.h"
-#include "../system/HeapStack.h"
-#include "../apps/PiTask.h"
-#include "../apps/PerformanceReporter.h"
 #include "commands/List.h"
-#include "../apps/BuTask.h"
 #include "algorithm"
-#include "commands/Clear.h"
-#include "../std/String.h"
-#include "../apps/NewTaskModel.h"
-#include "../apps/Process.h"
+#include "../apps/Clear.h"
+#include "../apps/Echo.h"
+#include "../apps/Free.h"
+#include "../apps/PiTask.h"
+#include "../apps/LongTask.h"
+#include "../system/TaskCompletionPromise.h"
 
-Shell::Shell() : Task(new HeapStack(128)) {
-    apps = {new PiApp(), new FreeApp(), new BuApp(), new ProcessApp("ouch", &(NewTaskModel::main))};
-    commands = {new List(this), new Clear()};
+Shell::Shell() {
+    apps = {
+                new ExecutableFile("echo", &(Echo::run)),
+                new ExecutableFile("free", &(Free::run)),
+                new ExecutableFile("pi", &(PiTask::run)),
+                new ExecutableFile("long", &(LongTask::run)),
+                new ExecutableFile("clear", &(Clear::run))
+            };
+    commands = { new List(this) };
 }
 
 [[noreturn]] void Shell::run() {
+    Serial::send("Welcome to the Shell\n\r");
     while (true) {
         if (column == FIRST && prompt) {
-            Serial::send("\x1b[1;92m#\x1b[0m ", 13);
+            Serial::send("\x1b[1;92m#\x1b[0m ");
             prompt = false;
         }
-        auto promise = static_cast<PromiseWithReturn<char>*>(await(Serial::readCharAsync()));
+        auto promise = static_cast<PromiseWithReturn<char>*>(OS::await(Serial::readCharAsync()));
         auto character = promise->data;
         delete promise;
         Serial::send(character);
@@ -35,9 +39,9 @@ Shell::Shell() : Task(new HeapStack(128)) {
             case BACKSPACE:
                 if (column > 0) {
                     line[--column] = 0;
-                    Serial::send(ERASE, ERASE_SIZE);
+                    Serial::send(ERASE);
                 } else {
-                    Serial::send(MOVE_ONE_RIGHT, MOVE_ONE_SIZE);
+                    Serial::send(MOVE_ONE_RIGHT);
                 }
                 break;
             case CARRIAGE_RETURN:
@@ -70,46 +74,65 @@ void Shell::executeLineHandler() {
         return;
     }
 
-//    auto firstSpaceIndex = String::findFirst(' ', line);
-//    char* command = nullptr;
-//    char* args = nullptr;
-//    if (firstSpaceIndex > 0) {
-//        command = new char[firstSpaceIndex + 1];
-//        for (size_t i = 0; i < firstSpaceIndex; i++) {
-//            command[i] = line[i];
-//        }
-//    } else {
-//        command = line;
-//    }
+    auto commandLine = new CommandLine(line);
 
-    auto appNameMatcher = [&](App *app) -> bool {
-        return strcmp(app->name, (const char*)line) == 0;
+    auto appNameMatcher = [&](ExecutableFile *app) -> bool {
+        return strcmp(app->name, (const char*)commandLine->command()) == 0;
     };
 
     auto found = std::find_if(apps.begin(), apps.end(), appNameMatcher);
 
     if (found != std::end(apps)) {
         auto index = found - apps.begin();
-        executeTask(apps[index]->load(line));
+        int_fast8_t (*entryPointFunction)(char *) = apps[index]->entryPointFunction;
+        delete commandLine;
+        if (commandLine->endsWith('&')) {
+            executeBackground(entryPointFunction, line);
+        } else {
+            executeForeground(entryPointFunction, line);
+        }
     } else {
-        auto commandNameMatcher = [&](ShellCommand *command) -> bool {
-            return strcmp(command->name, (const char*)line) == 0;
+        auto commandNameMatcher = [&](ShellCommand *shellCommand) -> bool {
+            return strcmp(shellCommand->name, (const char*)commandLine->command()) == 0;
         };
         auto commandFound = std::find_if(commands.begin(), commands.end(), commandNameMatcher);
         if (commandFound != std::end(commands)) {
+            delete commandLine;
             auto index = commandFound - commands.begin();
             commands[index]->run(line);
         } else {
-            Serial::send(COLOR_WHITE_BRIGHT, COLOR_SIZE);
-            Serial::send(line, column + 1);
-            Serial::send(COLOR_RED_BRIGHT, COLOR_SIZE);
-            Serial::send(" NOT FOUND\r\n", 11);
-            Serial::send(RESET_STYLE, RESET_STYLE_SIZE);
+            Serial::send(COLOR_WHITE_BRIGHT);
+            Serial::send(commandLine->command());
+            Serial::send(COLOR_RED_BRIGHT);
+            Serial::send(" NOT FOUND\r\n");
+            Serial::send(RESET_STYLE);
+            delete commandLine;
         }
     }
 }
 
-void Shell::executeTask(Task *task) {
-    auto promise = await(OS::execAsync(task));
+void Shell::executeForeground(int_fast8_t (*entryPoint)(char *), char *args) {
+    auto task = OS::createTask(entryPoint, args);
+    auto taskCompletionPromise = new TaskCompletionPromise(task);
+    OS::schedule(task);
+    auto promise = OS::await(taskCompletionPromise);
     delete promise;
 }
+
+void Shell::executeBackground(int_fast8_t (*entryPoint)(char *), char *args) {
+    auto task = OS::createTask(entryPoint, args);
+    OS::schedule(task);
+    OS::yield();
+}
+
+int_fast8_t Shell::run(char *args) {
+    auto shell = new Shell();
+    shell->run();
+    return 0;
+}
+
+//void Shell::executeTask(int_fast8_t entryPoint) {
+
+//    auto promise = await(OS::execAsync(task));
+//    delete promise;
+//}

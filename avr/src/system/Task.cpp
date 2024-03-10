@@ -1,33 +1,13 @@
 //
-// Created by ghisi on 12.03.23.
+// Created by ghisi on 09.03.24.
 //
-#include "Task.h"
-#include "OS.h"
-#include "TimeWaitPromise.h"
 
-Task::Task(Stack *stack) {
-    this->stack = stack;
+#include "Task.h"
+
+Task::Task() {
+    this->stack = new StaticStack<96>();
 }
 
 Task::~Task() {
     delete stack;
-}
-
-void Task::yield() {
-    state = TaskState::WAITING;
-    OS::yield(this);
-}
-
-void Task::sleep(uint16_t ms) {
-    auto a = await(new TimeWaitPromise(ms));
-    delete a;
-}
-
-Promise *Task::await(Promise *promise) {
-    if (!promise->isCompleted()) {
-        state = TaskState::BLOCKED;
-        OS::await(this, promise);
-    }
-
-    return promise;
 }
