@@ -5,18 +5,18 @@
 #ifndef AVR_OS_H
 #define AVR_OS_H
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
 #include "TaskScheduler.h"
 #include "MemoryAllocator.h"
 #include "ContextSwitcher.h"
 #include "Event.h"
+#include "Cpu.h"
 
 class OS {
 public:
     static TaskScheduler *scheduler;
     static MemoryAllocator *memoryAllocator;
     static ContextSwitcher *contextSwitcher;
+    static Cpu *cpu;
 
     static void start();
     static void schedule(Task *task);

@@ -82,6 +82,8 @@ add_executable(${PROJECT_NAME}
         src/system/MemoryAllocator.h
         src/setup/Cpp.h
         src/setup/C.h
+        src/system/Cpu.h
+        src/port/avr/AVRCpu.h
 )
 
 set(FLASH_VERBOSE_FLAG "-v")
