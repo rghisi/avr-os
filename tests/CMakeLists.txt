@@ -9,7 +9,7 @@ add_executable(${PROJECT_NAME}
         ../../avr/src/collections/BlockingQueue.h src/collections/BlockingQueueTest.cpp
         ../../avr/src/collections/Array.h src/collections/ArrayTest.cpp
         ../../avr/src/collections/PriorityQueue.h ../../avr/src/collections/PriorityQueue.cpp src/collections/PriorityQueueTest.cpp
-        src/system/MemoryAllocatorTest.cpp ../../avr/src/system/MemoryAllocator.h ../../avr/src/system/MemoryAllocator.cpp
+        src/system/DoublyLinkedMemoryAllocatorTest.cpp ../../avr/src/system/DoublyLinkedMemoryAllocator.h
         src/collections/StaticPriorityQueueTest.cpp ../../avr/src/collections/StaticPriorityQueue.h
         src/collections/FragmentedTextTest.cpp ../../avr/src/collections/FragmentedText.h
         src/std/StringTest.cpp ../avr/src/std/String.h

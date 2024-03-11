@@ -52,7 +52,7 @@ add_executable(${PROJECT_NAME}
         src/comms/Serial.cpp src/comms/Serial.h
         src/system/OS.h src/system/OS.cpp
         src/collections/StaticPriorityQueue.h
-        src/system/MemoryAllocator.h src/system/MemoryAllocator.cpp
+        src/system/DoublyLinkedMemoryAllocator.h
         src/system/Promise.h
         src/system/TaskCompletionPromise.h
         src/system/PeriodicTask.h
@@ -79,6 +79,9 @@ add_executable(${PROJECT_NAME}
         src/system/ExecutableTask.h
         src/console/ExecutableFile.cpp
         src/console/CommandLine.h
+        src/system/MemoryAllocator.h
+        src/setup/Cpp.h
+        src/setup/C.h
 )
 
 set(FLASH_VERBOSE_FLAG "-v")

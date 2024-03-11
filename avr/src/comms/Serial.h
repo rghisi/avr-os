@@ -23,7 +23,6 @@ public:
     static PromiseWithReturn<char> *readCharAsync();
 
 private:
-
     USART *usart;
 };
 

@@ -3,13 +3,12 @@
 //
 
 #include <gtest/gtest.h>
-#include "../../../avr/src/system/MemoryAllocator.h"
-#include "../../../avr/src/system/MemoryAllocator.cpp"
+#include "../../../avr/src/system/DoublyLinkedMemoryAllocator.h"
 
 TEST(MemoryAllocator, ShouldHave100PercentFreeWhenStarting) {
     constexpr auto managedMemorySize = 640;
-    constexpr auto blockOverhead = MemoryAllocator<managedMemorySize>::AllocationOverhead;
-    auto allocator = MemoryAllocator<managedMemorySize>();
+    constexpr auto blockOverhead = DoublyLinkedMemoryAllocator<managedMemorySize>::AllocationOverhead;
+    auto allocator = DoublyLinkedMemoryAllocator<managedMemorySize>();
 
     auto expectedAvailableMemory = managedMemorySize - blockOverhead;
 
@@ -18,7 +17,7 @@ TEST(MemoryAllocator, ShouldHave100PercentFreeWhenStarting) {
 
 TEST(MemoryAllocator, ShouldConsumeMemoryAllocatedPlusOneBlockWhenAllocatingMemory) {
     constexpr auto managedMemorySize = 640;
-    auto allocator = MemoryAllocator<managedMemorySize>();
+    auto allocator = DoublyLinkedMemoryAllocator<managedMemorySize>();
 
     auto sOne = sizeof(unsigned int[10]);
     auto *allocationAddressOne = allocator.allocate(sOne);
@@ -52,7 +51,7 @@ TEST(MemoryAllocator, ShouldConsumeMemoryAllocatedPlusOneBlockWhenAllocatingMemo
 
 TEST(MemoryAllocator, ShouldFreeMemoryAllocatedAndMergeAllocations) {
     constexpr auto managedMemorySize = 640;
-    auto allocator = MemoryAllocator<managedMemorySize>();
+    auto allocator = DoublyLinkedMemoryAllocator<managedMemorySize>();
 
     auto sOne = sizeof(unsigned int[10]);
     auto *allocationAddressOne = allocator.allocate(sOne);
