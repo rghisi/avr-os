@@ -1,8 +1,6 @@
 #include "port/avr/atmega328p/SerialPort0.h"
 #include "system/TaskScheduler.h"
 #include "comms/Serial.h"
-#include "cstdio"
-#include "cstring"
 #include "system/OS.h"
 #include "system/DoublyLinkedMemoryAllocator.h"
 #include "console/Shell.h"

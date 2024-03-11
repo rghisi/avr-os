@@ -40,7 +40,7 @@ void PiTask::calculatePi() {
 
     auto stringBuffer = new char[18];
     sprintf(stringBuffer, "%f (%u)\n\r", bestPi, iterations);
-    Serial::send(stringBuffer, strlen(stringBuffer));
+    Serial::send(stringBuffer);
 
     delete[] stringBuffer;
 }
