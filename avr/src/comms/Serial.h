@@ -13,12 +13,11 @@ class Serial {
 public:
     explicit Serial(USART *usart);
 
-    static void send(const char *bytes, size_t size);
-    static void send(char *bytes, size_t size);
+    static void send(const uint8_t *bytes, size_t size);
     static void send(char c);
     static void send(const char *text);
     static void send(size_t num);
-    static Promise *sendAsync(char *bytes, size_t size);
+    static Promise *sendAsync(uint8_t *bytes, size_t size);
     static Serial *self;
     static PromiseWithReturn<char> *readCharAsync();
 

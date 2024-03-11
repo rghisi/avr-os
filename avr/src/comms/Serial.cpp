@@ -20,7 +20,7 @@ void Serial::send(const char *text) {
     Serial::self->usart->disableTransmitter();
 }
 
-void Serial::send(const char *bytes, size_t size) {
+void Serial::send(const uint8_t *bytes, size_t size) {
     Serial::self->usart->enableTransmitter();
     for (size_t i = 0; i < size; i++) {
         Serial::self->usart->send(bytes[i]);
@@ -28,15 +28,7 @@ void Serial::send(const char *bytes, size_t size) {
     Serial::self->usart->disableTransmitter();
 }
 
-void Serial::send(char *bytes, size_t size) {
-    Serial::self->usart->enableTransmitter();
-    for (size_t i = 0; i < size; i++) {
-        Serial::self->usart->send(bytes[i]);
-    }
-    Serial::self->usart->disableTransmitter();
-}
-
-Promise *Serial::sendAsync(char *bytes, size_t size) {
+Promise *Serial::sendAsync(uint8_t *bytes, size_t size) {
     Serial::self->usart->enableTransmitter();
     for (size_t i = 0; i < size; i++) {
         Serial::self->usart->send(bytes[i]);
