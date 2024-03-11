@@ -7,6 +7,7 @@
 
 #include "../Shell.h"
 #include "../ShellCommand.h"
+#include "../../comms/Serial.h"
 
 class List: public ShellCommand {
 public:
@@ -14,16 +15,16 @@ public:
         this->shell = shell;
     }
 
-    void run() override {
+    void run(char* args) override {
         for (auto &command: shell->commands) {
-            Serial::send(command->name, strlen(command->name));
-            Serial::send("\t", 1);
+            Serial::send(command->name);
+            Serial::send("\t");
         }
         for (auto &app: shell->apps) {
-            Serial::send(app->name, strlen(app->name));
-            Serial::send("\t", 1);
+            Serial::send(app->name);
+            Serial::send("\t");
         }
-        Serial::send("\r\n", 2);
+        Serial::send("\r\n");
     }
 
 private:

@@ -6,9 +6,8 @@
 #define AVR_TASK_H
 
 #include <cstdint>
-#include "Promise.h"
 #include "Stack.h"
-#include "PromiseWithReturn.h"
+#include "StaticStack.h"
 
 enum class TaskState: uint_fast8_t {
     CREATED, WAITING, RUNNING, BLOCKED, TERMINATED
@@ -16,16 +15,13 @@ enum class TaskState: uint_fast8_t {
 
 class Task {
 public:
-    explicit Task(Stack *stack);
-    ~Task();
-    virtual void run() = 0;
+    explicit Task();
+    virtual ~Task();
+    virtual void execute() = 0;
 
     TaskState state = TaskState::CREATED;
     Stack *stack;
-protected:
-    virtual void yield() final;
-    virtual void sleep(uint16_t ms) final;
-    virtual Promise * await(Promise*) final;
+//    MemoryAllocator<128> *memoryAllocator;
 };
 
 #endif //AVR_TASK_H

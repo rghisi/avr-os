@@ -60,8 +60,8 @@ void __cxa_pure_virtual(void) {};
 
 TaskScheduler ta = TaskScheduler();
 TaskScheduler *OS::scheduler = &ta;
-MemoryAllocator<1408> ma = MemoryAllocator<1408>();
-MemoryAllocator<1408> *OS::memoryAllocator = &ma;
+MemoryAllocator<1280> ma = MemoryAllocator<1280>();
+MemoryAllocator<1280> *OS::memoryAllocator = &ma;
 
 AVRContextSwitcher cs = AVRContextSwitcher();
 ContextSwitcher *OS::contextSwitcher = &cs;
@@ -71,7 +71,7 @@ auto serial = Serial(&serialPort0);
 Serial *Serial::self = &serial;
 
 int main() {
-    OS::schedule(new Shell());
+    OS::schedule(OS::createTask(Shell::run, nullptr));
     OS::start();
 
     return 0;

@@ -12,7 +12,7 @@
 class InfiniteTask: public Task {
 public:
     explicit InfiniteTask(uint8_t taskNumber);
-    void run() override;
+    void execute() override;
 private:
     StaticStack<64> stack = StaticStack<64>();
     uint8_t taskNumber;

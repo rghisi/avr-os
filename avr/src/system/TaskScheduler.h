@@ -12,6 +12,7 @@
 #include "../collections/StaticPriorityQueue.h"
 #include "PeriodicTask.h"
 #include "../collections/BlockingQueue.h"
+#include "Promise.h"
 
 class TaskPromise {
 public:
@@ -60,6 +61,7 @@ public:
     void schedule(Task *task);
     void schedule(PeriodicTask *task);
     void add(Task *task, Promise *promise);
+    Task* getNext();
 private:
     static BlockingQueue<Task*, 10> scheduledTasks;
     static StaticPriorityQueue<PeriodicScheduledTask, 10> periodicTasks;

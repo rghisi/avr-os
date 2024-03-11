@@ -2,12 +2,10 @@
 // Created by ghisi on 13.10.22.
 //
 
-#include <avr/pgmspace.h>
 #include "TaskScheduler.h"
 #include "OS.h"
 #include "cstdio"
 #include "cstring"
-#include "../comms/Serial.h"
 
 BlockingQueue<Task*, 10> TaskScheduler::scheduledTasks = BlockingQueue<Task*, 10>();
 StaticPriorityQueue<PeriodicScheduledTask, 10> TaskScheduler::periodicTasks = StaticPriorityQueue<PeriodicScheduledTask, 10>();
@@ -89,6 +87,10 @@ void TaskScheduler::processRegularTasks() {
             delete task;
         }
     }
+}
+
+Task *TaskScheduler::getNext() {
+    return nullptr;
 }
 
 //void TaskScheduler::processRegularTasks() {

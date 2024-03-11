@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 #include <cstdint>
 #include "../../../avr/src/collections/Array.h"
-#include "../../../avr/src/collections/Array.cpp"
 
 TEST(Array, ShouldReturnTrue_WhenComparingTwoEqualArrays) {
     uint8_t dataSize = 0x04;

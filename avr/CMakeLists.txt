@@ -34,8 +34,9 @@ add_executable(${PROJECT_NAME}
         src/Main.cpp
         src/comms/USART.h
         src/collections/BlockingQueue.h
-        src/collections/Array.cpp src/collections/Array.h
+        src/collections/Array.h
         src/std/Random.cpp src/std/Random.h
+        src/std/String.h
         src/events/Message.h
         src/events/MessageType.h
         src/events/EventLoop.h
@@ -53,27 +54,31 @@ add_executable(${PROJECT_NAME}
         src/collections/StaticPriorityQueue.h
         src/system/MemoryAllocator.h src/system/MemoryAllocator.cpp
         src/system/Promise.h
-        src/system/TaskExecPromise.h
+        src/system/TaskCompletionPromise.h
         src/system/PeriodicTask.h
         src/system/Stack.h
         src/system/StaticStack.h
         src/system/PromiseWithReturn.h
         src/system/ContextSwitcher.h
+        src/system/Event.h
         src/console/Shell.h
-        src/console/App.h
-        src/apps/InfiniteTask.cpp src/apps/InfiniteTask.h
-        src/apps/PerformanceReporter.h
-        src/apps/PiTask.h
-        src/apps/BuTask.h
+        src/console/ExecutableFile.h
         src/console/Console.h
         src/system/TimeWaitPromise.h
         src/console/ShellCommand.h
         src/console/commands/List.h
         src/console/Shell.cpp
-        src/console/commands/Clear.h
+        src/apps/Clear.h
         src/io/Keyboard.h
         src/io/KeyPressEvent.h
-        src/system/Event.h
+#        src/apps/InfiniteTask.cpp src/apps/InfiniteTask.h
+        src/apps/Free.h
+        src/apps/PiTask.h
+        src/apps/LongTask.h
+        src/apps/Echo.h
+        src/system/ExecutableTask.h
+        src/console/ExecutableFile.cpp
+        src/console/CommandLine.h
 )
 
 set(FLASH_VERBOSE_FLAG "-v")

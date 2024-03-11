@@ -6,6 +6,7 @@
 #define AVR_STATICPRIORITYQUEUE_H
 
 #include "cstdint"
+#include "cstddef"
 
 template<typename T, size_t S>
 class StaticPriorityQueue {
