@@ -8,6 +8,7 @@
 
 #include "cstdint"
 #include "cstddef"
+#include "cstring"
 
 class String {
 public:

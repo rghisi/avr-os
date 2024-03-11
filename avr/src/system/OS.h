@@ -8,14 +8,14 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "TaskScheduler.h"
-#include "MemoryAllocator.cpp"
+#include "MemoryAllocator.h"
 #include "ContextSwitcher.h"
 #include "Event.h"
 
 class OS {
 public:
     static TaskScheduler *scheduler;
-    static MemoryAllocator<1280> *memoryAllocator;
+    static MemoryAllocator *memoryAllocator;
     static ContextSwitcher *contextSwitcher;
 
     static void start();
