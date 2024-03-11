@@ -13,7 +13,6 @@
 asm volatile ( \
         "push r0 \n\t"  \
         "in r0, __SREG__ \n\t"  \
-        "cli \n\t"  \
         "push r0 \n\t"  \
         "push r1 \n\t"  \
         "clr r1 \n\t"   \
@@ -85,22 +84,27 @@ asm volatile ( \
         "pop r0 \n\t"   \
         "out __SREG__, r0 \n\t" \
         "pop r0 \n\t"   \
-        "sei     \n\t"  \
         "ret     \n\t"  \
         )
 
 class AVRContextSwitcher: public ContextSwitcher {
 public:
     void startTask(Task *task) override {
+        cli();
         startTaskNaked(task);
+        sei();
     }
 
     void switchToTask(Task *task) override {
+        cli();
         switchToTaskNaked(task);
+        sei();
     }
 
     void yield(Task *task) override {
+        cli();
         yieldNaked(task);
+        sei();
     }
     static volatile uint16_t stackPointer;
 

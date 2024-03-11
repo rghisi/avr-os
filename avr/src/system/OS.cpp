@@ -3,9 +3,7 @@
 //
 
 
-#include <avr/pgmspace.h>
 #include "OS.h"
-//#include "TaskExecPromise.h"
 #include "../comms/Serial.h"
 #include "cstring"
 #include "cstdio"
@@ -17,7 +15,7 @@ Task* OS::currentTask = nullptr;
 void OS::start() {
     Serial::send("\n\rStarting OS\n\r");
     WallClock::setup();
-    sei();
+    cpu->enableInterrupts();
     scheduler->run();
 }
 
