@@ -84,6 +84,9 @@ add_executable(${PROJECT_NAME}
         src/setup/C.h
         src/system/Cpu.h
         src/port/avr/AVRCpu.h
+        src/apps/CountDown.h
+        src/system/Mutex.h
+        src/collections/LinkedList.h
 )
 
 set(FLASH_VERBOSE_FLAG "-v")

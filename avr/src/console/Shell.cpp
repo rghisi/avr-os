@@ -11,6 +11,7 @@
 #include "../apps/Free.h"
 #include "../apps/PiTask.h"
 #include "../apps/LongTask.h"
+#include "../apps/CountDown.h"
 #include "../system/TaskCompletionPromise.h"
 
 Shell::Shell() {
@@ -19,7 +20,8 @@ Shell::Shell() {
                 new ExecutableFile("free", &(Free::run)),
                 new ExecutableFile("pi", &(PiTask::run)),
                 new ExecutableFile("long", &(LongTask::run)),
-                new ExecutableFile("clear", &(Clear::run))
+                new ExecutableFile("clear", &(Clear::run)),
+                new ExecutableFile("cdn", &(CountDown::run))
             };
     commands = { new List(this) };
 }

@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
         src/collections/FragmentedTextTest.cpp ../../avr/src/collections/FragmentedText.h
         src/std/StringTest.cpp ../avr/src/std/String.h
         src/console/CommandLineTest.cpp
+        src/collections/LinkedListTest.cpp ../../avr/src/collections/LinkedList.h
 )
 
 enable_testing()

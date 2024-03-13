@@ -26,6 +26,9 @@ public:
     static void switchToTask(Task *task);
 //    static void yield(Task*);
     static void yield();
+    static void preempt();
+    static void enablePreemption();
+    static void disablePreemption();
     static Promise* await(Promise *promise);
     static void sleep(uint_fast16_t ms);
     static void *memalloc(size_t size);
@@ -36,6 +39,7 @@ public:
     static void dispatch(Event *event);
 private:
     static Task* currentTask;
+    static bool preemption;
 };
 
 

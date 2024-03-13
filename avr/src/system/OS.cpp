@@ -11,11 +11,13 @@
 #include "TimeWaitPromise.h"
 
 Task* OS::currentTask = nullptr;
+bool OS::preemption = false;
 
 void OS::start() {
     Serial::send("\n\rStarting OS\n\r");
     WallClock::setup();
     cpu->enableInterrupts();
+    enablePreemption();
     scheduler->run();
 }
 
@@ -49,8 +51,10 @@ void OS::switchToTask(Task *task) {
 
 void OS::yield() {
     if (currentTask != nullptr) {
-        currentTask->state = TaskState::WAITING;
-        contextSwitcher->yield(currentTask);
+        auto task = currentTask;
+        task->state = TaskState::WAITING;
+        currentTask = nullptr;
+        contextSwitcher->yield(task);
     }
 }
 
@@ -70,11 +74,16 @@ void OS::sleep(uint_fast16_t ms) {
 }
 
 void *OS::memalloc(size_t len) {
-    return memoryAllocator->allocate(len);
+    disablePreemption();
+    auto ptr = memoryAllocator->allocate(len);
+    enablePreemption();
+    return ptr;
 }
 
 void OS::memfree(void *p) {
+    disablePreemption();
     memoryAllocator->free(p);
+    enablePreemption();
 }
 
 MemoryStats *OS::memoryStats() {
@@ -89,4 +98,18 @@ Task *OS::createTask(int_fast8_t (*entryPoint)(char *), char *args) {
     //switch context or allocator, then...
     auto* task = new ExecutableTask(entryPoint, args);
     return task;
+}
+
+void OS::preempt() {
+    if (preemption) {
+        yield();
+    }
+}
+
+void OS::enablePreemption() {
+    preemption = true;
+}
+
+void OS::disablePreemption() {
+    preemption = false;
 }

@@ -4,6 +4,7 @@
 
 #include <avr/io.h>
 #include "../../../system/WallClock.h"
+#include "../../../system/OS.h"
 
 extern "C" void TIMER0_COMPA_vect(void) __attribute__ ((signal));
 
@@ -23,5 +24,6 @@ void WallClock::setup() {
 extern "C" {
     void TIMER0_COMPA_vect(void) {
         WallClock::now = WallClock::now + 1;
+        OS::preempt();
     }
 }
