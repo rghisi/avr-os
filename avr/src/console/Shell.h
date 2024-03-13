@@ -13,7 +13,7 @@ class Shell {
 public:
     Shell();
     [[noreturn]] void run();
-    std::array<ExecutableFile*, 5> apps;
+    std::array<ExecutableFile*, 6> apps;
     std::array<ShellCommand*, 1> commands;
     static int_fast8_t run(char *args);
 private:

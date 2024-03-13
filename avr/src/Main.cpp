@@ -11,7 +11,7 @@
 
 TaskScheduler ta = TaskScheduler();
 TaskScheduler *OS::scheduler = &ta;
-auto ma = DoublyLinkedMemoryAllocator<1408>();
+auto ma = DoublyLinkedMemoryAllocator<1280>();
 MemoryAllocator *OS::memoryAllocator = &ma;
 
 AVRContextSwitcher cs = AVRContextSwitcher();
